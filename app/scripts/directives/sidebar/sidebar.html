@@ -1,0 +1,144 @@
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav in" id="side-menu">
+                        
+            <li ui-sref-active="active">
+                <a ui-sref="main.calendario"><i class="fa fa-calendar fa-fw"></i> Calendario </a>
+            </li>
+                        
+            <li ng-class="{active: collapseVar==1}">
+                <a ng-click="check(1)"><i class="fa fa-folder-open fa-fw"></i> Cadastros <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=1">
+                    <li ><a ui-sref="main.cadastro.fornecedor"> Fornecedor </a></li>
+                    <li ><a ui-sref="main.cadastro.colaborador"> Colaborador </a></li>
+                    <li ><a ui-sref="main.cadastro.cliente"> Cliente </a></li>
+                    <li ><a ui-sref="main.cadastro.receita"> Receita </a></li>
+                    <li ><a ui-sref="main.cadastro.selo"> Selo </a></li>
+                    <li ><a ui-sref="main.cadastro.categoria"> Categoria </a></li>
+                    <li ><a ui-sref="main.cadastro.produto"> Produto </a></li>
+                    <li ><a ui-sref="main.cadastro.insumo"> Insumo </a></li>
+                    <li ><a ui-sref="main.cadastro.embalagem"> Embalagem </a></li>
+                    <li ><a ui-sref="main.cadastro.rotulo"> Rótulo </a></li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            
+            <li ng-class="{active: collapseVar==2}">
+                <a  ng-click="check(2)"><i class="fa fa-cubes fa-fw"></i> Estoque <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=2">
+                    <li ><a ui-sref="estoque.produto"> Produto </a></li>
+                    <li ><a ui-sref="estoque.insumo"> Insumo </a></li>
+                    <li ><a ui-sref="estoque.embalagem"> Embalagem </a></li>
+                    <li ><a ui-sref="estoque.rotulo"> Rótulo </a></li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            
+            <li ng-class="{active: collapseVar==3}">
+                <a  ng-click="check(3)"><i class="fa fa-gear fa-fw"></i> Produção <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=3">                    
+                    <li ng-init="third=!third" ng-class="{active: multiCollapseVar==4}">
+                        <a  ng-click="multiCheck(4)">Pedidos Level <span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level" collapse="multiCollapseVar!=4">
+                            <li><a ui-sref="producao.gerenciar_pedido"> Gerenciar </a></li>
+                            <li><a ui-sref="producao.sugerir_pedido"> Sugerir </a></li>
+                        </ul>
+                        <!-- /.nav-third-level -->
+                    </li>
+                    <li><a ui-sref="producao.fabricacao"> Ordem Fabricação </a></li>
+                    <li><a ui-sref="producao.expedicao"> Ordem Expedição </a></li>
+                    <li><a ui-sref="producao.entrega"> Ordem Entrega </a></li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            
+            <li ng-class="{active: collapseVar==5}">
+                <a  ng-click="check(5)"><i class="fa fa-check-circle-o fa-fw"></i> Qualidade <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=5">
+                    <li ><a ui-sref="qualidade.formulario"> Formulários </a></li>
+                    <li ><a ui-sref="qualidade.contato"> Contato </a></li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            
+            <li ng-class="{active: collapseVar==6}">
+                <a  ng-click="check(6)"><i class="fa fa-shopping-cart fa-fw"></i> E-Commerce <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=6">
+                    <li ><a ui-sref="loja.destaque">   Destaque </a></li>
+                    <li ><a ui-sref="loja.lancamento">    Lançamentos </a></li>
+                    <li ><a ui-sref="loja.promocao"> Promoção </a></li>
+                    <li ><a ui-sref="loja.parceiro">    Parceiros </a></li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            
+            <li ng-class="{active: collapseVar==7}">
+                <a  ng-click="check(7)"><i class="fa fa-file-text fa-fw"></i> Relatórios <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=7">
+                    <li><a ui-sref="relatorio.fornecedor"> Fornecedor </a></li>
+                    <li><a ui-sref="relatorio.cliente"> Cliente </a></li>
+                    <li><a ui-sref="relatorio.produto"> Produto </a></li>
+                    <li><a ui-sref="relatorio.produtividade"> Produtividade </a></li>
+                    <li><a ui-sref="relatorio.pedido"> Pedido </a></li>
+                    <li><a ui-sref="relatorio.venda"> Venda </a></li>
+                    <li><a ui-sref="relatorio.satisfacao"> Pesquisa Satisfação </a></li>
+                    <li><a ui-sref="relatorio.pagamento"> Pagamento </a></li>                
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            
+            <!-- menus originais -->
+            <li ng-class="{active: collapseVar==8}">{{dropDown}}
+                <a  ng-click="check(8)"><i class="fa fa-wrench fa-fw"></i> UI Elements<span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=8">
+                    <li ui-sref-active="active">
+                        <a ui-sref="main.panels-wells">Panels and Wells</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="main.buttons">Buttons</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="main.notifications">Notifications</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="main.typography">Typography</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="main.icons"> Icons</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="main.grid">Grid</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            
+            <li ui-sref-active="active">
+                <a ui-sref="main.home"><i class="fa fa-main fa-fw"></i> Dashboard</a>
+            </li>
+            <li ui-sref-active="active">
+
+                <a ui-sref="main.chart"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span></span></a>
+
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="main.table"><i class="fa fa-table fa-fw"></i> Tables</a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="main.form"><i class="fa fa-edit fa-fw"></i> Forms</a>
+            </li>
+            
+        </ul>
+    </div>
+    <!-- /.sidebar-collapse -->
+</div> 
+
+
+

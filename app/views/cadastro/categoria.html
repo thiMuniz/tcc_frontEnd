@@ -1,0 +1,229 @@
+<section ng-controller="CategoriaCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">{{titulo}}</h1>
+        </div>  
+    </div> 
+
+    <div class="row">
+        <div class="col-lg-12">            
+            <div class="panel-heading"> <!-- Painel Superior -->
+                <button data-id="inserir" class="btn btn-primary btn-lg" ng-click="openDialog($event)" data-toggle="modal" data-target="#formModal">
+                    <ng-md-icon icon="add_circle"></ng-md-icon> &nbsp;{{labelAddBtn}}
+                </button>
+            </div><!-- /.Painel Superior -->
+            
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <!--Categorias Cadastradas-->
+                    {{headerLista}}
+                </div>
+
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nome</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="cat in categorias">
+                                    <td>{{cat.id}}</td>                                        
+                                    <td>{{cat.dsCurta}}</td>
+                                    <td>
+                                        <a data-id="editar" ng-attr-title="editar" ng-click="openDialog($event,cat);" data-toggle="modal" data-target="#formModal"   title="Editar" tooltip>
+                                            <ng-md-icon icon="edit"></ng-md-icon>
+                                        </a>&nbsp;
+                                        <a data-id="desativar" ng-attr-title="desativar" ng-mouseover="onMouseOverEditar($event)" ng-click="openDialog($event,cat);"   title="Desativar" tooltip>
+                                            <ng-md-icon icon="delete"></ng-md-icon>
+                                        </a>&nbsp;
+                                        <a data-id="info" ng-attr-title="info" ng-mouseover="onMouseOverEditar($event)" ng-click="openDialog($event,cat);" data-toggle="modal" data-target="#infoModal"   title="Detalhes" tooltip>
+                                            <ng-md-icon icon="info"></ng-md-icon>
+                                        </a>&nbsp;
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div><!-- /.table-responsive -->
+                </div><!-- /.panel-body -->
+            </div><!-- /.panel-default -->
+        </div><!-- /.col-lg-12 -->
+    </div>
+
+
+    <!-- Modal formulário-->
+    <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeFormModal}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloModal}}</h4>
+                </div>
+                <div class="modal-body">                    
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <form role="form" id="formCategoria">
+                                    <div class="form-group">
+                                        <label>Código</label>
+                                        <input class="form-control" id="idCategoria" type="text" value="{{categoria.id}}" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nome</label>
+                                        <input class="form-control" placeholder="Nome da categoria" value="{{categoria.dsCurta}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Descrição Detalhada</label>
+                                        <input class="form-control" placeholder="Nome da categoria" value="{{categoria.dsDetalhada}}">
+                                    </div>
+                                </form>
+                            </div>
+                        </div><!-- /.row --> 
+                    </div><!-- /.panel-body --> 
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-outline btn-warning">
+                            <ng-md-icon icon="refresh"></ng-md-icon> Limpar
+                        </button>
+                        <button type="button" class="btn btn-outline btn-danger" data-dismiss="modal">
+                            <ng-md-icon icon="clear"></ng-md-icon> Cancelar
+                        </button>
+                        <button type="button" class="btn btn-outline btn-success">
+                            <ng-md-icon icon="save"></ng-md-icon> Gravar
+                        </button>
+                    </div>
+                </div><!-- /.modal-body --> 
+            </div><!-- /.modal-content -->            
+        </div><!-- /.modal-dialog -->        
+    </div> <!-- /.modal -->
+
+    <!-- Modal info -->
+    <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="infoModalLabel"> <ng-md-icon icon="info_outline"></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloModal}}</h4>
+                </div>
+                <div class="modal-body">                    
+                    <div class="panel-default">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive">
+                                    <table class="table table">
+                                        <tbody>
+                                            <!--**achar formato melhor de tabela-->
+                                            <tr>
+                                                <td align="right"><b>Código</b></td>
+                                                <td align="left">{{categoria.id}}</td>                                        
+                                            </tr>
+                                            <tr>
+                                                <td align="right"><b>Nome</b></td>
+                                                <td align="left">{{categoria.dsCurta}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right"><b>Detalhes</b></td>
+                                                <td align="left">{{categoria.dsDetalhada}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div><!-- /.table-responsive -->   
+                            </div>
+                        </div>   <!-- /.row -->
+                    </div> <!-- /.panel-default -->                    
+                </div>   <!-- /.modal-body -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline btn-primary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div><!-- /.modal-content -->            
+        </div><!-- /.modal-dialog -->        
+    </div> <!-- /.modal -->
+    
+    
+    <!-- TESTE FORM TAB SITE ANGULAR  -->
+    <!--    <form class="form-horizontal">
+    
+            <ul class="nav nav-tabs">
+              <li ng-repeat="step in steps" >
+                <a href="javascript:void(0)" ng-click="goToStep($index)">{{step}}</a>
+              </li>
+            </ul>
+            <div ng-switch on="selection">-->
+
+    <!-- First Step -->
+    <!--          <div ng-switch-when="Step 1: Team Info">
+                <div class="row">
+                  <div class="span4">
+                    <div class="control-group">
+                      <label class="control-label" for="teamName">Team Name</label>
+                      <div class="controls">
+                          <input type="text" id="teamName" placeholder="Team Name" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="inputEmail">Email</label>
+                      <div class="controls">
+                          <input type="text" id="inputEmail" placeholder="Email" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="inputPassword">Password</label>
+                      <div class="controls">
+                        <input type="password" id="inputPassword" placeholder="Password">
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="confirmInputPassword">Confirm Password</label>
+                      <div class="controls">
+                        <input type="password" id="confirmInputPassword" placeholder="Password">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="span4 offset1">
+    
+                    <div class="control-group">
+                      <label class="control-label" for="teamName">Team Image</label>
+                      <div class="controls">
+                      </div>
+                    </div>
+    
+                    <div class="control-group">
+                      <label class="control-label" for="teamMembers">Team Members</label>
+                      <div class="controls">
+    
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>-->
+
+    <!-- Second Step -->
+    <!--          <div ng-switch-when="Step 2: Campaign Info">
+                  <h1>Step 2</h1>
+              </div>-->
+
+    <!-- Third Step -->
+    <!--          <div ng-switch-when="Step 3: Campaign Media">
+                  <h1>Step 3</h1>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <ul class="pager pull-left">
+              <li class="" ng-class="{disabled: !hasPreviousStep()}">
+                <a href="javascript:void(0);" ng-click="decrementStep()">&larr; Previous Step</a>
+              </li>
+              <li class="" ng-class="{disabled: !hasNextStep()}">
+                <a href="javascript:void(0);" ng-click="incrementStep()">Next Step &rarr;</a>
+              </li>
+            </ul>
+            <div class="pull-right"><button style="margin:20px 0;" class="btn btn-success">Confirm and Register</button></div>
+            <div class="clearfix"></div>
+        </form>-->
+    <!-- FIM TESTE FORM TAB SITE ANGULAR  -->
+
+
+        
+</section>
