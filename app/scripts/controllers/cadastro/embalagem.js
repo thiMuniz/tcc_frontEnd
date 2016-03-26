@@ -1,6 +1,6 @@
 'use strict';
 angular.module('sbAdminApp')
-        .controller('EmbalagemCtrl', [ '$scope', '$position','ModalService', function ($scope, $position, ModalService) {
+        .controller('EmbalagemCtrl', ['$scope', '$position','ModalService', function ($scope, $position, ModalService) {
             $scope.complexResult = "antes do dialog";
     
             $scope.titulo = "Cadastro de Embalagens dos Produtos";
@@ -17,27 +17,26 @@ angular.module('sbAdminApp')
             ];
             //$scope.embalagens = EmbalagemResource.query();
 
-//            console.log(document.querySelectorAll());
             $scope.openInsertDialog2 = function () {
-                ModalService.showModal({
-                    templateUrl: "views/cadastro/dialog/formCadastroEmbalagem.html",
+                ModalService.showModal({                    
+                    templateUrl: "views/cadastro/dialog/formEmbalagem.html",
                     controller: "EmbalagemDialogCtrl",
                     keyboard: false, //permite fechar clicando fora do form
 //                    animation: false,
                     closeByEscape: true,
                     backdrop: 'static',
                     inputs: {
-//                        title: "Funcionou!! Carai :)"
+//                        title: "Funcionou!! Carai :)",
                         iconeHeaderDialog: "add_circle_outline",
                         tituloDialog: "Cadastrar Embalagem",
-                        embalagem: {id: "", dsCurta: "", dsDetalhada: "", material: "", imagem: "", dimensoes: ""}
+                        //criar new embalagaem a partir do factory - resource
+                        embalagem: {id: "1", dsCurta: "1", dsDetalhada: "1", material: "1", imagem: "1", dimensoes: "1"}
                     }
                 }).then(function (modal) {
                     modal.element.modal();
                     modal.close.then(function (result) {
-                        
-                        $scope.complexResult = "Name: " + result.name + ", age: " + result.age;
-                        console.log("terminou delay");
+                        $scope.embalagem = result;
+                        $scope.complexResult = result;
                         $('.modal-backdrop').remove(); //hot fix ;)
                     });
                     
@@ -119,6 +118,7 @@ angular.module('sbAdminApp')
             $scope.saveObjectDialog = function () {
                 $scope.embalagens.push(angular.copy($scope.embalagem));
                 delete $scope.embalagem;
+                //close no form
             };
             
 
@@ -161,40 +161,48 @@ angular.module('sbAdminApp')
 
         }])
             .controller('EmbalagemDialogCtrl', [
-            '$scope', '$element', 'title', 'close',  
-            function ($scope, $element, iconeHeaderDialog, tituloDialog, close) {
-                $scope.name = "name1";
-                $scope.age = 101;
+            '$scope', '$element', 'close', 'iconeHeaderDialog', 'tituloDialog', 'embalagem',  
+            function ($scope, $element, close, iconeHeaderDialog, tituloDialog, embalagem) {
                 $scope.iconeHeaderDialog = iconeHeaderDialog;
                 $scope.tituloDialog = tituloDialog;
-                
+                $scope.embalagem = embalagem;
 
+
+                $scope.clear = function () {
+                    delete $scope.embalagem;
+                };
+                
+                $scope.submit = function () {
+                    
+                    close({ 
+                        id: $scope.embalagem.id, 
+                        dsCurta: $scope.embalagem.dsCurta, 
+                        dsDetalhada: $scope.embalagem.dsDetalhada,
+                        material: $scope.embalagem.material,
+                        imagem: $scope.embalagem.imagem,
+                        dimensoes: $scope.embalagem.dimensoes
+                    }, 500); // close, but give 500ms for bootstrap to animate
+                };
+                
+                $scope.cancel = function() {
+                  //  Manually hide the modal.
+//                  $element.modal('hide');
+                  close("Cancelado"); // parâmetro será recebido pela variável return
+                };
+                
                 //  This close function doesn't need to use jQuery or bootstrap, because
                 //  the button has the 'data-dismiss' attribute.
                 $scope.close = function() {
-                    console.log("ok ou X");
 //                    $element.modal('hide');
                     close({
                       name: $scope.name,
                       age: $scope.age
-                    }, 1000); // close, but give 500ms for bootstrap to animate
+                    }, 500); // close, but give 500ms for bootstrap to animate
                 };
 
                 //  This cancel function must use the bootstrap, 'modal' function because
                 //  the doesn't have the 'data-dismiss' attribute.
-                $scope.cancel = function() {
-                    console.log("cancel");
-                  //  Manually hide the modal.
-                  $element.modal('hide');
-//                  $('modalTeste').modal('hide');
-
-                  //  Now call close, returning control to the caller.
-                  
-                  close({
-                    name: $scope.name,
-                    age: $scope.age
-                  }, 1000); // close, but give 500ms for bootstrap to animate
-                };
+                
 
             }]);
     
