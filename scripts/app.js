@@ -17,8 +17,7 @@ angular
     'ngImgCrop',
     'ngMessages',
     'ngResource',
-    'angularModalService',
-    'mwl.calendar'
+    'angularModalService'
   ])
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
     
@@ -160,10 +159,6 @@ angular
        templateUrl:'views/ui-elements/grid.html',
        url:'/grid'
    })
-      .state('main.calendar',{
-       templateUrl:'views/calendar.html',
-       url:'/calendario'
-   })
    .state('main.cadastro',{
        template : '<div ui-view></div>',
        abstract:true,
@@ -290,6 +285,7 @@ angular
               name:'sbAdminApp',
               files:[
               'scripts/controllers/cadastro/embalagem.js'
+//              'scripts/controllers/cadastro/dialog/dialogEmbalagem.js'
               ]
             })
           }

@@ -8,9 +8,10 @@
     <div class="row">
         <div class="col-lg-12">            
             <div class="panel-heading"> <!-- Painel Superior -->
-                <button class="btn btn-primary btn-lg" ng-click="openInsertDialog()" data-toggle="modal" data-target="{{idTargetModal}}">
+                <button class="btn btn-primary btn-lg" ng-click="openInsertDialog2()" > <!-- data-toggle="modal" data-target="{{idTargetModal}}" -->
                     <ng-md-icon icon="add_circle"></ng-md-icon> &nbsp;{{labelAddBtn}}
                 </button>
+                {{complexResult}}
 <!--                
                 <div>Select an image file: <input type="file" id="fileInput" /></div>
                 <div class="cropArea">
@@ -26,7 +27,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <!--Selos Cadastrados-->
-                    {{headerLista}}
+                    {{embalagens.length}} Embalagens encontradas
                 </div>
 
                 <!-- /.panel-heading -->
@@ -50,7 +51,7 @@
                                         <a ng-click="openUpdateDialog(embalagem)" data-toggle="modal" data-target="{{idTargetModal}}"  title="Editar" tooltip>
                                             <ng-md-icon icon="edit"></ng-md-icon>
                                         </a>&nbsp;
-                                        <a ng-click="desativar(embalagem)" ng-attr-title="desativar" title="Desativar" tooltip>
+                                        <a ng-click="openDesativarDialog(embalagem, $index)" ng-attr-title="desativar" title="Desativar" tooltip>
                                             <ng-md-icon icon="delete"></ng-md-icon>
                                         </a>&nbsp;
                                         <a ng-click="openInfoDialog(embalagem)" data-id="info" ng-attr-title="info" data-toggle="modal" data-target="#infoModal" title="Detalhes" tooltip>
@@ -79,7 +80,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <form role="form" id="formSelo">
+                                <form role="form" id="formEmbalagem">
                                     <div class="form-group">
                                         <label>Código</label>
                                         <input class="form-control" type="text" placeholder="Id" ng-model="embalagem.id" disabled>

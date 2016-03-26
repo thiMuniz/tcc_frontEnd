@@ -17,20 +17,15 @@ angular.module('sbAdminApp')
             ];
             //$scope.embalagens = EmbalagemResource.query();
 
-//            console.log(document.querySelectorAll());
             $scope.openInsertDialog2 = function () {
                 ModalService.showModal({
                     templateUrl: "views/cadastro/dialog/formCadastroEmbalagem.html",
                     controller: "EmbalagemDialogCtrl",
-                    keyboard: false, //permite fechar clicando fora do form
-//                    animation: false,
+                    keyboard: true, //permite fechar clicando fora do form
+                    animation: false,
                     closeByEscape: true,
-                    backdrop: 'static',
                     inputs: {
-//                        title: "Funcionou!! Carai :)"
-                        iconeHeaderDialog: "add_circle_outline",
-                        tituloDialog: "Cadastrar Embalagem",
-                        embalagem: {id: "", dsCurta: "", dsDetalhada: "", material: "", imagem: "", dimensoes: ""}
+                        title: "Funcionou!! Carai :)"
                     }
                 }).then(function (modal) {
                     modal.element.modal();
@@ -38,7 +33,7 @@ angular.module('sbAdminApp')
                         
                         $scope.complexResult = "Name: " + result.name + ", age: " + result.age;
                         console.log("terminou delay");
-                        $('.modal-backdrop').remove(); //hot fix ;)
+//                        $('.modal-backdrop').hide();
                     });
                     
                 });
@@ -162,12 +157,10 @@ angular.module('sbAdminApp')
         }])
             .controller('EmbalagemDialogCtrl', [
             '$scope', '$element', 'title', 'close',  
-            function ($scope, $element, iconeHeaderDialog, tituloDialog, close) {
+            function ($scope, $element, title, close) {
                 $scope.name = "name1";
                 $scope.age = 101;
-                $scope.iconeHeaderDialog = iconeHeaderDialog;
-                $scope.tituloDialog = tituloDialog;
-                
+                $scope.title = title;
 
                 //  This close function doesn't need to use jQuery or bootstrap, because
                 //  the button has the 'data-dismiss' attribute.
@@ -177,7 +170,7 @@ angular.module('sbAdminApp')
                     close({
                       name: $scope.name,
                       age: $scope.age
-                    }, 1000); // close, but give 500ms for bootstrap to animate
+                    }, 2000); // close, but give 500ms for bootstrap to animate
                 };
 
                 //  This cancel function must use the bootstrap, 'modal' function because
@@ -189,11 +182,10 @@ angular.module('sbAdminApp')
 //                  $('modalTeste').modal('hide');
 
                   //  Now call close, returning control to the caller.
-                  
                   close({
                     name: $scope.name,
                     age: $scope.age
-                  }, 1000); // close, but give 500ms for bootstrap to animate
+                  }, 2000); // close, but give 500ms for bootstrap to animate
                 };
 
             }]);
