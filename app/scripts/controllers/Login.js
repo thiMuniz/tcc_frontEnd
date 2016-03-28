@@ -11,5 +11,5 @@ angular.module('sbAdminApp')
          /*error >299 */function(){
              alert("deu ruim");
          });
-     }
-)}
+     };
+  });
