@@ -44,6 +44,10 @@ angular.module('sbAdminApp')
             ];
           }
           
+          $scope.closeAlertInfo = function(){
+            resetAlertInfo();
+          }
+          
           $scope.ordenar = function (campo) {
             $scope.campo = campo;
             $scope.ascDsc = !$scope.ascDsc;
