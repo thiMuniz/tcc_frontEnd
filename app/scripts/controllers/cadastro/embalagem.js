@@ -43,6 +43,11 @@ angular.module('sbAdminApp')
               {id: "5", dsCurta: "Pacote Nº2", dsDetalhada: "Detalhes da Embalagem 5", material: "plástico", imagem: "...", dimensoes: "..."}
             ];
           }
+          
+          $scope.ordenar = function (campo) {
+            $scope.campo = campo;
+            $scope.ascDsc = !$scope.ascDsc;
+          };
 
           function carregarEmbalagensAPI() {
             $scope.embalagens = EmbalagemResource.query();
@@ -86,26 +91,15 @@ angular.module('sbAdminApp')
             modalInstance.result.then(function (result) {
               if (result.embalagem) {
                 var msg = "";
-//                setAlertInfo("dados submetidos - " + result.embalagem.dsDetalhada, "success", "show");
-                
                 if(result.status == "sucesso"){//Se retorno da API com sucesso add a embalagem à lista
                   $scope.embalagens.push(angular.copy(result.embalagem));
-  //                delete $scope.embalagem;
+//                  $scope.$apply();
                   msg = "Embalagem "+result.embalagem.dsCurta+" cadastrada com sucesso!";
                   setAlertInfo(msg, "success", "show");
-                  swal({
-                    title: msg,
-                    type: "success"
-                  });
                 }else{//Senão mostra msg erro                  
                   msg = "Erro ao cadastrar Embalagem "+result.embalagem.dsCurta+" !";
                   setAlertInfo(msg, "danger", "show");
-                  swal({
-                    title: msg,
-                    type: "error"
-                  });   
-                }
-                
+                }                
               } else {
                 setAlertInfo("formulário vazio ", "warning", "show");
               }
@@ -134,7 +128,7 @@ angular.module('sbAdminApp')
                 }
               }
             });
-            modalInstance.result.then(function (result) {
+            modalInstance.result.then(function (result) {//quando foi fechado enviando dados
               if (result.embalagem) {
                 var msg = "";
 //                setAlertInfo("dados submetidos - " + result.embalagem.dsDetalhada, "success", "show");
@@ -144,25 +138,17 @@ angular.module('sbAdminApp')
 //                  $scope.$apply(); 
                   var msg = "Embalagem " + result.embalagem.dsCurta + " editada com sucesso!";
                   setAlertInfo(msg, "success", "show");
-                  swal({
-                    title: msg,
-                    type: "success"
-                  });
                 }else{//Senão mostra msg erro                  
                   msg = "Erro ao editar Embalagem "+result.embalagem.dsCurta+" !";
                   setAlertInfo(msg, "danger", "show");
-                  swal({
-                    title: msg,
-                    type: "error"
-                  });   
                 }                
               } else {
                 setAlertInfo("formulário vazio ", "warning", "show");
               }
-            }, function () {
+            }, function () {//quando é cancelado (dismiss)
               setAlertInfo("cancelado, dados perdidos", "warning", "show");
             });
-          }
+          };
 
           $scope.openDesativarDialog = function (embalagem, index) {
             resetAlertInfo();
@@ -174,25 +160,20 @@ angular.module('sbAdminApp')
               confirmButtonColor: "#DD6B55",
               cancelButtonText: "Não, me tire daqui!",
               confirmButtonText: "Sim, quero desativar!",
-              closeOnConfirm: false},
-                    function () {
-//                            embalagem.$delete(function(){
-                      $scope.embalagens.splice(index, 1);
-                      $scope.$apply(); //força atualização da lista
-                      //metodo deleteEmbalagem - passa a embalagem por parâmetro para exclusão
-                      swal({
-                        title: "Embalagem desativada!",
-                        type: "success"
-                      });
-//                            },
-//                            function(){
-//                                //metodo deleteEmbalagem - passa a embalagem por parâmetro para exclusão
-//                                swal({
-//                                    title: "Erro ao desativar embalagem!",
-//                                    type: "error"
-//                                });
-//                            })
-                    });
+              closeOnConfirm: false
+            }, 
+            function () {
+              $scope.embalagens.splice(index, 1);
+              //metodo deleteEmbalagem - passa a embalagem por parâmetro para exclusão
+              var msg = "Embalagem " + embalagem.dsCurta + " desativada!";              
+              setAlertInfo(msg, "success", "show");
+              $scope.$apply();//força atualização da variável $scope
+              swal({
+                title: msg,
+                type: "success"
+              });
+              
+            });
           };
 
           $scope.openInfoDialog = function (embalagem) {
@@ -215,9 +196,6 @@ angular.module('sbAdminApp')
                 }
               }
             });
-//            modalInstance.result.then(function (result) {},function(){
-//              setAlertInfo("cancelado", "warning", "show");
-//            });
           }
             
             
