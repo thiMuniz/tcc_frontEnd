@@ -1,5 +1,5 @@
 'use strict';
 angular.module('sbAdminApp')
-        .factory("RotuloResource", function ($resource) {
-          return $resource('http://enderecodaapi/xxxxx/:id', {id: '@_id'});
-        })
+        .factory("RotuloResource", function ($resource, WS) {
+          return $resource(WS.urlSGP+'rotulo/:id', {id: '@_id'});
+        });

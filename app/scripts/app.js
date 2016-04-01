@@ -17,8 +17,14 @@ angular
           'ngImgCrop',
           'ngMessages',
           'ngResource',
-          'mwl.calendar'
+          'mwl.calendar',
+          'ngCpfCnpj'
         ])
+        .constant("WS", {
+          urlSGP: "http://192.168.25.8:11392/SGI/",
+          urlCorreios: "",
+          urlRF: ""
+        })
         .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
             $ocLazyLoadProvider.config({
@@ -34,26 +40,26 @@ angular
                       templateUrl: 'views/main/main.html',
                       resolve: {
                         loadMyDirectives: function ($ocLazyLoad) {
-                          return $ocLazyLoad.load({
-                                    name: 'sbAdminApp',
-                                    files: [
-                                      'scripts/directives/header/header.js',
-                                      'scripts/directives/header/header-notification/header-notification.js',
-                                      'scripts/directives/sidebar/sidebar.js',
-                                      'scripts/directives/sidebar/sidebar-search/sidebar-search.js'
-                                    ]
-                                  }),
-                                  $ocLazyLoad.load({                                    
-                                    name: 'toggle-switch',
-                                    files: [
-                                      "bower_components/angular-toggle-switch/angular-toggle-switch.min.js",
-                                      "bower_components/angular-toggle-switch/angular-toggle-switch.css"
-                                    ]
-                                  }),
-                                  $ocLazyLoad.load({
-                                    name: 'ngAnimate',
-                                    files: ['bower_components/angular-animate/angular-animate.js']
-                                  });
+                          return $ocLazyLoad.load({                            
+                            name: 'sbAdminApp',
+                            files: [
+                              'scripts/directives/header/header.js',
+                              'scripts/directives/header/header-notification/header-notification.js',
+                              'scripts/directives/sidebar/sidebar.js',
+                              'scripts/directives/sidebar/sidebar-search/sidebar-search.js'
+                            ]
+                          }),
+                          $ocLazyLoad.load({                                    
+                            name: 'toggle-switch',
+                            files: [
+                              "bower_components/angular-toggle-switch/angular-toggle-switch.min.js",
+                              "bower_components/angular-toggle-switch/angular-toggle-switch.css"
+                            ]
+                          }),
+                          $ocLazyLoad.load({
+                            name: 'ngAnimate',
+                            files: ['bower_components/angular-animate/angular-animate.js']
+                          });
                           $ocLazyLoad.load({
                             name: 'ngCookies',
                             files: ['bower_components/angular-cookies/angular-cookies.js']

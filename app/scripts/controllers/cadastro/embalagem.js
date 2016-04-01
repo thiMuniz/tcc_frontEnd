@@ -1,6 +1,6 @@
 'use strict';
 angular.module('sbAdminApp')
-        .controller('EmbalagemCtrl', function ($scope, $modal, $http, $resource, EmbalagemResource) {
+        .controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResource, WS) {
 
           $scope.titulo = "Cadastro de Embalagens dos Produtos";
           $scope.headerLista = "Nenhuma embalagem foi encontrada";
@@ -52,13 +52,15 @@ angular.module('sbAdminApp')
             $scope.campo = campo;
             $scope.ascDsc = !$scope.ascDsc;
           };
-
+          
+          console.log(WS.urlSGP+'embalagem/');
+          
           function carregarEmbalagensAPI() {
             $scope.embalagens = EmbalagemResource.query();
             
             /*
              * Trecho abaixo funciona             
-            $http.get('http://192.168.25.8:11392/SGI/embalagem/'
+            $http.get(WS.urlSGP+'embalagem/'
                     ).success(function (data, status) {
               console.log("deu bom - data" + data);
               console.log("status" + status);
@@ -239,7 +241,7 @@ angular.module('sbAdminApp')
           $scope.submit = function () {
             /*
              //chamar serviço API
-             $http.post('http://192.168.25.8:11392/SGI/embalagem/', 
+             $http.post(WS.urlSGP+'embalagem/', 
              $scope.embalagem                        
              ).then(function successCallback(response) {
              console.log("deu bom"+response.data);
