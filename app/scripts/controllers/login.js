@@ -1,23 +1,22 @@
 'use strict';
-angular.module('sbAdminApp')
-        .controller('LoginCtrl', function ($scope, $state) { //userResource
+app.controller('LoginCtrl', function ($scope, $state) { //userResource
 //     $scope.user = new userResource();
-          $scope.login = function () {
-            if ($scope.user.username == 'user' && $scope.user.password == '0000') {
-              swal({
-                title: "O mestre logou!!",
-                type: "success"
-              });
-              $state.go('main.home');
-            } else {
-              swal({
-                title: "Na traaaaave!",
-                type: "error"
-              });
-            }
+  $scope.login = function () {
+    if ($scope.user.username == 'user' && $scope.user.password == '0000') {
+      swal({
+        title: "O mestre logou!!",
+        type: "success"
+      });
+      $state.go('main.home');
+    } else {
+      swal({
+        title: "Na traaaaave!",
+        type: "error"
+      });
+    }
 
 
-            ////////// USAR COD ABAIXO QND TIVER RESOURCE /////////////////
+    ////////// USAR COD ABAIXO QND TIVER RESOURCE /////////////////
 //         $scope.user.$login(/*success 200~299*/function(){
 //             alert("deu certo");
 //              $state.go("main.home");
@@ -27,5 +26,5 @@ angular.module('sbAdminApp')
 //             alert("deu ruim");
 //         });
 
-          };
-        });
+  };
+});

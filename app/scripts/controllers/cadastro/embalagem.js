@@ -1,233 +1,235 @@
 'use strict';
-angular.module('sbAdminApp')
-        .controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResource, WS) {
+app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResource, WS, toastr) {
+  toastr.success('Descrição do alemão', 'Título do alemão', {
+    closeButton: true
+  });
 
-          $scope.titulo = "Cadastro de Embalagens dos Produtos";
-          $scope.headerLista = "Nenhuma embalagem foi encontrada";
-          $scope.labelAddBtn = "Nova Embalagem";
+  $scope.titulo = "Cadastro de Embalagens dos Produtos";
+  $scope.headerLista = "Nenhuma embalagem foi encontrada";
+  $scope.labelAddBtn = "Nova Embalagem";
 
 //            resetAlertInfo;
-          setAlertInfo("Bem vindo programador lindão!! Boa sorte dessa vez...", "warning", "show");
-          carregarEmbalagensFront();
+  setAlertInfo("Bem vindo programador lindão!! Boa sorte dessa vez...", "warning", "show");
+  carregarEmbalagensFront();
 //            carregarEmbalagensAPI();
 
-          /**
-           * 
-           * @param {String} msg (mensagem que deseja exibir)
-           * @param {String} classe (info | success | warning | danger)
-           * @param {String} show (show | hide)
-           * @returns {null}
-           */
-          function setAlertInfo(msg, classe, acao) {
-            var show;
-            if (acao == "show") {
-              show = true;
-            } else {
-              show = false;
-            }
-            $scope.alertInfoMessage = msg;
-            $scope.alertInfoClass = classe;
-            $scope.alertInfoShow = show;
-          }
+  /**
+   * 
+   * @param {String} msg (mensagem que deseja exibir)
+   * @param {String} classe (info | success | warning | danger)
+   * @param {String} show (show | hide)
+   * @returns {null}
+   */
+  function setAlertInfo(msg, classe, acao) {
+    var show;
+    if (acao == "show") {
+      show = true;
+    } else {
+      show = false;
+    }
+    $scope.alertInfoMessage = msg;
+    $scope.alertInfoClass = classe;
+    $scope.alertInfoShow = show;
+  }
 
-          function resetAlertInfo() { //Corrigir método (não oculta DIV)
-            setAlertInfo("", "info", "hide");
-          }
+  function resetAlertInfo() { //Corrigir método (não oculta DIV)
+    setAlertInfo("", "info", "hide");
+  }
 
-          function carregarEmbalagensFront() {
-            $scope.embalagens = [
-              {id: "1", dsCurta: "Caixa Nº1", dsDetalhada: "Detalhes da Embalagem 1", material: "papel", imagem: "...", dimensoes: "12x20x2"},
-              {id: "2", dsCurta: "Pacote Pão", dsDetalhada: "Detalhes da Embalagem 2", material: "plástico", imagem: "...", dimensoes: "..."},
-              {id: "3", dsCurta: "Pacote Nº1", dsDetalhada: "Detalhes da Embalagem 3", material: "plástico", imagem: "...", dimensoes: "..."},
-              {id: "4", dsCurta: "Caixa Nº2", dsDetalhada: "Detalhes da Embalagem 4", material: "papel", imagem: "...", dimensoes: "..."},
-              {id: "5", dsCurta: "Pacote Nº2", dsDetalhada: "Detalhes da Embalagem 5", material: "plástico", imagem: "...", dimensoes: "..."}
-            ];
-          }
-          
-          $scope.closeAlertInfo = function(){
-            resetAlertInfo();
-          }
-          
-          $scope.ordenar = function (campo) {
-            $scope.campo = campo;
-            $scope.ascDsc = !$scope.ascDsc;
-          };
-          
-          console.log(WS.urlSGP+'embalagem/');
-          
-          function carregarEmbalagensAPI() {
-            $scope.embalagens = EmbalagemResource.query();
-            
-            /*
-             * Trecho abaixo funciona             
-            $http.get(WS.urlSGP+'embalagem/'
-                    ).success(function (data, status) {
-              console.log("deu bom - data" + data);
-              console.log("status" + status);
-              $scope.embalagens = data;
-            }).error(function (data, status) {
-              console.log("deu ruim - data" + data);
-              console.log("status" + status);
-              carregarEmbalagensFront();
-            });
-            */
-          }
+  function carregarEmbalagensFront() {
+    $scope.embalagens = [
+      {id: "1", dsCurta: "Caixa Nº1", dsDetalhada: "Detalhes da Embalagem 1", material: "papel", imagem: "...", dimensoes: "12x20x2"},
+      {id: "2", dsCurta: "Pacote Pão", dsDetalhada: "Detalhes da Embalagem 2", material: "plástico", imagem: "...", dimensoes: "..."},
+      {id: "3", dsCurta: "Pacote Nº1", dsDetalhada: "Detalhes da Embalagem 3", material: "plástico", imagem: "...", dimensoes: "..."},
+      {id: "4", dsCurta: "Caixa Nº2", dsDetalhada: "Detalhes da Embalagem 4", material: "papel", imagem: "...", dimensoes: "..."},
+      {id: "5", dsCurta: "Pacote Nº2", dsDetalhada: "Detalhes da Embalagem 5", material: "plástico", imagem: "...", dimensoes: "..."}
+    ];
+  }
 
-          //funções chamadas no onClick dos botões da tela
-          $scope.openInsertDialog = function () {
-            resetAlertInfo();
-            $scope.params = {
-              formTipo: 'insert',
-              iconeHeaderDialog: "add_circle_outline",
-              tituloDialog: "Cadastrar Embalagem",
-              embalagem: {id: "6", dsCurta: "emb 6", dsDetalhada: "desc emb 6", material: "mat x", imagem: "...", dimensoes: "dim xyz"}
-            }
+  $scope.closeAlertInfo = function () {
+    resetAlertInfo();
+  }
 
-            var modalInstance = $modal.open({
-              templateUrl: 'views/cadastro/dialog/formEmbalagem.html',
-              controller: 'EmbalagemDialogCtrl',
-              backdrop: 'static',
-              size: '', //sm, lg
-              resolve: {
-                params: function () {
-                  return $scope.params;
-                }
-              }
-            });
-            modalInstance.result.then(function (result) {
-              if (result.embalagem) {
-                var msg = "";
-                if(result.status == "sucesso"){//Se retorno da API com sucesso add a embalagem à lista
-                  $scope.embalagens.push(angular.copy(result.embalagem));
+  $scope.ordenar = function (campo) {
+    $scope.campo = campo;
+    $scope.ascDsc = !$scope.ascDsc;
+  };
+
+  console.log(WS.urlSGP + 'embalagem/');
+
+  function carregarEmbalagensAPI() {
+    $scope.embalagens = EmbalagemResource.query();
+
+    /*
+     * Trecho abaixo funciona             
+     $http.get(WS.urlSGP+'embalagem/'
+     ).success(function (data, status) {
+     console.log("deu bom - data" + data);
+     console.log("status" + status);
+     $scope.embalagens = data;
+     }).error(function (data, status) {
+     console.log("deu ruim - data" + data);
+     console.log("status" + status);
+     carregarEmbalagensFront();
+     });
+     */
+  }
+
+  //funções chamadas no onClick dos botões da tela
+  $scope.openInsertDialog = function () {
+    resetAlertInfo();
+    $scope.params = {
+      formTipo: 'insert',
+      iconeHeaderDialog: "add_circle_outline",
+      tituloDialog: "Cadastrar Embalagem",
+      embalagem: {id: "6", dsCurta: "emb 6", dsDetalhada: "desc emb 6", material: "mat x", imagem: "...", dimensoes: "dim xyz"}
+    }
+
+    var modalInstance = $modal.open({
+      templateUrl: 'views/cadastro/dialog/formEmbalagem.html',
+      controller: 'EmbalagemDialogCtrl',
+      backdrop: 'static',
+      size: '', //sm, lg
+      resolve: {
+        params: function () {
+          return $scope.params;
+        }
+      }
+    });
+    modalInstance.result.then(function (result) {
+      if (result.embalagem) {
+        var msg = "";
+        if (result.status == "sucesso") {//Se retorno da API com sucesso add a embalagem à lista
+          $scope.embalagens.push(angular.copy(result.embalagem));
 //                  $scope.$apply();
-                  msg = "Embalagem "+result.embalagem.dsCurta+" cadastrada com sucesso!";
-                  setAlertInfo(msg, "success", "show");
-                }else{//Senão mostra msg erro                  
-                  msg = "Erro ao cadastrar Embalagem "+result.embalagem.dsCurta+" !";
-                  setAlertInfo(msg, "danger", "show");
-                }                
-              } else {
-                setAlertInfo("formulário vazio ", "warning", "show");
-              }
-            }, function () {
-              setAlertInfo("cancelado, dados perdidos", "warning", "show");
-            });
-          }
-         
-          $scope.openUpdateDialog = function (embalagem, index) {
-            resetAlertInfo();
-            $scope.params = {
-              formTipo: 'update',
-              iconeHeaderDialog: "edit",
-              tituloDialog: "Editar Embalagem",
-              embalagem: angular.copy(embalagem)
-            }
+          msg = "Embalagem " + result.embalagem.dsCurta + " cadastrada com sucesso!";
+          setAlertInfo(msg, "success", "show");
+        } else {//Senão mostra msg erro                  
+          msg = "Erro ao cadastrar Embalagem " + result.embalagem.dsCurta + " !";
+          setAlertInfo(msg, "danger", "show");
+        }
+      } else {
+        setAlertInfo("formulário vazio ", "warning", "show");
+      }
+    }, function () {
+      setAlertInfo("cancelado, dados perdidos", "warning", "show");
+    });
+  }
 
-            var modalInstance = $modal.open({
-              templateUrl: "views/cadastro/dialog/formEmbalagem.html",
-              controller: "EmbalagemDialogCtrl",              
-              backdrop: 'static',
-              size: '',
-              resolve: {
-                params: function () {
-                  return $scope.params;
-                }
-              }
-            });
-            modalInstance.result.then(function (result) {//quando foi fechado enviando dados
-              if (result.embalagem) {
-                var msg = "";
+  $scope.openUpdateDialog = function (embalagem, index) {
+    resetAlertInfo();
+    $scope.params = {
+      formTipo: 'update',
+      iconeHeaderDialog: "edit",
+      tituloDialog: "Editar Embalagem",
+      embalagem: angular.copy(embalagem)
+    }
+
+    var modalInstance = $modal.open({
+      templateUrl: "views/cadastro/dialog/formEmbalagem.html",
+      controller: "EmbalagemDialogCtrl",
+      backdrop: 'static',
+      size: '',
+      resolve: {
+        params: function () {
+          return $scope.params;
+        }
+      }
+    });
+    modalInstance.result.then(function (result) {//quando foi fechado enviando dados
+      if (result.embalagem) {
+        var msg = "";
 //                setAlertInfo("dados submetidos - " + result.embalagem.dsDetalhada, "success", "show");
-                
-                if(result.status == "sucesso"){//Se retorno da API com sucesso add a embalagem à lista
-                  $scope.embalagens[index] = result.embalagem;
-//                  $scope.$apply(); 
-                  var msg = "Embalagem " + result.embalagem.dsCurta + " editada com sucesso!";
-                  setAlertInfo(msg, "success", "show");
-                }else{//Senão mostra msg erro                  
-                  msg = "Erro ao editar Embalagem "+result.embalagem.dsCurta+" !";
-                  setAlertInfo(msg, "danger", "show");
-                }                
-              } else {
-                setAlertInfo("formulário vazio ", "warning", "show");
-              }
-            }, function () {//quando é cancelado (dismiss)
-              setAlertInfo("cancelado, dados perdidos", "warning", "show");
-            });
-          };
 
-          $scope.openDesativarDialog = function (embalagem, index) {
-            resetAlertInfo();
-            swal({
-              title: "Deseja mesmo desativar a Embalagem " + embalagem.dsCurta + "?",
-              text: "Você poderá ativar a Embalagem novamente!",
-              type: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "#DD6B55",
-              cancelButtonText: "Não, me tire daqui!",
-              confirmButtonText: "Sim, quero desativar!",
-              closeOnConfirm: false
-            }, 
+        if (result.status == "sucesso") {//Se retorno da API com sucesso add a embalagem à lista
+          $scope.embalagens[index] = result.embalagem;
+//                  $scope.$apply(); 
+          var msg = "Embalagem " + result.embalagem.dsCurta + " editada com sucesso!";
+          setAlertInfo(msg, "success", "show");
+        } else {//Senão mostra msg erro                  
+          msg = "Erro ao editar Embalagem " + result.embalagem.dsCurta + " !";
+          setAlertInfo(msg, "danger", "show");
+        }
+      } else {
+        setAlertInfo("formulário vazio ", "warning", "show");
+      }
+    }, function () {//quando é cancelado (dismiss)
+      setAlertInfo("cancelado, dados perdidos", "warning", "show");
+    });
+  };
+
+  $scope.openDesativarDialog = function (embalagem, index) {
+    resetAlertInfo();
+    swal({
+      title: "Deseja mesmo desativar a Embalagem " + embalagem.dsCurta + "?",
+      text: "Você poderá ativar a Embalagem novamente!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      cancelButtonText: "Não, me tire daqui!",
+      confirmButtonText: "Sim, quero desativar!",
+      closeOnConfirm: false
+    },
             function () {
               $scope.embalagens.splice(index, 1);
               //metodo deleteEmbalagem - passa a embalagem por parâmetro para exclusão
-              var msg = "Embalagem " + embalagem.dsCurta + " desativada!";              
+              var msg = "Embalagem " + embalagem.dsCurta + " desativada!";
               setAlertInfo(msg, "success", "show");
               $scope.$apply();//força atualização da variável $scope
               swal({
                 title: msg,
                 type: "success"
               });
-              
+
             });
-          };
+  };
 
-          $scope.openInfoDialog = function (embalagem) {
-            resetAlertInfo();
-            $scope.params = {
-              formTipo: 'info',
-              iconeHeaderDialog: "info_outline",
-              tituloDialog: "Detalhes Embalagem",
-              embalagem: angular.copy(embalagem)
-            }
+  $scope.openInfoDialog = function (embalagem) {
+    resetAlertInfo();
+    $scope.params = {
+      formTipo: 'info',
+      iconeHeaderDialog: "info_outline",
+      tituloDialog: "Detalhes Embalagem",
+      embalagem: angular.copy(embalagem)
+    }
 
-            var modalInstance = $modal.open({
-              templateUrl: "views/cadastro/dialog/formEmbalagem.html",
-              controller: "EmbalagemDialogCtrl",              
-              backdrop: 'static',
-              size: '',
-              resolve: {
-                params: function () {
-                  return $scope.params;
-                }
-              }
-            });
-          }
-            
-            
-          /*
-           * testes img-crop
-           * 
-           //        $scope.funcImageTest = function($scope){
-           $scope.myImage='';
-           $scope.myCroppedImage='';
-           
-           var handleFileSelect=function(evt) {
-           var file=evt.currentTarget.files[0];
-           var reader = new FileReader();
-           reader.onload = function (evt) {
-           $scope.$apply(function($scope){
-           $scope.myImage=evt.target.result;
-           });
-           };
-           reader.readAsDataURL(file);
-           };
-           angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
-           //        }
-           */
+    var modalInstance = $modal.open({
+      templateUrl: "views/cadastro/dialog/formEmbalagem.html",
+      controller: "EmbalagemDialogCtrl",
+      backdrop: 'static',
+      size: '',
+      resolve: {
+        params: function () {
+          return $scope.params;
+        }
+      }
+    });
+  }
 
 
-        })
+  /*
+   * testes img-crop
+   * 
+   //        $scope.funcImageTest = function($scope){
+   $scope.myImage='';
+   $scope.myCroppedImage='';
+   
+   var handleFileSelect=function(evt) {
+   var file=evt.currentTarget.files[0];
+   var reader = new FileReader();
+   reader.onload = function (evt) {
+   $scope.$apply(function($scope){
+   $scope.myImage=evt.target.result;
+   });
+   };
+   reader.readAsDataURL(file);
+   };
+   angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
+   //        }
+   */
+
+
+})
         .controller('EmbalagemDialogCtrl', function ($scope, $http, params, $modalInstance) {
           $scope.formTipo = params.formTipo;
           $scope.iconeHeaderDialog = params.iconeHeaderDialog;

@@ -7,7 +7,7 @@
  *
  * Main module of the application.
  */
-angular
+var app = angular
         .module('sbAdminApp', [
           'oc.lazyLoad',
           'ui.router',
@@ -18,8 +18,9 @@ angular
           'ngMessages',
           'ngResource',
           'mwl.calendar',
-          'ngCpfCnpj'
-        ])
+          'ngCpfCnpj',
+          'toastr'
+        ])        
         .constant("WS", {
           urlSGP: "http://192.168.25.8:11392/SGI/",
           urlCorreios: "",
@@ -40,7 +41,7 @@ angular
                       templateUrl: 'views/main/main.html',
                       resolve: {
                         loadMyDirectives: function ($ocLazyLoad) {
-                          return $ocLazyLoad.load({                            
+                          return $ocLazyLoad.load({
                             name: 'sbAdminApp',
                             files: [
                               'scripts/directives/header/header.js',
@@ -49,22 +50,22 @@ angular
                               'scripts/directives/sidebar/sidebar-search/sidebar-search.js'
                             ]
                           }),
-                          $ocLazyLoad.load({                                    
-                            name: 'toggle-switch',
-                            files: [
-                              "bower_components/angular-toggle-switch/angular-toggle-switch.min.js",
-                              "bower_components/angular-toggle-switch/angular-toggle-switch.css"
-                            ]
-                          }),
-                          $ocLazyLoad.load({
-                            name: 'ngAnimate',
-                            files: ['bower_components/angular-animate/angular-animate.js']
-                          });
+                                  $ocLazyLoad.load({
+                                    name: 'toggle-switch',
+                                    files: [
+                                      "bower_components/angular-toggle-switch/angular-toggle-switch.min.js",
+                                      "bower_components/angular-toggle-switch/angular-toggle-switch.css"
+                                    ]
+                                  }),
+                                  $ocLazyLoad.load({
+                                    name: 'ngAnimate',
+                                    files: ['bower_components/angular-animate/angular-animate.js']
+                                  });
                           $ocLazyLoad.load({
                             name: 'ngCookies',
                             files: ['bower_components/angular-cookies/angular-cookies.js']
                           });
-                          $ocLazyLoad.load({                                  
+                          $ocLazyLoad.load({
                             name: 'ngResource',
                             files: ['bower_components/angular-resources/angular-resource.js']
                           });
@@ -135,10 +136,10 @@ angular
                               'bower_components/angular-chart.js/dist/angular-chart.css'
                             ]
                           }),
-                            $ocLazyLoad.load({
-                              name: 'sbAdminApp',
-                              files: ['scripts/controllers/chartContoller.js']
-                            });
+                                  $ocLazyLoad.load({
+                                    name: 'sbAdminApp',
+                                    files: ['scripts/controllers/chartContoller.js']
+                                  });
                         }
                       }
                     })
@@ -188,7 +189,7 @@ angular
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/cadastro/fornecedor.js',
-                              'scripts/resources/fornecedorResource.js'
+                              'scripts/services/fornecedor.js'
                             ]
                           });
                         }
@@ -203,7 +204,7 @@ angular
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/cadastro/colaborador.js',
-                              'scripts/resources/colaboradorResource.js'
+                              'scripts/services/colaborador.js'
                             ]
                           });
                         }
@@ -218,7 +219,7 @@ angular
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/cadastro/cliente.js',
-                              'scripts/resources/clienteResource.js'
+                              'scripts/services/cliente.js'
                             ]
                           });
                         }
@@ -233,7 +234,7 @@ angular
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/cadastro/receita.js',
-                              'scripts/resources/receitaResource.js'
+                              'scripts/services/receita.js'
                             ]
                           });
                         }
@@ -248,7 +249,7 @@ angular
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/cadastro/selo.js',
-                              'scripts/resources/seloResource.js'
+                              'scripts/services/selo.js'
                             ]
                           });
                         }
@@ -263,7 +264,7 @@ angular
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/cadastro/categoria.js',
-                              'scripts/resources/categoriaResource.js'
+                              'scripts/services/categoria.js'
                             ]
                           });
                         }
@@ -278,7 +279,7 @@ angular
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/cadastro/produto.js',
-                              'scripts/resources/produtoResource.js'
+                              'scripts/services/produto.js'
                             ]
                           });
                         }
@@ -293,7 +294,7 @@ angular
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/cadastro/insumo.js',
-                              'scripts/resources/insumoResource.js'
+                              'scripts/services/insumo.js'
                             ]
                           });
                         }
@@ -308,7 +309,7 @@ angular
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/cadastro/embalagem.js',
-                              'scripts/resources/embalagemResource.js'
+                              'scripts/services/embalagem.js'
                             ]
                           });
                         }
@@ -323,7 +324,7 @@ angular
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/cadastro/rotulo.js',
-                              'scripts/resources/rotuloResource.js'
+                              'scripts/services/rotulo.js'
                             ]
                           });
                         }

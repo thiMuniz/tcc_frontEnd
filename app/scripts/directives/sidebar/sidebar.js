@@ -7,30 +7,29 @@
  * # adminPosHeader
  */
 
-angular.module('sbAdminApp')
-  .directive('sidebar',['$location',function() {
+app.directive('sidebar', ['$location', function () {
     return {
-      templateUrl:'scripts/directives/sidebar/sidebar.html',
+      templateUrl: 'scripts/directives/sidebar/sidebar.html',
       restrict: 'E',
       replace: true,
       scope: {
       },
-      controller:function($scope){
+      controller: function ($scope) {
         $scope.selectedMenu = 'main';
         $scope.collapseVar = 0;
         $scope.multiCollapseVar = 0;
-        
-        $scope.check = function(x){
-          
-          if(x==$scope.collapseVar)
+
+        $scope.check = function (x) {
+
+          if (x == $scope.collapseVar)
             $scope.collapseVar = 0;
           else
             $scope.collapseVar = x;
         };
-        
-        $scope.multiCheck = function(y){
-          
-          if(y==$scope.multiCollapseVar)
+
+        $scope.multiCheck = function (y) {
+
+          if (y == $scope.multiCollapseVar)
             $scope.multiCollapseVar = 0;
           else
             $scope.multiCollapseVar = y;

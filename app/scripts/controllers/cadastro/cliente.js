@@ -1,6 +1,5 @@
 'use strict';
-angular.module('sbAdminApp')
-        .controller('ClienteCtrl', function ($scope, $position) {
+app.controller('ClienteCtrl', function ($scope, $position) {
             $scope.titulo = "Cadastro Cliente";
             $scope.headerLista = "Nenhuma cliente foi encontrado";
 

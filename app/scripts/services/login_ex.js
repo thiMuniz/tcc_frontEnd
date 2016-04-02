@@ -1,6 +1,5 @@
 'use scrict';
-
-anpp.factory('LoginResource',
+app.factory('LoginResource',
         function ($resource) {
           var urlApi = "http://localhost:9000/"; //colocar porta que tiver na API java
           return $resource(urlApi + 'user/:id', {id: '@_id'}, {

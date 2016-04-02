@@ -6,7 +6,6 @@
  * # MainCtrl
  * Controller of the sbAdminApp
  */
-angular.module('sbAdminApp')
-  .controller('FormCtrl', function($scope) {
-    
+app.controller('FormCtrl', function ($scope) {
+
 });
