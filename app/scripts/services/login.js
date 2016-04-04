@@ -1,13 +1,9 @@
 'use scrict';
-
-anpp.factory('LoginResource',
-        function ($resource) {
-          var urlApi = "http://localhost:9000/"; //colocar porta que tiver na API java
-          return $resource(urlApi + 'user/:id', {id: '@_id'}, {
-            /* $get (get), $save(post), $query (get isArray:true)*/
-            login: {
-              method: "POST"
-            }
-          });
-
-        });
+app.factory('LoginResource', function ($resource, WS) {
+  return $resource(WS.urlSGP + 'user/:id', {id: '@_id'}, {    
+    login: {
+      method: "POST"
+    }
+  });
+});
+/* $get (get), $save(post), $query (get isArray:true)*/

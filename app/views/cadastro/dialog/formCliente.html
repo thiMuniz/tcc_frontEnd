@@ -1,0 +1,116 @@
+
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" role="form" name="formCliente">
+<!--
+      <ul class="nav nav-tabs">
+                    <li ng-repeat="step in steps" ng-class="{active: $index == getCurrentStepIndex()}">
+                      <a href="javascript:void(0)" ng-click="goToStep($index)">{{step}}</a>
+                    </li>
+         </ul>
+                  <div ng-switch on="selection"   >
+                    <div ng-switch-when="Dados Pessoais">
+                      <div class="form-group">                                                
+                        <label class=" col-lg-4">Nome*</label>
+                        <i class="col-lg-8"><div ng-show="formCadastroUser.nome.$error.required && formCadastroUser.nome.$dirty">Por favor, preencha o campo nome! </div></i>
+                        <input class="form-control" id="cadastro" type="text" ng-model="formCadastroUser.nome" name="nome" placeholder="Nome" value="{{formCadastroUser.nome}}"  ng-required="true">
+                        <label class=" col-lg-4">Sobrenome*</label>
+                        <i class="col-lg-8"><div ng-show="formCadastroUser.sobrenome.$error.required && formCadastroUser.sobrenome.$dirty">Por favor, preencha o campo Sobrenome! </div></i>
+                        <input class="form-control" id="cadastro" type="text" ng-model="formCadastroUser.sobrenome" name="sobrenome" placeholder="Sobrenome" value="{{formCadastroUser.sobrenome}}" ng-required="true">
+                        verificar quando for cnpj, a verificaçao sera diferente
+                        <label class=" col-lg-4">Cpf*</label>
+                        <i class="col-lg-8"><div ng-show="formCadastroUser.cpf.$error.required && formCadastroUser.cpf.$dirty">Por favor, preencha o campo cpf! </div></i>
+                        <i class="col-lg-8"><div ng-show="formCadastroUser.cpf.$error.pattern">Por favor, preencha um cpf valido!Ex: 00000000000 </div></i>
+                        <input class="form-control" id="cadastro" type="text" ng-model="formCadastroUser.cpf" name="cpf" placeholder="Apenas números" value="{{formCadastroUser.cpf}}" ng-cpf ui-mask="999.999.999-99">
+                        formCadastroUser.cpf.$valid: {{ formCadastroUser.cpf.$valid}}
+                        <label class=" form-group">Sexo</label>
+                        <input class="form-group" id="cadastro" type="radio" ng-model="formCadastroUser.titulo" name="titulo"   ng-value="{{formCadastroUser.tituloF}}"  checked>Feminino
+                        <input class="form-group" id="cadastro" type="radio" ng-model="formCadastroUser.titulo" name="titulo"  ng-value="{{formCadastroUser.tituloM}}" > Masculino
+                        <br>
+                        <label class=" col-lg-4">Data Nascimento*</label>
+                        <i class="col-lg-6"><div ng-show="formCadastroUser.dtNasc.$error.required && formCadastroUser.dtNasc.$dirty">Por favor, preencha o campo data! </div></i>
+                        <i class="col-lg-6"><div ng-show="formCadastroUser.dtNasc.$error.date">Por favor, Informe uma data valida! </div></i>
+                        <input class="form-control" id="cadastro" type="date" ng-model="formCadastroUser.dtNasc" name="dtNasc"  value="{{formCadastroUser.dtNasc}}" ng-required="true"   min="1900-01-01" max="2010-12-31">
+
+                        <label class=" col-lg-4">Escolher foto</label>
+                        <input class="form-control" id="cadastro" type="file" ng-model="formCadastroUser.foto">
+                        <label class=" col-lg-4">Senha*</label>
+                        <i class="col-lg-8"><div ng-show="formCadastroUser.senha.$error.required && formCadastroUser.senha.$dirty">Por favor, preencha o campo senha! </div></i>
+                        <input class="form-control" id="cadastro" type="password" ng-model="formCadastroUser.senha" name="senha" placeholder="Senha" value="{{formCadastroUser.senha}}"  ng-required="true">
+                      </div>
+                    </div>
+                    <div ng-switch-when="Dados Contato" >
+                      <div class="form-group">
+                        <label class=" col-lg-4">Email*</label>
+                        <i class="col-lg-8"><div ng-show="formCadastroUser.email.$error.required && formCadastroUser.email.$dirty">Por favor, preencha o campo email! </div></i>
+                        <i class="col-lg-8"><div ng-show="formCadastroUser.email.$error.email">Por favor, Informe um email valido! </div></i>
+                        <input class="form-control" id="cadastro" type="email" ng-model="formCadastroUser.email" name="email" placeholder="email@example.com" value="{{formCadastroUser.email}}" ng-required="true">
+                        <label class=" col-lg-4">Usuario(login)*</label>
+                        <i class="col-lg-8"><div ng-show="formCadastroUser.usuario.$error.required && formCadastroUser.usuario.$dirty">Por favor, preencha o campo usuario! </div></i>
+                        <input class="form-control" id="cadastro" type="text" ng-model="formCadastroUser.usuario" name="usuario" placeholder="usuario" value="{{formCadastroUser.usuario}}" ng-required="true">
+                        <label class=" col-lg-4">Telefone 1*</label>
+                        <i class="col-lg-8"><div ng-show="formCadastroUser.telefone1.$error.required && formCadastroUser.telefone1.$dirty">Por favor, preencha o campo Telefone 1! </div></i>
+                        <i class="col-lg-8"><div ng-show="formCadastroUser.telefone1.$error.pattern">Por favor, preencha um numero valido!Ex: DD00000000 </div></i>
+                        <input class="form-control" id="cadastro" type="text" ng-model="formCadastroUser.telefone1" name="telefone1" placeholder="Apenas Numeros" value="{{formCadastroUser.telefone1}}"  ng-required="true" ng-pattern="/^\d{10,11}$/"/>
+                        <label class=" col-lg-4">Telefone 2</label>
+                        <input class="form-control" id="cadastro" type="text" ng-model="formCadastroUser.telefone2" name="telefone2" placeholder="Apenas Numeros" value="{{formCadastroUser.telefone2}}" ><br>
+                      </div>
+                    </div>
+                    <div ng-switch-when="Dados Localização">
+                      <div class="form-group">
+                        <label class=" col-lg-4">Cep*</label>
+                        <i class="col-lg-8"><div ng-show="formCadastroUser.cep.$error.required && formCadastroUser.cep.$dirty">Por favor, preencha o campo cep! </div></i>
+                        <i class="col-lg-8"><div ng-show="formCadastroUser.cep.$error.pattern">Por favor, preencha um cep valido!Ex: 00000000 </div></i>
+                        <input class="form-control" id="cadastro" type="text" ng-model="formCadastroUser.cep" name="cep" placeholder="Apenas numeros" value="{{formCadastroUser.cep}}" ng-required="true" ng-pattern="/^\d{8}$/">
+                        <button type="button" class="btn btn-outline btn-success" ng-click="carregarCep()" >
+                          Cepar
+                        </button>
+                        <label class=" col-lg-4">Estado*</label>
+                        <i class="col-lg-8"><div ng-show="formCadastroUser.uf.$error.required && formCadastroUser.uf.$dirty">Por favor, preencha o campo estado! </div></i>
+                        <input class="form-control" id="cadastro" type="text" ng-model="formCadastroUser.uf" name="uf" placeholder="Estado" value="{{formCadastroUser.uf}}" >
+                        <label class=" col-lg-4">Cidade*</label>
+                        <i class="col-lg-8"><div ng-show="formCadastroUser.localidade.$error.required && formCadastroUser.localidade.$dirty">Por favor, preencha o campo localidade! </div></i>
+                        <input class="form-control" id="cadastro" type="text" ng-model="formCadastroUser.localidade" name="localidade" placeholder="Cidade" value="{{formCadastroUser.localidade}}" >
+                        <label class=" col-lg-4">Bairro*</label>
+                        <i class="col-lg-8"><div ng-show="formCadastroUser.bairro.$error.required && formCadastroUser.bairro.$dirty">Por favor, preencha o campo Bairro! </div></i>
+                        <input class="form-control" id="cadastro" type="text" ng-model="formCadastroUser.bairro" name="bairro" placeholder="Bairro" value="{{formCadastroUser.bairro}}" >
+                        <label class=" col-lg-4">Endereço*</label>
+                        <i class="col-lg-8"><div ng-show="formCadastroUser.logradouro.$error.required && formCadastroUser.logradouro.$dirty">Por favor, preencha o campo endereço! </div></i>
+                        <input class="form-control" id="cadastro" type="text" ng-model="formCadastroUser.localidade" name="logradouro" placeholder="Endereço" value="{{formCadastroUser.localidade}}">
+                        <label class=" col-lg-4">Numero*</label>
+                        <i class="col-lg-8"><div ng-show="formCadastroUser.numero.$error.required && formCadastroUser.numero.$dirty">Por favor, preencha o campo Numero! </div></i>
+                        <input class="form-control" id="cadastro" type="number" ng-model="formCadastroUser.numero" name="numero" placeholder="Numero" value="{{formCadastroUser.numero}}">
+                        <label class=" col-lg-4">Complemento</label>
+                        <input class="form-control" id="cadastro" type="text" ng-model="formCadastroUser.complemento" name="complemento" placeholder="Complemento" value="{{formCadastroUser.complemento}}">
+                      </div>
+                    </div>
+                  </div>
+  -->
+
+    </form>
+  </div>
+  
+  
+  
+  <div class="modal-footer" ng-if="formTipo != 'info'">
+    <!--<button type="submit" class="btn btn-default">Submit Button</button>-->
+    <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
+      <ng-md-icon icon="refresh"></ng-md-icon> Limpar
+    </button>
+    <button type="button" class="btn btn-outline btn-danger" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Cancelar
+    </button>
+    <button type="button" class="btn btn-outline btn-success" ng-click="submit()">
+      <ng-md-icon icon="save"></ng-md-icon> Gravar
+    </button>
+  </div>
+  <div class="modal-footer" ng-if="formTipo == 'info'">
+    <button type="button" class="btn btn-outline btn-primary btn-lg btn-block" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Fechar
+    </button>
+  </div>
+</div>

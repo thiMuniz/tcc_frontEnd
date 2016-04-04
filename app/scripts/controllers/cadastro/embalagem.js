@@ -1,41 +1,19 @@
 'use strict';
 app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResource, WS, toastr) {
-  toastr.success('Descrição do alemão', 'Título do alemão', {
-    closeButton: true
-  });
+  
+  var toastTitle = "Bem vindo programador!!";
+  var toastMsg = "Boa sorte dessa vez...";
 
   $scope.titulo = "Cadastro de Embalagens dos Produtos";
   $scope.headerLista = "Nenhuma embalagem foi encontrada";
   $scope.labelAddBtn = "Nova Embalagem";
-
-//            resetAlertInfo;
-  setAlertInfo("Bem vindo programador lindão!! Boa sorte dessa vez...", "warning", "show");
+  
+  toastr.warning(toastMsg, toastTitle);
+  toastr.info(WS.urlSGP + 'embalagem/', "urlSGP");
   carregarEmbalagensFront();
 //            carregarEmbalagensAPI();
 
-  /**
-   * 
-   * @param {String} msg (mensagem que deseja exibir)
-   * @param {String} classe (info | success | warning | danger)
-   * @param {String} show (show | hide)
-   * @returns {null}
-   */
-  function setAlertInfo(msg, classe, acao) {
-    var show;
-    if (acao == "show") {
-      show = true;
-    } else {
-      show = false;
-    }
-    $scope.alertInfoMessage = msg;
-    $scope.alertInfoClass = classe;
-    $scope.alertInfoShow = show;
-  }
-
-  function resetAlertInfo() { //Corrigir método (não oculta DIV)
-    setAlertInfo("", "info", "hide");
-  }
-
+  
   function carregarEmbalagensFront() {
     $scope.embalagens = [
       {id: "1", dsCurta: "Caixa Nº1", dsDetalhada: "Detalhes da Embalagem 1", material: "papel", imagem: "...", dimensoes: "12x20x2"},
@@ -46,16 +24,10 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
     ];
   }
 
-  $scope.closeAlertInfo = function () {
-    resetAlertInfo();
-  }
-
   $scope.ordenar = function (campo) {
     $scope.campo = campo;
     $scope.ascDsc = !$scope.ascDsc;
   };
-
-  console.log(WS.urlSGP + 'embalagem/');
 
   function carregarEmbalagensAPI() {
     $scope.embalagens = EmbalagemResource.query();
@@ -76,8 +48,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
   }
 
   //funções chamadas no onClick dos botões da tela
-  $scope.openInsertDialog = function () {
-    resetAlertInfo();
+  $scope.openInsertDialog = function () {    
     $scope.params = {
       formTipo: 'insert',
       iconeHeaderDialog: "add_circle_outline",
@@ -98,26 +69,24 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
     });
     modalInstance.result.then(function (result) {
       if (result.embalagem) {
-        var msg = "";
         if (result.status == "sucesso") {//Se retorno da API com sucesso add a embalagem à lista
           $scope.embalagens.push(angular.copy(result.embalagem));
 //                  $scope.$apply();
-          msg = "Embalagem " + result.embalagem.dsCurta + " cadastrada com sucesso!";
-          setAlertInfo(msg, "success", "show");
+          toastMsg = result.embalagem.dsCurta + " cadastrada";
+          toastr.success(toastMsg, "Sucesso!");
         } else {//Senão mostra msg erro                  
-          msg = "Erro ao cadastrar Embalagem " + result.embalagem.dsCurta + " !";
-          setAlertInfo(msg, "danger", "show");
+          toastMsg = result.embalagem.dsCurta + " não cadastrada!";
+          toastr.error(toastMsg, "Erro!");
         }
       } else {
-        setAlertInfo("formulário vazio ", "warning", "show");
+        toastr.warning("Formulário em branco", "Não cadastrado!");
       }
     }, function () {
-      setAlertInfo("cancelado, dados perdidos", "warning", "show");
+      toastr.warning("Nada aconteceu", "Cancelado");
     });
   }
 
-  $scope.openUpdateDialog = function (embalagem, index) {
-    resetAlertInfo();
+  $scope.openUpdateDialog = function (embalagem, index) {    
     $scope.params = {
       formTipo: 'update',
       iconeHeaderDialog: "edit",
@@ -138,28 +107,25 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
     });
     modalInstance.result.then(function (result) {//quando foi fechado enviando dados
       if (result.embalagem) {
-        var msg = "";
-//                setAlertInfo("dados submetidos - " + result.embalagem.dsDetalhada, "success", "show");
-
         if (result.status == "sucesso") {//Se retorno da API com sucesso add a embalagem à lista
           $scope.embalagens[index] = result.embalagem;
 //                  $scope.$apply(); 
-          var msg = "Embalagem " + result.embalagem.dsCurta + " editada com sucesso!";
-          setAlertInfo(msg, "success", "show");
+          toastMsg = "Dados da embalagem " + result.embalagem.dsCurta + " alterados com sucesso!";
+          toastr.success(toastMsg, "Sucesso");
         } else {//Senão mostra msg erro                  
-          msg = "Erro ao editar Embalagem " + result.embalagem.dsCurta + " !";
-          setAlertInfo(msg, "danger", "show");
+          toastMsg = "Dados da embalagem " + result.embalagem.dsCurta + " não foram alterados!";
+          
+          toastr.error(toastMsg, "Erro");
         }
       } else {
-        setAlertInfo("formulário vazio ", "warning", "show");
+        toastr.warning("Formulário em branco", "Não alterado!");
       }
-    }, function () {//quando é cancelado (dismiss)
-      setAlertInfo("cancelado, dados perdidos", "warning", "show");
+    }, function () {
+      toastr.warning("Nada aconteceu", "Cancelado");
     });
-  };
+  }
 
-  $scope.openDesativarDialog = function (embalagem, index) {
-    resetAlertInfo();
+  $scope.openDesativarDialog = function (embalagem, index) {    
     swal({
       title: "Deseja mesmo desativar a Embalagem " + embalagem.dsCurta + "?",
       text: "Você poderá ativar a Embalagem novamente!",
@@ -167,25 +133,25 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
       showCancelButton: true,
       confirmButtonColor: "#DD6B55",
       cancelButtonText: "Não, me tire daqui!",
-      confirmButtonText: "Sim, quero desativar!",
-      closeOnConfirm: false
+      confirmButtonText: "Sim, quero desativar!"
+//      closeOnConfirm: false
     },
-            function () {
-              $scope.embalagens.splice(index, 1);
-              //metodo deleteEmbalagem - passa a embalagem por parâmetro para exclusão
-              var msg = "Embalagem " + embalagem.dsCurta + " desativada!";
-              setAlertInfo(msg, "success", "show");
-              $scope.$apply();//força atualização da variável $scope
-              swal({
-                title: msg,
-                type: "success"
-              });
+    function () {
+      $scope.embalagens.splice(index, 1);
+      //metodo deleteEmbalagem - passa a embalagem por parâmetro para exclusão
+      toastMsg = embalagem.dsCurta + " desativada!";
 
-            });
+      $scope.$apply();//força atualização da variável $scope
+//      swal({
+//        title: toastMsg,
+//        type: "success"
+//      });
+      toastr.success(toastMsg, "Sucesso!");      
+    });    
   };
 
   $scope.openInfoDialog = function (embalagem) {
-    resetAlertInfo();
+    
     $scope.params = {
       formTipo: 'info',
       iconeHeaderDialog: "info_outline",
@@ -230,42 +196,42 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
 
 
 })
-        .controller('EmbalagemDialogCtrl', function ($scope, $http, params, $modalInstance) {
-          $scope.formTipo = params.formTipo;
-          $scope.iconeHeaderDialog = params.iconeHeaderDialog;
-          $scope.tituloDialog = params.tituloDialog;
-          $scope.embalagem = params.embalagem;
+  .controller('EmbalagemDialogCtrl', function ($scope, $http, params, $modalInstance) {
+    $scope.formTipo = params.formTipo;
+    $scope.iconeHeaderDialog = params.iconeHeaderDialog;
+    $scope.tituloDialog = params.tituloDialog;
+    $scope.embalagem = params.embalagem;
 
-          $scope.clear = function () {
-            delete $scope.embalagem;
-          };
+    $scope.clear = function () {
+      delete $scope.embalagem;
+    };
 
-          $scope.submit = function () {
-            /*
-             //chamar serviço API
-             $http.post(WS.urlSGP+'embalagem/', 
-             $scope.embalagem                        
-             ).then(function successCallback(response) {
-             console.log("deu bom"+response.data);
-             }, function errorCallback(response) {
-             console.log("deu ruim"+response);
-             console.log($scope.embalagem);
-             });
-             */
+    $scope.submit = function () {
+      /*
+       //chamar serviço API
+       $http.post(WS.urlSGP+'embalagem/', 
+       $scope.embalagem                        
+       ).then(function successCallback(response) {
+       console.log("deu bom"+response.data);
+       }, function errorCallback(response) {
+       console.log("deu ruim"+response);
+       console.log($scope.embalagem);
+       });
+       */
 
-            //pegar retorno API e definir padrão p/ result
-            //
-            $modalInstance.close({
-              embalagem: $scope.embalagem,
-              status: "sucesso" //pegar retorno padrão da API ou protocolo HTTP
-//                            embalagem: response.data,
-//                            status: response.status
-            });
-          };
+      //pegar retorno API e definir padrão p/ result
+      //
+      $modalInstance.close({
+        embalagem: $scope.embalagem,
+        status: "sucesso" //pegar retorno padrão da API ou protocolo HTTP
+//       embalagem: response.data,
+//       status: response.status
+      });
+    };
 
-          $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
-          };
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
 
-        });
+  });
 
