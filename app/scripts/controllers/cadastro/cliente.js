@@ -1,34 +1,16 @@
 'use strict';
 //angular.module('sbAdminApp')
 app.controller('ClienteCtrl', function ($scope,$position, $modal, $http, ClienteResource, WS, toastr) {
-  toastr.success('Descrição do alemão', 'Título do alemão', {
-    closeButton: true
-  });
+  
+  var toastTitle = "Bem vindo programador!!";
+  var toastMsg = "Boa sorte dessa vez...";
+  
   $scope.titulo = "Cadastro Cliente";
   $scope.headerLista = "Nenhum cliente foi encontrado";
   $scope.labelAddBtn = "Novo Cliente";
 //           $scope.endereco = [];
 
-//            resetAlertInfo;
-  setAlertInfo("Bem vindo programador lindão!! Boa sorte dessa vez...", "warning", "show");
-carregarClientesFront();
-  
-  function setAlertInfo(msg, classe, acao) {
-    var show;
-    if (acao == "show") {
-      show = true;
-    } else {
-      show = false;
-    }
-    $scope.alertInfoMessage = msg;
-    $scope.alertInfoClass = classe;
-    $scope.alertInfoShow = show;
-  }
-
-
-  function resetAlertInfo() { //Corrigir método (não oculta DIV)
-    setAlertInfo("", "info", "hide");
-  }
+  carregarClientesFront();
 
   function carregarClientesFront(){
   $scope.clientes = [
@@ -39,18 +21,11 @@ carregarClientesFront();
     {cpf: "000000090909", nome: "pessoa5", sobrenome: "silva5", email: "email@text5", usuario: "user5", dtNasc: new Date(), foto: "", senha: "", titulo: "", telefone1: "29293729387", telefone2: "29372987293", dtCadastro: new Date(), cep: "92839392", logradouro: "rua 5", numero: "1", complemento: "a", localidade: "b", bairro: "c", uf: "d"}
   ];
   }
-  
-  $scope.closeAlertInfo = function () {
-    resetAlertInfo();
-  }
-  
+
   $scope.ordenar = function (campo) {
     $scope.campo = campo;
     $scope.ascDsc = !$scope.ascDsc;
   };
-
-console.log(WS.urlSGP + 'cliente/');
-
 
   function carregarClientesAPI() {
 $scope.clientes = ClienteResource.query();
@@ -65,20 +40,6 @@ $scope.clientes = ClienteResource.query();
 //      console.log("status" + status);
 //      carregarClientesFront();
 //    });
-  }
-
-  $scope.carregarCep = function () {
-    $http.get('https://viacep.com.br/ws/83065020/json/'
-            ).success(function (local) {
-      $scope.formCadastroUser = local;
-//                        console.log("deu bom - local"+local);
-//                        $scope.endereco = local;
-//                setAlertInfo(local, "success", "show");
-    }).error(function (local) {
-      console.log("deu ruim - local" + local);
-
-//                        carregarClientesFront();
-    });
   }
   
 // $scope.headerLista = cont + " Clientes encontrados";
@@ -100,7 +61,7 @@ $scope.clientes = ClienteResource.query();
 ///////////////////////////////////////////////////
   //funções chamadas no onClick dos botões da tela
   $scope.openInsertDialog = function () {
-    resetAlertInfo();
+    
     $scope.params = {
       formTipo: 'insert',
       iconeHeaderDialog: "add_circle_outline",
@@ -121,26 +82,25 @@ $scope.clientes = ClienteResource.query();
     });
     modalInstance.result.then(function (result) {
       if (result.cliente) {
-        var msg = "";
         if (result.status == "sucesso") {//Se retorno da API com sucesso add a cliente à lista
           $scope.clientes.push(angular.copy(result.cliente));
 //                  $scope.$apply();
-          msg = "Cliente " + result.cliente.nome + " cadastrado com sucesso!";
-          setAlertInfo(msg, "success", "show");
+          toastMsg = result.cliente.nome + " cadastrado com sucesso!";
+          toastr.success(toastMsg, "Sucesso!");
         } else {//Senão mostra msg erro                  
-          msg = "Erro ao cadastrar Cliente " + result.cliente.dsCurta + " !";
-          setAlertInfo(msg, "danger", "show");
+          toastMsg = result.cliente.dsCurta + " não cadastrado!";
+          toastr.error(toastMsg, "Erro");
         }
       } else {
-        setAlertInfo("formulário vazio ", "warning", "show");
+        toastr.warning("Formulário em branco", "Não cadastrado!");
       }
     }, function () {
-      setAlertInfo("cancelado, dados perdidos", "warning", "show");
+      toastr.warning("Nada aconteceu", "Cancelado");
     });
   }
 
   $scope.openUpdateDialog = function (cliente, index) {
-    resetAlertInfo();
+    
     $scope.params = {
       formTipo: 'update',
       iconeHeaderDialog: "edit",
@@ -182,7 +142,7 @@ $scope.clientes = ClienteResource.query();
   };
 
   $scope.openDesativarDialog = function (cliente, index) {
-    resetAlertInfo();
+    
     swal({
       title: "Deseja mesmo desativar o Cliente " + cliente.nome + "?",
       text: "Você poderá ativar o Cliente novamente!",
@@ -196,11 +156,10 @@ $scope.clientes = ClienteResource.query();
             function () {
               $scope.clientes.splice(index, 1);
               //metodo deleteCliente - passa a cliente por parâmetro para exclusão
-              var msg = "Cliente " + cliente.nome + " desativado!";
-              setAlertInfo(msg, "success", "show");
+              toastMsg = "Cliente " + cliente.nome + " desativado!";
               $scope.$apply();//força atualização da variável $scope
               swal({
-                title: msg,
+                title: toastMsg,
                 type: "success"
               });
 
@@ -208,7 +167,7 @@ $scope.clientes = ClienteResource.query();
   };
 
   $scope.openInfoDialog = function (cliente) {
-    resetAlertInfo();
+    
     $scope.params = {
       formTipo: 'info',
       iconeHeaderDialog: "info_outline",
@@ -255,13 +214,28 @@ $scope.clientes = ClienteResource.query();
 
 
 })
-        .controller('ClienteDialogCtrl', function ($scope, $http, params, $modalInstance) {
+        .controller('ClienteDialogCtrl', function ($scope, $http, params, $modalInstance, WS, toastr) {
           $scope.formTipo = params.formTipo;
           $scope.iconeHeaderDialog = params.iconeHeaderDialog;
           $scope.tituloDialog = params.tituloDialog;
           $scope.cliente = params.cliente;
 
+          
+          $scope.carregarCep = function () {
+            $http.get(WS.urlCep+'83065020/json/')
+                    .success(function (local) {
+//            $scope.formCadastroUser = local;
+            toastr.info(local);
+          //                        console.log("deu bom - local"+local);
+          //                        $scope.endereco = local;
+          //                setAlertInfo(local, "success", "show");
+              }).error(function (local) {
+                console.log("deu ruim - local" + local);
 
+          //                        carregarClientesFront();
+              });
+            }
+  
           $scope.clear = function () {
             delete $scope.cliente;
           };

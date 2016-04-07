@@ -1,5 +1,5 @@
 'use strict';
-app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResource, WS, toastr) {
+app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResource, WS, toastr, $filter) {
   
   var toastTitle = "Bem vindo programador!!";
   var toastMsg = "Boa sorte dessa vez...";
@@ -16,11 +16,11 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
   
   function carregarEmbalagensFront() {
     $scope.embalagens = [
-      {id: "1", dsCurta: "Caixa Nº1", dsDetalhada: "Detalhes da Embalagem 1", material: "papel", imagem: "...", dimensoes: "12x20x2"},
-      {id: "2", dsCurta: "Pacote Pão", dsDetalhada: "Detalhes da Embalagem 2", material: "plástico", imagem: "...", dimensoes: "..."},
-      {id: "3", dsCurta: "Pacote Nº1", dsDetalhada: "Detalhes da Embalagem 3", material: "plástico", imagem: "...", dimensoes: "..."},
-      {id: "4", dsCurta: "Caixa Nº2", dsDetalhada: "Detalhes da Embalagem 4", material: "papel", imagem: "...", dimensoes: "..."},
-      {id: "5", dsCurta: "Pacote Nº2", dsDetalhada: "Detalhes da Embalagem 5", material: "plástico", imagem: "...", dimensoes: "..."}
+      {id: "1", nome: "Caixa Nº1", descricao: "Detalhes da Embalagem 1", material: "papel", dimensoes: "12x20x2", dtDesativacao: "", imagem: "..."},
+      {id: "2", nome: "Pacote Pão", descricao: "Detalhes da Embalagem 2", material: "plástico", dimensoes: "...", dtDesativacao: "", imagem: "..."},
+      {id: "3", nome: "Pacote Nº1", descricao: "Detalhes da Embalagem 3", material: "plástico", dimensoes: "...", dtDesativacao: "", imagem: "..."},
+      {id: "4", nome: "Caixa Nº2", descricao: "Detalhes da Embalagem 4", material: "papel", dimensoes: "...", dtDesativacao: "", imagem: "..."},
+      {id: "5", nome: "Pacote Nº2", descricao: "Detalhes da Embalagem 5", material: "plástico", dimensoes: "...", dtDesativacao: "", imagem: "..."}
     ];
   }
 
@@ -53,8 +53,8 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
       formTipo: 'insert',
       iconeHeaderDialog: "add_circle_outline",
       tituloDialog: "Cadastrar Embalagem",
-      embalagem: {id: "6", dsCurta: "emb 6", dsDetalhada: "desc emb 6", material: "mat x", imagem: "...", dimensoes: "dim xyz"}
-    }
+      embalagem: {id: "6", nome: "emb 6", descricao: "desc emb 6", material: "mat x", dtDesativacao: "", dimensoes: "dim xyz", imagem: "..."}
+    };
 
     var modalInstance = $modal.open({
       templateUrl: 'views/cadastro/dialog/formEmbalagem.html',
@@ -71,11 +71,11 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
       if (result.embalagem) {
         if (result.status == "sucesso") {//Se retorno da API com sucesso add a embalagem à lista
           $scope.embalagens.push(angular.copy(result.embalagem));
-//                  $scope.$apply();
-          toastMsg = result.embalagem.dsCurta + " cadastrada";
+//          $scope.$apply();
+          toastMsg = result.embalagem.nome + " cadastrada";
           toastr.success(toastMsg, "Sucesso!");
-        } else {//Senão mostra msg erro                  
-          toastMsg = result.embalagem.dsCurta + " não cadastrada!";
+        } else {//Senão mostra msg erro
+          toastMsg = result.embalagem.nome + " não cadastrada!";
           toastr.error(toastMsg, "Erro!");
         }
       } else {
@@ -84,15 +84,15 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
     }, function () {
       toastr.warning("Nada aconteceu", "Cancelado");
     });
-  }
+  };
 
-  $scope.openUpdateDialog = function (embalagem, index) {    
+  $scope.openUpdateDialog = function (embalagem, index) {
     $scope.params = {
       formTipo: 'update',
       iconeHeaderDialog: "edit",
       tituloDialog: "Editar Embalagem",
       embalagem: angular.copy(embalagem)
-    }
+    };
 
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formEmbalagem.html",
@@ -110,10 +110,10 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
         if (result.status == "sucesso") {//Se retorno da API com sucesso add a embalagem à lista
           $scope.embalagens[index] = result.embalagem;
 //                  $scope.$apply(); 
-          toastMsg = "Dados da embalagem " + result.embalagem.dsCurta + " alterados com sucesso!";
+          toastMsg = "Dados da embalagem " + result.embalagem.nome + " alterados com sucesso!";
           toastr.success(toastMsg, "Sucesso");
         } else {//Senão mostra msg erro                  
-          toastMsg = "Dados da embalagem " + result.embalagem.dsCurta + " não foram alterados!";
+          toastMsg = "Dados da embalagem " + result.embalagem.nome + " não foram alterados!";
           
           toastr.error(toastMsg, "Erro");
         }
@@ -123,11 +123,11 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
     }, function () {
       toastr.warning("Nada aconteceu", "Cancelado");
     });
-  }
+  };
 
-  $scope.openDesativarDialog = function (embalagem, index) {    
+  $scope.openDesativarDialog = function (embalagem, index) { 
     swal({
-      title: "Deseja mesmo desativar a Embalagem " + embalagem.dsCurta + "?",
+      title: "Deseja mesmo desativar a Embalagem " + embalagem.nome + "?",
       text: "Você poderá ativar a Embalagem novamente!",
       type: "warning",
       showCancelButton: true,
@@ -137,9 +137,11 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
 //      closeOnConfirm: false
     },
     function () {
-      $scope.embalagens.splice(index, 1);
-      //metodo deleteEmbalagem - passa a embalagem por parâmetro para exclusão
-      toastMsg = embalagem.dsCurta + " desativada!";
+//      $scope.embalagens.splice(index, 1);
+      embalagem.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
+      $scope.embalagens[index] = embalagem;
+      //metodo $EmbalagemResource.update - passa a embalagem por parâmetro para setar dtDesativacao
+      toastMsg = embalagem.nome + " desativada!";
 
       $scope.$apply();//força atualização da variável $scope
 //      swal({
@@ -150,6 +152,34 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
     });    
   };
 
+  $scope.openAtivarDialog = function (embalagem, index) { 
+    swal({
+      title: "Deseja mesmo Ativar a Embalagem " + embalagem.nome + "?",
+      text: "Você poderá Desativar a Embalagem novamente!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      cancelButtonText: "Não, me tire daqui!",
+      confirmButtonText: "Sim, quero ativar!"
+//      closeOnConfirm: false
+    },
+    function () {
+//      $scope.embalagens.splice(index, 1);
+      embalagem.dtDesativacao = null;
+      $scope.embalagens[index] = embalagem;
+      //metodo $EmbalagemResource.update - passa a embalagem por parâmetro para setar dtDesativacao
+      toastMsg = embalagem.nome + " ativada!";
+
+      $scope.$apply();//força atualização da variável $scope
+//      swal({
+//        title: toastMsg,
+//        type: "success",
+//        showConfirmButton: false,
+//      });
+      toastr.success(toastMsg, "Sucesso!");      
+    });    
+  };
+  
   $scope.openInfoDialog = function (embalagem) {
     
     $scope.params = {
@@ -157,7 +187,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
       iconeHeaderDialog: "info_outline",
       tituloDialog: "Detalhes Embalagem",
       embalagem: angular.copy(embalagem)
-    }
+    };
 
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formEmbalagem.html",
@@ -170,7 +200,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
         }
       }
     });
-  }
+  };
 
 
   /*

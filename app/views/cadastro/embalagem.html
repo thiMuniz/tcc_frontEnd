@@ -38,23 +38,27 @@
                 <tr>
                   <th><a href="" ng-click="ordenar('id')">Código</a></th>
                   <th>Imagem</th>
-                  <th><a href="" ng-click="ordenar('dsCurta')">Nome</a></th>
+                  <th><a href="" ng-click="ordenar('nome')">Nome</a></th>
                   <th>Ação</th>
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="embalagem in embalagens | filter : filtroGenerico | orderBy : campo : ascDsc ">
+                <tr ng-repeat="embalagem in embalagens | filter : filtroGenerico | orderBy : campo : ascDsc" > <!-- style="opacity: 0.3" -->
+                  <!--style="text-decoration: line-through; color: tomato; opacity: 1"-->
                   <td>{{embalagem.id}}</td>
                   <td>{{embalagem.imagem}}</td>
-                  <td>{{embalagem.dsCurta}}</td>
+                  <td>{{embalagem.nome}}</td>
                   <td>
-                    <a ng-click="openUpdateDialog(embalagem, $index);" tooltip="Editar" > <!-- data-toggle="modal" data-target="#formModal"  -->
+                    <a ng-click="openUpdateDialog(embalagem, $index);" tooltip="Editar" ng-if="!embalagem.dtDesativacao">
                         <ng-md-icon icon="edit"></ng-md-icon>
                     </a>&nbsp;
-                    <a ng-click="openDesativarDialog(embalagem, $index);" tooltip="Desativar" >
+                    <a ng-click="openDesativarDialog(embalagem, $index);" tooltip="Desativar" ng-if="!embalagem.dtDesativacao">
                         <ng-md-icon icon="delete"></ng-md-icon>
                     </a>&nbsp;
-                    <a ng-click="openInfoDialog(embalagem);" tooltip="Detalhes" > <!-- data-toggle="modal" data-target="#infoModal" -->
+                    <a ng-click="openAtivarDialog(embalagem, $index);" tooltip="Ativar" ng-if="embalagem.dtDesativacao">
+                        <ng-md-icon icon="settings_backup_restore"></ng-md-icon>
+                    </a>&nbsp;
+                    <a ng-click="openInfoDialog(embalagem);" tooltip="Detalhes" >
                         <ng-md-icon icon="info"></ng-md-icon>
                     </a>&nbsp;                                        
                   </td>

@@ -12,15 +12,15 @@
         </div>
       </div>
       <div class="form-group" >
-        <label for="dsCurta" class="col-sm-2 control-label">Nome</label>
+        <label for="nome" class="col-sm-2 control-label">Nome</label>
         <div class="col-sm-10">
-          <input class="form-control" type="text" id="dsCurta" placeholder="Nome da embalagem" ng-model="embalagem.dsCurta" ng-disabled="formTipo == 'info'">
+          <input class="form-control" type="text" id="nome" placeholder="Nome da embalagem" ng-model="embalagem.nome" ng-disabled="formTipo == 'info'">
         </div>
       </div>
       <div class="form-group">
-        <label for="dsDetalhada" class="col-sm-2 control-label">Descrição Detalhada</label>
+        <label for="descricao" class="col-sm-2 control-label">Descrição Detalhada</label>
         <div class="col-sm-10">
-          <input class="form-control" type="text" id="dsDetalhada" placeholder="Descrição da embalagem" ng-model="embalagem.dsDetalhada" ng-disabled="formTipo == 'info'">
+          <input class="form-control" type="text" id="descricao" placeholder="Descrição da embalagem" ng-model="embalagem.descricao" ng-disabled="formTipo == 'info'">
         </div>
       </div>
       <div class="form-group">
@@ -33,6 +33,12 @@
         <label for="dimensoes" class="col-sm-2 control-label">Dimensões</label>
         <div class="col-sm-10">
           <input class="form-control" type="text" id="dimensoes" placeholder="Dimensões da embalagem" ng-model="embalagem.dimensoes" ng-disabled="formTipo == 'info'">
+        </div>
+      </div>
+      <div class="form-group" ng-if="formTipo == 'info' && embalagem.dtDesativacao"> <!-- ng-if="{{embalagem.dtDesativacao}} != null" -->
+        <label for="dtDesativacao" class="col-sm-2 control-label">Data Desativação</label>
+        <div class="col-sm-10">
+          <input class="form-control" type="text" id="dtDesativacao" ng-model="embalagem.dtDesativacao" ng-disabled="formTipo == 'info'">
         </div>
       </div>
     </form>

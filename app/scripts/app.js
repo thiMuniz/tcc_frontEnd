@@ -24,6 +24,7 @@ var app = angular
         .constant("WS", {
           urlSGP: "http://192.168.25.8:11392/SGI/",
           urlCorreios: "",
+          urlCep: "https://viacep.com.br/ws/",
           urlRF: ""
         })
         .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
