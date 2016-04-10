@@ -1,11 +1,10 @@
-
 <div class="modal-content">
   <div class="modal-header">
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal" role="form" name="formCliente">
+    <form class="form-horizontal" role="form" name="formCliente" >
 
       <ul class="nav nav-tabs">
         <li ng-repeat="step in steps" ng-class="{active: $index == getCurrentStepIndex()}">
@@ -14,8 +13,7 @@
       </ul>
       <div ng-switch on="selection"   >
         <div ng-switch-when="Dados Pessoais">
-          <input radio pf | pj ng-change="toogleTipoPessoa()">
-          <div class="form-group" id="PF" >                                                
+          <div class="form-group">                                                
             <label class=" col-lg-4">Nome*</label>
             <i class="col-lg-8"><div ng-show="cliente.nome.$error.required && cliente.nome.$dirty">Por favor, preencha o campo nome! </div></i>
             <input class="form-control"  type="text" ng-model="cliente.nome" name="nome" placeholder="Nome"   ng-required="true">
@@ -27,18 +25,25 @@
             <i class="col-lg-8"><div ng-show="cliente.cpf.$error.required && cliente.cpf.$dirty">Por favor, preencha o campo cpf! </div></i>
             <i class="col-lg-8"><div ng-show="cliente.cpf.$error.pattern">Por favor, preencha um cpf valido!Ex: 00000000000 </div></i>
             <input class="form-control"  type="text" ng-model="cliente.cpf" name="cpf" placeholder="Apenas números"  ng-cpf ui-mask="999.999.999-99">
-            cliente.cpf.$valid: {{ cliente.cpf.$valid}}
-            <label class=" form-group">Sexo</label>
-            <input class="form-group"  type="radio" ng-model="cliente.titulo" name="titulo"   value="F"  checked>Feminino
-            <input class="form-group"  type="radio" ng-model="cliente.titulo" name="titulo"  value="M" > Masculino
-            <br>
+            <!--cliente.cpf.$valid: {{ cliente.cpf.$valid}}-->
+            <label class=" col-lg-4">Sexo*</label>
+            <input   type="radio" ng-model="cliente.titulo" name="titulo"   value="F" checked="true">Feminino
+            <input  type="radio" ng-model="cliente.titulo" name="titulo"  value="M" > Masculino
+            <br><br>
             <label class=" col-lg-4">Data Nascimento*</label>
             <i class="col-lg-6"><div ng-show="cliente.dtNasc.$error.required && cliente.dtNasc.$dirty">Por favor, preencha o campo data! </div></i>
             <i class="col-lg-6"><div ng-show="cliente.dtNasc.$error.date">Por favor, Informe uma data valida! </div></i>
             <input class="form-control"  type="date" ng-model="cliente.dtNasc" name="dtNasc"   ng-required="true"   min="1900-01-01" max="2010-12-31">
-
-            <label class=" col-lg-4">Escolher foto</label>
-            <input class="form-control"  type="file" ng-model="cliente.foto">
+            <label class=" col-lg-4">Foto</label><br>
+            <!--<br>Photo:-->
+            
+            <input  ng-model="cliente.foto"  type="file" name="file"  ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile"  ng-change="console.log($file)">
+            <!--<i ng-show="cliente.file.$error.maxSize">File too large{{errorFile.size / 1000000|number:1}}MB: max 2M</i>-->
+            <!--<img ng-show="cliente.file.$valid" ngf-thumbnail="picFile" width="24px" height="24px"    > <button ng-click="picFile = null" ng-show="picFile">Remover</button>-->
+            <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+            
+            <br>
+            <!--<input class="form-control"  type="file" ng-model="cliente.foto">-->-->
             <label class=" col-lg-4">Senha*</label>
             <i class="col-lg-8"><div ng-show="cliente.senha.$error.required && cliente.senha.$dirty">Por favor, preencha o campo senha! </div></i>
             <input class="form-control"  type="password" ng-model="cliente.senha" name="senha" placeholder="Senha"   ng-required="true">
@@ -64,33 +69,30 @@
         <div ng-switch-when="Dados Localização">
           <div class="form-group">
             <label class=" col-lg-4">Cep*</label>
-            <i class="col-lg-8"><div ng-show="cliente.cep.$error.required && cliente.cep.$dirty">Por favor, preencha o campo cep! </div></i>
-            <i class="col-lg-8"><div ng-show="cliente.cep.$error.pattern">Por favor, preencha um cep valido!Ex: 00000000 </div></i>
-            <input class="form-control"  type="text" ng-model="cliente.cep" name="cep" placeholder="Apenas numeros"  ng-required="true" ng-pattern="/^\d{8}$/">
-            <button type="button" class="btn btn-outline btn-success" ng-click="carregarCep()" >
-              Cepar
-            </button>
+            <i class="col-lg-8"><div ng-show="cliente.local.cep.$error.required && cliente.local.cep.$dirty">Por favor, preencha o campo cep! </div></i>
+            <i class="col-lg-8"><div ng-show="cliente.local.cep.$error.pattern">Por favor, preencha um cep valido!Ex: 00000000 </div></i>
+            <input class="form-control"  type="text" ng-model="cliente.local.cep" name="cep" placeholder="Apenas numeros"  ng-required="true" ng-pattern="/^\d{8}$/" ng-change="carregarCep()">
+
             <label class=" col-lg-4">Estado*</label>
-            <i class="col-lg-8"><div ng-show="cliente.uf.$error.required && cliente.uf.$dirty">Por favor, preencha o campo estado! </div></i>
-            <input class="form-control"  type="text" ng-model="cliente.uf" name="uf" placeholder="Estado"  >
+            <i class="col-lg-8"><div ng-show="cliente.local.uf.$error.required && cliente.local.uf.$dirty">Por favor, preencha o campo estado! </div></i>
+            <input class="form-control"  type="text" ng-model="cliente.local.uf" name="uf" placeholder="Estado"  >
             <label class=" col-lg-4">Cidade*</label>
-            <i class="col-lg-8"><div ng-show="cliente.localidade.$error.required && cliente.localidade.$dirty">Por favor, preencha o campo localidade! </div></i>
-            <input class="form-control"  type="text" ng-model="cliente.localidade" name="localidade" placeholder="Cidade"  >
+            <i class="col-lg-8"><div ng-show="cliente.local.localidade.$error.required && cliente.local.localidade.$dirty">Por favor, preencha o campo localidade! </div></i>
+            <input class="form-control"  type="text" ng-model="cliente.local.localidade" name="localidade" placeholder="Cidade"  >
             <label class=" col-lg-4">Bairro*</label>
-            <i class="col-lg-8"><div ng-show="cliente.bairro.$error.required && cliente.bairro.$dirty">Por favor, preencha o campo Bairro! </div></i>
-            <input class="form-control"  type="text" ng-model="cliente.bairro" name="bairro" placeholder="Bairro"  >
-            <label class=" col-lg-4">Endereço*</label>
-            <i class="col-lg-8"><div ng-show="cliente.logradouro.$error.required && cliente.logradouro.$dirty">Por favor, preencha o campo endereço! </div></i>
-            <input class="form-control"  type="text" ng-model="cliente.localidade" name="logradouro" placeholder="Endereço" >
+            <i class="col-lg-8"><div ng-show="cliente.local.bairro.$error.required && cliente.local.bairro.$dirty">Por favor, preencha o campo Bairro! </div></i>
+            <input class="form-control"  type="text" ng-model="cliente.local.bairro" name="bairro" placeholder="Bairro"  >
+            <label class=" col-lg-4">Logradouro*</label>
+            <i class="col-lg-8"><div ng-show="cliente.local.logradouro.$error.required && cliente.local.logradouro.$dirty">Por favor, preencha o campo endereço! </div></i>
+            <input class="form-control"  type="text" ng-model="cliente.local.logradouro" name="logradouro" placeholder="Endereço" >
             <label class=" col-lg-4">Numero*</label>
-            <i class="col-lg-8"><div ng-show="cliente.numero.$error.required && cliente.numero.$dirty">Por favor, preencha o campo Numero! </div></i>
-            <input class="form-control"  type="number" ng-model="cliente.numero" name="numero" placeholder="Numero" >
+            <i class="col-lg-8"><div ng-show="cliente.local.numero.$error.required && cliente.local.numero.$dirty">Por favor, preencha o campo Numero! </div></i>
+            <input class="form-control"  type="number" ng-model="cliente.local.numero" name="numero" placeholder="Numero" >
             <label class=" col-lg-4">Complemento</label>
-            <input class="form-control"  type="text" ng-model="cliente.complemento" name="complemento" placeholder="Complemento" >
+            <input class="form-control"  type="text" ng-model="cliente.local.complemento" name="complemento" placeholder="Complemento" >
           </div>
         </div>
       </div>
-      <!--<div class="clearfix"></div>-->
       <ul class="pager pull-left">
         <li class="" ng-class="{disabled: !hasPreviousStep()}">
           <a href="javascript:void(0);" ng-click="decrementStep()">&larr; Anterior</a>
@@ -99,13 +101,8 @@
           <a href="javascript:void(0);" ng-click="incrementStep()" >Proximo &rarr;</a>
         </li>
       </ul>
-      <!--<div class="pull-right">-->
-
     </form>
   </div>
-
-
-
   <div class="modal-footer" ng-if="formTipo != 'info'">
     <!--<button type="submit" class="btn btn-default">Submit Button</button>-->
     <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">

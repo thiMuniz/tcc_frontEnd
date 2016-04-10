@@ -7,11 +7,11 @@
   <div class="row">        
     <div class="col-lg-12">
       <div class="panel-heading" > <!-- Painel Superior -->                
-        <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" > <!-- data-toggle="modal" data-target="{{idTargetModal}}" -->
+        <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" >
           <ng-md-icon icon="add_circle"></ng-md-icon> &nbsp;{{labelAddBtn}}
         </button>
         <div class="pull-right">
-          <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Buscar Embalagem"/>
+          <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Busca geral"/>
         </div>
         <div class="clearfix"></div>
 
@@ -39,27 +39,27 @@
                   <th><a href="" ng-click="ordenar('id')">Código</a></th>
                   <th>Imagem</th>
                   <th><a href="" ng-click="ordenar('nome')">Nome</a></th>
-                  <th>Ação</th>
+                  <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
+                  <th>Ação</th>                  
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="embalagem in embalagens | filter : filtroGenerico | orderBy : campo : ascDsc" > <!-- style="opacity: 0.3" -->
-                  <!--style="text-decoration: line-through; color: tomato; opacity: 1"-->
+                <tr ng-repeat="embalagem in embalagens | filter : filtroGenerico | orderBy : campo : ascDsc" >
                   <td>{{embalagem.id}}</td>
                   <td>{{embalagem.imagem}}</td>
                   <td>{{embalagem.nome}}</td>
+                  <td style="{{embalagem.dtDesativacao ? 'color: red' : ''}}">
+                    {{embalagem.dtDesativacao ? "Desativado" : " Ativo"}}
+                  </td>
                   <td>
-                    <a ng-click="openUpdateDialog(embalagem, $index);" tooltip="Editar" ng-if="!embalagem.dtDesativacao">
-                        <ng-md-icon icon="edit"></ng-md-icon>
+                    <a ng-click="openUpdateDialog(embalagem);" tooltip="Editar" ng-if="!embalagem.dtDesativacao">
+                      <ng-md-icon icon="edit"></ng-md-icon>
                     </a>&nbsp;
-                    <a ng-click="openDesativarDialog(embalagem, $index);" tooltip="Desativar" ng-if="!embalagem.dtDesativacao">
-                        <ng-md-icon icon="delete"></ng-md-icon>
-                    </a>&nbsp;
-                    <a ng-click="openAtivarDialog(embalagem, $index);" tooltip="Ativar" ng-if="embalagem.dtDesativacao">
-                        <ng-md-icon icon="settings_backup_restore"></ng-md-icon>
+                    <a ng-click="openAtivarDesativarDialog(embalagem);" tooltip="{{embalagem.dtDesativacao ? 'Ativar' : 'Desativar'}}" >
+                      <ng-md-icon icon="{{embalagem.dtDesativacao ? 'settings_backup_restore' : 'delete'}}"></ng-md-icon>
                     </a>&nbsp;
                     <a ng-click="openInfoDialog(embalagem);" tooltip="Detalhes" >
-                        <ng-md-icon icon="info"></ng-md-icon>
+                      <ng-md-icon icon="info"></ng-md-icon>
                     </a>&nbsp;                                        
                   </td>
                 </tr>

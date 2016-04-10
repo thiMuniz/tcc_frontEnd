@@ -19,10 +19,11 @@ var app = angular
           'ngResource',
           'mwl.calendar',
           'ngCpfCnpj',
-          'toastr'
+          'toastr',
+          'ngFileUpload'
         ])        
         .constant("WS", {
-          urlSGP: "http://192.168.25.8:11392/SGI/",
+          urlSGP: "http://sgptcc.jelastic.servint.net/sgp/",
           urlCorreios: "",
           urlCep: "https://viacep.com.br/ws/",
           urlRF: ""
