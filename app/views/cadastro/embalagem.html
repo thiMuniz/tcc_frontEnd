@@ -1,14 +1,14 @@
 <section ng-controller="EmbalagemCtrl">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">{{titulo}}</h1>
+      <h1 class="page-header">{{tituloView}}</h1>
     </div>  
   </div> 
   <div class="row">        
     <div class="col-lg-12">
       <div class="panel-heading" > <!-- Painel Superior -->                
-        <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" >
-          <ng-md-icon icon="add_circle"></ng-md-icon> &nbsp;{{labelAddBtn}}
+        <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" tooltip='{{CONST.inserir.tooltipBtn}}'>
+          <ng-md-icon icon="{{CONST.inserir.iconeBtn}}"></ng-md-icon> &nbsp;{{labelCadastrarBtn}}
         </button>
         <div class="pull-right">
           <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Busca geral"/>
@@ -52,14 +52,14 @@
                     {{embalagem.dtDesativacao ? "Desativado" : " Ativo"}}
                   </td>
                   <td>
-                    <a ng-click="openUpdateDialog(embalagem);" tooltip="Editar" ng-if="!embalagem.dtDesativacao">
-                      <ng-md-icon icon="edit"></ng-md-icon>
+                    <a ng-click="openUpdateDialog(embalagem);" tooltip="{{CONST.editar.tooltipAcao}}" ng-if="!embalagem.dtDesativacao">
+                      <ng-md-icon icon="{{CONST.editar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
-                    <a ng-click="openAtivarDesativarDialog(embalagem);" tooltip="{{embalagem.dtDesativacao ? 'Ativar' : 'Desativar'}}" >
-                      <ng-md-icon icon="{{embalagem.dtDesativacao ? 'settings_backup_restore' : 'delete'}}"></ng-md-icon>
+                    <a ng-click="openAtivarDesativarDialog(embalagem);" tooltip="{{embalagem.dtDesativacao ? CONST.ativar.tooltipAcao : CONST.desativar.tooltipAcao}}" >
+                      <ng-md-icon icon="{{embalagem.dtDesativacao ? CONST.ativar.iconeAcao : CONST.desativar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
-                    <a ng-click="openInfoDialog(embalagem);" tooltip="Detalhes" >
-                      <ng-md-icon icon="info"></ng-md-icon>
+                    <a ng-click="openInfoDialog(embalagem);" tooltip="{{CONST.info.tooltipAcao}}" >
+                      <ng-md-icon icon="{{CONST.info.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;                                        
                   </td>
                 </tr>

@@ -1,6 +1,6 @@
 'use strict';
-app.factory("ClienteResource", function ($resource, WS) {
-  return $resource(WS.urlSGP + 'cliente/:id', {id: '@_id'}, {
+app.factory("ClienteResource", function ($resource, CONST) {
+  return $resource(CONST.ws.urlSGP + 'cliente/:id', {id: '@_id'}, {
     update: { method:'PUT' }
   });
 });

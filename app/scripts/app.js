@@ -21,12 +21,21 @@ var app = angular
           'ngCpfCnpj',
           'toastr',
           'ngFileUpload'
-        ])        
-        .constant("WS", {
-          urlSGP: "http://sgptcc.jelastic.servint.net/sgp/",
-          urlCorreios: "",
-          urlCep: "https://viacep.com.br/ws/",
-          urlRF: ""
+        ])
+        .constant("CONST", {
+          ws:{
+            urlSGP: "http://sgptcc.jelastic.servint.net/sgp/",
+            urlCep: "https://viacep.com.br/ws/",
+            urlCorreios: "",
+            urlRF: ""
+          },
+          inserir: {iconeBtn: "add_circle", iconeHeaderDialog: "add_circle_outline", tooltipBtn:"Cadastrar"},
+          editar: {iconeAcao: "edit", iconeHeaderDialog: "edit", tooltipAcao:"Editar"},
+          ativar: {iconeAcao: "settings_backup_restore", tooltipAcao:"Ativar"},
+          desativar: {iconeAcao: "block", tooltipAcao:"Desativar"},
+          excluir: {iconeAcao: "delete", tooltipAcao:"Excluir"},
+          info: {iconeAcao: "info", iconeHeaderDialog: "info_outline", tooltipAcao:"Detalhes"}
+          
         })
         .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
