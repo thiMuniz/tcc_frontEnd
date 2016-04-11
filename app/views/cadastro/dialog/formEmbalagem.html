@@ -3,7 +3,7 @@
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>
   </div>
-  <div class="modal-body">
+  <div class="modal-body">     
     <form class="form-horizontal" role="form" name="formEmbalagem">
       <div class="form-group" ng-if="formTipo != 'insert'">
         <label for="id" class="col-sm-3 control-label">Código</label>
@@ -49,6 +49,20 @@
           <input class="form-control" type="text" id="dtDesativacao" ng-model="embalagem.dtDesativacao" ng-disabled="true">
         </div>
       </div>
+<!--        inicio teste img-->
+      <div>Crop Image and Upload</div>
+      <button ngf-select ng-model="picFile" accept="image/*">
+        Select Picture</button>
+      <div ngf-drop ng-model="picFile" ngf-pattern="image/*" class="cropArea">
+        <img-crop image="picFile  | ngfDataUrl" result-image="embalagem.imagem" ng-init="embalagem.imagem=''"></img-crop>
+      </div>
+      <div>
+        <img ng-src="{{embalagem.imagem}}" />
+      </div>
+<!--fim teste img-->
+        
+        
+        
     </form>
 
   </div>
@@ -70,5 +84,5 @@
     </button>
   </div>
 </div>
-
+ {{embalagem}}
 

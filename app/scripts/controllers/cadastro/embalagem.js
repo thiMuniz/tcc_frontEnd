@@ -27,8 +27,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, toastr, CONST
     $scope.params = {
       formTipo: 'insert',
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
-      tituloDialog: "Cadastrar Embalagem",
-      embalagem: {id: "", nome: "", descricao: "", material: "", dimensoes: "", espessura:"", dtDesativacao: "", imagem: ""}
+      tituloDialog: "Cadastrar Embalagem"
     };
 
     var modalInstance = $modal.open({
@@ -170,12 +169,16 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, toastr, CONST
 
 
 })
-  .controller('EmbalagemDialogCtrl', function ($scope, $http, $modalInstance, params, CONST, EmbalagemResource, toastr) {
+  .controller('EmbalagemDialogCtrl', function ($scope, $http, $modalInstance, $timeout, Upload, params, CONST, EmbalagemResource, toastr) {
     $scope.CONST = CONST;
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
-    $scope.embalagem = params.embalagem;
+    if(params.embalagem){
+        $scope.embalagem = params.embalagem;
+    }else{
+        $scope.embalagem = new EmbalagemResource();
+    }
     
     $scope.materiais = [
       {nome: "PE - Polietileno", tipo: "Plástico"},
@@ -184,6 +187,24 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, toastr, CONST
       {nome: "PG - Papel Gordura", tipo: "Papel"}
     ];
 
+//    $scope.upload = function (dataUrl, name) {
+//      Upload.upload({
+//        url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+//        data: {
+//          file: Upload.dataUrltoBlob(dataUrl, name)
+//        },
+//      }).then(function (response) {
+//        $timeout(function () {
+//          $scope.result = response.data;
+//        });
+//      }, function (response) {
+//        if (response.status > 0) $scope.errorMsg = response.status
+//        + ': ' + response.data;
+//      }, function (evt) {
+//        $scope.progress = parseInt(100.0 * evt.loaded / evt.total);
+//      });
+//    }
+    
     $scope.clear = function () {
       delete $scope.embalagem;
     };
@@ -191,7 +212,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, toastr, CONST
     $scope.submit = function () {
       //incluir rotina de validação
       if ($scope.formTipo == 'insert') { //insert
-        EmbalagemResource.save($scope.embalagem, function (data) {
+        $scope.embalagem.$save(function (data) {
           // do something which you want with response
           console.log("insert ok");
           console.log(data);
@@ -201,7 +222,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, toastr, CONST
           console.log(status);
         });
       } else { //update
-        EmbalagemResource.update($scope.embalagem, function(){
+        $scope.embalagem.$update(function(){
           console.log("update ok");
           console.log(status);
         }, function(){
