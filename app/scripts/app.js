@@ -13,13 +13,13 @@ var app = angular
           'ui.router',
           'ui.bootstrap',
           'angular-loading-bar',
-          'ngMdIcons',
-          'ngImgCrop',
+          'ngMdIcons',          
           'ngMessages',
           'ngResource',
           'mwl.calendar',
           'ngCpfCnpj',
           'toastr',
+          'ngImgCrop',
           'ngFileUpload'
         ])
         .constant("CONST", {

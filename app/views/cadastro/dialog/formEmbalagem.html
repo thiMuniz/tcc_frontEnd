@@ -50,19 +50,21 @@
         </div>
       </div>
 <!--        inicio teste img-->
-      <div>Crop Image and Upload</div>
-      <button ngf-select ng-model="picFile" accept="image/*">
-        Select Picture</button>
-      <div ngf-drop ng-model="picFile" ngf-pattern="image/*" class="cropArea">
-        <img-crop image="picFile  | ngfDataUrl" result-image="embalagem.imagem" ng-init="embalagem.imagem=''"></img-crop>
+      <div class="form-group"> 
+        <label for="imagem" class="col-sm-3 control-label">Imagem</label>
+        <button type="button" class="col-sm-2 btn btn-primary btn-sm" ngf-select ng-model="imgSelecionada" accept="image/*">
+          Procurar
+        </button>
+        <div class="col-sm-7 form-control cropAreaSgp" id="imagem" ng-model="imgSelecionada" ngf-pattern="image/*" ngf-drop>
+          <img-crop image="imgSelecionada  | ngfDataUrl" result-image="embalagem.imagem" ng-init="embalagem.imagem">
+            Arraste e solte a imagem ou clique para localizar no computador
+          </img-crop>        
+        </div>
+        <div>
+          <img ng-src="{{embalagem.imagem}}" />
+        </div>
       </div>
-      <div>
-        <img ng-src="{{embalagem.imagem}}" />
-      </div>
-<!--fim teste img-->
-        
-        
-        
+<!--fim teste img-->        
     </form>
 
   </div>

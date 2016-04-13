@@ -360,6 +360,25 @@ table.dataTable thead .sorting:after {
     width:500px;
     height:350px;
 }
+.cropAreaSgp {
+    background: #f8f8f8 none repeat scroll 0 0;
+    border: 5px dashed #ddd;
+    overflow: hidden;
+    width:300px;
+    height:200px;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+}
+.drop-box {
+    background: #f8f8f8 none repeat scroll 0 0;
+    border: 5px dashed #ddd;
+    height: 65px;
+    margin: 10px;
+    padding-top: 25px;
+    text-align: center;
+    width: 200px;
+}
 form .progress {
     line-height: 15px;
 }

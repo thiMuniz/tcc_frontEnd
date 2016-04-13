@@ -27,7 +27,8 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, toastr, CONST
     $scope.params = {
       formTipo: 'insert',
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
-      tituloDialog: "Cadastrar Embalagem"
+      tituloDialog: "Cadastrar Embalagem",
+      embalagem: new EmbalagemResource()
     };
 
     var modalInstance = $modal.open({
@@ -144,41 +145,17 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, toastr, CONST
       }
     });
   };
-
-
-  /*
-   * testes img-crop
-   * 
-   //        $scope.funcImageTest = function($scope){
-   $scope.myImage='';
-   $scope.myCroppedImage='';
-   
-   var handleFileSelect=function(evt) {
-   var file=evt.currentTarget.files[0];
-   var reader = new filereader();
-   reader.onload = function (evt) {
-   $scope.$apply(function($scope){
-   $scope.myImage=evt.target.result;
-   });
-   };
-   reader.readAsDataURL(file);
-   };
-   angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
-   //        }
-   */
-
-
 })
-  .controller('EmbalagemDialogCtrl', function ($scope, $http, $modalInstance, $timeout, Upload, params, CONST, EmbalagemResource, toastr) {
+  .controller('EmbalagemDialogCtrl', function ($scope, $modalInstance, params, CONST, EmbalagemResource, toastr) {
     $scope.CONST = CONST;
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
-    if(params.embalagem){
+//    if(params.embalagem){
         $scope.embalagem = params.embalagem;
-    }else{
-        $scope.embalagem = new EmbalagemResource();
-    }
+//    }else{
+//        $scope.embalagem = new EmbalagemResource();
+//    }
     
     $scope.materiais = [
       {nome: "PE - Polietileno", tipo: "Plástico"},
@@ -186,27 +163,10 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, toastr, CONST
       {nome: "PC - Papel Clabin", tipo: "Papel"},
       {nome: "PG - Papel Gordura", tipo: "Papel"}
     ];
-
-//    $scope.upload = function (dataUrl, name) {
-//      Upload.upload({
-//        url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
-//        data: {
-//          file: Upload.dataUrltoBlob(dataUrl, name)
-//        },
-//      }).then(function (response) {
-//        $timeout(function () {
-//          $scope.result = response.data;
-//        });
-//      }, function (response) {
-//        if (response.status > 0) $scope.errorMsg = response.status
-//        + ': ' + response.data;
-//      }, function (evt) {
-//        $scope.progress = parseInt(100.0 * evt.loaded / evt.total);
-//      });
-//    }
     
     $scope.clear = function () {
       delete $scope.embalagem;
+      
     };
 
     $scope.submit = function () {

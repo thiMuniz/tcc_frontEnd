@@ -46,7 +46,10 @@
               <tbody>
                 <tr ng-repeat="embalagem in embalagens | filter : filtroGenerico | orderBy : campo : ascDsc" >
                   <td>{{embalagem.id}}</td>
-                  <td>{{embalagem.imagem}}</td>
+                  <!--<td>{{embalagem.imagem}}</td>-->
+                  <td>
+                    <img ng-src="{{embalagem.imagem}}" />
+                  </td>
                   <td>{{embalagem.nome}}</td>
                   <td style="{{embalagem.dtDesativacao ? 'color: red' : ''}}">
                     {{embalagem.dtDesativacao ? "Desativado" : " Ativo"}}
@@ -60,7 +63,7 @@
                     </a>&nbsp;
                     <a ng-click="openInfoDialog(embalagem);" tooltip="{{CONST.info.tooltipAcao}}" >
                       <ng-md-icon icon="{{CONST.info.iconeAcao}}"></ng-md-icon>
-                    </a>&nbsp;                                        
+                    </a>&nbsp;
                   </td>
                 </tr>
               </tbody>

@@ -11,11 +11,12 @@
 
         <div class="pull-left">
           <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" > <!-- data-toggle="modal" data-target="{{idTargetModal}}" -->
-            <ng-md-icon icon="add_circle"></ng-md-icon> &nbsp;{{labelAddBtn}}
+            <ng-md-icon icon="add_circle"></ng-md-icon> &nbsp;{{labelAddBtnPf}}
           </button>
-          <!--          <button data-id="inserirPf" class="btn btn-primary btn-lg " ng-click="openDialog($event)" data-toggle="modal" data-target="#formModalPf">
-                      <ng-md-icon icon="add_circle"></ng-md-icon>    &nbsp;Novo Cliente PF
-                    </button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+          <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" > <!-- data-toggle="modal" data-target="{{idTargetModal}}" -->
+            <ng-md-icon icon="add_circle"></ng-md-icon> &nbsp;{{labelAddBtnPj}}
+          </button>
+  
         </div>
         <div class="pull-right">
           <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Buscar Cliente"/>
