@@ -1,4 +1,6 @@
 'use strict';
-app.factory("ReceitaResource", function ($resource, WS) {
-  return $resource(WS.urlSGP + 'receita/:id', {id: '@_id'});
+app.factory("ReceitaResource", function ($resource, CONST) {
+  return $resource(CONST.ws.urlSGP + 'receita/:id', {id: '@_id'}, {
+    update: { method:'PUT' }
+  });
 });

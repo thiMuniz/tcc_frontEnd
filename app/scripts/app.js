@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; 
 /**
  * @ngdoc overview
  * @name sbAdminApp
@@ -13,18 +13,29 @@ var app = angular
           'ui.router',
           'ui.bootstrap',
           'angular-loading-bar',
-          'ngMdIcons',
-          'ngImgCrop',
+          'ngMdIcons',          
           'ngMessages',
           'ngResource',
           'mwl.calendar',
           'ngCpfCnpj',
-          'toastr'
-        ])        
-        .constant("WS", {
-          urlSGP: "http://192.168.25.8:11392/SGI/",
-          urlCorreios: "",
-          urlRF: ""
+          'toastr',
+          'ngImgCrop',
+          'ngFileUpload'
+        ])
+        .constant("CONST", {
+          ws:{
+            urlSGP: "http://sgptcc.jelastic.servint.net/sgp/",
+            urlCep: "https://viacep.com.br/ws/",
+            urlCorreios: "",
+            urlRF: ""
+          },
+          inserir: {iconeBtn: "add_circle", iconeHeaderDialog: "add_circle_outline", tooltipBtn:"Cadastrar"},
+          editar: {iconeAcao: "edit", iconeHeaderDialog: "edit", tooltipAcao:"Editar"},
+          ativar: {iconeAcao: "settings_backup_restore", tooltipAcao:"Ativar"},
+          desativar: {iconeAcao: "block", tooltipAcao:"Desativar"},
+          excluir: {iconeAcao: "delete", tooltipAcao:"Excluir"},
+          info: {iconeAcao: "info", iconeHeaderDialog: "info_outline", tooltipAcao:"Detalhes"}
+          
         })
         .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 

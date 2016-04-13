@@ -1,89 +1,35 @@
 'use strict';
-app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResource, WS, toastr) {
-  toastr.success('Descrição do alemão', 'Título do alemão', {
-    closeButton: true
-  });
-
-  $scope.titulo = "Cadastro de Embalagens dos Produtos";
+app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, toastr, CONST, EmbalagemResource) {
+  
+  var toastTitle = "Bem vindo programador!!";
+  var toastMsg = "Boa sorte dessa vez...";
+  var index;
+  $scope.CONST = CONST;
+  $scope.tituloView = "Cadastro de Embalagens dos Produtos";
   $scope.headerLista = "Nenhuma embalagem foi encontrada";
-  $scope.labelAddBtn = "Nova Embalagem";
-
-//            resetAlertInfo;
-  setAlertInfo("Bem vindo programador lindão!! Boa sorte dessa vez...", "warning", "show");
-  carregarEmbalagensFront();
-//            carregarEmbalagensAPI();
-
-  /**
-   * 
-   * @param {String} msg (mensagem que deseja exibir)
-   * @param {String} classe (info | success | warning | danger)
-   * @param {String} show (show | hide)
-   * @returns {null}
-   */
-  function setAlertInfo(msg, classe, acao) {
-    var show;
-    if (acao == "show") {
-      show = true;
-    } else {
-      show = false;
-    }
-    $scope.alertInfoMessage = msg;
-    $scope.alertInfoClass = classe;
-    $scope.alertInfoShow = show;
-  }
-
-  function resetAlertInfo() { //Corrigir método (não oculta DIV)
-    setAlertInfo("", "info", "hide");
-  }
-
-  function carregarEmbalagensFront() {
-    $scope.embalagens = [
-      {id: "1", dsCurta: "Caixa Nº1", dsDetalhada: "Detalhes da Embalagem 1", material: "papel", imagem: "...", dimensoes: "12x20x2"},
-      {id: "2", dsCurta: "Pacote Pão", dsDetalhada: "Detalhes da Embalagem 2", material: "plástico", imagem: "...", dimensoes: "..."},
-      {id: "3", dsCurta: "Pacote Nº1", dsDetalhada: "Detalhes da Embalagem 3", material: "plástico", imagem: "...", dimensoes: "..."},
-      {id: "4", dsCurta: "Caixa Nº2", dsDetalhada: "Detalhes da Embalagem 4", material: "papel", imagem: "...", dimensoes: "..."},
-      {id: "5", dsCurta: "Pacote Nº2", dsDetalhada: "Detalhes da Embalagem 5", material: "plástico", imagem: "...", dimensoes: "..."}
-    ];
-  }
-
-  $scope.closeAlertInfo = function () {
-    resetAlertInfo();
-  }
-
+  $scope.labelCadastrarBtn = "Nova Embalagem";
+  
+  toastr.warning(toastMsg, toastTitle);
+  atualizarLista();
+  
+  function atualizarLista() {
+    $scope.embalagens = EmbalagemResource.query();
+    //incluir animação enquanto esta carregando a lista
+  };
+  
   $scope.ordenar = function (campo) {
     $scope.campo = campo;
     $scope.ascDsc = !$scope.ascDsc;
-  };
-
-  console.log(WS.urlSGP + 'embalagem/');
-
-  function carregarEmbalagensAPI() {
-    $scope.embalagens = EmbalagemResource.query();
-
-    /*
-     * Trecho abaixo funciona             
-     $http.get(WS.urlSGP+'embalagem/'
-     ).success(function (data, status) {
-     console.log("deu bom - data" + data);
-     console.log("status" + status);
-     $scope.embalagens = data;
-     }).error(function (data, status) {
-     console.log("deu ruim - data" + data);
-     console.log("status" + status);
-     carregarEmbalagensFront();
-     });
-     */
-  }
-
+  };  
+  
   //funções chamadas no onClick dos botões da tela
   $scope.openInsertDialog = function () {
-    resetAlertInfo();
     $scope.params = {
       formTipo: 'insert',
-      iconeHeaderDialog: "add_circle_outline",
+      iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
       tituloDialog: "Cadastrar Embalagem",
-      embalagem: {id: "6", dsCurta: "emb 6", dsDetalhada: "desc emb 6", material: "mat x", imagem: "...", dimensoes: "dim xyz"}
-    }
+      embalagem: new EmbalagemResource()
+    };
 
     var modalInstance = $modal.open({
       templateUrl: 'views/cadastro/dialog/formEmbalagem.html',
@@ -98,32 +44,28 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
     });
     modalInstance.result.then(function (result) {
       if (result.embalagem) {
-        var msg = "";
         if (result.status == "sucesso") {//Se retorno da API com sucesso add a embalagem à lista
           $scope.embalagens.push(angular.copy(result.embalagem));
-//                  $scope.$apply();
-          msg = "Embalagem " + result.embalagem.dsCurta + " cadastrada com sucesso!";
-          setAlertInfo(msg, "success", "show");
-        } else {//Senão mostra msg erro                  
-          msg = "Erro ao cadastrar Embalagem " + result.embalagem.dsCurta + " !";
-          setAlertInfo(msg, "danger", "show");
+//          atualizarLista();
+//          $scope.$apply();
+          toastMsg = result.embalagem.nome + " cadastrada";
+          toastr.success(toastMsg, "Sucesso!");
+        } else {//Senão mostra msg erro
+          toastMsg = result.embalagem.nome + " não cadastrada!";
+          toastr.error(toastMsg, "Erro!");
         }
-      } else {
-        setAlertInfo("formulário vazio ", "warning", "show");
       }
-    }, function () {
-      setAlertInfo("cancelado, dados perdidos", "warning", "show");
     });
-  }
+  };
 
-  $scope.openUpdateDialog = function (embalagem, index) {
-    resetAlertInfo();
+  $scope.openUpdateDialog = function (embalagem) {    
+    index = $scope.embalagens.indexOf($filter('filter')($scope.embalagens, embalagem, true)[0]);    
     $scope.params = {
       formTipo: 'update',
-      iconeHeaderDialog: "edit",
+      iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
       tituloDialog: "Editar Embalagem",
       embalagem: angular.copy(embalagem)
-    }
+    };
 
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formEmbalagem.html",
@@ -138,60 +80,58 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
     });
     modalInstance.result.then(function (result) {//quando foi fechado enviando dados
       if (result.embalagem) {
-        var msg = "";
-//                setAlertInfo("dados submetidos - " + result.embalagem.dsDetalhada, "success", "show");
-
         if (result.status == "sucesso") {//Se retorno da API com sucesso add a embalagem à lista
           $scope.embalagens[index] = result.embalagem;
 //                  $scope.$apply(); 
-          var msg = "Embalagem " + result.embalagem.dsCurta + " editada com sucesso!";
-          setAlertInfo(msg, "success", "show");
+          toastMsg = "Dados da embalagem " + result.embalagem.nome + " alterados com sucesso!";
+          toastr.success(toastMsg, "Sucesso");
         } else {//Senão mostra msg erro                  
-          msg = "Erro ao editar Embalagem " + result.embalagem.dsCurta + " !";
-          setAlertInfo(msg, "danger", "show");
+          toastMsg = "Dados da embalagem " + result.embalagem.nome + " não foram alterados!";
+          
+          toastr.error(toastMsg, "Erro");
         }
       } else {
-        setAlertInfo("formulário vazio ", "warning", "show");
+        toastr.warning("Formulário em branco", "Não alterado!");
       }
-    }, function () {//quando é cancelado (dismiss)
-      setAlertInfo("cancelado, dados perdidos", "warning", "show");
+    }, function () {
+      toastr.warning("Nada aconteceu", "Cancelado");
     });
   };
-
-  $scope.openDesativarDialog = function (embalagem, index) {
-    resetAlertInfo();
+  
+  $scope.openAtivarDesativarDialog = function (embalagem) {
+    index = $scope.embalagens.indexOf($filter('filter')($scope.embalagens, embalagem, true)[0]);    
     swal({
-      title: "Deseja mesmo desativar a Embalagem " + embalagem.dsCurta + "?",
-      text: "Você poderá ativar a Embalagem novamente!",
+      title: "Deseja mesmo" + (embalagem.dtDesativacao ? " ativar" : " desativar") + " a Embalagem " + embalagem.nome + "?",
+      text: "Você poderá" + (embalagem.dtDesativacao ? " desativar" : " ativar") + " a Embalagem novamente!",
       type: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#DD6B55",
-      cancelButtonText: "Não, me tire daqui!",
-      confirmButtonText: "Sim, quero desativar!",
-      closeOnConfirm: false
+      confirmButtonColor: (embalagem.dtDesativacao ? "#428bca" : "#DD6B55"), //#f0ad4e
+      cancelButtonText: "NÃO",
+      confirmButtonText: "SIM"
     },
-            function () {
-              $scope.embalagens.splice(index, 1);
-              //metodo deleteEmbalagem - passa a embalagem por parâmetro para exclusão
-              var msg = "Embalagem " + embalagem.dsCurta + " desativada!";
-              setAlertInfo(msg, "success", "show");
-              $scope.$apply();//força atualização da variável $scope
-              swal({
-                title: msg,
-                type: "success"
-              });
-
-            });
+    function () {
+//      $scope.embalagens.splice(index, 1);
+//      embalagem.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
+//      embalagem.dtDesativacao = new Date();
+      embalagem.dtDesativacao = (embalagem.dtDesativacao ? null : new Date());
+      EmbalagemResource.update(embalagem, function(){
+          $scope.embalagens[index] = embalagem;
+          toastMsg = embalagem.nome + (embalagem.dtDesativacao ? " desativada!" : " ativada!");
+          toastr.success(toastMsg, "Sucesso!");
+        }, function(){
+          toastMsg = embalagem.nome + " não foi " + (embalagem.dtDesativacao ? "ativada!" : "desativada!");
+          toastr.error(toastMsg, "Erro!");
+        });
+    });    
   };
 
-  $scope.openInfoDialog = function (embalagem) {
-    resetAlertInfo();
+  $scope.openInfoDialog = function (embalagem) {    
     $scope.params = {
       formTipo: 'info',
       iconeHeaderDialog: "info_outline",
       tituloDialog: "Detalhes Embalagem",
       embalagem: angular.copy(embalagem)
-    }
+    };
 
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formEmbalagem.html",
@@ -204,68 +144,66 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $http, EmbalagemResour
         }
       }
     });
-  }
-
-
-  /*
-   * testes img-crop
-   * 
-   //        $scope.funcImageTest = function($scope){
-   $scope.myImage='';
-   $scope.myCroppedImage='';
-   
-   var handleFileSelect=function(evt) {
-   var file=evt.currentTarget.files[0];
-   var reader = new FileReader();
-   reader.onload = function (evt) {
-   $scope.$apply(function($scope){
-   $scope.myImage=evt.target.result;
-   });
-   };
-   reader.readAsDataURL(file);
-   };
-   angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
-   //        }
-   */
-
-
+  };
 })
-        .controller('EmbalagemDialogCtrl', function ($scope, $http, params, $modalInstance) {
-          $scope.formTipo = params.formTipo;
-          $scope.iconeHeaderDialog = params.iconeHeaderDialog;
-          $scope.tituloDialog = params.tituloDialog;
-          $scope.embalagem = params.embalagem;
+  .controller('EmbalagemDialogCtrl', function ($scope, $modalInstance, params, CONST, EmbalagemResource, toastr) {
+    $scope.CONST = CONST;
+    $scope.formTipo = params.formTipo;
+    $scope.iconeHeaderDialog = params.iconeHeaderDialog;
+    $scope.tituloDialog = params.tituloDialog;
+//    if(params.embalagem){
+        $scope.embalagem = params.embalagem;
+//    }else{
+//        $scope.embalagem = new EmbalagemResource();
+//    }
+    
+    $scope.materiais = [
+      {nome: "PE - Polietileno", tipo: "Plástico"},
+      {nome: "PP - Polipropileno", tipo: "Plástico"},
+      {nome: "PC - Papel Clabin", tipo: "Papel"},
+      {nome: "PG - Papel Gordura", tipo: "Papel"}
+    ];
+    
+    $scope.clear = function () {
+      delete $scope.embalagem;
+      
+    };
 
-          $scope.clear = function () {
-            delete $scope.embalagem;
-          };
-
-          $scope.submit = function () {
-            /*
-             //chamar serviço API
-             $http.post(WS.urlSGP+'embalagem/', 
-             $scope.embalagem                        
-             ).then(function successCallback(response) {
-             console.log("deu bom"+response.data);
-             }, function errorCallback(response) {
-             console.log("deu ruim"+response);
-             console.log($scope.embalagem);
-             });
-             */
-
-            //pegar retorno API e definir padrão p/ result
-            //
-            $modalInstance.close({
-              embalagem: $scope.embalagem,
-              status: "sucesso" //pegar retorno padrão da API ou protocolo HTTP
-//                            embalagem: response.data,
-//                            status: response.status
-            });
-          };
-
-          $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
-          };
-
+    $scope.submit = function () {
+      //incluir rotina de validação
+      if ($scope.formTipo == 'insert') { //insert
+        $scope.embalagem.$save(function (data) {
+          // do something which you want with response
+          console.log("insert ok");
+          console.log(data);
+          console.log(status);
+        }, function(){
+          console.log("erro");
+          console.log(status);
         });
+      } else { //update
+        $scope.embalagem.$update(function(){
+          console.log("update ok");
+          console.log(status);
+        }, function(){
+          console.log("erro");
+          console.log(status);
+        });
+      }
+
+      //pegar retorno API e definir padrão p/ result
+      //
+      $modalInstance.close({
+        embalagem: $scope.embalagem,
+        status: "sucesso" //pegar retorno padrão da API ou protocolo HTTP
+//       embalagem: response.data,
+//       status: response.status
+      });
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+
+  });
 

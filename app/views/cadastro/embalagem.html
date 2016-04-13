@@ -1,74 +1,76 @@
 <section ng-controller="EmbalagemCtrl">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">{{titulo}}</h1>
-        </div>  
-    </div> 
-    <div class="row">        
-        <div class="col-lg-12">
-            <div class="panel-heading" > <!-- Painel Superior -->
-                <div id="alertInfo" class="{{'alert alert-'+alertInfoClass+' alert-dismissable'}}" ng-show="alertInfoShow">
-                    <button type="button" class="close" ng-click="closeAlertInfo()">&times;</button>
-                    {{alertInfoMessage}}
-                </div>
-                <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" > <!-- data-toggle="modal" data-target="{{idTargetModal}}" -->
-                    <ng-md-icon icon="add_circle"></ng-md-icon> &nbsp;{{labelAddBtn}}
-                </button>
-                <div class="pull-right">
-                    <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Buscar Embalagem"/>
-                </div>
-                <div class="clearfix"></div>
-                
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">{{tituloView}}</h1>
+    </div>  
+  </div> 
+  <div class="row">        
+    <div class="col-lg-12">
+      <div class="panel-heading" > <!-- Painel Superior -->                
+        <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" tooltip='{{CONST.inserir.tooltipBtn}}'>
+          <ng-md-icon icon="{{CONST.inserir.iconeBtn}}"></ng-md-icon> &nbsp;{{labelCadastrarBtn}}
+        </button>
+        <div class="pull-right">
+          <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Busca geral"/>
+        </div>
+        <div class="clearfix"></div>
+
 <!--                
-                <div>Select an image file: <input type="file" id="fileInput" /></div>
-                <div class="cropArea">
-                    <img-crop image="myImage" result-image="myCroppedImage"></img-crop>
-                </div>
-                <div>Cropped Image:</div>
-                <div>
-                    <img ng-src="{{myCroppedImage}}" />
-                </div>
-                -->
-            </div><!-- /.Painel Superior -->
-            
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    {{embalagens.length}} Embalagens encontradas                    
-                </div>
-                <!-- /.panel-heading -->
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th><a href="" ng-click="ordenar('id')">Código</a></th>
-                                    <th>Imagem</th>
-                                    <th><a href="" ng-click="ordenar('dsCurta')">Nome</a></th>
-                                    <th>Ação</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="embalagem in embalagens | filter : filtroGenerico | orderBy : campo : ascDsc ">
-                                    <td>{{embalagem.id}}</td>
-                                    <td>{{embalagem.imagem}}</td>
-                                    <td>{{embalagem.dsCurta}}</td>
-                                    <td>
-                                        <a ng-click="openUpdateDialog(embalagem, $index);" tooltip="Editar" > <!-- data-toggle="modal" data-target="#formModal"  -->
-                                            <ng-md-icon icon="edit"></ng-md-icon>
-                                        </a>&nbsp;
-                                        <a ng-click="openDesativarDialog(embalagem, $index);" tooltip="Desativar" >
-                                            <ng-md-icon icon="delete"></ng-md-icon>
-                                        </a>&nbsp;
-                                        <a ng-click="openInfoDialog(embalagem);" tooltip="Detalhes" > <!-- data-toggle="modal" data-target="#infoModal" -->
-                                            <ng-md-icon icon="info"></ng-md-icon>
-                                        </a>&nbsp;                                        
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div><!-- /.table-responsive -->
-                </div><!-- /.panel-body -->
-            </div><!-- /.panel-default -->
-        </div><!-- /.col-lg-12 -->
-    </div><!-- /.row -->
+          <div>Select an image file: <input type="file" id="fileInput" /></div>
+          <div class="cropArea">
+              <img-crop image="myImage" result-image="myCroppedImage"></img-crop>
+          </div>
+          <div>Cropped Image:</div>
+          <div>
+              <img ng-src="{{myCroppedImage}}" />
+          </div>
+          -->
+      </div><!-- /.Painel Superior -->
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          {{embalagens.length}} Embalagens encontradas                    
+        </div>        
+        <div class="panel-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th><a href="" ng-click="ordenar('id')">Código</a></th>
+                  <th>Imagem</th>
+                  <th><a href="" ng-click="ordenar('nome')">Nome</a></th>
+                  <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
+                  <th>Ação</th>                  
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="embalagem in embalagens | filter : filtroGenerico | orderBy : campo : ascDsc" >
+                  <td>{{embalagem.id}}</td>
+                  <!--<td>{{embalagem.imagem}}</td>-->
+                  <td>
+                    <img ng-src="{{embalagem.imagem}}" />
+                  </td>
+                  <td>{{embalagem.nome}}</td>
+                  <td style="{{embalagem.dtDesativacao ? 'color: red' : ''}}">
+                    {{embalagem.dtDesativacao ? "Desativado" : " Ativo"}}
+                  </td>
+                  <td>
+                    <a ng-click="openUpdateDialog(embalagem);" tooltip="{{CONST.editar.tooltipAcao}}" ng-if="!embalagem.dtDesativacao">
+                      <ng-md-icon icon="{{CONST.editar.iconeAcao}}"></ng-md-icon>
+                    </a>&nbsp;
+                    <a ng-click="openAtivarDesativarDialog(embalagem);" tooltip="{{embalagem.dtDesativacao ? CONST.ativar.tooltipAcao : CONST.desativar.tooltipAcao}}" >
+                      <ng-md-icon icon="{{embalagem.dtDesativacao ? CONST.ativar.iconeAcao : CONST.desativar.iconeAcao}}"></ng-md-icon>
+                    </a>&nbsp;
+                    <a ng-click="openInfoDialog(embalagem);" tooltip="{{CONST.info.tooltipAcao}}" >
+                      <ng-md-icon icon="{{CONST.info.iconeAcao}}"></ng-md-icon>
+                    </a>&nbsp;
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div><!-- /.table-responsive -->
+        </div><!-- /.panel-body -->
+      </div><!-- /.panel-default -->
+    </div><!-- /.col-lg-12 -->
+  </div><!-- /.row -->
 </section>

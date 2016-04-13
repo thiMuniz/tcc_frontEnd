@@ -1,290 +1,74 @@
 <section ng-controller="ClienteCtrl">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">{{titulo}}</h1>
-        </div>  
-    </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">{{titulo}}</h1>
+    </div>  
+  </div>
 
-    <div class="row">
-        <div class="col-lg-12">            
-            <div class="panel-heading "> <!-- Painel Superior -->
-                <div class="pull-left">
-                    <button data-id="inserirPf" class="btn btn-primary btn-lg " ng-click="openDialog($event)" data-toggle="modal" data-target="#formModalPf">
-                        <ng-md-icon icon="add_circle"></ng-md-icon>    &nbsp;Novo Cliente PF
-                    </button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button data-id="inserirPj" class="btn btn-primary btn-lg " ng-click="openDialog($event)" data-toggle="modal" data-target="#formModalPj">
-                        <ng-md-icon icon="add_circle"></ng-md-icon>    &nbsp;Novo Cliente PJ
-                    </button> 
-                </div>
-                <div class="pull-right">
-                    <input class="form-control " type="text" ng-model="criterioDeBusca" placeholder="Buscar Cliente"/>
-                </div>
-                <div class="clearfix"></div>
-            </div><!-- /.Painel Superior -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <!--clientes cadastrados-->
-                    {{headerLista}}
-                </div>
+  <div class="row">
+    <div class="col-lg-12">            
+      <div class="panel-heading "> <!-- Painel Superior -->
 
-                <!-- /.panel-heading -->
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th><a href="" ng-click="ordenarPor('cadastro')">Cadastro</a></th>
-                                    <th><a href="" ng-click="ordenarPor('nome')">Nome/Razão</a></th>
-                                    <th><a href="" ng-click="ordenarPor('email')">Email</a></th>
-                                    <th><a href="" ng-click="ordenarPor('dtCadastro')">Data Cadastro</a></th>
-                                    <th>Ação</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="cli in clientes| filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao ">
-                                    <td>{{cli.cadastro}}</td>                                        
-                                    <td>{{cli.nome| uppercase}}</td>
-                                    <td>{{cli.email| lowercase}}</td>
-                                    <td>{{cli.dtCadastro| date:'dd/MM/yyyy HH:mm'}}</td>
-                                    <td>
+        <div class="pull-left">
+          <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" > <!-- data-toggle="modal" data-target="{{idTargetModal}}" -->
+            <ng-md-icon icon="add_circle"></ng-md-icon> &nbsp;{{labelAddBtnPf}}
+          </button>
+          <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" > <!-- data-toggle="modal" data-target="{{idTargetModal}}" -->
+            <ng-md-icon icon="add_circle"></ng-md-icon> &nbsp;{{labelAddBtnPj}}
+          </button>
+  
+        </div>
+        <div class="pull-right">
+          <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Buscar Cliente"/>
+        </div>
+        <div class="clearfix"></div>
+      </div><!-- /.Painel Superior -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+            {{clientes.length}} Clientes encontrados                    
+         </div>
 
-                                        <a title="Editar" tooltip data-id="editar" ng-attr-title="editar" ng-click="openDialog($event, cli);" data-toggle="modal" data-target="#formModalPf" ><!-- #formModal + cli.flag -->
-                                            <ng-md-icon icon="edit"></ng-md-icon>
-                                        </a>&nbsp;
-                                        <a title="Desativar" tooltip data-id="desativar" ng-attr-title="desativar" ng-mouseover="onMouseOverEditar($event)" ng-click="openDialog($event, cli);" >
-                                            <ng-md-icon icon="delete"></ng-md-icon>
-                                        </a>&nbsp;
-                                        <a title="Detalhes" tooltip data-id="info" ng-attr-title="info" ng-mouseover="onMouseOverEditar($event)" ng-click="openDialog($event, cli);" data-toggle="modal" data-target="#infoModal">
-                                            <ng-md-icon icon="info"></ng-md-icon>
-                                        </a>&nbsp;
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div><!-- /.table-responsive -->
-                </div><!-- /.panel-body -->
-            </div><!-- /.panel-default -->
-        </div><!-- /.col-lg-12 -->
-    </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th><a href="" ng-click="ordenar('cpf')">Cadastro</a></th>
+                  <th><a href="" ng-click="ordenar('nome')">Nome/Razão</a></th>
+                  <th><a href="" ng-click="ordenar('email')">Email</a></th>
+                  <th><a href="" ng-click="ordenar('foto')">Foto</a></th>
+                  <th><a href="" ng-click="ordenar('dtCadastro')">Data Cadastro</a></th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="cliente in clientes| filter : filtroGenerico | orderBy : campo : ascDsc ">
+                  <td>{{cliente.cpf}}</td>                                        
+                  <td>{{cliente.nome| uppercase}}</td>
+                  <td>{{cliente.email| lowercase}}</td>
+                  <td><img ng-src="{{cliente.foto}}"></td>                                        
+                  <td>{{cliente.dtCadastro| date:'dd/MM/yyyy HH:mm'}}</td>
+                  <td>
+                    <a ng-click="openUpdateDialog(cliente, $index);" tooltip="Editar" > <!-- data-toggle="modal" data-target="#formModal"  -->
+                      <ng-md-icon icon="edit"></ng-md-icon>
+                    </a>&nbsp;
+                    <a ng-click="openDesativarDialog(cliente, $index);" tooltip="Desativar" >
+                      <ng-md-icon icon="delete"></ng-md-icon>
+                    </a>&nbsp;
+                    <a ng-click="openInfoDialog(cliente);" tooltip="Detalhes" > <!-- data-toggle="modal" data-target="#infoModal" -->
+                      <ng-md-icon icon="info"></ng-md-icon>
+                    </a>&nbsp;                                        
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div><!-- /.table-responsive -->
+        </div><!-- /.panel-body -->
+      </div><!-- /.panel-default -->
+    </div><!-- /.col-lg-12 -->
+  </div>
 
-    <!-- Modal formulário--><!--modal pf inicio-->
-    <div class="modal fade" id="formModalPf" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeFormModal}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloModal}}</h4>
-                </div>
-                <div class="modal-body">                    
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <form class="row" role="form"  name="formCadastroUser" id="formCadastroUser">
-                                    <ul class="nav nav-tabs">
-                                        <li ng-repeat="step in steps" ng-class="{active: $index == getCurrentStepIndex()}">
-                                            <a href="javascript:void(0)" ng-click="goToStep($index)">{{step}}</a>
-                                        </li>
-                                    </ul>
-                                    <div ng-switch on="selection"   >
-                                        <div ng-switch-when="Dados Pessoais">
-                                            <div class="form-group">                                                
-                                                <label class=" col-lg-4">Nome*</label>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.nome.$error.required && formCadastroUser.nome.$dirty">Por favor, preencha o campo nome! </div></i>
-                                                <input class="form-control" id="cadastro" type="text" ng-model="cliente.nome" name="nome" placeholder="Nome" value="{{cliente.nome}}"  ng-required="true">
-                                                <label class=" col-lg-4">Sobrenome*</label>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.sobrenome.$error.required && formCadastroUser.sobrenome.$dirty">Por favor, preencha o campo Sobrenome! </div></i>
-                                                <input class="form-control" id="cadastro" type="text" ng-model="cliente.sobrenome" name="sobrenome" placeholder="Sobrenome" value="{{cliente.sobrenome}}" ng-required="true">
-                                       <!--verificar quando for cnpj, a verificaçao sera diferente-->
-                                                <label class=" col-lg-4">Cpf*</label>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.cadastro.$error.required && formCadastroUser.cadastro.$dirty">Por favor, preencha o campo cpf! </div></i>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.cadastro.$error.pattern">Por favor, preencha um cpf valido!Ex: 00000000000 </div></i>
-                                                <input class="form-control" id="cadastro" type="text" ng-model="cliente.cadastro" name="cadastro" placeholder="Apenas números" value="{{cliente.cadastro}}" ng-required="true" ng-pattern="/^\d{11}$/">
-                                                <label class=" col-lg-4">Data Nascimento*</label>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.dtNasc.$error.required && formCadastroUser.dtNasc.$dirty">Por favor, preencha o campo data! </div></i>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.dtNasc.$error.date">Por favor, Informe uma data valida! </div></i>
-                                                <input class="form-control" id="cadastro" type="date" ng-model="cliente.dtNasc" name="dtNasc"  value="{{cliente.dtNasc}}" ng-required="true"   min="1900-01-01" max="2010-12-31">
-                                                <label class=" col-lg-4">Escolher foto</label>
-                                                <input class="form-control" id="cadastro" type="file" ng-model="cliente.foto">
-                                                <label class=" col-lg-4">Senha*</label>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.senha.$error.required && formCadastroUser.senha.$dirty">Por favor, preencha o campo senha! </div></i>
-                                                <input class="form-control" id="cadastro" type="password" ng-model="cliente.senha" name="senha" placeholder="Senha" value="{{cliente.senha}}"  ng-required="true">
-                                            </div>
-                                        </div>
-                                        <div ng-switch-when="Dados Contato" >
-                                            <div class="form-group">
-                                                <label class=" col-lg-4">Email*</label>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.email.$error.required && formCadastroUser.email.$dirty">Por favor, preencha o campo email! </div></i>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.email.$error.email">Por favor, Informe um email valido! </div></i>
-                                                <input class="form-control" id="cadastro" type="email" ng-model="cliente.email" name="email" placeholder="email@example.com" value="{{cliente.email}}" ng-required="true">
-                                                <label class=" col-lg-4">Telefone 1*</label>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.tel1.$error.required && formCadastroUser.tel1.$dirty">Por favor, preencha o campo Telefone 1! </div></i>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.tel1.$error.pattern">Por favor, preencha um numero valido!Ex: DD00000000 </div></i>
-                                                <input class="form-control" id="cadastro" type="text" ng-model="cliente.tel1" name="tel1" placeholder="Apenas Numeros" value="{{cliente.telefone1}}"  ng-required="true" ng-pattern="/^\d{10,11}$/"/><br>
-                                                <label class=" col-lg-4">Telefone 2</label>
-                                                <input class="form-control" id="cadastro" type="text" ng-model="cliente.tel2" name="tel2" placeholder="Apenas Numeros" value="{{cliente.telefone2}}" ><br>
-                                            </div>
-                                        </div>
-                                        <div ng-switch-when="Dados Localização">
-                                            <div class="form-group">
-                                                <label class=" col-lg-4">Cep*</label>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.cep.$error.required && formCadastroUser.cep.$dirty">Por favor, preencha o campo cep! </div></i>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.cep.$error.pattern">Por favor, preencha um cep valido!Ex: 00000000 </div></i>
-                                                <input class="form-control" id="cadastro" type="text" ng-model="cliente.cep" name="cep" placeholder="Apenas numeros" value="{{cliente.cep}}" ng-required="true" ng-pattern="/^\d{8}$/">
-
-                                                <label class=" col-lg-4">Estado*</label>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.uf.$error.required && formCadastroUser.uf.$dirty">Por favor, preencha o campo estado! </div></i>
-                                                <input class="form-control" id="cadastro" type="text" ng-model="cliente.uf" name="uf" placeholder="Estado" value="{{cliente.uf}}" ng-required="true">
-                                                <label class=" col-lg-4">Cidade*</label>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.cidade.$error.required && formCadastroUser.cidade.$dirty">Por favor, preencha o campo cidade! </div></i>
-                                                <input class="form-control" id="cadastro" type="text" ng-model="cliente.cidade" name="cidade" placeholder="Cidade" value="{{cliente.cidade}}" ng-required="true">
-                                                <label class=" col-lg-4">Bairro*</label>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.bairro.$error.required && formCadastroUser.bairro.$dirty">Por favor, preencha o campo bairro! </div></i>
-                                                <input class="form-control" id="cadastro" type="text" ng-model="cliente.bairro" name="bairro" placeholder="Bairro" value="{{cliente.bairro}}" ng-required="true">
-                                                <label class=" col-lg-4">Endereço*</label>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.endereco.$error.required && formCadastroUser.endereco.$dirty">Por favor, preencha o campo endereço! </div></i>
-                                                <input class="form-control" id="cadastro" type="text" ng-model="cliente.endereco" name="endereco" placeholder="Endereço" value="{{cliente.endereco}}"ng-required="true">
-                                                <label class=" col-lg-4">Numero*</label>
-                                                <i class="col-lg-8"><div ng-show="formCadastroUser.numero.$error.required && formCadastroUser.numero.$dirty">Por favor, preencha o campo numero! </div></i>
-                                                <input class="form-control" id="cadastro" type="number" ng-model="cliente.numero" name="numero" placeholder="Numero" value="{{cliente.numero}}"ng-required="true">
-                                                <label class=" col-lg-4">Complemento</label>
-                                                <input class="form-control" id="cadastro" type="text" ng-model="cliente.comp" name="comp" placeholder="Complemento" value="{{cliente.comp}}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <ul class="pager pull-left">
-                                        <li class="" ng-class="{disabled: !hasPreviousStep()}">
-                                            <a href="javascript:void(0);" ng-click="decrementStep()">&larr; Anterior</a>
-                                        </li>
-                                        <li class="" ng-class="{disabled: !hasNextStep()}">
-                                            <a href="javascript:void(0);" ng-click="incrementStep()" >Proximo &rarr;</a>
-                                        </li>
-                                    </ul>
-                                    <div class="pull-right">
-                                        <button style="margin:20px 0;" type="reset" class="btn btn-outline btn-warning">
-                                            <ng-md-icon icon="refresh"></ng-md-icon> Limpar
-                                        </button>
-                                        <button type="button" class="btn btn-outline btn-danger" data-dismiss="modal"  ng-disabled="formCadastroUser.tel1.$error.pattern">
-                                            <ng-md-icon icon="clear"></ng-md-icon> Cancelar
-                                        </button>
-                                        <button type="button" class="btn btn-outline btn-success" ng-click="adicionarCliente(cliente)" ng-disabled="formCadastroUser.$invalid">
-                                            <ng-md-icon icon="save"></ng-md-icon> Gravar
-                                        </button>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>   
-            </div><!-- /.modal-content -->            
-        </div><!-- /.modal-dialog -->        
-    </div> <!-- /.modal -->
-    <!--modal pf fim-->
-
-
-    <!-- Modal info -->
-    <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="infoModalLabel"> <ng-md-icon icon="info_outline"></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloModal}}</h4>
-                </div>
-                <div class="modal-body">                    
-                    <div class="panel-default">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="col-lg-4">
-                                    <img src="img/adm/AdmEvertonWB.jpg" width="160" height="160">
-                                </div>
-                                <div class="col-lg-8">
-                                    <!--**informacoes na lateral doreita da foto-->
-                                    <div class="table-responsive">
-                                        <table class="table table-striped">
-                                            <tbody>
-                                                <tr>
-                                                    <td ><b>Nome</b></td>
-                                                    <td >{{cliente.nome}}</td>                                        
-                                                </tr>
-                                                <tr>
-                                                    <td ><b>Sobrenome</b></td>
-                                                    <td >{{cliente.sobrenome}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td ><b>Data Nascimento</b></td>
-                                                    <td >{{cliente.cadastro}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td ><b>Cpf</b></td>
-                                                    <td >{{cliente.cadastro}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td ><b>Telefone</b></td>
-                                                    <td >{{cliente.tel1}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div><!-- /.table-responsive -->   
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <tbody>
-                                            <tr>
-                                                <td ><b>E-mail</b></td>
-                                                <td >{{cliente.email}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td ><b>Telefone 2</b></td>
-                                                <td >{{cliente.tel2}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td ><b>Data Cadastro</b></td>
-                                                <td >{{cliente.dtCadastro| date:'dd/MM/yyyy HH:mm'}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td ><b>CEP</b></td>
-                                                <td >{{cliente.cep}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td ><b>Estado</b></td>
-                                                <td >{{cliente.uf}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td ><b>Cidade</b></td>
-                                                <td >{{cliente.cidade}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td ><b>Bairro</b></td>
-                                                <td >{{cliente.bairro}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td ><b>Endereço</b></td>
-                                                <td >{{cliente.endereco}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td ><b>Numero</b></td>
-                                                <td >{{cliente.numero}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td ><b>Complemento</b></td>
-                                                <td >{{cliente.comp}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div><!-- /.table-responsive -->   
-                            </div>
-                        </div>   <!-- /.row -->
-                    </div> <!-- /.panel-default -->                    
-                </div>   <!-- /.modal-body -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline btn-primary" data-dismiss="modal">Fechar</button>
-                </div>
-            </div><!-- /.modal-content -->            
-        </div><!-- /.modal-dialog -->        
-    </div> <!-- /.modal -->
 
 </section>
 

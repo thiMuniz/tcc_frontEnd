@@ -1,4 +1,6 @@
 'use strict';
-app.factory("InsumoResource", function ($resource, WS) {
-  return $resource(WS.urlSGP + 'insumo/:id', {id: '@_id'});
+app.factory("InsumoResource", function ($resource, CONST) {
+  return $resource(CONST.ws.urlSGP + 'insumo/:id', {id: '@_id'}, {
+    update: { method:'PUT' }
+  });
 });

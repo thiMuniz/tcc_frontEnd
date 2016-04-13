@@ -3,38 +3,68 @@
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>
   </div>
-  <div class="modal-body">
+  <div class="modal-body">     
     <form class="form-horizontal" role="form" name="formEmbalagem">
       <div class="form-group" ng-if="formTipo != 'insert'">
-        <label for="id" class="col-sm-2 control-label">Código</label>
-        <div class="col-sm-10">
+        <label for="id" class="col-sm-3 control-label">Código</label>
+        <div class="col-sm-9">
           <input class="form-control" type="text" id="id" placeholder="Id da embalagem" ng-model="embalagem.id" ng-disabled="true">
         </div>
       </div>
       <div class="form-group" >
-        <label for="dsCurta" class="col-sm-2 control-label">Nome</label>
-        <div class="col-sm-10">
-          <input class="form-control" type="text" id="dsCurta" placeholder="Nome da embalagem" ng-model="embalagem.dsCurta" ng-disabled="formTipo == 'info'">
+        <label for="nome" class="col-sm-3 control-label">Nome *</label>
+        <div class="col-sm-9">
+          <input class="form-control" type="text" id="nome" placeholder="Nome da embalagem" ng-model="embalagem.nome" ng-disabled="formTipo == 'info'">
         </div>
       </div>
       <div class="form-group">
-        <label for="dsDetalhada" class="col-sm-2 control-label">Descrição Detalhada</label>
-        <div class="col-sm-10">
-          <input class="form-control" type="text" id="dsDetalhada" placeholder="Descrição da embalagem" ng-model="embalagem.dsDetalhada" ng-disabled="formTipo == 'info'">
+        <label for="descricao" class="col-sm-3 control-label">Descrição</label>
+        <div class="col-sm-9">
+          <input class="form-control" type="text" id="descricao" placeholder="Descrição detelhada da embalagem" ng-model="embalagem.descricao" ng-disabled="formTipo == 'info'">
         </div>
       </div>
       <div class="form-group">
-        <label for="material" class="col-sm-2 control-label">Material</label>
-        <div class="col-sm-10">
-          <input class="form-control" type="text" id="material" placeholder="Material da embalagem" ng-model="embalagem.material" ng-disabled="formTipo == 'info'">
+        <label for="material" class="col-sm-3 control-label">Material *</label>
+        <div class="col-sm-9">
+          <select class='form-control' id="material" ng-model='embalagem.material' ng-options="material.nome as material.nome group by material.tipo for material in materiais" ng-disabled="formTipo == 'info'">
+            <option value='' style='color: #999; opacity: 1;'> Selecione um material </option>
+          </select>
         </div>
       </div>
       <div class="form-group">
-        <label for="dimensoes" class="col-sm-2 control-label">Dimensões</label>
-        <div class="col-sm-10">
-          <input class="form-control" type="text" id="dimensoes" placeholder="Dimensões da embalagem" ng-model="embalagem.dimensoes" ng-disabled="formTipo == 'info'">
+        <label for="dimensoes" class="col-sm-3 control-label">Dimensões *</label>
+        <div class="col-sm-9">
+          <input class="form-control" type="text" id="dimensoes" placeholder="Dimensões da embalagem. larg x comp" ng-model="embalagem.dimensoes" ng-disabled="formTipo == 'info'">
         </div>
       </div>
+      <div class="form-group">
+        <label for="espessura" class="col-sm-3 control-label">Gramatura *</label>
+        <div class="col-sm-9">
+          <input class="form-control" type="text" id="espessura" placeholder="Espessura da embalagem" ng-model="embalagem.espessura" ng-disabled="formTipo == 'info'">
+        </div>
+      </div>
+      <div class="form-group" ng-if="formTipo == 'info' && embalagem.dtDesativacao"> 
+        <label for="dtDesativacao" class="col-sm-3 control-label">Data Desativação</label>
+        <div class="col-sm-9">
+          <input class="form-control" type="text" id="dtDesativacao" ng-model="embalagem.dtDesativacao" ng-disabled="true">
+        </div>
+      </div>
+<!--        inicio teste img-->
+      <div class="form-group"> 
+        <label for="imagem" class="col-sm-3 control-label">Imagem</label>
+        <button type="button" class="col-sm-2 btn btn-primary btn-sm" ngf-select ng-model="imgSelecionada" accept="image/*">
+          Procurar
+        </button>
+        <div class="col-sm-7 form-control cropAreaSgp" id="imagem" ng-model="imgSelecionada" ngf-pattern="image/*" ngf-drop>
+          <img-crop image="imgSelecionada  | ngfDataUrl" result-image="embalagem.imagem" ng-init="embalagem.imagem">
+            Arraste e solte a imagem ou clique para localizar no computador
+          </img-crop>        
+        </div>
+        <div>
+          <img ng-src="{{embalagem.imagem}}" />
+        </div>
+      </div>
+<!--fim teste img-->        
     </form>
 
   </div>
@@ -56,5 +86,5 @@
     </button>
   </div>
 </div>
-
+ {{embalagem}}
 
