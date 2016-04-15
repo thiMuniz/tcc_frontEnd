@@ -26,10 +26,10 @@
             <label for="tipoPessoa" class="col-sm-3 control-label">Tipo de Pessoa</label>
             <div class="col-sm-7">
               <label class="radio-inline">
-                <input id="tipoPessoa" ng-model="pessoa.tipoPessoa" type="radio" value="PF" ng-click="setPf()" > Física <!-- ng-checked="pessoa.tipoPessoa == 'pf' || !pessoa.tipoPessoa" -->
+                <input id="tipoPessoa" ng-model="pessoa.tipoPessoa" type="radio" value="PF" ng-click="steps[1] = this.pessoa.tipoPessoa" > Física <!-- ng-checked="pessoa.tipoPessoa == 'pf' || !pessoa.tipoPessoa" -->
               </label>
               <label class="radio-inline">
-                <input id="tipoPessoa" ng-model="pessoa.tipoPessoa" type="radio" value="PJ" ng-click="setPj()"> Jurídica <!--  ng-checked="pessoa.tipoPessoa == 'pj'" -->
+                <input id="tipoPessoa" ng-model="pessoa.tipoPessoa" type="radio" value="PJ" ng-click="steps[1] = this.pessoa.tipoPessoa" > Jurídica <!--  ng-checked="pessoa.tipoPessoa == 'pj'" -->
               </label>
             </div>
           </div>
