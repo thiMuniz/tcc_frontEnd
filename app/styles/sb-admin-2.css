@@ -393,3 +393,25 @@ form .progress {
     width: 0;
 }
 /* fim teste crop CSS */
+
+/*.acao {
+  cursor: pointer !important;
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border: 1px solid ; definir cor
+  background-color: ;  definir cor
+}*/
+
+.acao-disabled {
+  cursor: not-allowed !important;
+  cursor: not-allowed;
+  /*cursor: default;*/
+  display: inline-block;  
+  opacity: 0.2;
+  pointer-events: none;
+  height: 24px;
+  margin: auto;
+  vertical-align: middle;
+  width: 24px;
+}

@@ -1,64 +1,57 @@
 <section ng-controller="ClienteCtrl">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">{{titulo}}</h1>
+      <h1 class="page-header">{{tituloView}}</h1>
     </div>  
   </div>
-
   <div class="row">
     <div class="col-lg-12">            
-      <div class="panel-heading "> <!-- Painel Superior -->
-
-        <div class="pull-left">
-          <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" > <!-- data-toggle="modal" data-target="{{idTargetModal}}" -->
-            <ng-md-icon icon="add_circle"></ng-md-icon> &nbsp;{{labelAddBtnPf}}
-          </button>
-          <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" > <!-- data-toggle="modal" data-target="{{idTargetModal}}" -->
-            <ng-md-icon icon="add_circle"></ng-md-icon> &nbsp;{{labelAddBtnPj}}
-          </button>
-  
-        </div>
+      <div class="panel-heading"> <!-- Painel Superior -->
+        <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" tooltip='{{CONST.inserir.tooltipBtn}}'>
+          <ng-md-icon icon="{{CONST.inserir.iconeBtn}}"></ng-md-icon> &nbsp;{{labelCadastrarBtn}}
+        </button>
         <div class="pull-right">
-          <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Buscar Cliente"/>
+          <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Busca geral"/>
         </div>
         <div class="clearfix"></div>
       </div><!-- /.Painel Superior -->
+      
       <div class="panel panel-default">
         <div class="panel-heading">
-            {{clientes.length}} Clientes encontrados                    
-         </div>
-
-        <!-- /.panel-heading -->
+          {{clientes.length}} Clientes encontrados                    
+        </div>
         <div class="panel-body">
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th><a href="" ng-click="ordenar('cpf')">Cadastro</a></th>
+                  <th><a href="" ng-click="ordenar('id')">Código</a></th>
+                  <th>Imagem</th>
                   <th><a href="" ng-click="ordenar('nome')">Nome/Razão</a></th>
-                  <th><a href="" ng-click="ordenar('email')">Email</a></th>
-                  <th><a href="" ng-click="ordenar('foto')">Foto</a></th>
-                  <th><a href="" ng-click="ordenar('dtCadastro')">Data Cadastro</a></th>
+                  <th><a href="" ng-click="ordenar('cpf')">CPF/CNPJ</a></th>
+                  <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
                   <th>Ação</th>
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="cliente in clientes| filter : filtroGenerico | orderBy : campo : ascDsc ">
-                  <td>{{cliente.cpf}}</td>                                        
-                  <td>{{cliente.nome| uppercase}}</td>
-                  <td>{{cliente.email| lowercase}}</td>
-                  <td><img ng-src="{{cliente.foto}}"></td>                                        
-                  <td>{{cliente.dtCadastro| date:'dd/MM/yyyy HH:mm'}}</td>
+                <tr ng-repeat="cliente in clientes| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
+                  <td>{{cliente.id}}</td>                  
+                  <td><img ng-src="{{cliente.imagem}}" /></td>
+                  <td>{{cliente.pf ? cliente.pf.nome : cliente.pf.nomeFantasia }}</td>
+                  <td>{{cliente.pf ? cliente.pf.cpf : cliente.pf.cnpj }}</td>
+                  <td style="{{cliente.dtDesativacao ? 'color: red' : ''}}">
+                    {{cliente.dtDesativacao ? "Desativado" : " Ativo"}}
+                  </td>
                   <td>
-                    <a ng-click="openUpdateDialog(cliente, $index);" tooltip="Editar" > <!-- data-toggle="modal" data-target="#formModal"  -->
-                      <ng-md-icon icon="edit"></ng-md-icon>
+                    <a ng-click="openUpdateDialog(cliente);" tooltip="{{CONST.editar.tooltipAcao}}" ng-if="!cliente.dtDesativacao">
+                      <ng-md-icon icon="{{CONST.editar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
-                    <a ng-click="openDesativarDialog(cliente, $index);" tooltip="Desativar" >
-                      <ng-md-icon icon="delete"></ng-md-icon>
+                    <a ng-click="openAtivarDesativarDialog(cliente);" tooltip="{{cliente.dtDesativacao ? CONST.ativar.tooltipAcao : CONST.desativar.tooltipAcao}}" >
+                      <ng-md-icon icon="{{cliente.dtDesativacao ? CONST.ativar.iconeAcao : CONST.desativar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
-                    <a ng-click="openInfoDialog(cliente);" tooltip="Detalhes" > <!-- data-toggle="modal" data-target="#infoModal" -->
-                      <ng-md-icon icon="info"></ng-md-icon>
-                    </a>&nbsp;                                        
+                    <a ng-click="openInfoDialog(cliente);" tooltip="{{CONST.info.tooltipAcao}}" >
+                      <ng-md-icon icon="{{CONST.info.iconeAcao}}"></ng-md-icon>
+                    </a>&nbsp;
                   </td>
                 </tr>
               </tbody>
@@ -67,8 +60,5 @@
         </div><!-- /.panel-body -->
       </div><!-- /.panel-default -->
     </div><!-- /.col-lg-12 -->
-  </div>
-
-
+  </div><!-- /.row -->
 </section>
-

@@ -29,6 +29,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, toastr, CONST
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
       tituloDialog: "Cadastrar Embalagem",
       embalagem: new EmbalagemResource()
+//      embalagem: {id: "", nome: "", descricao: "", material: "", dimensoes: "", espessura:"", dtDesativacao: "", imagem: ""}
     };
 
     var modalInstance = $modal.open({

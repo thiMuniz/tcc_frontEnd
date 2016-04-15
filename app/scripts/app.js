@@ -25,6 +25,8 @@ var app = angular
         .constant("CONST", {
           ws:{
             urlSGP: "http://sgptcc.jelastic.servint.net/sgp/",
+//            urlSGP: "http://45.55.228.230:8080/sgp/",
+//            urlSGP: "https://45.55.228.230:8181/sgp/",
             urlCep: "https://viacep.com.br/ws/",
             urlCorreios: "",
             urlRF: ""
