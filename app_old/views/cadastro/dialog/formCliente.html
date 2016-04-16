@@ -1,4 +1,4 @@
-<div class="modal-content" ng-init="init();">
+<div class="modal-content">
   <div class="modal-header">    
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>
@@ -14,7 +14,7 @@
 
       debug pessoa{{pessoa}}
       <div ng-switch on="selection">
-        <div ng-switch-when="Passo 1 - Dados Gerais"><!-- ABA 1 - GERAL -->
+        <div ng-switch-when="Geral"><!-- ABA 1 - GERAL -->
           <div class="form-group" ng-if="formTipo == 'info'">
             <label for="id" class="col-sm-3 control-label">Código</label>
             <div class="col-sm-7">
@@ -26,10 +26,10 @@
             <label for="tipoPessoa" class="col-sm-3 control-label">Tipo de Pessoa</label>
             <div class="col-sm-7">
               <label class="radio-inline">
-                <input id="tipoPessoa" ng-model="pessoa.tipoPessoa" type="radio" value="pf" ng-click="toogleTipoPessoa()" > Física <!-- ng-checked="pessoa.tipoPessoa == 'pf' || !pessoa.tipoPessoa" -->
+                <input id="tipoPessoa" ng-model="pessoa.tipoPessoa" type="radio" value="PF" ng-click="steps[1] = this.pessoa.tipoPessoa" > Física <!-- ng-checked="pessoa.tipoPessoa == 'pf' || !pessoa.tipoPessoa" -->
               </label>
               <label class="radio-inline">
-                <input id="tipoPessoa" ng-model="pessoa.tipoPessoa" type="radio" value="pj" ng-click="toogleTipoPessoa()" > Jurídica <!--  ng-checked="pessoa.tipoPessoa == 'pj'" -->
+                <input id="tipoPessoa" ng-model="pessoa.tipoPessoa" type="radio" value="PJ" ng-click="steps[1] = this.pessoa.tipoPessoa" > Jurídica <!--  ng-checked="pessoa.tipoPessoa == 'pj'" -->
               </label>
             </div>
           </div>
@@ -90,7 +90,7 @@
 
         </div><!-- /.ABA 1 - GERAL -->
 
-        <div ng-switch-when="Passo 2 - Dados Pessoa - Física" ><!-- ABA 2 - PF -->
+        <div ng-switch-when="PF" ><!-- ABA 2 - PF -->
           debug PF {{pf}}
           <div class="form-group">
             <label for="nome" class="col-sm-3 control-label">Nome</label>
@@ -106,12 +106,10 @@
           </div>  
           <div class="form-group">
             <label for="sexo" class="col-sm-3 control-label">Sexo</label>
-            <div class="col-sm-9">
-              <select class='form-control' id="sexo" ng-model='pf.sexo' ng-options="sexo.nome as sexo.nome  for sexo in sexos" ng-disabled="formTipo == 'info'">
-                <option value='' style='color: #999; opacity: 1;'> Selecione </option>
-              </select>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="sexo" placeholder="" ng-model="pf.sexo" ng-disabled="formTipo == 'info'">
             </div>
-          </div>   
+          </div>    
           <div class="form-group">
             <label for="titulo" class="col-sm-3 control-label">Titulo</label>
             <div class="col-sm-7">
@@ -139,7 +137,7 @@
         </div><!-- /.ABA 2 - PF  -->
 
 
-        <div ng-switch-when="Passo 2 - Dados Pessoa - Jurídica" ><!-- ABA 2 -PJ -->
+        <div ng-switch-when="PJ" ><!-- ABA 2 -PJ -->
           debug cliente.pj {{cliente.pj}}
 
           <div class="form-group">
@@ -200,7 +198,7 @@
 
         </div><!-- /.ABA 2 - PJ -->
         
-        <div ng-switch-when="Passo 3 - Endereço e Contato"><!-- ABA 3 - ENDEREÇO -->
+        <div ng-switch-when="Endereço"><!-- ABA 3 - ENDEREÇO -->
           {{endereco}}
           <div class="form-group">
             <label for="cep" class="col-sm-3 control-label">Cep*</label>

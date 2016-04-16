@@ -1,17 +1,20 @@
 'use strict';
-app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemResource, CONST, toastr) {
+app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, toastr, CONST, EmbalagemResource) {
   
+  var toastTitle = "Bem vindo programador!!";
+  var toastMsg = "Boa sorte dessa vez...";
   var index;
   $scope.CONST = CONST;
   $scope.tituloView = "Cadastro de Embalagens dos Produtos";
   $scope.headerLista = "Nenhuma embalagem foi encontrada";
   $scope.labelCadastrarBtn = "Nova Embalagem";
   
+  toastr.warning(toastMsg, toastTitle);
   atualizarLista();
   
   function atualizarLista() {
     $scope.embalagens = EmbalagemResource.query();
-    //incluir spinner enquanto esta carregando a lista
+    //incluir animação enquanto esta carregando a lista
   };
   
   $scope.ordenar = function (campo) {
@@ -26,6 +29,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
       tituloDialog: "Cadastrar Embalagem",
       embalagem: new EmbalagemResource()
+//      embalagem: {id: "", nome: "", descricao: "", material: "", dimensoes: "", espessura:"", dtDesativacao: "", imagem: ""}
     };
 
     var modalInstance = $modal.open({
@@ -125,7 +129,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
   $scope.openInfoDialog = function (embalagem) {    
     $scope.params = {
       formTipo: 'info',
-      iconeHeaderDialog: CONST.info.iconeHeaderDialog,
+      iconeHeaderDialog: "info_outline",
       tituloDialog: "Detalhes Embalagem",
       embalagem: angular.copy(embalagem)
     };
@@ -162,7 +166,8 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
     ];
     
     $scope.clear = function () {
-      delete $scope.embalagem;      
+      delete $scope.embalagem;
+      
     };
 
     $scope.submit = function () {

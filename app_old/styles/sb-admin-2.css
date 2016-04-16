@@ -373,11 +373,11 @@ table.dataTable thead .sorting:after {
 .drop-box {
     background: #f8f8f8 none repeat scroll 0 0;
     border: 5px dashed #ddd;
-    width: 200px;
     height: 65px;
     margin: 10px;
     padding-top: 25px;
     text-align: center;
+    width: 200px;
 }
 form .progress {
     line-height: 15px;
@@ -394,10 +394,6 @@ form .progress {
 }
 /* fim teste crop CSS */
 
-/*
-* Classes SGP *
-*/
-
 /*.acao {
   cursor: pointer !important;
   display: inline-block;
@@ -409,17 +405,13 @@ form .progress {
 
 .acao-disabled {
   cursor: not-allowed !important;
+  cursor: not-allowed;
   /*cursor: default;*/
   display: inline-block;  
   opacity: 0.2;
   pointer-events: none;
   height: 24px;
-  width: 24px;
   margin: auto;
   vertical-align: middle;
-}
-
-.img-sq-sm {
-  height: 24px !important;
-  width: 24px !important;
+  width: 24px;
 }
