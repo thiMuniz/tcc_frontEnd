@@ -5,7 +5,7 @@
     debug cliente{{cliente}}
   </div>
   <div class="modal-body">
-    <form class="form-horizontal" role="form" name="formCliente" >
+    <form class="form-horizontal" role="form" name="formCliente" ng-if="formTipo != 'info'">
       <ul class="nav nav-tabs">
         <li ng-repeat="step in steps" ng-class="{active: $index == getCurrentStepIndex()}">
           <a href="javascript:void(0)" ng-click="goToStep($index)">{{step}}</a>

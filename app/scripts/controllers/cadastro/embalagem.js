@@ -153,17 +153,20 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
 //    }else{
 //        $scope.embalagem = new EmbalagemResource();
 //    }
+//    if($scope.embalagemInit)delete $scope.embalagemInit;
+    $scope.embalagemInit = angular.copy($scope.embalagem);
     
     $scope.materiais = [
       {nome: "PE - Polietileno", tipo: "Plástico"},
       {nome: "PP - Polipropileno", tipo: "Plástico"},
       {nome: "PC - Papel Clabin", tipo: "Papel"},
       {nome: "PG - Papel Gordura", tipo: "Papel"}
-    ];
+    ]
     
     $scope.clear = function () {
-      delete $scope.embalagem;      
+      $scope.embalagem = angular.copy($scope.embalagemInit);
     };
+    
 
     $scope.submit = function () {
       //incluir rotina de validação
