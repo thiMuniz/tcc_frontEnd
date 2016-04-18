@@ -36,7 +36,7 @@
               <tbody>
                 <tr ng-repeat="cliente in clientes| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
                   <td>{{cliente.id}}</td>                  
-                  <td><img ng-src="{{cliente.imagem}}" class="img-sq-sm" /></td>
+                  <td><img ng-src="{{cliente.imagem}}" class="img-thumbnail img-list-view" /></td>
                   <td>{{cliente.pf ? cliente.pf.nome : cliente.pf.nomeFantasia }}</td>
                   <td>{{cliente.pf ? cliente.pf.cpf : cliente.pf.cnpj }}</td>
                   <td style="{{cliente.pessoa.dtDesativacao ? 'color: red' : ''}}">

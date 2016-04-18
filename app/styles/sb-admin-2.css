@@ -419,7 +419,12 @@ form .progress {
   vertical-align: middle;
 }
 
-.img-sq-sm {
-  height: 24px !important;
-  width: 24px !important;
+.img-list-view {
+  height: 24px;
+  width: 24px;
+}
+
+.img-info-dialog {
+  height: 160px;
+  width: 160px;
 }

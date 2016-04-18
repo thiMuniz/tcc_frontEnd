@@ -17,16 +17,16 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
 //pf(cpf,rg,nome,sobrenome,titulo, dtNasc)]
 //pj(cnpj, inscricaoEst,razaoSocial,nomeFantasia,contato,tipo,hrMinEntrega,hrMaxEntrega)
 //local=dados endereco
-  $scope.pessoa = {tipoPessoa: "pj", email: "emailteste@", telefone1: "333333", telefone2: "222222", imagem: "", dtDesativacao: "", usuario: "evertonwb", senha: "", permissao: ""};
-  $scope.pf = {nome: "pessoa1", sobrenome: "silva1", titulo: "sr", rg: "343434334", cpf: "000000090909", dtNascimento: new Date()};
-  $scope.pj = {razaoSocial: "sgp sa", nomeFantasia: "Melhor", ramoAtividade: "Essa parada que da dor de cabeça", cnpj: "09090909", inscricaoEst: "", dtAbertura: "", contato: "", tipo: "", hrMinEntrega: "", hrMaxEntrega: ""};
+  $scope.pessoa = {tipoPessoa: "pj", email: "", telefone1: "", telefone2: "", imagem: "", dtDesativacao: "", usuario: "", senha: "", permissao: ""};
+  $scope.pf = {nome: "pessoa1", sobrenome: "silva1", titulo: "", rg: "", cpf: "000000090909", dtNascimento: new Date()};
+  $scope.pj = {razaoSocial: "", nomeFantasia: "", ramoAtividade: "", cnpj: "", inscricaoEst: "", dtAbertura: "", contato: "", tipo: "", hrMinEntrega: "", hrMaxEntrega: ""};
   $scope.endereco = {cep: "92839392", logradouro: "rua 1", numero: "1", complemento: "a", bairro: "c", localidade: "b", uf: "d"};
 
 
   function carregarClientesFront() {
     $scope.clientes = [
       {
-        pessoa: $scope.pessoa, pf: $scope.pf, pj: $scope.pj, endereco: $scope.endereco
+        pessoa: $scope.pessoa, pf: $scope.pf, endereco: $scope.endereco
       }
     ];
   }
@@ -155,10 +155,10 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
     }
 
     var modalInstance = $modal.open({
-      templateUrl: "views/cadastro/dialog/infoCliente.html",
+      templateUrl: "views/cadastro/dialog/formCliente.html",
       controller: "ClienteDialogCtrl",
       backdrop: 'static',
-      size: 'lg',
+      size: '',
       resolve: {
         params: function () {
           return $scope.params;
@@ -194,8 +194,8 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
   }
 
   $scope.toogleTipoPessoa = function () {
-    var abaPF = 'Passo 2 - Dados Pessoa Física';
-    var abaPJ = 'Passo 2 - Dados Pessoa Jurídica';
+    var abaPF = 'Passo 2 - Dados Pessoa - Física';
+    var abaPJ = 'Passo 2 - Dados Pessoa - Jurídica';
     if ($scope.pessoa.tipoPessoa == 'pf') {
       delete $scope.cliente.pj;
       $scope.cliente.pf = $scope.pf;
@@ -224,19 +224,18 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
 
 
   $scope.carregarCep = function () {
-    $http.get(CONST.ws.urlCep + $scope.cliente.endereco.cep + '/json/'
-            ).success(function (endereco) {
-      $scope.cliente.endereco = endereco;
-//              toastr.info(endereco);
-    }).error(function (endereco) {
-      console.log("deu ruim - endereco" + endereco);
+    $http.get(CONST.ws.urlCep + $scope.cliente.local.cep + '/json/'
+            ).success(function (local) {
+      $scope.cliente.local = local;
+//              toastr.info(local);
+    }).error(function (local) {
+      console.log("deu ruim - local" + local);
 //                        carregarClientesFront();
     });
   };
 
   $scope.clear = function () {
-//    delete $scope.cliente;
-    $scope.formCliente.$setPristine();
+    delete $scope.cliente;
   };
 
   $scope.submit = function () {
@@ -268,7 +267,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
   };
 
 
-  // controle abas
+  // Fim controle abas
   $scope.steps = [
     'Passo 1 - Dados Gerais',
     '', //pf default

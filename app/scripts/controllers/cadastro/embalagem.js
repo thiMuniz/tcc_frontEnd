@@ -1,6 +1,8 @@
 'use strict';
 app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemResource, CONST, toastr) {
   
+  var toastTitle = "";
+  var toastMsg = "";
   var index;
   $scope.CONST = CONST;
   $scope.tituloView = "Cadastro de Embalagens dos Produtos";
@@ -131,7 +133,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
     };
 
     var modalInstance = $modal.open({
-      templateUrl: "views/cadastro/dialog/formEmbalagem.html",
+      templateUrl: "views/cadastro/dialog/infoEmbalagem.html",
       controller: "EmbalagemDialogCtrl",
       backdrop: 'static',
       size: '',
@@ -161,12 +163,11 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
       {nome: "PP - Polipropileno", tipo: "Plástico"},
       {nome: "PC - Papel Clabin", tipo: "Papel"},
       {nome: "PG - Papel Gordura", tipo: "Papel"}
-    ]
+    ];
     
     $scope.clear = function () {
       $scope.embalagem = angular.copy($scope.embalagemInit);
-    };
-    
+    };    
 
     $scope.submit = function () {
       //incluir rotina de validação

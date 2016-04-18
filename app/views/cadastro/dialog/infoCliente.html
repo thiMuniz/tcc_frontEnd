@@ -1,0 +1,156 @@
+<div class="modal-content" ng-init="init();">
+  <div class="modal-header">    
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel">
+      <ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
+    </h4>
+  </div>
+  
+  <div class="modal-body">
+    <div class="panel-default">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="col-lg-4">
+            <img src="img/adm/AdmEvertonWB.jpg" class="img-circle img-info-dialog">
+          </div>
+          <div class="col-lg-8">
+            <!--**informacoes na lateral doreita da foto-->
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <td><label for="email" class="col-sm-3 control-label">Usuario</label></td>
+                    <td class= "form-control-static"><div class="col-sm-7">{{cliente.pessoa.usuario}}</div></td>  
+                  </tr>
+                  <tr>
+                    <td><label for="email" class="col-sm-3 control-label">Email</label></td>
+                    <td class= "form-control-static"><div class="col-sm-7">{{cliente.pessoa.email}}</div></td>  
+                  </tr>
+                  <tr>
+                    <td><label for="email" class="col-sm-3 control-label">Tel</label></td>
+                    <td class= "form-control-static"><div class="col-sm-7">{{cliente.pessoa.telefone1}}</div></td>  
+                  </tr>
+                  <tr>
+                    <td><label for="email" class="col-sm-3 control-label">Tel</label></td>
+                    <td class= "form-control-static"><div class="col-sm-7">{{cliente.pessoa.telefone2}}</div></td>  
+                  </tr>
+                </tbody>
+              </table>
+            </div><!-- /.table-responsive -->   
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              
+                <!--inicio dados PF-->
+              <tbody ng-if="cliente.pessoa.tipoPessoa == 'pf'">
+                <tr>
+                  <td class= "form-control-static"><div class="col-sm-4">{{cliente.pf.titulo}}</div></td>  
+                  <td class= "form-control-static"><div class="col-sm-4">{{cliente.pf.nome}}</div></td>  
+                  <td class= "form-control-static"><div class="col-sm-4">{{cliente.pf.sobrenome}}</div></td>  
+                </tr>
+                <tr>
+                  <td><label for="rg" class="col-sm-3 control-label">RG</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pf.rg}}</div></td>  
+                </tr>
+                <tr>
+                  <td><label for="cpf" class="col-sm-3 control-label">Cpf</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pf.cpf}}</div></td>  
+                </tr>
+                <tr>
+                  <td><label for="dtNasc" class="col-sm-3 control-label">Data Nascimento</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pf.dtnascimento}}</div></td>  
+                </tr>
+              </tbody>
+              <!--Fim dados PF-->
+
+              <!--inicio dados PJ-->
+              <tbody ng-if="cliente.pessoa.tipoPessoa == 'pj'">
+                <tr>
+                  <td><label for="razaoSocial" class="col-sm-3 control-label">Razão Social</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.razaoSocial}}</div></td>  
+                </tr>
+                <tr>
+                  <td><label for="nomeFantasia" class="col-sm-3 control-label">Nome Fantasia</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.nomeFantasia}}</div></td>  
+                </tr>
+                <tr>
+                  <td><label for="ramoAtividade" class="col-sm-3 control-label">Ramo Atividade</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.ramoAtividade}}</div></td>  
+                </tr>
+                <tr>
+                  <td><label for="cnpj" class="col-sm-3 control-label">Cnpj</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.cnpj}}</div></td>  
+                </tr>
+                <tr>
+                  <td><label for="inscricaoEst" class="col-sm-3 control-label">inscricaoEst</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.inscricaoEst}}</div></td>  
+                </tr>
+                <tr>
+                  <td><label for="dtAbertura" class="col-sm-3 control-label">dtAbertura</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.dtAbertura}}</div></td>  
+                </tr>
+                <tr>
+                  <td><label for="contato" class="col-sm-3 control-label">contato</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.contato}}</div></td>  
+                </tr>
+                <tr>
+                  <td><label for="tipo" class="col-sm-3 control-label">tipo</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.tipo}}</div></td>  
+                </tr>
+                <tr>
+                  <td><label for="hrMinEntrega" class="col-sm-3 control-label">hrMinEntrega</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.hrMinEntrega}}</div></td>  
+                </tr>
+                <tr>
+                  <td><label for="hrMaxEntrega" class="col-sm-3 control-label">hrMaxEntrega</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.hrMaxEntrega}}</div></td>  
+                </tr>
+              </tbody>
+              <!--Fim dados PJ-->
+              <!--Inicio dados endereço-->
+              <tbody>
+                <tr>
+                  <td><label for="cep" class="col-sm-3 control-label">CEP</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.endereco.cep}}</div></td>  
+                </tr>
+                <tr>
+                  <td><label for="uf" class="col-sm-3 control-label">Estado</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.endereco.uf}}</div></td>  
+                </tr>
+                <tr>
+                  <td><label for="localidade" class="col-sm-3 control-label">Cidade</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.endereco.localidade}}</div></td>  
+                </tr>
+                <tr>
+                  <td><label for="bairro" class="col-sm-3 control-label">Bairro</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.endereco.bairro}}</div></td>  
+
+                </tr>
+                <tr>
+                  <td><label for="logradouro" class="col-sm-3 control-label">Endereço</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.endereco.logradouro}}</div></td>  
+                </tr>
+                <tr>
+                  <td><label for="numero" class="col-sm-3 control-label">Numero</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.endereco.numero}}</div></td>  
+                </tr>
+                <tr >
+                  <td><label for="complemento" class="col-sm-3 control-label">Complemento</label></td>
+                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.endereco.complemento}}</div></td>  
+                </tr>
+              </tbody>  <!--Fim dados endereço-->
+            </table>
+          </div><!-- /.table-responsive -->   
+        </div>
+      </div>   <!-- /.row -->
+    </div> <!-- /.panel-default -->
+  </div> <!-- modal-body -->
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline btn-primary btn-lg btn-block" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Fechar
+    </button>
+  </div>
+</div>
