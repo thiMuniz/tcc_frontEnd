@@ -11,14 +11,14 @@
           <a href="javascript:void(0)" ng-click="goToStep($index)">{{step}}</a>
         </li>
       </ul>
-
-      debug pessoa{{pessoa}}
+      
       <div ng-switch on="selection">
         <div ng-switch-when="Passo 1 - Dados Gerais"><!-- ABA 1 - GERAL -->
+          debug cliente.pessoa{{cliente.pessoa}}
           <div class="form-group" ng-if="formTipo == 'update'">
             <label for="id" class="col-sm-3 control-label">Código</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="id" ng-model="pessoa.id" ng-disabled="true">
+              <input class="form-control" type="text" id="id" ng-model="cliente.pessoa.id" ng-disabled="true">
             </div>
           </div>          
 
@@ -26,10 +26,10 @@
             <label for="tipoPessoa" class="col-sm-3 control-label">Tipo de Pessoa</label>
             <div class="col-sm-7">
               <label class="radio-inline">
-                <input id="tipoPessoa" name="tipoPessoa" ng-model="pessoa.tipoPessoa" type="radio" value="pf" ng-click="toogleTipoPessoa()" > Física <!-- ng-checked="pessoa.tipoPessoa == 'pf' || !pessoa.tipoPessoa" -->
+                <input id="tipoPessoa" name="tipoPessoa" ng-model="cliente.pessoa.tipoPessoa" type="radio" value="pf" ng-click="toogleTipoPessoa()" ng-disabled="formTipo == 'update'"> Física <!-- ng-checked="cliente.pessoa.tipoPessoa == 'pf' || !pessoa.tipoPessoa" -->
               </label>
               <label class="radio-inline">
-                <input id="tipoPessoa" name="tipoPessoa" ng-model="pessoa.tipoPessoa" type="radio" value="pj" ng-click="toogleTipoPessoa()" > Jurídica <!--  ng-checked="pessoa.tipoPessoa == 'pj'" -->
+                <input id="tipoPessoa" name="tipoPessoa" ng-model="cliente.pessoa.tipoPessoa" type="radio" value="pj" ng-click="toogleTipoPessoa()" ng-disabled="formTipo == 'update'"> Jurídica <!--  ng-checked="cliente.pessoa.tipoPessoa == 'pj'" -->
               </label>
             </div>
           </div>
@@ -37,37 +37,37 @@
           <div class="form-group">
             <label for="email" class="col-sm-3 control-label">Email</label>
             <div class="col-sm-7">
-              <input class="form-control" ng-required="true" type="text" id="usuario" placeholder="E-mail" ng-model="pessoa.email" >
+              <input class="form-control" ng-required="true" type="text" id="usuario" placeholder="E-mail" ng-model="cliente.pessoa.email" >
             </div>
           </div>
           <div class="form-group">
             <label for="usuario" class="col-sm-3 control-label">Nome de usuário</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="usuario" placeholder="Usuario" ng-model="pessoa.usuario" >
+              <input class="form-control" type="text" id="usuario" placeholder="Usuario" ng-model="cliente.pessoa.usuario" >
             </div>
           </div>
           <div class="form-group">
             <label for="senha" class="col-sm-3 control-label">Senha</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="senha" placeholder="Senha" ng-model="pessoa.senha" >
+              <input class="form-control" type="text" id="senha" placeholder="Senha" ng-model="cliente.pessoa.senha" >
             </div>
           </div>
           <div class="form-group">
             <label for="telefone1" class="col-sm-3 control-label">Telefone 1</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="telefone1" placeholder="Telefone 1" ng-model="pessoa.telefone1" >
+              <input class="form-control" type="text" id="telefone1" placeholder="Telefone 1" ng-model="cliente.pessoa.telefone1" >
             </div>
           </div>
           <div class="form-group">
             <label for="telefone2" class="col-sm-3 control-label">Telefone 2</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="telefone2" placeholder="Telefone 2" ng-model="pessoa.telefone2" >
+              <input class="form-control" type="text" id="telefone2" placeholder="Telefone 2" ng-model="cliente.pessoa.telefone2" >
             </div>
           </div>
           <div class="form-group" ng-if="formTipo == 'info' && pessoa.dtDesativacao"> 
             <label for="dtDesativacao" class="col-sm-3 control-label">Data Desativação</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="dtDesativacao" ng-model="pessoa.dtDesativacao" ng-disabled="true">
+              <input class="form-control" type="text" id="dtDesativacao" ng-model="cliente.pessoa.dtDesativacao" ng-disabled="true">
             </div>
           </div>
           <!--        inicio teste img-->
@@ -77,12 +77,12 @@
               Procurar
             </button>
             <div class="col-sm-7 form-control cropAreaSgp" id="imagem" ng-model="imgSelecionada" ngf-pattern="image/*" ngf-drop>
-              <img-crop image="imgSelecionada  | ngfDataUrl" result-image="pessoa.imagem" ng-init="pessoa.imagem">
+              <img-crop image="imgSelecionada  | ngfDataUrl" result-image="cliente.pessoa.imagem" ng-init="cliente.pessoa.imagem">
                 Arraste e solte a imagem ou clique para localizar no computador
               </img-crop>        
             </div>
             <div>
-              <img ng-src="{{pessoa.imagem}}" />
+              <img ng-src="{{cliente.pessoa.imagem}}" />
             </div>
           </div>
           <!--fim teste img-->
@@ -91,23 +91,23 @@
         </div><!-- /.ABA 1 - GERAL -->
 
         <div ng-switch-when="Passo 2 - Dados Pessoa Física" ><!-- ABA 2 - PF -->
-          debug PF {{pf}}
+          debug cliente.pf {{cliente.pf}}
           <div class="form-group">
             <label for="nome" class="col-sm-3 control-label">Nome</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="nome" placeholder="Nome" ng-model="pf.nome" >
+              <input class="form-control" type="text" id="nome" placeholder="Nome" ng-model="cliente.pf.nome" >
             </div>
           </div>  
           <div class="form-group">
             <label for="sobrenome" class="col-sm-3 control-label">Sobrenome</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="sobrenome" placeholder="" ng-model="pf.sobrenome" >
+              <input class="form-control" type="text" id="sobrenome" placeholder="" ng-model="cliente.pf.sobrenome" >
             </div>
           </div>  
           <div class="form-group">
             <label for="sexo" class="col-sm-3 control-label">Sexo</label>
             <div class="col-sm-7">
-              <select class='form-control' id="sexo" ng-model='pf.sexo' ng-options="sexo.nome as sexo.nome  for sexo in sexos" ng-disabled="formTipo == 'update'">
+              <select class='form-control' id="sexo" ng-model='cliente.pf.sexo' ng-options="sexo.nome as sexo.nome  for sexo in sexos" ng-disabled="formTipo == 'update'">
                 <option value='' style='color: #999; opacity: 1;'> Selecione </option>
               </select>
             </div>
@@ -115,99 +115,99 @@
           <div class="form-group">
             <label for="titulo" class="col-sm-3 control-label">Titulo</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="titulo" placeholder="" ng-model="pf.titulo" >
+              <input class="form-control" type="text" id="titulo" placeholder="" ng-model="cliente.pf.titulo" >
             </div>
           </div>
           <div class="form-group">
             <label for="rg" class="col-sm-3 control-label">RG</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="rg" placeholder="" ng-model="pf.rg" ng-disabled="formTipo == 'update'">
+              <input class="form-control" type="text" id="rg" placeholder="" ng-model="cliente.pf.rg" ng-disabled="formTipo == 'update'">
             </div>
           </div> 
           <div class="form-group">
             <label for="cpf" class="col-sm-3 control-label">Cpf</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="cpf" placeholder="" ng-model="pf.cpf" ng-disabled="formTipo == 'update'">
+              <input class="form-control" type="text" id="cpf" placeholder="" ng-model="cliente.pf.cpf" ng-disabled="formTipo == 'update'">
             </div>
           </div>  
           <div class="form-group">
             <label for="dtNascimento" class="col-sm-3 control-label">Data Nascimento</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="dtNascimento" placeholder="" ng-model="pf.dtNascimento" >
+              <input class="form-control" type="text" id="dtNascimento" placeholder="" ng-model="cliente.pf.dtNascimento" >
             </div>
           </div> 
         </div><!-- /.ABA 2 - PF  -->
 
 
         <div ng-switch-when="Passo 2 - Dados Pessoa Jurídica" ><!-- ABA 2 -PJ -->
-          debug pessoa.pj {{pessoa.pj}}
+          debug cliente.pj {{cliente.pj}}
 
           <div class="form-group">
             <label for="razaoSocial" class="col-sm-3 control-label">Razão Social</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="razaoSocial" placeholder="Somente numeros" ng-model="pj.razaoSocial" >
+              <input class="form-control" type="text" id="razaoSocial" placeholder="Somente numeros" ng-model="cliente.pj.razaoSocial" >
             </div>
           </div>  
           <div class="form-group">
             <label for="nomeFantasia" class="col-sm-3 control-label">Nome Fantasia</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="nomeFantasia" placeholder="" ng-model="pj.nomeFantasia" >
+              <input class="form-control" type="text" id="nomeFantasia" placeholder="" ng-model="cliente.pj.nomeFantasia" >
             </div>
           </div>  
           <div class="form-group">
             <label for="ramoAtividade" class="col-sm-3 control-label">Ramo da Atividade</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="ramoAtividade" placeholder="" ng-model="pj.ramoAtividade" >
+              <input class="form-control" type="text" id="ramoAtividade" placeholder="" ng-model="cliente.pj.ramoAtividade" >
             </div>
           </div>    
           <div class="form-group">
             <label for="cnpj" class="col-sm-3 control-label">Cnpj</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="cnpj" placeholder="" ng-model="pj.cnpj" ng-disabled="formTipo == 'update'">
+              <input class="form-control" type="text" id="cnpj" placeholder="" ng-model="cliente.pj.cnpj" ng-disabled="formTipo == 'update'">
             </div>
           </div>     
           <div class="form-group">
             <label for="inscricaoEst" class="col-sm-3 control-label">Inscricao Estadual</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="inscricaoEst" placeholder="" ng-model="pj.inscricaoEst" ng-disabled="formTipo == 'update'">
+              <input class="form-control" type="text" id="inscricaoEst" placeholder="" ng-model="cliente.pj.inscricaoEst" ng-disabled="formTipo == 'update'">
             </div>
           </div> 
 
           <div class="form-group">
             <label for="dtAbertura" class="col-sm-3 control-label">Data Abertura</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="dtAbertura" placeholder="" ng-model="pj.dtAbertura" ng-disabled="formTipo == 'update'">
+              <input class="form-control" type="text" id="dtAbertura" placeholder="" ng-model="cliente.pj.dtAbertura" ng-disabled="formTipo == 'update'">
             </div>
           </div>  
           <div class="form-group">
             <label for="contato" class="col-sm-3 control-label">Contato</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="contato" placeholder="" ng-model="pj.contato" >
+              <input class="form-control" type="text" id="contato" placeholder="" ng-model="cliente.pj.contato" >
             </div>
           </div> 
           <div class="form-group">
             <label for="hrMinEntrega" class="col-sm-3 control-label">Hora Minima Entrega</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="hrMinEntrega" placeholder="" ng-model="pj.hrMinEntrega" >
+              <input class="form-control" type="text" id="hrMinEntrega" placeholder="" ng-model="cliente.pj.hrMinEntrega" >
             </div>
           </div> 
           <div class="form-group">
             <label for="hrMaxEntrega" class="col-sm-3 control-label">Hora Maxima Entrega</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="hrMaxEntrega" placeholder="" ng-model="pj.hrMaxEntrega" >
+              <input class="form-control" type="text" id="hrMaxEntrega" placeholder="" ng-model="cliente.pj.hrMaxEntrega" >
             </div>
           </div> 
 
         </div><!-- /.ABA 2 - PJ -->
 
         <div ng-switch-when="Passo 3 - Endereço e Contato"><!-- ABA 3 - ENDEREÇO -->
-          {{endereco}}
+          {{cliente.endereco}}
           <div class="form-group">
             <label for="cep" class="col-sm-3 control-label">Cep*</label>
             <div class="col-sm-7">
               <div ng-show="formCliente.cep.$error.required && formCliente.cep.$dirty">Por favor, preencha o campo cep! </div>
               <div ng-show="formCliente.cep.$error.pattern">Por favor, preencha um cep valido!Ex: 00000000 </div>
-              <input class="form-control" type="text" id="cep" ng-model="cliente.endereco.cep" name="cep" placeholder="Apenas numeros"  ng-required="true" ng-pattern="/^\d{8}$/" ng-change="carregarCep()" >
+              <input class="form-control" type="text" id="cep" ng-model="cliente.endereco.cep" name="cep" placeholder="Apenas numeros"  ng-required="true" ng-pattern="/^\d{8}$/" ng-blur="carregarCep()" >
             </div>
           </div> 
           <div class="form-group">

@@ -27,18 +27,18 @@
                 <tr>
                   <th><a href="" ng-click="ordenar('id')">Código</a></th>
                   <th>Imagem</th>
-                  <th><a href="" ng-click="ordenar('nome')">Nome/Razão</a></th>
-                  <th><a href="" ng-click="ordenar('cpf')">CPF/CNPJ</a></th>
+                  <th><a href="" ng-click="ordenar('nome')">Nome</a></th>
+                  <th><a href="" ng-click="ordenar('tipoPessoa')">Tipo Pessoa</a></th>
                   <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
                   <th>Ação</th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="cliente in clientes| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
-                  <td>{{cliente.id}}</td>                  
-                  <td><img ng-src="{{cliente.imagem}}" class="img-thumbnail img-list-view" /></td>
-                  <td>{{cliente.pf ? cliente.pf.nome : cliente.pf.nomeFantasia }}</td>
-                  <td>{{cliente.pf ? cliente.pf.cpf : cliente.pf.cnpj }}</td>
+                  <td>{{cliente.pessoa.id}}</td>
+                  <td><img ng-src="{{cliente.pessoa.imagem}}" class="img-thumbnail img-list-view" /></td>
+                  <td>{{cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia}}</td>
+                  <td>{{cliente.pf ? 'Física' : 'Jurídica'}}</td>
                   <td style="{{cliente.pessoa.dtDesativacao ? 'color: red' : ''}}">
                     {{cliente.pessoa.dtDesativacao ? "Desativado" : " Ativo"}}
                   </td>

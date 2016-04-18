@@ -12,22 +12,21 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
 
   toastr.warning(toastMsg, toastTitle);
   carregarClientesFront();
-
-//tipo pessoa fica em pessoa
-//pf(cpf,rg,nome,sobrenome,titulo, dtNasc)]
-//pj(cnpj, inscricaoEst,razaoSocial,nomeFantasia,contato,tipo,hrMinEntrega,hrMaxEntrega)
-//local=dados endereco
-  $scope.pessoa = {tipoPessoa: "pj", email: "emailteste@", telefone1: "333333", telefone2: "222222", imagem: "", dtDesativacao: "", usuario: "evertonwb", senha: "", permissao: ""};
-  $scope.pf = {nome: "pessoa1", sobrenome: "silva1", titulo: "sr", rg: "343434334", cpf: "000000090909", dtNascimento: new Date()};
-  $scope.pj = {razaoSocial: "sgp sa", nomeFantasia: "Melhor", ramoAtividade: "Essa parada que da dor de cabeça", cnpj: "09090909", inscricaoEst: "", dtAbertura: "", contato: "", tipo: "", hrMinEntrega: "", hrMaxEntrega: ""};
-  $scope.endereco = {cep: "92839392", logradouro: "rua 1", numero: "1", complemento: "a", bairro: "c", localidade: "b", uf: "d"};
-
-
+ 
   function carregarClientesFront() {
+    var pessoa = {id: "1", tipoPessoa: "pf", email: "email PF", telefone1: "tel 1 PF", telefone2: "tel 2 PF", imagem: "", dtDesativacao: "", usuario: "User 1 PF", senha: "", permissao: ""};
+    var pf = {nome: "nome Pf", sobrenome: "sobrenome PF", titulo: "titulo PF", rg: "000001", cpf: "1000000", dtNascimento: "01/01/2001"};    
+    var endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
+    var cliente1 = {pessoa, pf, endereco};
+    
+    pessoa = {id: "2", tipoPessoa: "pj", email: "email PJ", telefone1: "tel 1 PJ", telefone2: "tel 2 PJ", imagem: "", dtDesativacao: "", usuario: "User 2 PJ", senha: "", permissao: ""};
+    var pj = {razaoSocial: "razaoSocial PJ", nomeFantasia: "nomeFantasia PJ", ramoAtividade: "ramo ativ. PJ", cnpj: "000002", inscricaoEst: "2000000", dtAbertura: "02/02/2002", contato: "contato PJ", tipo: "cliente", hrMinEntrega: "09:00", hrMaxEntrega: "17:00"};
+    endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
+    var cliente2 = {pessoa, pj, endereco};
+    
     $scope.clientes = [
-      {
-        pessoa: $scope.pessoa, pf: $scope.pf, pj: $scope.pj, endereco: $scope.endereco
-      }
+      cliente1,
+      cliente2
     ];
   }
 
@@ -41,19 +40,23 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
   }
 
   $scope.openInsertDialog = function () {
-
     $scope.params = {
       formTipo: 'insert',
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
-      tituloDialog: "Cadastrar Cliente"
-              //      cliente: new ClienteResource()
+      tituloDialog: "Cadastrar Cliente",
+      //      cliente: new ClienteResource()
+      cliente: {
+        pessoa: {tipoPessoa: "pj", email: "", telefone1: "", telefone2: "", imagem: "", dtDesativacao: "", usuario: "", senha: "", permissao: ""},
+        pf: {nome: "", sobrenome: "", titulo: "", rg: "", cpf: "", dtNascimento: ""},
+        pj: {razaoSocial: "", nomeFantasia: "", ramoAtividade: "", cnpj: "", inscricaoEst: "", dtAbertura: "", contato: "", tipo: "", hrMinEntrega: "", hrMaxEntrega: ""}, 
+        endereco: {cep: "", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}
+      }
     }
-
     var modalInstance = $modal.open({
       templateUrl: 'views/cadastro/dialog/formCliente.html',
       controller: 'ClienteDialogCtrl',
       backdrop: 'static',
-      size: 'lg', //sm, lg
+      size: 'lg',
       resolve: {
         params: function () {
           return $scope.params;
@@ -87,12 +90,11 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
       tituloDialog: "Editar Cliente",
       cliente: angular.copy(cliente)
     }
-
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formCliente.html",
       controller: "ClienteDialogCtrl",
       backdrop: 'static',
-      size: '',
+      size: 'lg',
       resolve: {
         params: function () {
           return $scope.params;
@@ -120,7 +122,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
   };
 
   $scope.openAtivarDesativarDialog = function (cliente) {
-    index = $scope.clientes.indexOf($filter('filter')($scope.clientes, embalagem, true)[0]);
+    index = $scope.clientes.indexOf($filter('filter')($scope.clientes, cliente, true)[0]);
     swal({
       title: "Deseja mesmo" + (cliente.pessoa.dtDesativacao ? " ativar" : " desativar") + " O cliente " + cliente.pessoa.nome + "?",
       text: "Você poderá" + (cliente.pessoa.dtDesativacao ? " desativar" : " ativar") + " O cliente novamente!",
@@ -135,8 +137,8 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
 //      cliente.pessoa.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
 //      cliente.pessoa.dtDesativacao = new Date();
               cliente.pessoa.dtDesativacao = (cliente.pessoa.dtDesativacao ? null : new Date());
-              EmbalagemResource.update(embalagem, function () {
-                $scope.clientes[index] = embalagem;
+              EmbalagemResource.update(cliente, function () {
+                $scope.clientes[index] = cliente;
                 toastMsg = cliente.pessoa.nome + (cliente.pessoa.dtDesativacao ? " desativado!" : " ativado!");
                 toastr.success(toastMsg, "Sucesso!");
               }, function () {
@@ -153,7 +155,6 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
       tituloDialog: "Detalhes Cliente",
       cliente: angular.copy(cliente)
     }
-
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/infoCliente.html",
       controller: "ClienteDialogCtrl",
@@ -175,34 +176,45 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
-    if (params.cliente) {
-      $scope.cliente = params.cliente;
-    } else {
-      //        $scope.cliente = new ClienteResource();
-      $scope.pessoa = {tipoPessoa: "pj", email: "", telefone1: "", telefone2: "", imagem: "", dtDesativacao: "", usuario: "", senha: "", permissao: ""};
-      $scope.pf = {nome: "", sobrenome: "", titulo: "", rg: "", cpf: "", dtNascimento: ""};
-      $scope.pj = {razaoSocial: "", nomeFantasia: "", ramoAtividade: "", cnpj: "", inscricaoEst: "", dtAbertura: "", contato: "", tipo: "", hrMinEntrega: "", hrMaxEntrega: ""};
-      $scope.endereco = {cep: "", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
-      $scope.cliente = {pessoa: $scope.pessoa, endereco: $scope.endereco};
-      $scope.toogleTipoPessoa();
-    }
-
+//    if (params.cliente) {      
+//      
+//      $scope.cliente = angular.copy(params.cliente);
+//      
+//      console.log("params.cliente");
+//      console.log(params.cliente);
+////      $scope.cliente = params.cliente;      
+//      console.log("scope.cliente");
+//      console.log($scope.cliente);
+////      $scope.clienteInit = angular.copy($scope.cliente);
+////      console.log("clienteInit");
+////      console.log($scope.clienteInit);
+//    } else {
+//      //        $scope.cliente = new ClienteResource();
+//      
+//    }
+    
+    $scope.cliente = angular.copy(params.cliente);
+    $scope.clienteInit = angular.copy(params.cliente);
+    
+    $scope.toogleTipoPessoa();
+      
     $scope.sexos = [
-      {nome: "masculino"},
-      {nome: "feminino"}
+      {nome: "Masculino", valor: "masculino"},
+      {nome: "Feminino", valor: "feminino"}
     ];
   }
+  
 
   $scope.toogleTipoPessoa = function () {
     var abaPF = 'Passo 2 - Dados Pessoa Física';
     var abaPJ = 'Passo 2 - Dados Pessoa Jurídica';
-    if ($scope.pessoa.tipoPessoa == 'pf') {
+    if ($scope.cliente.pessoa.tipoPessoa == 'pf') {
       delete $scope.cliente.pj;
-      $scope.cliente.pf = $scope.pf;
+      $scope.cliente.pf = $scope.cliente.pf;
       $scope.steps[1] = abaPF;
     } else {
       delete $scope.cliente.pf;
-      $scope.cliente.pj = $scope.pj;
+      $scope.cliente.pj = $scope.cliente.pj;
       $scope.steps[1] = abaPJ;
     }
   };
@@ -235,8 +247,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
   };
 
   $scope.clear = function () {
-//    delete $scope.cliente;
-    $scope.formCliente.$setPristine();
+    $scope.cliente = angular.copy($scope.clienteInit);
   };
 
   $scope.submit = function () {

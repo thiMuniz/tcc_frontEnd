@@ -11,28 +11,32 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="col-lg-4">
-            <img src="img/adm/AdmEvertonWB.jpg" class="img-circle img-info-dialog">
+            <img ng-src="{{cliente.pessoa.imagem}}" class="img-circle img-info-dialog">
           </div>
           <div class="col-lg-8">
-            <!--**informacoes na lateral doreita da foto-->
+            <!--**informacoes na lateral direita da foto-->
             <div class="table-responsive">
               <table class="table table-striped">
                 <tbody>
                   <tr>
-                    <td><label for="email" class="col-sm-3 control-label">Usuario</label></td>
-                    <td class= "form-control-static"><div class="col-sm-7">{{cliente.pessoa.usuario}}</div></td>  
+                    <td><label for="id" class="control-label">Código</label></td>
+                    <td>{{cliente.pessoa.id}}</td>  
                   </tr>
                   <tr>
-                    <td><label for="email" class="col-sm-3 control-label">Email</label></td>
-                    <td class= "form-control-static"><div class="col-sm-7">{{cliente.pessoa.email}}</div></td>  
+                    <td><label for="usuario" class="control-label">Usuario</label></td>
+                    <td>{{cliente.pessoa.usuario}}</td>  
                   </tr>
                   <tr>
-                    <td><label for="email" class="col-sm-3 control-label">Tel</label></td>
-                    <td class= "form-control-static"><div class="col-sm-7">{{cliente.pessoa.telefone1}}</div></td>  
+                    <td><label for="email" class="control-label">Email</label></td>
+                    <td>{{cliente.pessoa.email}}</td>  
                   </tr>
                   <tr>
-                    <td><label for="email" class="col-sm-3 control-label">Tel</label></td>
-                    <td class= "form-control-static"><div class="col-sm-7">{{cliente.pessoa.telefone2}}</div></td>  
+                    <td><label for="telefone1" class="control-label">Telefone 1</label></td>
+                    <td>{{cliente.pessoa.telefone1}}</td>  
+                  </tr>
+                  <tr>
+                    <td><label for="telefone2" class="control-label">Telefone 2</label></td>
+                    <td>{{cliente.pessoa.telefone2}}</td>  
                   </tr>
                 </tbody>
               </table>
@@ -46,21 +50,28 @@
                 <!--inicio dados PF-->
               <tbody ng-if="cliente.pessoa.tipoPessoa == 'pf'">
                 <tr>
-                  <td class= "form-control-static"><div class="col-sm-4">{{cliente.pf.titulo}}</div></td>  
-                  <td class= "form-control-static"><div class="col-sm-4">{{cliente.pf.nome}}</div></td>  
-                  <td class= "form-control-static"><div class="col-sm-4">{{cliente.pf.sobrenome}}</div></td>  
+                  <td><label for="titulo" class="control-label">Título</label></td>
+                  <td>{{cliente.pf.titulo}}</td>  
                 </tr>
                 <tr>
-                  <td><label for="rg" class="col-sm-3 control-label">RG</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pf.rg}}</div></td>  
+                  <td><label for="nome" class="control-label">Nome</label></td>
+                  <td>{{cliente.pf.nome}}</td>  
                 </tr>
                 <tr>
-                  <td><label for="cpf" class="col-sm-3 control-label">Cpf</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pf.cpf}}</div></td>  
+                  <td><label for="sobrenome" class="control-label">Sobrenome</label></td>
+                  <td>{{cliente.pf.sobrenome}}</td>  
                 </tr>
                 <tr>
-                  <td><label for="dtNasc" class="col-sm-3 control-label">Data Nascimento</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pf.dtnascimento}}</div></td>  
+                  <td><label for="rg" class="control-label">RG</label></td>
+                  <td>{{cliente.pf.rg}}</td>  
+                </tr>
+                <tr>
+                  <td><label for="cpf" class="control-label">Cpf</label></td>
+                  <td>{{cliente.pf.cpf}}</td>  
+                </tr>
+                <tr>
+                  <td><label for="dtNasc" class="control-label">Data Nascimento</label></td>
+                  <td>{{cliente.pf.dtnascimento}}</td>  
                 </tr>
               </tbody>
               <!--Fim dados PF-->
@@ -68,77 +79,77 @@
               <!--inicio dados PJ-->
               <tbody ng-if="cliente.pessoa.tipoPessoa == 'pj'">
                 <tr>
-                  <td><label for="razaoSocial" class="col-sm-3 control-label">Razão Social</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.razaoSocial}}</div></td>  
+                  <td><label for="razaoSocial" class="control-label">Razão Social</label></td>
+                  <td>{{cliente.pj.razaoSocial}}</td>  
                 </tr>
                 <tr>
-                  <td><label for="nomeFantasia" class="col-sm-3 control-label">Nome Fantasia</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.nomeFantasia}}</div></td>  
+                  <td><label for="nomeFantasia" class="control-label">Nome Fantasia</label></td>
+                  <td>{{cliente.pj.nomeFantasia}}</td>  
                 </tr>
                 <tr>
-                  <td><label for="ramoAtividade" class="col-sm-3 control-label">Ramo Atividade</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.ramoAtividade}}</div></td>  
+                  <td><label for="ramoAtividade" class="control-label">Ramo Atividade</label></td>
+                  <td>{{cliente.pj.ramoAtividade}}</td>  
                 </tr>
                 <tr>
-                  <td><label for="cnpj" class="col-sm-3 control-label">Cnpj</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.cnpj}}</div></td>  
+                  <td><label for="cnpj" class="control-label">Cnpj</label></td>
+                  <td>{{cliente.pj.cnpj}}</td>  
                 </tr>
                 <tr>
-                  <td><label for="inscricaoEst" class="col-sm-3 control-label">inscricaoEst</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.inscricaoEst}}</div></td>  
+                  <td><label for="inscricaoEst" class="control-label">inscricaoEst</label></td>
+                  <td>{{cliente.pj.inscricaoEst}}</td>  
                 </tr>
                 <tr>
-                  <td><label for="dtAbertura" class="col-sm-3 control-label">dtAbertura</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.dtAbertura}}</div></td>  
+                  <td><label for="dtAbertura" class="control-label">dtAbertura</label></td>
+                  <td>{{cliente.pj.dtAbertura}}</td>  
                 </tr>
                 <tr>
-                  <td><label for="contato" class="col-sm-3 control-label">contato</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.contato}}</div></td>  
+                  <td><label for="contato" class="control-label">contato</label></td>
+                  <td>{{cliente.pj.contato}}</td>  
                 </tr>
                 <tr>
-                  <td><label for="tipo" class="col-sm-3 control-label">tipo</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.tipo}}</div></td>  
+                  <td><label for="tipo" class="control-label">tipo</label></td>
+                  <td>{{cliente.pj.tipo}}</td>  
                 </tr>
                 <tr>
-                  <td><label for="hrMinEntrega" class="col-sm-3 control-label">hrMinEntrega</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.hrMinEntrega}}</div></td>  
+                  <td><label for="hrMinEntrega" class="control-label">hrMinEntrega</label></td>
+                  <td>{{cliente.pj.hrMinEntrega}}</td>  
                 </tr>
                 <tr>
-                  <td><label for="hrMaxEntrega" class="col-sm-3 control-label">hrMaxEntrega</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.pj.hrMaxEntrega}}</div></td>  
+                  <td><label for="hrMaxEntrega" class="control-label">hrMaxEntrega</label></td>
+                  <td>{{cliente.pj.hrMaxEntrega}}</td>  
                 </tr>
               </tbody>
               <!--Fim dados PJ-->
               <!--Inicio dados endereço-->
               <tbody>
                 <tr>
-                  <td><label for="cep" class="col-sm-3 control-label">CEP</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.endereco.cep}}</div></td>  
+                  <td><label for="cep" class="control-label">CEP</label></td>
+                  <td>{{cliente.endereco.cep}}</td>  
                 </tr>
                 <tr>
-                  <td><label for="uf" class="col-sm-3 control-label">Estado</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.endereco.uf}}</div></td>  
+                  <td><label for="uf" class="control-label">Estado</label></td>
+                  <td>{{cliente.endereco.uf}}</td>  
                 </tr>
                 <tr>
-                  <td><label for="localidade" class="col-sm-3 control-label">Cidade</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.endereco.localidade}}</div></td>  
+                  <td><label for="localidade" class="control-label">Cidade</label></td>
+                  <td>{{cliente.endereco.localidade}}</td>  
                 </tr>
                 <tr>
-                  <td><label for="bairro" class="col-sm-3 control-label">Bairro</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.endereco.bairro}}</div></td>  
+                  <td><label for="bairro" class="control-label">Bairro</label></td>
+                  <td>{{cliente.endereco.bairro}}</td>  
 
                 </tr>
                 <tr>
-                  <td><label for="logradouro" class="col-sm-3 control-label">Endereço</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.endereco.logradouro}}</div></td>  
+                  <td><label for="logradouro" class="control-label">Endereço</label></td>
+                  <td>{{cliente.endereco.logradouro}}</td>  
                 </tr>
                 <tr>
-                  <td><label for="numero" class="col-sm-3 control-label">Numero</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.endereco.numero}}</div></td>  
+                  <td><label for="numero" class="control-label">Numero</label></td>
+                  <td>{{cliente.endereco.numero}}</td>  
                 </tr>
                 <tr >
-                  <td><label for="complemento" class="col-sm-3 control-label">Complemento</label></td>
-                  <td class= "form-control-static"><div class="col-sm-7">{{cliente.endereco.complemento}}</div></td>  
+                  <td><label for="complemento" class="control-label">Complemento</label></td>
+                  <td>{{cliente.endereco.complemento}}</td>  
                 </tr>
               </tbody>  <!--Fim dados endereço-->
             </table>
