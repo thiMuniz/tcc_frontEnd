@@ -1,66 +1,47 @@
 'use strict';
-app.controller('RotuloCtrl', function ($scope, $modal, $http, RotuloResource, WS, toastr) {
+app.controller('RotuloCtrl', function ($scope, $modal, $filter, RotuloResource, CONST, toastr) {
   
-  var toastTitle = "Bem vindo programador!!";
-  var toastMsg = "Boa sorte dessa vez...";
-
-  $scope.titulo = "Cadastro de Rótulos dos Produtos";
+//  $scope.rotulos = [
+//    {id: "1", dsCurta: "Rótulo Tostilha Cacau", dsDetalhada: "Detalhes do Rótulo 1", imagem: "..."},
+//    {id: "2", dsCurta: "Rótulo Pão Centeio", dsDetalhada: "Detalhes do Rótulo 2", imagem: "..."},
+//    {id: "3", dsCurta: "Rótulo Bisoito Sequilhos", dsDetalhada: "Detalhes do Rótulo 3", imagem: "..."},
+//    {id: "4", dsCurta: "Rótulo Panetone", dsDetalhada: "Detalhes do Rótulo 4", imagem: "..."}
+//  ];
+  
+  var toastTitle = "";
+  var toastMsg = "";
+  var index;
+  $scope.CONST = CONST;
+  $scope.tituloView = "Cadastro de Rótulos dos Produtos";
   $scope.headerLista = "Nenhum rótulo foi encontrado";
-  $scope.labelAddBtn = "Novo Rótulo";
+  $scope.labelCadastrarBtn = "Novo Rótulo";
   
-  toastr.warning(toastMsg, toastTitle);
-  toastr.info(WS.urlSGP + 'rotulo/', "urlSGP");
-  carregarEmbalagensFront();
-//            carregarEmbalagensAPI();
-
+  atualizarLista();
   
-  function carregarEmbalagensFront() {
-    $scope.rotulos = [
-      {id: "1", dsCurta: "Rótulo Tostilha Cacau", dsDetalhada: "Detalhes do Rótulo 1", imagem: "..."},
-      {id: "2", dsCurta: "Rótulo Pão Centeio", dsDetalhada: "Detalhes do Rótulo 2", imagem: "..."},
-      {id: "3", dsCurta: "Rótulo Bisoito Sequilhos", dsDetalhada: "Detalhes do Rótulo 3", imagem: "..."},
-      {id: "4", dsCurta: "Rótulo Panetone", dsDetalhada: "Detalhes do Rótulo 4", imagem: "..."}
-    ];
-    //$scope.rotulos = RotuloResource.query();
-  }
-
+  function atualizarLista() {
+    $scope.rotulos = RotuloResource.query();
+    //incluir spinner enquanto esta carregando a lista
+  };
+  
   $scope.ordenar = function (campo) {
     $scope.campo = campo;
     $scope.ascDsc = !$scope.ascDsc;
-  };
-
-  function carregarRotulosAPI() {
-    $scope.rotulos = RotuloResource.query();
-
-    /*
-     * Trecho abaixo funciona             
-     $http.get(WS.urlSGP+'rotulo/'
-     ).success(function (data, status) {
-     console.log("deu bom - data" + data);
-     console.log("status" + status);
-     $scope.rotulos = data;
-     }).error(function (data, status) {
-     console.log("deu ruim - data" + data);
-     console.log("status" + status);
-     carregarEmbalagensFront();
-     });
-     */
-  }
-
+  };  
+  
   //funções chamadas no onClick dos botões da tela
-  $scope.openInsertDialog = function () {    
+  $scope.openInsertDialog = function () {
     $scope.params = {
       formTipo: 'insert',
-      iconeHeaderDialog: "add_circle_outline",
+      iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
       tituloDialog: "Cadastrar Rótulo",
-      rotulo: {id: "5", dsCurta: "rot 5", dsDetalhada: "desc rot 5"}
-    }
+      rotulo: new RotuloResource()
+    };
 
-    var modalInstance = $modal.open({      
+    var modalInstance = $modal.open({
       templateUrl: 'views/cadastro/dialog/formRotulo.html',
       controller: 'RotuloDialogCtrl',
       backdrop: 'static',
-      size: '', //sm, lg
+      size: 'lg', //sm, lg
       resolve: {
         params: function () {
           return $scope.params;
@@ -71,34 +52,32 @@ app.controller('RotuloCtrl', function ($scope, $modal, $http, RotuloResource, WS
       if (result.rotulo) {
         if (result.status == "sucesso") {//Se retorno da API com sucesso add o rótulo à lista
           $scope.rotulos.push(angular.copy(result.rotulo));
-//                  $scope.$apply();
-          toastMsg = result.rotulo.dsCurta + " cadastrado";
+//          atualizarLista();
+//          $scope.$apply();
+          toastMsg = result.rotulo.nome + " cadastrado";
           toastr.success(toastMsg, "Sucesso!");
-        } else {//Senão mostra msg erro                  
-          toastMsg = result.rotulo.dsCurta + " não cadastrado!";
+        } else {//Senão mostra msg erro
+          toastMsg = result.rotulo.nome + " não cadastrado!";
           toastr.error(toastMsg, "Erro!");
         }
-      } else {
-        toastr.warning("Formulário em branco", "Não cadastrado!");
       }
-    }, function () {
-      toastr.warning("Nada aconteceu", "Cancelado");
     });
-  }
+  };
 
-  $scope.openUpdateDialog = function (rotulo, index) {    
+  $scope.openUpdateDialog = function (rotulo) {    
+    index = $scope.rotulos.indexOf($filter('filter')($scope.rotulos, rotulo, true)[0]);    
     $scope.params = {
       formTipo: 'update',
-      iconeHeaderDialog: "edit",
+      iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
       tituloDialog: "Editar Rótulo",
       rotulo: angular.copy(rotulo)
-    }
+    };
 
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formRotulo.html",
       controller: "RotuloDialogCtrl",
       backdrop: 'static',
-      size: '',
+      size: 'lg',
       resolve: {
         params: function () {
           return $scope.params;
@@ -110,10 +89,10 @@ app.controller('RotuloCtrl', function ($scope, $modal, $http, RotuloResource, WS
         if (result.status == "sucesso") {//Se retorno da API com sucesso add o rótulo à lista
           $scope.rotulos[index] = result.rotulo;
 //                  $scope.$apply(); 
-          toastMsg = "Dados do rótulo " + result.rotulo.dsCurta + " alterados com sucesso!";
+          toastMsg = "Dados do rótulo " + result.rotulo.nome + " alterados com sucesso!";
           toastr.success(toastMsg, "Sucesso");
         } else {//Senão mostra msg erro                  
-          toastMsg = "Dados do rótulo " + result.rotulo.dsCurta + " não foram alterados!";
+          toastMsg = "Dados do rótulo " + result.rotulo.nome + " não foram alterados!";
           
           toastr.error(toastMsg, "Erro");
         }
@@ -123,77 +102,94 @@ app.controller('RotuloCtrl', function ($scope, $modal, $http, RotuloResource, WS
     }, function () {
       toastr.warning("Nada aconteceu", "Cancelado");
     });
-  }
-
-  $scope.openDesativarDialog = function (rotulo, index) {    
+  };
+  
+  $scope.openAtivarDesativarDialog = function (rotulo) {
+    index = $scope.rotulos.indexOf($filter('filter')($scope.rotulos, rotulo, true)[0]);    
     swal({
-      title: "Deseja mesmo desativar o Rótulo " + rotulo.dsCurta + "?",
-      text: "Você poderá ativar o Rótulo novamente!",
+      title: "Deseja mesmo" + (rotulo.dtDesativacao ? " ativar" : " desativar") + " o Rótulo " + rotulo.nome + "?",
+      text: "Você poderá" + (rotulo.dtDesativacao ? " desativar" : " ativar") + " o Rótulo novamente!",
       type: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#DD6B55",
-      cancelButtonText: "Não, me tire daqui!",
-      confirmButtonText: "Sim, quero desativar!"
-//      closeOnConfirm: false
+      confirmButtonColor: (rotulo.dtDesativacao ? "#428bca" : "#DD6B55"), //#f0ad4e
+      cancelButtonText: "NÃO",
+      confirmButtonText: "SIM"
     },
     function () {
-      $scope.rotulos.splice(index, 1);
-      //metodo deleteRotulo - passa o rótulo por parâmetro para exclusão
-      toastMsg = rotulo.dsCurta + " desativado!";
-
-      $scope.$apply();//força atualização da variável $scope
-//      swal({
-//        title: toastMsg,
-//        type: "success"
-//      });
-      toastr.success(toastMsg, "Sucesso!");      
+//      $scope.rotulos.splice(index, 1);
+//      rotulo.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
+//      rotulo.dtDesativacao = new Date();
+      rotulo.dtDesativacao = (rotulo.dtDesativacao ? null : new Date());
+      RotuloResource.update(rotulo, function(){
+          $scope.rotulos[index] = rotulo;
+          toastMsg = rotulo.nome + (rotulo.dtDesativacao ? " desativado!" : " ativado!");
+          toastr.success(toastMsg, "Sucesso!");
+        }, function(){
+          toastMsg = rotulo.nome + " não foi " + (rotulo.dtDesativacao ? "ativado!" : "desativado!");
+          toastr.error(toastMsg, "Erro!");
+        });
     });    
   };
 
-  $scope.openInfoDialog = function (rotulo) {
-    
+  $scope.openInfoDialog = function (rotulo) {    
     $scope.params = {
       formTipo: 'info',
-      iconeHeaderDialog: "info_outline",
+      iconeHeaderDialog: CONST.info.iconeHeaderDialog,
       tituloDialog: "Detalhes Rótulo",
       rotulo: angular.copy(rotulo)
-    }
+    };
 
     var modalInstance = $modal.open({
-      templateUrl: "views/cadastro/dialog/formRotulo.html",
+      templateUrl: "views/cadastro/dialog/infoRotulo.html",
       controller: "RotuloDialogCtrl",
       backdrop: 'static',
-      size: '',
+      size: 'lg',
       resolve: {
         params: function () {
           return $scope.params;
         }
       }
     });
-  }
+  };
 })
-  .controller('RotuloDialogCtrl', function ($scope, $http, params, $modalInstance) {
+  .controller('RotuloDialogCtrl', function ($scope, $modalInstance, params, CONST, RotuloResource, toastr) {
+    $scope.CONST = CONST;
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
-    $scope.rotulo = params.rotulo;
-
+//    if(params.rotulo){
+        $scope.rotulo = params.rotulo;
+//    }else{
+//        $scope.rotulo = new RotuloResource();
+//    }
+//    if($scope.rotuloInit)delete $scope.rotuloInit;
+    $scope.rotuloInit = angular.copy($scope.rotulo);
+        
     $scope.clear = function () {
-      delete $scope.rotulo;
-    };
+      $scope.rotulo = angular.copy($scope.rotuloInit);
+    };    
 
     $scope.submit = function () {
-      /*
-       //chamar serviço API
-       $http.post(WS.urlSGP+'rotulo/', 
-       $scope.rotulo                        
-       ).then(function successCallback(response) {
-       console.log("deu bom"+response.data);
-       }, function errorCallback(response) {
-       console.log("deu ruim"+response);
-       console.log($scope.rotulo);
-       });
-       */
+      //incluir rotina de validação
+      if ($scope.formTipo == 'insert') { //insert
+        $scope.rotulo.$save(function (data) {
+          // do something which you want with response
+          console.log("insert ok");
+          console.log(data);
+          console.log(status);
+        }, function(){
+          console.log("erro");
+          console.log(status);
+        });
+      } else { //update
+        $scope.rotulo.$update(function(){
+          console.log("update ok");
+          console.log(status);
+        }, function(){
+          console.log("erro");
+          console.log(status);
+        });
+      }
 
       //pegar retorno API e definir padrão p/ result
       //
@@ -210,3 +206,4 @@ app.controller('RotuloCtrl', function ($scope, $modal, $http, RotuloResource, WS
     };
 
   });
+

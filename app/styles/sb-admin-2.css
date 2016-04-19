@@ -408,7 +408,7 @@ form .progress {
 }*/
 
 .acao-disabled {
-  cursor: not-allowed !important;
+/*  cursor: not-allowed !important;*/
   /*cursor: default;*/
   display: inline-block;  
   opacity: 0.2;
@@ -416,7 +416,11 @@ form .progress {
   height: 24px;
   width: 24px;
   margin: auto;
-  vertical-align: middle;
+  vertical-align: middle;  
+}
+
+.linha-disable{
+  /*desenvolver layout para desativar a linha toda da lista quando o registro estiver desativado*/
 }
 
 .img-list-view {

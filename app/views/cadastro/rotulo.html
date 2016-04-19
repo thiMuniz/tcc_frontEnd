@@ -1,24 +1,24 @@
 <section ng-controller="RotuloCtrl">
-  <div class="row">
+<div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">{{titulo}}</h1>
+      <h1 class="page-header">{{tituloView}}</h1>
     </div>  
   </div> 
   <div class="row">        
     <div class="col-lg-12">
-      <div class="panel-heading" > <!-- Painel Superior -->                
-        <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" > 
-          <ng-md-icon icon="add_circle"></ng-md-icon> &nbsp;{{labelAddBtn}}
+      <div class="panel-heading"> <!-- Painel Superior -->                
+        <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" tooltip='{{CONST.inserir.tooltipBtn}}'>
+          <ng-md-icon icon="{{CONST.inserir.iconeBtn}}"></ng-md-icon> &nbsp;{{labelCadastrarBtn}}
         </button>
         <div class="pull-right">
-          <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Buscar Rótulo"/>
+          <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Busca geral"/>
         </div>
-        <div class="clearfix"></div>
+        <div class="clearfix"></div>        
       </div><!-- /.Painel Superior -->
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          {{rotulos.length}} Rótulos encontrados
+          {{rotulos.length}} Rótulos encontrados                    
         </div>        
         <div class="panel-body">
           <div class="table-responsive">
@@ -27,25 +27,29 @@
                 <tr>
                   <th><a href="" ng-click="ordenar('id')">Código</a></th>
                   <th>Imagem</th>
-                  <th><a href="" ng-click="ordenar('dsCurta')">Nome</a></th>
-                  <th>Ação</th>
+                  <th><a href="" ng-click="ordenar('nome')">Nome</a></th>
+                  <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
+                  <th>Ação</th>                  
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="rotulo in rotulos | filter : filtroGenerico | orderBy : campo : ascDsc ">
+                <tr ng-repeat="rotulo in rotulos | filter : filtroGenerico | orderBy : campo : ascDsc">
                   <td>{{rotulo.id}}</td>
-                  <td>{{rotulo.imagem}}</td>
-                  <td>{{rotulo.dsCurta}}</td>
+                  <td ><img ng-src="{{rotulo.imagem}}" class="img-thumbnail img-list-view"/></td>
+                  <td>{{rotulo.nome}}</td>
+                  <td style="{{rotulo.dtDesativacao ? 'color: red' : ''}}">
+                    {{rotulo.dtDesativacao ? "Desativado" : " Ativo"}}
+                  </td>
                   <td>
-                    <a ng-click="openUpdateDialog(rotulo, $index);" tooltip="Editar" > <!-- data-toggle="modal" data-target="#formModal"  -->
-                        <ng-md-icon icon="edit"></ng-md-icon>
+                    <a class="{{rotulo.dtDesativacao ? 'acao-disabled' : ''}}" ng-click="openUpdateDialog(rotulo)" tooltip="{{CONST.editar.tooltipAcao}}" >
+                      <ng-md-icon icon="{{CONST.editar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
-                    <a ng-click="openDesativarDialog(rotulo, $index);" tooltip="Desativar" >
-                        <ng-md-icon icon="delete"></ng-md-icon>
+                    <a ng-click="openAtivarDesativarDialog(rotulo);" tooltip="{{rotulo.dtDesativacao ? CONST.ativar.tooltipAcao : CONST.desativar.tooltipAcao}}" >
+                      <ng-md-icon icon="{{rotulo.dtDesativacao ? CONST.ativar.iconeAcao : CONST.desativar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
-                    <a ng-click="openInfoDialog(rotulo);" tooltip="Detalhes" > <!-- data-toggle="modal" data-target="#infoModal" -->
-                        <ng-md-icon icon="info"></ng-md-icon>
-                    </a>&nbsp;                                        
+                    <a ng-click="openInfoDialog(rotulo);" tooltip="{{CONST.info.tooltipAcao}}">
+                      <ng-md-icon icon="{{CONST.info.iconeAcao}}"></ng-md-icon>
+                    </a>&nbsp;
                   </td>
                 </tr>
               </tbody>

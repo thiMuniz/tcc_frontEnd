@@ -1,161 +1,62 @@
 <section ng-controller="SeloCtrl">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">{{titulo}}</h1>
-        </div>  
-    </div> 
+<div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">{{tituloView}}</h1>
+    </div>  
+  </div> 
+  <div class="row">        
+    <div class="col-lg-12">
+      <div class="panel-heading"> <!-- Painel Superior -->                
+        <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" tooltip='{{CONST.inserir.tooltipBtn}}'>
+          <ng-md-icon icon="{{CONST.inserir.iconeBtn}}"></ng-md-icon> &nbsp;{{labelCadastrarBtn}}
+        </button>
+        <div class="pull-right">
+          <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Busca geral"/>
+        </div>
+        <div class="clearfix"></div>        
+      </div><!-- /.Painel Superior -->
 
-    <div class="row">
-        <div class="col-lg-12">            
-            <div class="panel-heading"> <!-- Painel Superior -->
-                <button data-id="inserir" class="btn btn-primary btn-lg" ng-click="openDialog($event)" data-toggle="modal" data-target="#formModal">
-                    <ng-md-icon icon="add_circle"></ng-md-icon> &nbsp;{{labelAddBtn}}
-                </button>
-            </div><!-- /.Painel Superior -->
-            
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <!--Selos Cadastrados-->
-                    {{headerLista}}
-                </div>
-
-                <!-- /.panel-heading -->
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Código</th>
-                                    <th>Imagem</th>
-                                    <th>Nome</th>
-                                    <th class="text-center">Ação</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="selo in selos">
-                                    <td>{{selo.id}}</td>
-                                    <td>{{selo.imagem}}</td>
-                                    <td>{{selo.dsCurta}}</td>
-                                    <td class="text-center">
-                                        <a data-id="editar" ng-attr-title="editar" ng-click="openDialog($event,selo);" data-toggle="modal" data-target="#formModal"  title="Editar" tooltip>
-                                            <ng-md-icon icon="edit"></ng-md-icon>
-                                        </a>&nbsp;
-                                        <a data-id="desativar" ng-attr-title="desativar" ng-mouseover="onMouseOverEditar($event)" ng-click="openDialog($event,selo);" title="Desativar" tooltip>
-                                            <ng-md-icon icon="delete"></ng-md-icon>
-                                        </a>&nbsp;
-                                        <a data-id="info" ng-attr-title="info" ng-mouseover="onMouseOverEditar($event)" ng-click="openDialog($event,selo);" data-toggle="modal" data-target="#infoModal" title="Detalhes" tooltip>
-                                            <ng-md-icon icon="info"></ng-md-icon>
-                                        </a>&nbsp;
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div><!-- /.table-responsive -->
-                </div><!-- /.panel-body -->
-            </div><!-- /.panel-default -->
-        </div><!-- /.col-lg-12 -->
-    </div>
-
-
-    <!-- Modal formulário-->
-    <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeFormModal}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloModal}}</h4>
-                </div>
-                <div class="modal-body">                    
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <form role="form" id="formSelo">
-                                    <div class="form-group">
-                                        <label>Código</label>
-                                        <input class="form-control" id="idSelo" type="text" value="{{selo.id}}" disabled>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Nome</label>
-                                        <input class="form-control" placeholder="Nome do selo" value="{{selo.dsCurta}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Descrição Detalhada</label>
-                                        <input class="form-control" placeholder="Descrição do selo" value="{{selo.dsDetalhada}}">
-                                    </div>
-<!--                                    <div class="form-group">
-                                        <label>Imagem</label>
-                                        <input type="file" class="form-control" placeholder="Imagem do selo" value="{{selo.dsDetalhada}}">
-                                    </div> 
--->
-                                    <div>
-                                        <input type="file" >
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <!--<button type="submit" class="btn btn-default">Submit Button</button>-->
-                        <button type="reset" class="btn btn-outline btn-warning">
-                            <ng-md-icon icon="refresh"></ng-md-icon> Limpar
-                        </button>
-                        <button type="button" class="btn btn-outline btn-danger" data-dismiss="modal">
-                            <ng-md-icon icon="clear"></ng-md-icon> Cancelar
-                        </button>
-                        <button type="button" class="btn btn-outline btn-success">
-                            <ng-md-icon icon="save"></ng-md-icon> Gravar
-                        </button>
-                    </div>
-                </div>                
-            </div><!-- /.modal-content -->            
-        </div><!-- /.modal-dialog -->        
-    </div> <!-- /.modal -->
-    <!-- /.Modal formulário-->
-    
-    <!-- Modal info -->
-    <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>                    
-                    <h4 class="modal-title" id="infoModalLabel"> <ng-md-icon icon="info_outline"></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloModal}}</h4>
-                </div>
-                <div class="modal-body">                    
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped">
-                                            <tbody>
-                                                **achar formato melhor de tabela
-                                                <tr>
-                                                    <td>Código</td><td>{{selo.id}}</td>                                        
-                                                </tr>
-                                                <tr>
-                                                    <td>Nome</td><td>{{selo.dsCurta}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Detalhes</td><td>{{selo.dsDetalhada}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Imagem</td><td>{{selo.imagem}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div><!-- /.table-responsive -->                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline btn-primary" data-dismiss="modal">Fechar</button>
-                    </div>
-                </div>                
-            </div><!-- /.modal-content -->            
-        </div><!-- /.modal-dialog -->        
-    </div> <!-- /.modal -->
-    <!-- /.Modal info -->
-    
-        
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          {{selos.length}} Selos encontrados                    
+        </div>        
+        <div class="panel-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th><a href="" ng-click="ordenar('id')">Código</a></th>
+                  <th>Imagem</th>
+                  <th><a href="" ng-click="ordenar('nome')">Nome</a></th>
+                  <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
+                  <th>Ação</th>                  
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="selo in selos | filter : filtroGenerico | orderBy : campo : ascDsc">
+                  <td>{{selo.id}}</td>
+                  <td ><img ng-src="{{selo.imagem}}" class="img-thumbnail img-list-view"/></td>
+                  <td>{{selo.nome}}</td>
+                  <td style="{{selo.dtDesativacao ? 'color: red' : ''}}">
+                    {{selo.dtDesativacao ? "Desativado" : " Ativo"}}
+                  </td>
+                  <td>
+                    <a class="{{selo.dtDesativacao ? 'acao-disabled' : ''}}" ng-click="openUpdateDialog(selo)" tooltip="{{CONST.editar.tooltipAcao}}" >
+                      <ng-md-icon icon="{{CONST.editar.iconeAcao}}"></ng-md-icon>
+                    </a>&nbsp;
+                    <a ng-click="openAtivarDesativarDialog(selo);" tooltip="{{selo.dtDesativacao ? CONST.ativar.tooltipAcao : CONST.desativar.tooltipAcao}}" >
+                      <ng-md-icon icon="{{selo.dtDesativacao ? CONST.ativar.iconeAcao : CONST.desativar.iconeAcao}}"></ng-md-icon>
+                    </a>&nbsp;
+                    <a ng-click="openInfoDialog(selo);" tooltip="{{CONST.info.tooltipAcao}}">
+                      <ng-md-icon icon="{{CONST.info.iconeAcao}}"></ng-md-icon>
+                    </a>&nbsp;
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div><!-- /.table-responsive -->
+        </div><!-- /.panel-body -->
+      </div><!-- /.panel-default -->
+    </div><!-- /.col-lg-12 -->
+  </div><!-- /.row -->
 </section>

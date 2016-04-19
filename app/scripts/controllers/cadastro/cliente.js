@@ -1,5 +1,4 @@
 'use strict';
-//angular.module('sbAdminApp')
 app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource, CONST, toastr) {
   var toastTitle = "Bem vindo programador!!";
   var toastMsg = "Boa sorte dessa vez...";
@@ -14,15 +13,15 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
   carregarClientesFront();
  
   function carregarClientesFront() {
-    var pessoa = {id: "1", tipoPessoa: "pf", email: "email PF", telefone1: "tel 1 PF", telefone2: "tel 2 PF", imagem: "", dtDesativacao: "", usuario: "User 1 PF", senha: "", permissao: ""};
+    var pessoa = {id: "1", tipoPessoa: "pf", email: "email PF", telefone1: "tel 1 PF", telefone2: "tel 2 PF", imagem: "img/adm/AdmThiagoMM.jpg", dtDesativacao: "", usuario: "User 1 PF", senha: "", permissao: ""};
     var pf = {nome: "nome Pf", sobrenome: "sobrenome PF", titulo: "titulo PF", rg: "000001", cpf: "1000000", dtNascimento: "01/01/2001"};    
     var endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
-    var cliente1 = {pessoa, pf, endereco};
+    var cliente1 = {pessoa: pessoa, pf: pf, endereco: endereco};
     
-    pessoa = {id: "2", tipoPessoa: "pj", email: "email PJ", telefone1: "tel 1 PJ", telefone2: "tel 2 PJ", imagem: "", dtDesativacao: "", usuario: "User 2 PJ", senha: "", permissao: ""};
+    pessoa = {id: "2", tipoPessoa: "pj", email: "email PJ", telefone1: "tel 1 PJ", telefone2: "tel 2 PJ", imagem: "img/adm/AdmEvertonWB.jpg", dtDesativacao: "", usuario: "User 2 PJ", senha: "", permissao: ""};
     var pj = {razaoSocial: "razaoSocial PJ", nomeFantasia: "nomeFantasia PJ", ramoAtividade: "ramo ativ. PJ", cnpj: "000002", inscricaoEst: "2000000", dtAbertura: "02/02/2002", contato: "contato PJ", tipo: "cliente", hrMinEntrega: "09:00", hrMaxEntrega: "17:00"};
     endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
-    var cliente2 = {pessoa, pj, endereco};
+    var cliente2 = {pessoa: pessoa, pj: pj, endereco: endereco};
     
     $scope.clientes = [
       cliente1,
@@ -51,7 +50,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
         pj: {razaoSocial: "", nomeFantasia: "", ramoAtividade: "", cnpj: "", inscricaoEst: "", dtAbertura: "", contato: "", tipo: "", hrMinEntrega: "", hrMaxEntrega: ""}, 
         endereco: {cep: "", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}
       }
-    }
+    };
     var modalInstance = $modal.open({
       templateUrl: 'views/cadastro/dialog/formCliente.html',
       controller: 'ClienteDialogCtrl',
@@ -80,7 +79,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
     }, function () {
       toastr.warning("Nada aconteceu", "Cancelado");
     });
-  }
+  };
 
   $scope.openUpdateDialog = function (cliente) {
     index = $scope.clientes.indexOf($filter('filter')($scope.clientes, cliente, true)[0]);
@@ -89,7 +88,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
       tituloDialog: "Editar Cliente",
       cliente: angular.copy(cliente)
-    }
+    };
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formCliente.html",
       controller: "ClienteDialogCtrl",
@@ -103,7 +102,6 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
     });
     modalInstance.result.then(function (result) {//quando foi fechado enviando dados
       if (result.cliente) {
-
         if (result.status == "sucesso") {//Se retorno da API com sucesso add a cliente à lista
           $scope.clientes[index] = result.cliente;
 //                  $scope.$apply(); 
@@ -124,28 +122,28 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
   $scope.openAtivarDesativarDialog = function (cliente) {
     index = $scope.clientes.indexOf($filter('filter')($scope.clientes, cliente, true)[0]);
     swal({
-      title: "Deseja mesmo" + (cliente.pessoa.dtDesativacao ? " ativar" : " desativar") + " O cliente " + cliente.pessoa.nome + "?",
-      text: "Você poderá" + (cliente.pessoa.dtDesativacao ? " desativar" : " ativar") + " O cliente novamente!",
+      title: "Deseja mesmo" + (cliente.pessoa.dtDesativacao ? " ativar" : " desativar") + " o cliente " + (cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia) + "?",
+      text: "Você poderá" + (cliente.pessoa.dtDesativacao ? " desativar" : " ativar") + " o cliente novamente!",
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: (cliente.pessoa.dtDesativacao ? "#428bca" : "#DD6B55"), //#f0ad4e
       cancelButtonText: "NÃO",
       confirmButtonText: "SIM"
     },
-            function () {
+    function () {
 //      $scope.clientes.splice(index, 1);
 //      cliente.pessoa.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
 //      cliente.pessoa.dtDesativacao = new Date();
-              cliente.pessoa.dtDesativacao = (cliente.pessoa.dtDesativacao ? null : new Date());
-              EmbalagemResource.update(cliente, function () {
-                $scope.clientes[index] = cliente;
-                toastMsg = cliente.pessoa.nome + (cliente.pessoa.dtDesativacao ? " desativado!" : " ativado!");
-                toastr.success(toastMsg, "Sucesso!");
-              }, function () {
-                toastMsg = cliente.pessoa.nome + " não foi " + (cliente.pessoa.dtDesativacao ? "ativado!" : "desativado!");
-                toastr.error(toastMsg, "Erro!");
-              });
-            });
+      cliente.pessoa.dtDesativacao = (cliente.pessoa.dtDesativacao ? null : new Date());
+      ClienteResource.update(cliente, function () {
+        $scope.clientes[index] = cliente;
+        toastMsg = (cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia) + (cliente.pessoa.dtDesativacao ? " desativado!" : " ativado!");
+        toastr.success(toastMsg, "Sucesso!");
+      }, function () {
+        toastMsg = (cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia) + " não foi " + (cliente.pessoa.dtDesativacao ? "ativado!" : "desativado!");
+        toastr.error(toastMsg, "Erro!");
+      });
+    });
   };
 
   $scope.openInfoDialog = function (cliente) {
@@ -154,7 +152,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
       iconeHeaderDialog: CONST.info.iconeHeaderDialog,
       tituloDialog: "Detalhes Cliente",
       cliente: angular.copy(cliente)
-    }
+    };
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/infoCliente.html",
       controller: "ClienteDialogCtrl",
@@ -166,7 +164,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
         }
       }
     });
-  }
+  };
 
 })
 .controller('ClienteDialogCtrl', function ($scope, $modalInstance, $http, params, CONST, toastr) {

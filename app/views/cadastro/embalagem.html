@@ -35,7 +35,7 @@
               <tbody>
                 <tr ng-repeat="embalagem in embalagens | filter : filtroGenerico | orderBy : campo : ascDsc">
                   <td>{{embalagem.id}}</td>
-                  <td ><img ng-src="{{embalagem.imagem}}" class="img-thumbnail img-list-view"/></td>
+                  <td ><img ng-src="{{embalagem.imagem.arquivo}}" class="img-thumbnail img-list-view"/></td>
                   <td>{{embalagem.nome}}</td>
                   <td style="{{embalagem.dtDesativacao ? 'color: red' : ''}}">
                     {{embalagem.dtDesativacao ? "Desativado" : " Ativo"}}
@@ -46,6 +46,9 @@
                     </a>&nbsp;
                     <a ng-click="openAtivarDesativarDialog(embalagem);" tooltip="{{embalagem.dtDesativacao ? CONST.ativar.tooltipAcao : CONST.desativar.tooltipAcao}}" >
                       <ng-md-icon icon="{{embalagem.dtDesativacao ? CONST.ativar.iconeAcao : CONST.desativar.iconeAcao}}"></ng-md-icon>
+                    </a>&nbsp;
+                    <a ng-click="openLookupFornecedor(embalagem);" tooltip="Relacionar Fornecedor">
+                      <ng-md-icon icon="contacts"></ng-md-icon>
                     </a>&nbsp;
                     <a ng-click="openInfoDialog(embalagem);" tooltip="{{CONST.info.tooltipAcao}}">
                       <ng-md-icon icon="{{CONST.info.iconeAcao}}"></ng-md-icon>

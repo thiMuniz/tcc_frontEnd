@@ -4,26 +4,26 @@
     <h4 class="modal-title" id="formModalLabel">
       <ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
     </h4>
-    Debug Rótulo {{rotulo}}
+    Debug Selo {{selo}}
   </div>
   <div class="modal-body">
-    <form class="form-horizontal" role="form" name="formRotulo">
+    <form class="form-horizontal" role="form" name="formSelo">
       <div class="form-group" ng-if="formTipo != 'insert'">
         <label for="id" class="col-sm-3 control-label">Código</label>
         <div class="col-sm-7">
-          <input class="form-control" type="text" id="id" ng-model="rotulo.id" ng-disabled="true">
+          <input class="form-control" type="text" id="id" ng-model="selo.id" ng-disabled="true">
         </div>
       </div>
       <div class="form-group" >
         <label for="nome" class="col-sm-3 control-label">Nome</label>
         <div class="col-sm-7">
-          <input class="form-control" type="text" id="nome" placeholder="Nome da rotulo" ng-model="rotulo.nome" ng-disabled="formTipo == 'info'">
+          <input class="form-control" type="text" id="nome" placeholder="Nome da selo" ng-model="selo.nome" ng-disabled="formTipo == 'info'">
         </div>
       </div>
       <div class="form-group">
         <label for="descricao" class="col-sm-3 control-label">Descrição</label>
         <div class="col-sm-7">
-          <input class="form-control" type="text" id="descricao" placeholder="Descrição detelhada da rotulo" ng-model="rotulo.descricao" ng-disabled="formTipo == 'info'">
+          <input class="form-control" type="text" id="descricao" placeholder="Descrição detelhada da selo" ng-model="selo.descricao" ng-disabled="formTipo == 'info'">
         </div>
       </div>
 <!--  inicio teste img-->
@@ -35,10 +35,10 @@
         </label>
         <div class="col-sm-5 form-control cropAreaSgp" id="imagem" ng-model="imgSelecionada" ngf-pattern="image/*" ngf-drop>
             <!--<p>Arraste e solte a imagem aqui ou clique no botão ao lado para localizar no computador</p>-->
-          <img-crop image="imgSelecionada  | ngfDataUrl" result-image="rotulo.imagem" ng-init="rotulo.imagem"></img-crop>          
+          <img-crop image="imgSelecionada  | ngfDataUrl" result-image="selo.imagem" ng-init="selo.imagem"></img-crop>          
         </div>
         <div class="col-sm-4">
-          <img ng-src="{{rotulo.imagem}}" />
+          <img ng-src="{{selo.imagem}}" />
         </div>
       </div>
 <!--fim teste img-->        

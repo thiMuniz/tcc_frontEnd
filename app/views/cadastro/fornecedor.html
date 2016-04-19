@@ -1,156 +1,64 @@
 <section ng-controller="FornecedorCtrl">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">{{titulo}}</h1>
-        </div>  
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12">            
-            <div class="panel-heading"> <!-- Painel Superior -->
-                <button data-id="inserir" class="btn btn-primary btn-lg" ng-click="openDialog($event)" data-toggle="modal" data-target="#formModal">
-                    <i class="fa fa-plus fa-fw" ></i>&nbsp;Novo Fornecedor
-                </button>
-            </div><!-- /.Painel Superior -->
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <!--fornecedors cadastrados-->
-                    {{headerLista}}
-                </div>
-
-                <!-- /.panel-heading -->
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Cadastro</th>
-                                    <th>Nome</th>
-                                    <th>Email</th>
-                                    <th>Ação</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="forn in fornecedors">
-                                    <td>{{forn.cadastro}}</td>                                        
-                                    <td>{{forn.nome}}</td>
-                                    <td>{{forn.email}}</td>
-                                    <td>
-                                        <a data-id="editar" ng-attr-title="editar" ng-click="openDialog($event, forn);" data-toggle="modal" data-target="#formModal" >
-                                            <ng-md-icon icon="edit"></ng-md-icon>
-                                        </a>&nbsp;
-                                        <a data-id="desativar" ng-attr-title="desativar" ng-mouseover="onMouseOverEditar($event)" ng-click="openDialog($event, forn);" >
-                                            <ng-md-icon icon="delete"></ng-md-icon>
-                                        </a>&nbsp;
-                                        <a data-id="info" ng-attr-title="info" ng-mouseover="onMouseOverEditar($event)" ng-click="openDialog($event, forn);" data-toggle="modal" data-target="#infoModal">
-                                            <ng-md-icon icon="info"></ng-md-icon>
-                                        </a>&nbsp;
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div><!-- /.table-responsive -->
-                </div><!-- /.panel-body -->
-            </div><!-- /.panel-default -->
-        </div><!-- /.col-lg-12 -->
-    </div>
-
-    <!-- Modal formulário-->
-    <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="formModalLabel">{{tituloModal}}</h4>
-                </div>
-
-                <div class="modal-body">                    
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <form class="row" role="form" id="formFornecedor">
-                                    <div class="form-group"><br>
-                                        <input class="form-control" id="cadastro" type="text" placeholder="Cnpj" value="{{fornecedor.cadastro}}" ><br>
-                                        <input class="form-control" id="cadastro" type="text" placeholder="Razão social" value="{{fornecedor.nome}}"><br>
-                                        <input class="form-control" id="cadastro" type="text" placeholder="email@example.com" value="{{fornecedor.email}}" ><br>
-                                        <input class="form-control" id="cadastro" type="text" placeholder="Telefone" value="{{fornecedor.telefone}}"><br>
-                                        <input class="form-control" id="cadastro" type="text" placeholder="cep" value="{{fornecedor.cep}}"><br>
-                                        <input class="form-control" id="cadastro" type="text" placeholder="Endereço" value="{{fornecedor.endereco}}"><br>
-                                        <input class="form-control" id="cadastro" type="password" placeholder="Senha" value="{{fornecedor.senha}}" ><br>
-                                    </div>
-                                    <button type="submit" class="btn btn-success">Enviar</button>
-                                    <button type="reset" class="btn btn-default">Limpar Campos</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary">Salvar</button>
-                    </div>
-                </div>                
-            </div><!-- /.modal-content -->            
-        </div><!-- /.modal-dialog -->        
-    </div> <!-- /.modal -->
-
-
-
-    <!-- Modal info -->
-    <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="infoModalLabel">{{tituloModal}}</h4>
-                </div>
-                <div class="modal-body">                    
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped">
-                                            <tbody>
-                                                <tr>
-                                                    <td>Nome</td>
-                                                    <td>{{fornecedor.nome}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Cadastro</td>
-                                                    <td>{{fornecedor.cadastro}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Email</td>
-                                                    <td>{{fornecedor.email}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Telefone</td>
-                                                    <td>{{fornecedor.telefone}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Cep</td>
-                                                    <td>{{fornecedor.cep}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Endereço</td>
-                                                    <td>{{fornecedor.endereco}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div><!-- /.table-responsive -->                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    </div>
-                </div>                
-            </div><!-- /.modal-content -->            
-        </div><!-- /.modal-dialog -->        
-    </div> <!-- /.modal -->
-
-
-
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">{{tituloView}}</h1>
+    </div>  
+  </div>
+  <div class="row">
+    <div class="col-lg-12">            
+      <div class="panel-heading"> <!-- Painel Superior -->
+        <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" tooltip='{{CONST.inserir.tooltipBtn}}'>
+          <ng-md-icon icon="{{CONST.inserir.iconeBtn}}"></ng-md-icon> &nbsp;{{labelCadastrarBtn}}
+        </button>
+        <div class="pull-right">
+          <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Busca geral"/>
+        </div>
+        <div class="clearfix"></div>
+      </div><!-- /.Painel Superior -->
+      
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          {{fornecedores.length}} Fornecedores encontrados                    
+        </div>
+        <div class="panel-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th><a href="" ng-click="ordenar('id')">Código</a></th>
+                  <th>Imagem</th>
+                  <th><a href="" ng-click="ordenar('nome')">Nome</a></th>
+                  <th><a href="" ng-click="ordenar('tipoPessoa')">Tipo Pessoa</a></th>
+                  <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="fornecedor in fornecedores| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
+                  <td>{{fornecedor.pessoa.id}}</td>
+                  <td><img ng-src="{{fornecedor.pessoa.imagem}}" class="img-thumbnail img-list-view" /></td>
+                  <td>{{fornecedor.pf ? fornecedor.pf.nome : fornecedor.pj.nomeFantasia}}</td>
+                  <td>{{fornecedor.pf ? 'Física' : 'Jurídica'}}</td>
+                  <td style="{{fornecedor.pessoa.dtDesativacao ? 'color: red' : ''}}">
+                    {{fornecedor.pessoa.dtDesativacao ? "Desativado" : " Ativo"}}
+                  </td>
+                  <td>
+                    <a class="{{fornecedor.pessoa.dtDesativacao ? 'acao-disabled' : ''}}" ng-click="openUpdateDialog(fornecedor);" tooltip="{{CONST.editar.tooltipAcao}}" >
+                      <ng-md-icon icon="{{CONST.editar.iconeAcao}}"></ng-md-icon>
+                    </a>&nbsp;
+                    <a ng-click="openAtivarDesativarDialog(fornecedor);" tooltip="{{fornecedor.pessoa.dtDesativacao ? CONST.ativar.tooltipAcao : CONST.desativar.tooltipAcao}}" >
+                      <ng-md-icon icon="{{fornecedor.pessoa.dtDesativacao ? CONST.ativar.iconeAcao : CONST.desativar.iconeAcao}}"></ng-md-icon>
+                    </a>&nbsp;
+                    <a ng-click="openInfoDialog(fornecedor);" tooltip="{{CONST.info.tooltipAcao}}" >
+                      <ng-md-icon icon="{{CONST.info.iconeAcao}}"></ng-md-icon>
+                    </a>&nbsp;
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div><!-- /.table-responsive -->
+        </div><!-- /.panel-body -->
+      </div><!-- /.panel-default -->
+    </div><!-- /.col-lg-12 -->
+  </div><!-- /.row -->
 </section>

@@ -34,7 +34,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
       templateUrl: 'views/cadastro/dialog/formEmbalagem.html',
       controller: 'EmbalagemDialogCtrl',
       backdrop: 'static',
-      size: '', //sm, lg
+      size: 'lg', //sm, lg
       resolve: {
         params: function () {
           return $scope.params;
@@ -70,7 +70,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
       templateUrl: "views/cadastro/dialog/formEmbalagem.html",
       controller: "EmbalagemDialogCtrl",
       backdrop: 'static',
-      size: '',
+      size: 'lg',
       resolve: {
         params: function () {
           return $scope.params;
@@ -136,7 +136,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
       templateUrl: "views/cadastro/dialog/infoEmbalagem.html",
       controller: "EmbalagemDialogCtrl",
       backdrop: 'static',
-      size: '',
+      size: 'lg',
       resolve: {
         params: function () {
           return $scope.params;
@@ -167,10 +167,25 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
     
     $scope.clear = function () {
       $scope.embalagem = angular.copy($scope.embalagemInit);
+//      $scope.imgSelecionada = "";
+//      $scope.embalagem.imagem.arquivo = "";
     };    
 
     $scope.submit = function () {
       //incluir rotina de validação
+      
+        console.log("1");
+        console.log($scope.embalagem);
+        $scope.embalagem += {
+          "nome":"1",
+          "descricao":"1",
+          "material":"PE - Polietileno",
+          "dimensoes":"1",
+          "gramatura":"1",
+          "imagem":{"arquivo":"data:image/png;base64,iVBORw0KG"}
+        };
+        console.log("2");
+        console.log($scope.embalagem);
       if ($scope.formTipo == 'insert') { //insert
         $scope.embalagem.$save(function (data) {
           // do something which you want with response
