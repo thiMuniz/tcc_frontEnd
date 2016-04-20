@@ -47,7 +47,7 @@
                     <a ng-click="openAtivarDesativarDialog(embalagem);" tooltip="{{embalagem.dtDesativacao ? CONST.ativar.tooltipAcao : CONST.desativar.tooltipAcao}}" >
                       <ng-md-icon icon="{{embalagem.dtDesativacao ? CONST.ativar.iconeAcao : CONST.desativar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
-                    <a ng-click="openLookupFornecedor(embalagem);" tooltip="Relacionar Fornecedor">
+                    <a ng-click="openFornecedorEmbalagemDialog(embalagem);" tooltip="Fornecedores">
                       <ng-md-icon icon="contacts"></ng-md-icon>
                     </a>&nbsp;
                     <a ng-click="openInfoDialog(embalagem);" tooltip="{{CONST.info.tooltipAcao}}">

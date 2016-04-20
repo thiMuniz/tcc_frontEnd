@@ -14,7 +14,6 @@
       
       <div ng-switch on="selection">
         <div ng-switch-when="Passo 1 - Dados Gerais"><!-- ABA 1 - GERAL -->
-          debug cliente.pessoa{{cliente.pessoa}}
           <div class="form-group" ng-if="formTipo == 'update'">
             <label for="id" class="col-sm-3 control-label">Código</label>
             <div class="col-sm-7">
@@ -86,7 +85,6 @@
         </div><!-- /.ABA 1 - GERAL -->
 
         <div ng-switch-when="Passo 2 - Dados Pessoa Física" ><!-- ABA 2 - PF -->
-          debug cliente.pf {{cliente.pf}}
           <div class="form-group">
             <label for="nome" class="col-sm-3 control-label">Nome</label>
             <div class="col-sm-7">
@@ -106,37 +104,29 @@
                 <option value='' style='color: #999; opacity: 1;'> Selecione </option>
               </select>
             </div>
-          </div>   
-          <div class="form-group">
-            <label for="titulo" class="col-sm-3 control-label">Titulo</label>
-            <div class="col-sm-7">
-              <input class="form-control" type="text" id="titulo" placeholder="" ng-model="cliente.pf.titulo" >
-            </div>
           </div>
           <div class="form-group">
             <label for="rg" class="col-sm-3 control-label">RG</label>
             <div class="col-sm-7">
               <input class="form-control" type="text" id="rg" placeholder="" ng-model="cliente.pf.rg" ng-disabled="formTipo == 'update'">
             </div>
-          </div> 
+          </div>
           <div class="form-group">
             <label for="cpf" class="col-sm-3 control-label">Cpf</label>
             <div class="col-sm-7">
               <input class="form-control" type="text" id="cpf" placeholder="" ng-model="cliente.pf.cpf" ng-disabled="formTipo == 'update'">
             </div>
-          </div>  
+          </div>
           <div class="form-group">
             <label for="dtNascimento" class="col-sm-3 control-label">Data Nascimento</label>
             <div class="col-sm-7">
               <input class="form-control" type="text" id="dtNascimento" placeholder="" ng-model="cliente.pf.dtNascimento" >
             </div>
-          </div> 
+          </div>
         </div><!-- /.ABA 2 - PF  -->
 
 
         <div ng-switch-when="Passo 2 - Dados Pessoa Jurídica" ><!-- ABA 2 -PJ -->
-          debug cliente.pj {{cliente.pj}}
-
           <div class="form-group">
             <label for="razaoSocial" class="col-sm-3 control-label">Razão Social</label>
             <div class="col-sm-7">
@@ -196,8 +186,6 @@
         </div><!-- /.ABA 2 - PJ -->
 
         <div ng-switch-when="Passo 3 - Endereço e Contato"><!-- ABA 3 - ENDEREÇO -->
-          {{cliente.endereco}}
-                    
           <div class="form-group">
             <label for="cep" class="col-sm-3 control-label">Cep*</label>
             <div class="col-sm-7 input-group">

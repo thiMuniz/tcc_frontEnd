@@ -13,12 +13,12 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, FornecedorRe
   carregarFornecedoresFront();
  
   function carregarFornecedoresFront() {
-    var pessoa = {id: "1", tipoPessoa: "pj", email: "email PJ1", telefone1: "tel 1 PJ1", telefone2: "tel 2 PJ1", imagem: "img/adm/AdmThiagoMM.jpg", dtDesativacao: "", usuario: "User 1 PJ1", senha: "", permissao: ""};
+    var pessoa = {id: "1", tipoPessoa: "pj", email: "email PJ1", telefone1: "tel 1 PJ1", telefone2: "tel 2 PJ1", imagem: "img/temp/imgFornecedor1.png", dtDesativacao: "", usuario: "User 1 PJ1", senha: "", permissao: ""};
     var pj = {razaoSocial: "razaoSocial PJ1", nomeFantasia: "nomeFantasia PJ1", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ1", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"};
     var endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
     var fornecedor1 = {pessoa: pessoa, pj: pj, endereco: endereco};
     
-    pessoa = {id: "2", tipoPessoa: "pj", email: "email PJ2", telefone1: "tel 1 PJ2", telefone2: "tel 2 PJ2", imagem: "img/adm/AdmEvertonWB.jpg", dtDesativacao: "", usuario: "User 2 PJ2", senha: "", permissao: ""};
+    pessoa = {id: "2", tipoPessoa: "pj", email: "email PJ2", telefone1: "tel 1 PJ2", telefone2: "tel 2 PJ2", imagem: "img/temp/imgFornecedor2.png", dtDesativacao: "", usuario: "User 2 PJ2", senha: "", permissao: ""};
     pj = {razaoSocial: "razaoSocial PJ2", nomeFantasia: "nomeFantasia PJ2", ramoAtividade: "Rótulos", cnpj: "000002", inscricaoEst: "2000000", dtAbertura: "02/02/2002", contato: "contato PJ2", tipo: "fornecedor", hrMinEntrega: "09:00", hrMaxEntrega: "17:00"};
     endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
     var fornecedor2 = {pessoa: pessoa, pj: pj, endereco: endereco};
@@ -61,7 +61,7 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, FornecedorRe
         }
       }
     });
-    modalInstance.result.then(function (result) {
+    modalInstance.result.then(function(result) {
       if (result.fornecedor) {
         if (result.status == "sucesso") {//Se retorno da API com sucesso add a fornecedor à lista
           $scope.fornecedores.push(angular.copy(result.fornecedor));
@@ -80,7 +80,7 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, FornecedorRe
     });
   };
 
-  $scope.openUpdateDialog = function (fornecedor) {
+  $scope.openUpdateDialog = function(fornecedor) {
     index = $scope.fornecedores.indexOf($filter('filter')($scope.fornecedores, fornecedor, true)[0]);
     $scope.params = {
       formTipo: 'update',
@@ -118,7 +118,7 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, FornecedorRe
     });
   };
 
-  $scope.openAtivarDesativarDialog = function (fornecedor) {
+  $scope.openAtivarDesativarDialog = function(fornecedor) {
     index = $scope.fornecedores.indexOf($filter('filter')($scope.fornecedores, fornecedor, true)[0]);
     swal({
       title: "Deseja mesmo" + (fornecedor.pessoa.dtDesativacao ? " ativar" : " desativar") + " o fornecedor " + (fornecedor.pf ? fornecedor.pf.nome : fornecedor.pj.nomeFantasia) + "?",
@@ -145,7 +145,7 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, FornecedorRe
     });
   };
 
-  $scope.openInfoDialog = function (fornecedor) {
+  $scope.openInfoDialog = function(fornecedor) {
     $scope.params = {
       formTipo: 'info',
       iconeHeaderDialog: CONST.info.iconeHeaderDialog,
@@ -163,6 +163,44 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, FornecedorRe
         }
       }
     });
+  };
+  
+  $scope.openLookupFornecedor = function(){
+//    index = $scope.fornecedores.indexOf($filter('filter')($scope.fornecedores, fornecedor, true)[0]);
+    $scope.params = {
+      formTipo: 'update',
+      iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
+      tituloDialog: "Editar Fornecedor",
+      fornecedor: angular.copy(fornecedor)
+    };
+    var modalInstance = $modal.open({
+      templateUrl: "views/cadastro/dialog/lookupFornecedor.html",
+      controller: "FornecedorDialogCtrl",
+      backdrop: 'static',
+      size: 'lg',
+      resolve: {
+        params: function () {
+          return $scope.params;
+        }
+      }
+    });
+    modalInstance.result.then(function (result) {//quando foi fechado enviando dados
+      if (result.fornecedor) {
+        if (result.status == "sucesso") {//Se retorno da API com sucesso add a fornecedor à lista
+          $scope.fornecedores[index] = result.fornecedor;
+//                  $scope.$apply(); 
+          toastMsg = "Fornecedor " + result.fornecedor.nome + " editado com sucesso!";
+          toastr.success(toastMsg, "sucesso");
+        } else {//Senão mostra msg erro                  
+          toastMsg = "Erro ao editar Fornecedor " + result.fornecedor.nome + " !";
+          toastr.error(toastMsg, "erro");
+        }
+      } else {
+        toastr.warning("Formulário em branco", "Não cadastrado!");
+      }
+    }, function () {
+      toastr.warning("Nada aconteceu", "Cancelado");
+    });      
   };
 
 })

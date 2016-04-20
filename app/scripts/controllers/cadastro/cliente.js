@@ -14,7 +14,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
  
   function carregarClientesFront() {
     var pessoa = {id: "1", tipoPessoa: "pf", email: "email PF", telefone1: "tel 1 PF", telefone2: "tel 2 PF", imagem: "img/adm/AdmThiagoMM.jpg", dtDesativacao: "", usuario: "User 1 PF", senha: "", permissao: ""};
-    var pf = {nome: "nome Pf", sobrenome: "sobrenome PF", titulo: "titulo PF", rg: "000001", cpf: "1000000", dtNascimento: "01/01/2001"};    
+    var pf = {nome: "nome Pf", sobrenome: "sobrenome PF", rg: "000001", cpf: "1000000", dtNascimento: "01/01/2001"};    
     var endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
     var cliente1 = {pessoa: pessoa, pf: pf, endereco: endereco};
     
@@ -46,7 +46,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
       //      cliente: new ClienteResource()
       cliente: {
         pessoa: {tipoPessoa: "pj", email: "", telefone1: "", telefone2: "", imagem: "", dtDesativacao: "", usuario: "", senha: "", permissao: ""},
-        pf: {nome: "", sobrenome: "", titulo: "", rg: "", cpf: "", dtNascimento: ""},
+        pf: {nome: "", sobrenome: "", rg: "", cpf: "", dtNascimento: ""},
         pj: {razaoSocial: "", nomeFantasia: "", ramoAtividade: "", cnpj: "", inscricaoEst: "", dtAbertura: "", contato: "", tipo: "", hrMinEntrega: "", hrMaxEntrega: ""}, 
         endereco: {cep: "", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}
       }

@@ -322,7 +322,8 @@ var app = angular
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/cadastro/embalagem.js',
-                              'scripts/services/embalagem.js'
+                              'scripts/services/embalagem.js',
+                              'scripts/services/imagem.js'
                             ]
                           });
                         }
