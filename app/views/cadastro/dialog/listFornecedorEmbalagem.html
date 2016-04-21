@@ -11,6 +11,14 @@
         <button class="btn btn-outline btn-primary btn-lg" ng-click="openLookupColaborador()" tooltip='Relacionar fornecedor à embalagem'>
           <ng-md-icon icon="playlist_add"></ng-md-icon> &nbsp;Incluir
         </button>
+          
+        <ui-select multiple ng-model="fornecedoresNew" theme="bootstrap" ng-disabled="fornecedor.id" append-to-body="false">
+          <ui-select-match class="ui-select-match" placeholder="Selecione os Fornecedores">{{fornecedor.pj.nomeFantasia}}</ui-select-match>
+          <ui-select-choices class="ui-select-choices" repeat="fornecedor in fornecedores | filter:$select.search">
+            {{fornecedor.pj.nomeFantasia}}
+          </ui-select-choices>
+        </ui-select>
+          
         <div class="pull-right">
           <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Busca geral"/>
         </div>

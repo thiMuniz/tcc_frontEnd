@@ -13,14 +13,15 @@ var app = angular
           'ui.router',
           'ui.bootstrap',
           'angular-loading-bar',
-          'ngMdIcons',          
+          'ngMdIcons',
           'ngMessages',
           'ngResource',
           'mwl.calendar',
           'ngCpfCnpj',
           'toastr',
           'ngImgCrop',
-          'ngFileUpload'
+          'ngFileUpload',
+          'ui.select'
         ])
         .constant("CONST", {
           ws:{
@@ -323,7 +324,7 @@ var app = angular
                             files: [
                               'scripts/controllers/cadastro/embalagem.js',
                               'scripts/services/embalagem.js',
-                              'scripts/services/imagem.js'
+                              'scripts/services/fornecedor.js',
                             ]
                           });
                         }

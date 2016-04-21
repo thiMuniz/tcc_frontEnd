@@ -35,19 +35,19 @@
               </thead>
               <tbody>
                 <tr ng-repeat="fornecedor in fornecedores| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
-                  <td>{{fornecedor.pessoa.id}}</td>
-                  <td><img ng-src="{{fornecedor.pessoa.imagem}}" class="img-thumbnail img-list-view" /></td>
+                  <td>{{fornecedor.id}}</td>
+                  <td><img ng-src="{{fornecedor.imagem.arquivo}}" class="img-thumbnail img-list-view" /></td>
                   <td>{{fornecedor.pf ? fornecedor.pf.nome : fornecedor.pj.nomeFantasia}}</td>
                   <td>{{fornecedor.pf ? 'Física' : 'Jurídica'}}</td>
-                  <td style="{{fornecedor.pessoa.dtDesativacao ? 'color: red' : ''}}">
-                    {{fornecedor.pessoa.dtDesativacao ? "Desativado" : " Ativo"}}
+                  <td style="{{fornecedor.dtDesativacao ? 'color: red' : ''}}">
+                    {{fornecedor.dtDesativacao ? "Desativado" : " Ativo"}}
                   </td>
                   <td>
-                    <a class="{{fornecedor.pessoa.dtDesativacao ? 'acao-disabled' : ''}}" ng-click="openUpdateDialog(fornecedor);" tooltip="{{CONST.editar.tooltipAcao}}" >
+                    <a class="{{fornecedor.dtDesativacao ? 'acao-disabled' : ''}}" ng-click="openUpdateDialog(fornecedor);" tooltip="{{CONST.editar.tooltipAcao}}" >
                       <ng-md-icon icon="{{CONST.editar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
-                    <a ng-click="openAtivarDesativarDialog(fornecedor);" tooltip="{{fornecedor.pessoa.dtDesativacao ? CONST.ativar.tooltipAcao : CONST.desativar.tooltipAcao}}" >
-                      <ng-md-icon icon="{{fornecedor.pessoa.dtDesativacao ? CONST.ativar.iconeAcao : CONST.desativar.iconeAcao}}"></ng-md-icon>
+                    <a ng-click="openAtivarDesativarDialog(fornecedor);" tooltip="{{fornecedor.dtDesativacao ? CONST.ativar.tooltipAcao : CONST.desativar.tooltipAcao}}" >
+                      <ng-md-icon icon="{{fornecedor.dtDesativacao ? CONST.ativar.iconeAcao : CONST.desativar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
                     <a ng-click="openInfoDialog(fornecedor);" tooltip="{{CONST.info.tooltipAcao}}" >
                       <ng-md-icon icon="{{CONST.info.iconeAcao}}"></ng-md-icon>

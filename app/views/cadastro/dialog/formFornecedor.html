@@ -17,18 +17,18 @@
           <div class="form-group" ng-if="formTipo == 'update'">
             <label for="id" class="col-sm-3 control-label">Código</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="id" ng-model="fornecedor.pessoa.id" ng-disabled="true">
+              <input class="form-control" type="text" id="id" ng-model="fornecedor.id" ng-disabled="true">
             </div>
           </div>          
 
           <div class="form-group" ng-hide="true">
-            <label for="tipoPessoa" class="col-sm-3 control-label">Tipo de Pessoa</label>
+            <label for="perfil" class="col-sm-3 control-label">Tipo de Pessoa</label>
             <div class="col-sm-7">
               <label class="radio-inline">
-                <input id="tipoPessoaPf" name="tipoPessoa" ng-model="fornecedor.pessoa.tipoPessoa" type="radio" value="pf" ng-click="toogleTipoPessoa()" ng-disabled="true"> Física <!-- ng-checked="fornecedor.pessoa.tipoPessoa == 'pf' || !pessoa.tipoPessoa" -->
+                <input id="perfilPf" name="perfil" ng-model="fornecedor.perfil" type="radio" value="pf" ng-click="toogleTipoPessoa()" ng-disabled="true"> Física <!-- ng-checked="fornecedor.perfil == 'pf' || !pessoa.perfil" -->
               </label>
               <label class="radio-inline">
-                <input id="tipoPessoaPj" name="tipoPessoa" ng-model="fornecedor.pessoa.tipoPessoa" type="radio" value="pj" ng-click="toogleTipoPessoa()" ng-disabled="true"> Jurídica <!--  ng-checked="fornecedor.pessoa.tipoPessoa == 'pj'" -->
+                <input id="perfilPj" name="perfil" ng-model="fornecedor.perfil" type="radio" value="pj" ng-click="toogleTipoPessoa()" ng-disabled="true"> Jurídica <!--  ng-checked="fornecedor.perfil == 'pj'" -->
               </label>
             </div>
           </div>
@@ -36,31 +36,31 @@
           <div class="form-group">
             <label for="email" class="col-sm-3 control-label">Email</label>
             <div class="col-sm-7">
-              <input class="form-control" ng-required="true" type="text" id="usuario" placeholder="E-mail" ng-model="fornecedor.pessoa.email" >
+              <input class="form-control" ng-required="true" type="text" id="usuario" placeholder="E-mail" ng-model="fornecedor.email" >
             </div>
           </div>
           <div class="form-group">
             <label for="usuario" class="col-sm-3 control-label">Nome de usuário</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="usuario" placeholder="Usuario" ng-model="fornecedor.pessoa.usuario" >
+              <input class="form-control" type="text" id="usuario" placeholder="Usuario" ng-model="fornecedor.usuario" >
             </div>
           </div>
           <div class="form-group">
             <label for="senha" class="col-sm-3 control-label">Senha</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="senha" placeholder="Senha" ng-model="fornecedor.pessoa.senha" >
+              <input class="form-control" type="text" id="senha" placeholder="Senha" ng-model="fornecedor.senha" >
             </div>
           </div>
           <div class="form-group">
             <label for="telefone1" class="col-sm-3 control-label">Telefone 1</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="telefone1" placeholder="Telefone 1" ng-model="fornecedor.pessoa.telefone1" >
+              <input class="form-control" type="text" id="telefone1" placeholder="Telefone 1" ng-model="fornecedor.telefone1" >
             </div>
           </div>
           <div class="form-group">
             <label for="telefone2" class="col-sm-3 control-label">Telefone 2</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="telefone2" placeholder="Telefone 2" ng-model="fornecedor.pessoa.telefone2" >
+              <input class="form-control" type="text" id="telefone2" placeholder="Telefone 2" ng-model="fornecedor.telefone2" >
             </div>
           </div>
           <!--  inicio teste img-->
@@ -71,12 +71,12 @@
                 </button>
             </label>
             <div class="col-sm-5 form-control cropAreaSgp" id="imagem" ng-model="imgSelecionada" ngf-pattern="image/*" ngf-drop>
-              <img-crop image="imgSelecionada  | ngfDataUrl" result-image="fornecedor.pessoa.imagem" ng-init="fornecedor.pessoa.imagem">
+              <img-crop image="imgSelecionada  | ngfDataUrl" result-image="fornecedor.imagem.arquivo" ng-init="fornecedor.imagem.arquivo">
                 Arraste e solte a imagem ou clique para localizar no computador
               </img-crop>        
             </div>
             <div class="col-sm-4">
-              <img ng-src="{{fornecedor.pessoa.imagem}}" />
+              <img ng-src="{{fornecedor.imagem.arquivo}}" />
             </div>
           </div>
           <!--fim teste img-->
@@ -149,7 +149,7 @@
               <div ng-show="formFornecedor.cep.$error.pattern">Por favor, preencha um cep valido!Ex: 00000000 </div>-->
                 <input class="form-control" type="text" id="cep" ng-model="fornecedor.endereco.cep" name="cep" placeholder="Apenas numeros"  ng-required="true" ng-pattern="/^\d{8}$/">
                 <span class="input-group-btn">
-                  <button class="btn btn-default" type="button" ng-click="carregarCep()">
+                  <button class="btn btn-default" type="button" ng-click="getEnderecoWs()">
                     <i class="fa fa-search"></i>
                   </button>
                 </span>

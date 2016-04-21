@@ -1,0 +1,128 @@
+<div class="modal-content" ng-init="init();">
+  <div class="modal-header">    
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel">
+      <ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
+    </h4>
+  </div>
+  
+  <div class="modal-body">
+    <div class="panel-default">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="col-lg-4">
+            <img ng-src="{{colaborador.pessoa.imagem}}" class="img-circle img-info-dialog">
+          </div>
+          <div class="col-lg-8">
+            <!--**informacoes na lateral direita da foto-->
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <td><label for="id" class="control-label">Código</label></td>
+                    <td>{{colaborador.pessoa.id}}</td>  
+                  </tr>
+                  <tr>
+                    <td><label for="usuario" class="control-label">Usuario</label></td>
+                    <td>{{colaborador.pessoa.usuario}}</td>  
+                  </tr>
+                  <tr>
+                    <td><label for="email" class="control-label">Email</label></td>
+                    <td>{{colaborador.pessoa.email}}</td>  
+                  </tr>
+                  <tr>
+                    <td><label for="telefone1" class="control-label">Telefone 1</label></td>
+                    <td>{{colaborador.pessoa.telefone1}}</td>  
+                  </tr>
+                  <tr>
+                    <td><label for="telefone2" class="control-label">Telefone 2</label></td>
+                    <td>{{colaborador.pessoa.telefone2}}</td>  
+                  </tr>
+                  <tr>
+                    <td><label for="dtDesativacao" class=control-label">Status</label></td>
+                    <td >{{colaborador.pessoa.dtDesativacao ? "Desativado em " + colaborador.pessoa.dtDesativacao: " Ativo"}}</td>
+                  </tr>  
+                </tbody>
+              </table>
+            </div><!-- /.table-responsive -->   
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              
+              
+                <!--inicio dados PF-->
+              <tbody ng-if="colaborador.pessoa.tipoPessoa == 'pf'">
+                <tr>
+                  <td><label for="titulo" class="control-label">Título</label></td>
+                  <td>{{colaborador.pf.titulo}}</td>  
+                </tr>
+                <tr>
+                  <td><label for="nome" class="control-label">Nome</label></td>
+                  <td>{{colaborador.pf.nome}}</td>  
+                </tr>
+                <tr>
+                  <td><label for="sobrenome" class="control-label">Sobrenome</label></td>
+                  <td>{{colaborador.pf.sobrenome}}</td>  
+                </tr>
+                <tr>
+                  <td><label for="rg" class="control-label">RG</label></td>
+                  <td>{{colaborador.pf.rg}}</td>  
+                </tr>
+                <tr>
+                  <td><label for="cpf" class="control-label">Cpf</label></td>
+                  <td>{{colaborador.pf.cpf}}</td>  
+                </tr>
+                <tr>
+                  <td><label for="dtNasc" class="control-label">Data Nascimento</label></td>
+                  <td>{{colaborador.pf.dtnascimento}}</td>  
+                </tr>
+              </tbody>
+              <!--Fim dados PF-->
+
+              <!--Inicio dados endereço-->
+              <tbody>
+                <tr>
+                  <td><label for="cep" class="control-label">CEP</label></td>
+                  <td>{{colaborador.endereco.cep}}</td>  
+                </tr>
+                <tr>
+                  <td><label for="uf" class="control-label">Estado</label></td>
+                  <td>{{colaborador.endereco.uf}}</td>  
+                </tr>
+                <tr>
+                  <td><label for="localidade" class="control-label">Cidade</label></td>
+                  <td>{{colaborador.endereco.localidade}}</td>  
+                </tr>
+                <tr>
+                  <td><label for="bairro" class="control-label">Bairro</label></td>
+                  <td>{{colaborador.endereco.bairro}}</td>  
+
+                </tr>
+                <tr>
+                  <td><label for="logradouro" class="control-label">Endereço</label></td>
+                  <td>{{colaborador.endereco.logradouro}}</td>  
+                </tr>
+                <tr>
+                  <td><label for="numero" class="control-label">Numero</label></td>
+                  <td>{{colaborador.endereco.numero}}</td>  
+                </tr>
+                <tr >
+                  <td><label for="complemento" class="control-label">Complemento</label></td>
+                  <td>{{colaborador.endereco.complemento}}</td>  
+                </tr>
+              </tbody>  <!--Fim dados endereço-->
+            </table>
+          </div><!-- /.table-responsive -->   
+        </div>
+      </div>   <!-- /.row -->
+    </div> <!-- /.panel-default -->
+  </div> <!-- modal-body -->
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline btn-primary btn-lg btn-block" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Fechar
+    </button>
+  </div>
+</div>

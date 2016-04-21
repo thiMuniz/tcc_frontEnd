@@ -1,5 +1,5 @@
 'use strict';
-app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemResource, ImagemResource, CONST, toastr) {
+app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemResource, CONST, toastr) {
   
   var toastTitle = "";
   var toastMsg = "";
@@ -12,58 +12,58 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
   atualizarLista();
   
   function atualizarLista() {
-//    $scope.embalagens = EmbalagemResource.query();
-    $scope.embalagens = [
-    { id: "1", nome: "emb 1", descricao: "Detalhes da emb 1", 
-      imagem:{
-        id:"",
-        arquivo:"img/temp/embalagem_papel_kraft_1.jpg",
-        principal:""
-      }, 
-      fornecedores:[
-        {id: "1", tipoPessoa: "pj", email: "email PJ1", telefone1: "tel 1 PJ1", telefone2: "tel 2 PJ1", imagem: "img/temp/imgFornecedor1.png", dtDesativacao: "1", usuario: "User 1 PJ1", senha: "", permissao: "",
-          pj: {razaoSocial: "razaoSocial PJ1", nomeFantasia: "nomeFantasia PJ1", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ1", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-          endereco: {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}},
-        {id: "2", tipoPessoa: "pj", email: "email PJ2", telefone1: "tel 1 PJ2", telefone2: "tel 2 PJ2", imagem: "img/temp/imgFornecedor2.png", dtDesativacao: "1", usuario: "User 2 PJ2", senha: "", permissao: "",
-          pj: {razaoSocial: "razaoSocial PJ2", nomeFantasia: "nomeFantasia PJ2", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ2", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-          endereco: {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}},
-        {id: "3", tipoPessoa: "pj", email: "email PJ3", telefone1: "tel 1 PJ3", telefone2: "tel 2 PJ3", imagem: "img/temp/imgFornecedor3.png", dtDesativacao: "1", usuario: "User 3 PJ3", senha: "", permissao: "",
-          pj: {razaoSocial: "razaoSocial PJ3", nomeFantasia: "nomeFantasia PJ3", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ3", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-          endereco: {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}},
-    ]},
-    {id: "2", nome: "emb 2", descricao: "Detalhes da emb 2", 
-      imagem:{
-        id:"",
-        arquivo:"img/temp/embalagem_papelao_1.jpg",
-        principal:""
-      }, 
-      fornecedores:[
-        {razaoSocial: "razaoSocial PJ1", nomeFantasia: "nomeFantasia PJ1", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ1", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-        {razaoSocial: "razaoSocial PJ2", nomeFantasia: "nomeFantasia PJ2", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ2", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-        {razaoSocial: "razaoSocial PJ3", nomeFantasia: "nomeFantasia PJ3", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ3", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"}
-    ]},
-    {id: "3", nome: "emb 3", descricao: "Detalhes da emb 3", 
-      imagem:{
-        id:"",
-        arquivo:"img/temp/embalagem_polietileno_1.jpg",
-        principal:""
-      }, 
-      fornecedores:[
-        {razaoSocial: "razaoSocial PJ1", nomeFantasia: "nomeFantasia PJ1", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ1", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-        {razaoSocial: "razaoSocial PJ2", nomeFantasia: "nomeFantasia PJ2", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ2", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-        {razaoSocial: "razaoSocial PJ3", nomeFantasia: "nomeFantasia PJ3", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ3", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"}
-    ]},
-    {id: "4", nome: "emb 4", descricao: "Detalhes da emb 4", imagem:{
-        id:"",
-        arquivo:"img/temp/embalagem_polipropileno_1.jpg",
-        principal:""
-      }, 
-      fornecedores:[
-        {razaoSocial: "razaoSocial PJ1", nomeFantasia: "nomeFantasia PJ1", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ1", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-        {razaoSocial: "razaoSocial PJ2", nomeFantasia: "nomeFantasia PJ2", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ2", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-        {razaoSocial: "razaoSocial PJ3", nomeFantasia: "nomeFantasia PJ3", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ3", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"}
-    ]}
-  ];    
+    $scope.embalagens = EmbalagemResource.query();
+//    $scope.embalagens = [
+//    { id: "1", nome: "emb 1", descricao: "Detalhes da emb 1", 
+//      imagem:{
+//        id:"",
+//        arquivo:"img/temp/embalagem_papel_kraft_1.jpg",
+//        principal:""
+//      }, 
+//      fornecedores:[
+//        {id: "1", tipoPessoa: "pj", email: "email PJ1", telefone1: "tel 1 PJ1", telefone2: "tel 2 PJ1", imagem: "img/temp/imgFornecedor1.png", dtDesativacao: "1", usuario: "User 1 PJ1", senha: "", permissao: "",
+//          pj: {razaoSocial: "razaoSocial PJ1", nomeFantasia: "nomeFantasia PJ1", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ1", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
+//          endereco: {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}},
+//        {id: "2", tipoPessoa: "pj", email: "email PJ2", telefone1: "tel 1 PJ2", telefone2: "tel 2 PJ2", imagem: "img/temp/imgFornecedor2.png", dtDesativacao: "1", usuario: "User 2 PJ2", senha: "", permissao: "",
+//          pj: {razaoSocial: "razaoSocial PJ2", nomeFantasia: "nomeFantasia PJ2", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ2", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
+//          endereco: {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}},
+//        {id: "3", tipoPessoa: "pj", email: "email PJ3", telefone1: "tel 1 PJ3", telefone2: "tel 2 PJ3", imagem: "img/temp/imgFornecedor3.png", dtDesativacao: "1", usuario: "User 3 PJ3", senha: "", permissao: "",
+//          pj: {razaoSocial: "razaoSocial PJ3", nomeFantasia: "nomeFantasia PJ3", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ3", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
+//          endereco: {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}},
+//    ]},
+//    {id: "2", nome: "emb 2", descricao: "Detalhes da emb 2", 
+//      imagem:{
+//        id:"",
+//        arquivo:"img/temp/embalagem_papelao_1.jpg",
+//        principal:""
+//      }, 
+//      fornecedores:[
+//        {razaoSocial: "razaoSocial PJ1", nomeFantasia: "nomeFantasia PJ1", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ1", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
+//        {razaoSocial: "razaoSocial PJ2", nomeFantasia: "nomeFantasia PJ2", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ2", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
+//        {razaoSocial: "razaoSocial PJ3", nomeFantasia: "nomeFantasia PJ3", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ3", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"}
+//    ]},
+//    {id: "3", nome: "emb 3", descricao: "Detalhes da emb 3", 
+//      imagem:{
+//        id:"",
+//        arquivo:"img/temp/embalagem_polietileno_1.jpg",
+//        principal:""
+//      }, 
+//      fornecedores:[
+//        {razaoSocial: "razaoSocial PJ1", nomeFantasia: "nomeFantasia PJ1", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ1", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
+//        {razaoSocial: "razaoSocial PJ2", nomeFantasia: "nomeFantasia PJ2", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ2", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
+//        {razaoSocial: "razaoSocial PJ3", nomeFantasia: "nomeFantasia PJ3", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ3", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"}
+//    ]},
+//    {id: "4", nome: "emb 4", descricao: "Detalhes da emb 4", imagem:{
+//        id:"",
+//        arquivo:"img/temp/embalagem_polipropileno_1.jpg",
+//        principal:""
+//      }, 
+//      fornecedores:[
+//        {razaoSocial: "razaoSocial PJ1", nomeFantasia: "nomeFantasia PJ1", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ1", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
+//        {razaoSocial: "razaoSocial PJ2", nomeFantasia: "nomeFantasia PJ2", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ2", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
+//        {razaoSocial: "razaoSocial PJ3", nomeFantasia: "nomeFantasia PJ3", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ3", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"}
+//    ]}
+//  ];    
     //incluir spinner enquanto esta carregando a lista
   };
   
@@ -235,7 +235,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
   };
   
 })
-  .controller('EmbalagemDialogCtrl', function ($scope, $modalInstance, params, CONST, EmbalagemResource, ImagemResource, toastr) {
+  .controller('EmbalagemDialogCtrl', function ($scope, $modalInstance, params, CONST, EmbalagemResource, FornecedorResource, toastr, $http) {
     $scope.CONST = CONST;
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
@@ -313,6 +313,18 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
     $scope.cancel = function () {
       $modalInstance.dismiss('cancel');
     };
-
+    
+    $scope.fornecedores = [
+        {id: "1", tipoPessoa: "pj", email: "email PJ1", telefone1: "tel 1 PJ1", telefone2: "tel 2 PJ1", imagem: "img/temp/imgFornecedor1.png", dtDesativacao: "1", usuario: "User 1 PJ1", senha: "", permissao: "",
+          pj: {razaoSocial: "razaoSocial PJ1", nomeFantasia: "nomeFantasia PJ1", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ1", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
+          endereco: {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}},
+        {id: "2", tipoPessoa: "pj", email: "email PJ2", telefone1: "tel 1 PJ2", telefone2: "tel 2 PJ2", imagem: "img/temp/imgFornecedor2.png", dtDesativacao: "1", usuario: "User 2 PJ2", senha: "", permissao: "",
+          pj: {razaoSocial: "razaoSocial PJ2", nomeFantasia: "nomeFantasia PJ2", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ2", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
+          endereco: {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}},
+        {id: "3", tipoPessoa: "pj", email: "email PJ3", telefone1: "tel 1 PJ3", telefone2: "tel 2 PJ3", imagem: "img/temp/imgFornecedor3.png", dtDesativacao: "1", usuario: "User 3 PJ3", senha: "", permissao: "",
+          pj: {razaoSocial: "razaoSocial PJ3", nomeFantasia: "nomeFantasia PJ3", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ3", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
+          endereco: {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}}
+    ];
+    
   });
 

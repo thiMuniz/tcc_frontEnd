@@ -1,0 +1,60 @@
+<div class="modal-content">
+  <div class="modal-header">    
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel">
+      <ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
+    </h4>
+  </div>
+  
+  <div class="modal-body">
+    <div class="panel-default">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="col-lg-4">
+            <img ng-src="{{selo.imagem}}" class="img-thumbnail img-info-dialog">
+          </div>
+          <div class="col-lg-8">
+            <!--**informacoes na lateral doreita da foto-->
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <td><label for="id" class=control-label">Código</label></td>
+                    <td >{{selo.id}}</td>  
+                  </tr>
+                  <tr>
+                    <td><label for="nome" class=control-label">Nome</label></td>
+                    <td >{{selo.nome}}</td>  
+                  </tr>
+                  <tr>
+                    <td><label for="dtDesativacao" class=control-label">Status</label></td>
+                    <td >{{selo.dtDesativacao ? "Desativado em " + selo.dtDesativacao: " Ativo"}}</td>
+                  </tr>    
+                </tbody>
+              </table>
+            </div><!-- /.table-responsive -->   
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <!--Inicio dados endereço-->
+              <tbody>                
+                <tr>
+                  <td><label for="descricao" class=control-label">Descrição</label></td>
+                  <td >{{selo.descricao}}</td>  
+                </tr>
+              </tbody>
+            </table>
+          </div><!-- /.table-responsive -->   
+        </div> <!-- /.col-lg-12 -->
+      </div>  <!-- /.row -->
+    </div> <!-- /.panel-default -->
+  </div> <!-- modal-body -->
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline btn-primary btn-lg btn-block" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Fechar
+    </button>
+  </div>
+</div>
