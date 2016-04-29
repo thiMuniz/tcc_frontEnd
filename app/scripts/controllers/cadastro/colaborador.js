@@ -1,5 +1,5 @@
 'use strict';
-app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, ColaboradorResource, CONST, toastr) {
+app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResource, CONST, toastr, $stateParams, $httpParamSerializerJQLike) {
   var toastTitle = "Bem vindo programador!!";
   var toastMsg = "Boa sorte dessa vez...";
 
@@ -9,25 +9,27 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, Colaborador
   $scope.headerLista = "Nenhum colaborador foi encontrado";
   $scope.labelCadastrarBtn = "Novo Colaborador";
 
+  //var params = {limit:10,page:0}
+  var params = {perfil:$stateParams.perfil};
+
+  //var result = PessoaResource.query({p:$httpParamSerializerJQLike(params),perfil:$stateParams.perfil});
+  var result = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
+  console.log(result);
+  
   toastr.warning(toastMsg, toastTitle);
   carregarColaboradoresFront();
+  carregarColaboradoresAPI();
  
   function carregarColaboradoresFront() {
-    var pessoa = {id: "1", tipoPessoa: "pf", email: "email pf1", telefone1: "tel 1 pf1", telefone2: "tel 2 pf1", imagem: "img/adm/AdmThiagoMM.jpg", dtDesativacao: "", usuario: "User 1 pf1", senha: "", permissao: ""};
-    var pf = {nome: "nome Pf", sobrenome: "sobrenome PF", rg: "000001", cpf: "1000000", dtNascimento: "01/01/2001"};    
-    var endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
-    var colaborador1 = {pessoa: pessoa, pf: pf, endereco: endereco};
-    
-    pessoa = {id: "2", tipoPessoa: "pf", email: "email pf2", telefone1: "tel 1 pf2", telefone2: "tel 2 pf2", imagem: "img/adm/AdmEvertonWB.jpg", dtDesativacao: "", usuario: "User 2 pf2", senha: "", permissao: ""};
-    pf = {nome: "nome Pf", sobrenome: "sobrenome PF", rg: "000001", cpf: "1000000", dtNascimento: "01/01/2001"};    
-    endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
-    var colaborador2 = {pessoa: pessoa, pf: pf, endereco: endereco};
-    
     $scope.colaboradores = [
-      colaborador1,
-      colaborador2
+    {id: "1", perfil: $stateParams.perfil, email: "email pf1", telefone1: "tel 1 pf1", telefone2: "tel 2 pf1", imagem: "img/adm/AdmThiagoMM.jpg", dtDesativacao: "", usuario: "User 1 pf1", senha: "", permissao: "",
+        pf: {nome: "nome Pf", sobrenome: "sobrenome PF", rg: "000001", cpf: "1000000", dtNascimento: "01/01/2001"},
+        endereco: {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}},
+    {id: "2", perfil: $stateParams.perfil, email: "email pf2", telefone1: "tel 1 pf2", telefone2: "tel 2 pf2", imagem: "img/adm/AdmEvertonWB.jpg", dtDesativacao: "", usuario: "User 2 pf2", senha: "", permissao: "",
+        pf: {nome: "nome Pf", sobrenome: "sobrenome PF", rg: "000001", cpf: "1000000", dtNascimento: "01/01/2001"},
+        endereco: {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}}
     ];
-  }
+  };
 
   $scope.ordenar = function (campo) {
     $scope.campo = campo;
@@ -35,20 +37,24 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, Colaborador
   };
 
   function carregarColaboradoresAPI() {
-    $scope.colaboradores = ColaboradorResource.query();
+//    $scope.colaboradores = ColaboradorResource.query();
+    $scope.colaboradores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
   }
 
   $scope.openInsertDialog = function () {
+    $scope.colaborador = new PessoaResource();
+    $scope.colaborador.perfil = $stateParams.perfil;
     $scope.params = {
       formTipo: 'insert',
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
       tituloDialog: "Cadastrar Colaborador",
       //      colaborador: new ColaboradorResource()
-      colaborador: {
-        pessoa: {tipoPessoa: "pf", email: "", telefone1: "", telefone2: "", imagem: "", dtDesativacao: "", usuario: "", senha: "", permissao: ""},
-         pf : {nome: "", sobrenome: "", titulo: "", rg: "", cpf: "", dtNascimento: ""},    
-        endereco: {cep: "", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}
-      }
+      colaborador: $scope.colaborador
+//      colaborador: {
+//        pessoa: {perfil: $stateParams.perfil, email: "", telefone1: "", telefone2: "", imagem: "", dtDesativacao: "", usuario: "", senha: "", permissao: ""},
+//         pf : {nome: "", sobrenome: "", titulo: "", rg: "", cpf: "", dtNascimento: ""},    
+//        endereco: {cep: "", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}
+//      }
     };
     var modalInstance = $modal.open({
       templateUrl: 'views/cadastro/dialog/formColaborador.html',
@@ -121,25 +127,25 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, Colaborador
   $scope.openAtivarDesativarDialog = function (colaborador) {
     index = $scope.colaboradores.indexOf($filter('filter')($scope.colaboradores, colaborador, true)[0]);
     swal({
-      title: "Deseja mesmo" + (colaborador.pessoa.dtDesativacao ? " ativar" : " desativar") + " o colaborador " + (colaborador.pf.nome) + "?",
-      text: "Você poderá" + (colaborador.pessoa.dtDesativacao ? " desativar" : " ativar") + " o colaborador novamente!",
+      title: "Deseja mesmo" + (colaborador.dtDesativacao ? " ativar" : " desativar") + " o colaborador " + (colaborador.pf.nome) + "?",
+      text: "Você poderá" + (colaborador.dtDesativacao ? " desativar" : " ativar") + " o colaborador novamente!",
       type: "warning",
       showCancelButton: true,
-      confirmButtonColor: (colaborador.pessoa.dtDesativacao ? "#428bca" : "#DD6B55"), //#f0ad4e
+      confirmButtonColor: (colaborador.dtDesativacao ? "#428bca" : "#DD6B55"), //#f0ad4e
       cancelButtonText: "NÃO",
       confirmButtonText: "SIM"
     },
     function () {
 //      $scope.colaboradores.splice(index, 1);
-//      colaborador.pessoa.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
-//      colaborador.pessoa.dtDesativacao = new Date();
-      colaborador.pessoa.dtDesativacao = (colaborador.pessoa.dtDesativacao ? null : new Date());
-      ColaboradorResource.update(colaborador, function () {
+//      colaborador.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
+//      colaborador.dtDesativacao = new Date();
+      colaborador.dtDesativacao = (colaborador.dtDesativacao ? null : new Date());
+      PessoaResource.update(colaborador, function () {
         $scope.colaboradores[index] = colaborador;
-        toastMsg = (colaborador.pf.nome) + (colaborador.pessoa.dtDesativacao ? " desativado!" : " ativado!");
+        toastMsg = (colaborador.pf.nome) + (colaborador.dtDesativacao ? " desativado!" : " ativado!");
         toastr.success(toastMsg, "Sucesso!");
       }, function () {
-        toastMsg = (colaborador.pf.nome) + " não foi " + (colaborador.pessoa.dtDesativacao ? "ativado!" : "desativado!");
+        toastMsg = (colaborador.pf.nome) + " não foi " + (colaborador.dtDesativacao ? "ativado!" : "desativado!");
         toastr.error(toastMsg, "Erro!");
       });
     });
@@ -173,13 +179,14 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, Colaborador
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
+    
 //    if (params.colaborador) {      
 //      
 //      $scope.colaborador = angular.copy(params.colaborador);
 //      
 //      console.log("params.colaborador");
 //      console.log(params.colaborador);
-////      $scope.colaborador = params.colaborador;      
+//      $scope.colaborador = params.colaborador;      
 //      console.log("scope.colaborador");
 //      console.log($scope.colaborador);
 ////      $scope.colaboradorInit = angular.copy($scope.colaborador);
@@ -192,7 +199,6 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, Colaborador
     
     $scope.colaborador = angular.copy(params.colaborador);
     $scope.colaboradorInit = angular.copy(params.colaborador);
-    
       
     $scope.sexos = [
       {nome: "Masculino", valor: "masculino"},
@@ -231,21 +237,26 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, Colaborador
   };
 
   $scope.submit = function () {
-
-    /*
-     //chamar serviço API
-     $http.post(CONST.ws.urlSGP+'colaborador/', 
-     $scope.colaborador                        
-     ).then(function successCallback(response) {
-     console.log("deu bom"+response.data);
-     }, function errorCallback(response) {
-     console.log("deu ruim"+response);
-     console.log($scope.colaborador);
-     });
-     */
-
-    //pegar retorno API e definir padrão p/ result
-    //
+    if ($scope.formTipo == 'insert') { //insert
+      $scope.colaborador.$save(function (data) {
+        // do something which you want with response
+        console.log("insert ok");
+        console.log(data);
+        console.log(status);
+      }, function(data){
+        console.log("erro");
+        console.log(data);
+        console.log(status);
+      });
+    } else { //update
+      $scope.colaborador.$update(function(){
+        console.log("update ok");
+        console.log(status);
+      }, function(){
+        console.log("erro");
+        console.log(status);
+      });
+    }
     $modalInstance.close({
       colaborador: $scope.colaborador,
       status: "sucesso" //pegar retorno padrão da API ou protocolo HTTP

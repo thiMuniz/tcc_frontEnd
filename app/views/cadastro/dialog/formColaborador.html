@@ -14,22 +14,27 @@
       
       <div ng-switch on="selection">
         <div ng-switch-when="Passo 1 - Dados Gerais"><!-- ABA 1 - GERAL -->
-          debug colaborador.pessoa{{colaborador.pessoa}}
           <div class="form-group" ng-if="formTipo == 'update'">
             <label for="id" class="col-sm-3 control-label">Código</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="id" ng-model="colaborador.pessoa.id" ng-disabled="true">
+              <input class="form-control" type="text" id="id" ng-model="colaborador.id" ng-disabled="true">
             </div>
-          </div>          
+          </div>
 
-          <div class="form-group" ng-hide="true">
-            <label for="tipoPessoa" class="col-sm-3 control-label">Tipo de Pessoa</label>
+          <div class="form-group" >
+            <label for="perfil" class="col-sm-3 control-label">Perfil</label>
             <div class="col-sm-7">
               <label class="radio-inline">
-                <input id="tipoPessoaPf" name="tipoPessoa" ng-model="colaborador.pessoa.tipoPessoa" type="radio" value="pf" ng-click="toogleTipoPessoa()" ng-disabled="true"> Física <!-- ng-checked="colaborador.pessoa.tipoPessoa == 'pf' || !pessoa.tipoPessoa" -->
+                <input id="diretor" name="perfil" ng-model="colaborador.perfil" type="radio" value="diretor" > Diretor
               </label>
               <label class="radio-inline">
-                <input id="tipoPessoaPj" name="tipoPessoa" ng-model="colaborador.pessoa.tipoPessoa" type="radio" value="pj" ng-click="toogleTipoPessoa()" ng-disabled="true"> Jurídica <!--  ng-checked="colaborador.pessoa.tipoPessoa == 'pj'" -->
+                <input id="gerente" name="perfil" ng-model="colaborador.perfil" type="radio" value="gerente" > Gerente 
+              </label>
+              <label class="radio-inline">
+                <input id="producao" name="perfil" ng-model="colaborador.perfil" type="radio" value="producao" > Produção
+              </label>
+              <label class="radio-inline">
+                <input id="entrega" name="perfil" ng-model="colaborador.perfil" type="radio" value="entrega" > Entrega 
               </label>
             </div>
           </div>
@@ -37,53 +42,52 @@
           <div class="form-group">
             <label for="email" class="col-sm-3 control-label">Email</label>
             <div class="col-sm-7">
-              <input class="form-control" ng-required="true" type="text" id="usuario" placeholder="E-mail" ng-model="colaborador.pessoa.email" >
+              <input class="form-control" ng-required="true" type="text" id="usuario" placeholder="E-mail" ng-model="colaborador.email" >
             </div>
           </div>
           <div class="form-group">
             <label for="usuario" class="col-sm-3 control-label">Nome de usuário</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="usuario" placeholder="Usuario" ng-model="colaborador.pessoa.usuario" >
+              <input class="form-control" type="text" id="usuario" placeholder="Usuario" ng-model="colaborador.usuario" >
             </div>
           </div>
           <div class="form-group">
             <label for="senha" class="col-sm-3 control-label">Senha</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="senha" placeholder="Senha" ng-model="colaborador.pessoa.senha" >
+              <input class="form-control" type="text" id="senha" placeholder="Senha" ng-model="colaborador.senha" >
             </div>
           </div>
           <div class="form-group">
             <label for="telefone1" class="col-sm-3 control-label">Telefone 1</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="telefone1" placeholder="Telefone 1" ng-model="colaborador.pessoa.telefone1" >
+              <input class="form-control" type="text" id="telefone1" placeholder="Telefone 1" ng-model="colaborador.telefone1" >
             </div>
           </div>
           <div class="form-group">
             <label for="telefone2" class="col-sm-3 control-label">Telefone 2</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="telefone2" placeholder="Telefone 2" ng-model="colaborador.pessoa.telefone2" >
+              <input class="form-control" type="text" id="telefone2" placeholder="Telefone 2" ng-model="colaborador.telefone2" >
             </div>
           </div>
           <!--  inicio teste img-->
           <div class="form-group"> 
             <label for="imagem" class="col-sm-3 control-label">
-                <button type="button" class="btn btn-primary btn-sm" ngf-select ng-model="imgSelecionada" accept="image/*">
+                <button type="button" class="btn btn-primary btn-sm" ngf-select ng-model="imgSelecionada" accept="image/">
                   <ng-md-icon icon="file_upload" ></ng-md-icon> &nbsp; Imagem
                 </button>
             </label>
-            <div class="col-sm-5 form-control cropAreaSgp" id="imagem" ng-model="imgSelecionada" ngf-pattern="image/*" ngf-drop>
-              <img-crop image="imgSelecionada  | ngfDataUrl" result-image="colaborador.pessoa.imagem" ng-init="colaborador.pessoa.imagem">
+            <div class="col-sm-5 form-control cropAreaSgp" id="imagem" ng-model="imgSelecionada" ngf-pattern="image/" ngf-drop>
+              <img-crop image="imgSelecionada  | ngfDataUrl" result-image="colaborador.imagem.arquivo" ng-init="colaborador.imagem.arquivo">
                 Arraste e solte a imagem ou clique para localizar no computador
               </img-crop>        
             </div>
             <div class="col-sm-4">
-              <img ng-src="{{colaborador.pessoa.imagem}}" />
+              <img ng-src="{{colaborador.imagem.arquivo}}" />
             </div>
           </div>
           <!--fim teste img-->
         </div><!-- /.ABA 1 - GERAL -->
          <div ng-switch-when="Passo 2 - Dados Pessoa Física" ><!-- ABA 2 - PF -->
-          debug colaborador.pf {{colaborador.pf}}
           <div class="form-group">
             <label for="nome" class="col-sm-3 control-label">Nome</label>
             <div class="col-sm-7">
@@ -126,11 +130,9 @@
         </div><!-- /.ABA 2 - PF  -->
 
 
-        <div ng-switch-when="Passo 3 - Endereço e Contato"><!-- ABA 3 - ENDEREÇO -->
-          {{colaborador.endereco}}
-                    
+        <div ng-switch-when="Passo 3 - Endereço e Contato"><!-- ABA 3 - ENDEREÇO -->                    
           <div class="form-group">
-            <label for="cep" class="col-sm-3 control-label">Cep*</label>
+            <label for="cep" class="col-sm-3 control-label">Cep</label>
             <div class="col-sm-7 input-group">
 <!--              <div ng-show="formColaborador.cep.$error.required && formColaborador.cep.$dirty">Por favor, preencha o campo cep! </div>
               <div ng-show="formColaborador.cep.$error.pattern">Por favor, preencha um cep valido!Ex: 00000000 </div>-->
@@ -143,35 +145,35 @@
             </div>
           </div> 
           <div class="form-group">
-            <label for="estado" class="col-sm-3 control-label">Estado*</label>
+            <label for="estado" class="col-sm-3 control-label">Estado</label>
             <div class="col-sm-7">
               <div ng-show="formColaborador.uf.$error.required && formColaborador.uf.$dirty">Por favor, preencha o campo estado! </div>
               <input class="form-control" type="text" id="estado" ng-model="colaborador.endereco.uf" name="uf" placeholder="Estado"  ng-required="true">
             </div>
           </div>
           <div class="form-group">
-            <label for="localidade" class="col-sm-3 control-label">Cidade*</label>
+            <label for="localidade" class="col-sm-3 control-label">Cidade</label>
             <div class="col-sm-7">
               <div ng-show="formColaborador.localidade.$error.required && formColaborador.localidade.$dirty">Por favor, preencha o campo localidade! </div>
               <input class="form-control" type="text" id="localidade" ng-model="colaborador.endereco.localidade" name="localidade" placeholder="Cidade"  ng-required="true">
             </div>
           </div>
           <div class="form-group">
-            <label for="bairro" class="col-sm-3 control-label">Bairro*</label>
+            <label for="bairro" class="col-sm-3 control-label">Bairro</label>
             <div class="col-sm-7">
               <div ng-show="formColaborador.bairro.$error.required && formColaborador.bairro.$dirty">Por favor, preencha o campo Bairro! </div>
               <input class="form-control" type="text" id="bairro" ng-model="colaborador.endereco.bairro" name="bairro" placeholder="Bairro"  ng-required="true">
             </div>
           </div>
           <div class="form-group">
-            <label for="logradouro" class="col-sm-3 control-label">Logradouro*</label>
+            <label for="logradouro" class="col-sm-3 control-label">Logradouro</label>
             <div class="col-sm-7">
               <div ng-show="formColaborador.logradouro.$error.required && formColaborador.logradouro.$dirty">Por favor, preencha o campo endereço! </div>
               <input class="form-control" type="text" id="logradouro" ng-model="colaborador.endereco.logradouro" name="logradouro" placeholder="Endereço" ng-required="true">
             </div>
           </div>  
           <div class="form-group">
-            <label for="numero" class="col-sm-3 control-label">Numero*</label>
+            <label for="numero" class="col-sm-3 control-label">Numero</label>
             <div class="col-sm-7">
               <div ng-show="formColaborador.numero.$error.required && formColaborador.numero.$dirty">Por favor, preencha o campo Numero! </div>
               <input class="form-control" type="number" id="numero" ng-model="colaborador.endereco.numero" name="numero" placeholder="Numero" ng-required="true">

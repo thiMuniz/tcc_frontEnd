@@ -35,10 +35,10 @@
         </label>
         <div class="col-sm-5 form-control cropAreaSgp" id="imagem" ng-model="imgSelecionada" ngf-pattern="image/*" ngf-drop>
             <!--<p>Arraste e solte a imagem aqui ou clique no botão ao lado para localizar no computador</p>-->
-          <img-crop image="imgSelecionada  | ngfDataUrl" result-image="rotulo.imagem" ng-init="rotulo.imagem"></img-crop>          
+          <img-crop image="imgSelecionada  | ngfDataUrl" result-image="rotulo.imagens[0].arquivo" ng-init="rotulo.imagens[0].arquivo"></img-crop>          
         </div>
         <div class="col-sm-4">
-          <img ng-src="{{rotulo.imagem}}" />
+          <img ng-src="{{rotulo.imagens[0].arquivo}}" />
         </div>
       </div>
 <!--fim teste img-->        

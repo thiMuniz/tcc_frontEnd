@@ -1,25 +1,13 @@
 'use strict';
-app.controller('CategoriaCtrl', function ($scope, $modal, $filter, CategoriaResource, CONST, toastr) {
+app.controller('CategoriaCtrl', function ($scope, $modal, CategoriaResource, CONST, toastr) {
   
-//  $scope.categorias = [
-//    {id: "1", dsCurta: "Pães", dsDetalhada: "Detalhes da Categoria 1"},
-//    {id: "2", dsCurta: "Biscoitos Doces Açúcar", dsDetalhada: "Detalhes da Categoria 2"},
-//    {id: "3", dsCurta: "Biscoitos Doces Adoçante", dsDetalhada: "Detalhes da Categoria 3"},
-//    {id: "4", dsCurta: "Biscoitos Salgados", dsDetalhada: "Detalhes da Categoria 4"},
-//    {id: "5", dsCurta: "Panetones", dsDetalhada: "Detalhes da Categoria 5"},
-//  ];
-  
-  var toastTitle = "";
   var toastMsg = "";
-  var index;
   $scope.CONST = CONST;
   $scope.tituloView = "Cadastro de Categorias dos Produtos";
   $scope.headerLista = "Nenhuma categoria foi encontrada";
   $scope.labelCadastrarBtn = "Nova Categoria";
-  
-  atualizarLista();
-  
-  function atualizarLista() {
+    
+  $scope.atualizarLista = function(){
     $scope.categorias = CategoriaResource.query();
     //incluir spinner enquanto esta carregando a lista
   };
@@ -37,12 +25,11 @@ app.controller('CategoriaCtrl', function ($scope, $modal, $filter, CategoriaReso
       tituloDialog: "Cadastrar Categoria",
       categoria: new CategoriaResource()
     };
-
     var modalInstance = $modal.open({
       templateUrl: 'views/cadastro/dialog/formCategoria.html',
       controller: 'CategoriaDialogCtrl',
       backdrop: 'static',
-      size: 'lg', //sm, lg
+      size: '',
       resolve: {
         params: function () {
           return $scope.params;
@@ -50,23 +37,16 @@ app.controller('CategoriaCtrl', function ($scope, $modal, $filter, CategoriaReso
       }
     });
     modalInstance.result.then(function (result) {
-      if (result.categoria) {
-        if (result.status == "sucesso") {//Se retorno da API com sucesso add a categoria à lista
-          $scope.categorias.push(angular.copy(result.categoria));
-//          atualizarLista();
-//          $scope.$apply();
-          toastMsg = result.categoria.nome + " cadastrada";
-          toastr.success(toastMsg, "Sucesso!");
-        } else {//Senão mostra msg erro
-          toastMsg = result.categoria.nome + " não cadastrada!";
-          toastr.error(toastMsg, "Erro!");
-        }
-      }
+      if (result.status == "sucesso") {
+//        $scope.categorias[index] = result.categoria;
+        $scope.atualizarLista();
+//        scope.$apply(); 
+      } 
     });
   };
 
   $scope.openUpdateDialog = function (categoria) {    
-    index = $scope.categorias.indexOf($filter('filter')($scope.categorias, categoria, true)[0]);    
+//    index = $scope.categorias.indexOf($filter('filter')($scope.categorias, categoria, true)[0]);    
     $scope.params = {
       formTipo: 'update',
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
@@ -78,35 +58,24 @@ app.controller('CategoriaCtrl', function ($scope, $modal, $filter, CategoriaReso
       templateUrl: "views/cadastro/dialog/formCategoria.html",
       controller: "CategoriaDialogCtrl",
       backdrop: 'static',
-      size: 'lg',
+      size: '',
       resolve: {
         params: function () {
           return $scope.params;
         }
       }
     });
-    modalInstance.result.then(function (result) {//quando foi fechado enviando dados
-      if (result.categoria) {
-        if (result.status == "sucesso") {//Se retorno da API com sucesso add a categoria à lista
-          $scope.categorias[index] = result.categoria;
-//                  $scope.$apply(); 
-          toastMsg = "Dados da categoria " + result.categoria.nome + " alterados com sucesso!";
-          toastr.success(toastMsg, "Sucesso");
-        } else {//Senão mostra msg erro                  
-          toastMsg = "Dados da categoria " + result.categoria.nome + " não foram alterados!";
-          
-          toastr.error(toastMsg, "Erro");
-        }
-      } else {
-        toastr.warning("Formulário em branco", "Não alterado!");
-      }
-    }, function () {
-      toastr.warning("Nada aconteceu", "Cancelado");
+    modalInstance.result.then(function (result) {
+      if (result.status == "sucesso") {
+//        $scope.categorias[index] = result.categoria;
+        $scope.atualizarLista();
+//        scope.$apply(); 
+      } 
     });
   };
   
   $scope.openAtivarDesativarDialog = function (categoria) {
-    index = $scope.categorias.indexOf($filter('filter')($scope.categorias, categoria, true)[0]);    
+//    index = $scope.categorias.indexOf($filter('filter')($scope.categorias, categoria, true)[0]);    
     swal({
       title: "Deseja mesmo" + (categoria.dtDesativacao ? " ativar" : " desativar") + " a Categoria " + categoria.nome + "?",
       text: "Você poderá" + (categoria.dtDesativacao ? " desativar" : " ativar") + " a Categoria novamente!",
@@ -117,12 +86,11 @@ app.controller('CategoriaCtrl', function ($scope, $modal, $filter, CategoriaReso
       confirmButtonText: "SIM"
     },
     function () {
-//      $scope.categorias.splice(index, 1);
 //      categoria.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
-//      categoria.dtDesativacao = new Date();
       categoria.dtDesativacao = (categoria.dtDesativacao ? null : new Date());
       CategoriaResource.update(categoria, function(){
-          $scope.categorias[index] = categoria;
+//          $scope.categorias[index] = categoria;
+          $scope.atualizarLista();
           toastMsg = categoria.nome + (categoria.dtDesativacao ? " desativada!" : " ativada!");
           toastr.success(toastMsg, "Sucesso!");
         }, function(){
@@ -139,12 +107,11 @@ app.controller('CategoriaCtrl', function ($scope, $modal, $filter, CategoriaReso
       tituloDialog: "Detalhes Categoria",
       categoria: angular.copy(categoria)
     };
-
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/infoCategoria.html",
       controller: "CategoriaDialogCtrl",
       backdrop: 'static',
-      size: 'lg',
+      size: '',
       resolve: {
         params: function () {
           return $scope.params;
@@ -152,54 +119,63 @@ app.controller('CategoriaCtrl', function ($scope, $modal, $filter, CategoriaReso
       }
     });
   };
+  
+  $scope.atualizarLista();
+  
 })
-  .controller('CategoriaDialogCtrl', function ($scope, $modalInstance, params, CONST, CategoriaResource, toastr) {
+  .controller('CategoriaDialogCtrl', function ($scope, $modalInstance, params, CONST, toastr) {
     $scope.CONST = CONST;
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
-//    if(params.categoria){
-        $scope.categoria = params.categoria;
-//    }else{
-//        $scope.categoria = new CategoriaResource();
-//    }
-//    if($scope.categoriaInit)delete $scope.categoriaInit;
+    
+    $scope.categoria = params.categoria;
     $scope.categoriaInit = angular.copy($scope.categoria);
-        
-    $scope.clear = function () {
-      $scope.categoria = angular.copy($scope.categoriaInit);
-    };    
-
+    
     $scope.submit = function () {
-      //incluir rotina de validação
       if ($scope.formTipo == 'insert') { //insert
-        $scope.categoria.$save(function (data) {
-          // do something which you want with response
-          console.log("insert ok");
-          console.log(data);
-          console.log(status);
+        $scope.categoria.$save(function(){
+          var toastMsg = "Categoria " + $scope.categoria.nome + " cadastrada com sucesso!";
+          toastr.success(toastMsg, "successo");
+          var result = {
+            categoria: $scope.categoria, 
+            status: "sucesso"
+          };
+          $scope.close(result);
         }, function(){
-          console.log("erro");
-          console.log(status);
+          var toastMsg = "Erro ao cadastrar Categoria " + $scope.categoria.nome;
+          toastr.error(toastMsg, "Erro");
+          var result = {
+            status: "erro"
+          };
+          $scope.close(result);
         });
       } else { //update
         $scope.categoria.$update(function(){
-          console.log("update ok");
-          console.log(status);
+          var toastMsg = "Categoria " + $scope.categoria.nome + " editada com sucesso!";
+          toastr.success(toastMsg, "Sucesso");
+          var result = {
+            categoria: $scope.categoria, 
+            status: "sucesso"
+          };
+          $scope.close(result);
         }, function(){
-          console.log("erro");
-          console.log(status);
+          var toastMsg = "Erro ao editar Categoria " + $scope.categoria.nome;
+          toastr.error(toastMsg, "Erro");
+          var result = {
+            status: "erro"
+          };
+          $scope.close(result);
         });
       }
-
-      //pegar retorno API e definir padrão p/ result
-      //
-      $modalInstance.close({
-        categoria: $scope.categoria,
-        status: "sucesso" //pegar retorno padrão da API ou protocolo HTTP
-//       categoria: response.data,
-//       status: response.status
-      });
+    };
+    
+    $scope.clear = function () {
+      $scope.categoria = angular.copy($scope.categoriaInit);
+    };
+    
+    $scope.close = function(result){
+      $modalInstance.close(result);
     };
 
     $scope.cancel = function () {

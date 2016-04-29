@@ -11,7 +11,7 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="col-lg-4">
-            <img ng-src="{{embalagem.imagem.arquivo}}" class="img-thumbnail img-info-dialog">
+            <img ng-src="{{embalagem.imagens[0].arquivo}}" class="img-thumbnail img-info-dialog">
           </div>
           <div class="col-lg-8">
             <!--**informacoes na lateral doreita da foto-->
@@ -32,7 +32,7 @@
                   </tr>
                   <tr>
                     <td><label for="dtDesativacao" class=control-label">Status</label></td>
-                    <td >{{embalagem.dtDesativacao ? "Desativado em " + embalagem.dtDesativacao: " Ativo"}}</td>
+                    <td>{{embalagem.dtDesativacao ? "Desativado em " + (embalagem.dtDesativacao | date: "dd/MM/yyyy 'às' HH:mm:ss") : "Ativo"}}</td>
                   </tr>    
                 </tbody>
               </table>

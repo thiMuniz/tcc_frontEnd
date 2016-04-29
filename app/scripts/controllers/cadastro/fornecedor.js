@@ -1,5 +1,5 @@
 'use strict';
-app.controller('FornecedorCtrl', function ($scope, $modal, $filter, FornecedorResource, CONST, toastr) {
+app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResource, CONST, toastr, $stateParams, $httpParamSerializerJQLike) {
   var toastTitle = "Bem vindo programador!!";
   var toastMsg = "Boa sorte dessa vez...";
 
@@ -10,16 +10,23 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, FornecedorRe
   $scope.labelCadastrarBtn = "Novo Fornecedor";
 
   toastr.warning(toastMsg, toastTitle);
-  carregarFornecedoresFront();
+//  carregarFornecedoresFront();
+  carregarFornecedoresAPI();
  
   function carregarFornecedoresFront() {
+    var pessoa = {id: "1", tipoPessoa: "pj", email: "email PJ1", telefone1: "tel 1 PJ1", telefone2: "tel 2 PJ1", imagem: "img/temp/imgFornecedor1.png", dtDesativacao: "", usuario: "User 1 PJ1", senha: "", permissao: ""};
+    var pj = {razaoSocial: "razaoSocial PJ1", nomeFantasia: "nomeFantasia PJ1", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ1", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"};
+    var endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
+    var fornecedor1 = {pessoa: pessoa, pj: pj, endereco: endereco};
+    
+    pessoa = {id: "2", tipoPessoa: "pj", email: "email PJ2", telefone1: "tel 1 PJ2", telefone2: "tel 2 PJ2", imagem: "img/temp/imgFornecedor2.png", dtDesativacao: "", usuario: "User 2 PJ2", senha: "", permissao: ""};
+    pj = {razaoSocial: "razaoSocial PJ2", nomeFantasia: "nomeFantasia PJ2", ramoAtividade: "Rótulos", cnpj: "000002", inscricaoEst: "2000000", dtAbertura: "02/02/2002", contato: "contato PJ2", tipo: "fornecedor", hrMinEntrega: "09:00", hrMaxEntrega: "17:00"};
+    endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
+    var fornecedor2 = {pessoa: pessoa, pj: pj, endereco: endereco};
+    
     $scope.fornecedores = [
-      {id: "1", perfil: "fornecedor", email: "email PJ1", telefone1: "tel 1 PJ1", telefone2: "tel 2 PJ1", imagem:{arquivo: "img/temp/imgFornecedor1.png"}, dtDesativacao: "", usuario: "User 1 PJ1", senha: "", permissao: "",
-        pj: {razaoSocial: "razaoSocial PJ1", nomeFantasia: "nomeFantasia PJ1", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ1", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-        endereco: {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}},
-      {id: "2", perfil: "fornecedor", email: "email PJ2", telefone1: "tel 1 PJ2", telefone2: "tel 2 PJ2", imagem:{arquivo: "img/temp/imgFornecedor2.png"}, dtDesativacao: "", usuario: "User 2 PJ2", senha: "", permissao: "",
-        pj: {razaoSocial: "razaoSocial PJ2", nomeFantasia: "nomeFantasia PJ2", ramoAtividade: "Rótulos", cnpj: "000002", inscricaoEst: "2000000", dtAbertura: "02/02/2002", contato: "contato PJ2", tipo: "fornecedor", hrMinEntrega: "09:00", hrMaxEntrega: "17:00"},
-        endereco: {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}}
+      fornecedor1,
+      fornecedor2
     ];
   }
 
@@ -28,21 +35,26 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, FornecedorRe
     $scope.ascDsc = !$scope.ascDsc;
   };
 
+  toastr.info($stateParams.perfil);
+    
   function carregarFornecedoresAPI() {
-    $scope.fornecedores = FornecedorResource.query();
+//    $scope.fornecedores = FornecedorResource.query();
+    $scope.fornecedores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
   }
 
   $scope.openInsertDialog = function () {
+    $scope.fornecedor = new PessoaResource();
+    $scope.fornecedor.perfil = $stateParams.perfil;
     $scope.params = {
       formTipo: 'insert',
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
       tituloDialog: "Cadastrar Fornecedor",
-      //      fornecedor: new FornecedorResource()
-      fornecedor: {
-        perfil: "fornecedor", email: "", telefone1: "", telefone2: "", imagem:{arquivo: "img/temp/imgFornecedor2.png"}, dtDesativacao: "", usuario: "", senha: "", permissao: "",
-        pj: {razaoSocial: "", nomeFantasia: "", ramoAtividade: "", cnpj: "", inscricaoEst: "", dtAbertura: "", contato: "", tipo: "", hrMinEntrega: "", hrMaxEntrega: ""},
-        endereco: {cep: "", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}
-      }
+      fornecedor: $scope.fornecedor
+//      fornecedor: {
+//        pessoa: {tipoPessoa: "pj", email: "", telefone1: "", telefone2: "", imagem: "", dtDesativacao: "", usuario: "", senha: "", permissao: ""},
+//        pj: {razaoSocial: "", nomeFantasia: "", ramoAtividade: "", cnpj: "", inscricaoEst: "", dtAbertura: "", contato: "", tipo: "", hrMinEntrega: "", hrMaxEntrega: ""}, 
+//        endereco: {cep: "", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}
+//      }
     };
     var modalInstance = $modal.open({
       templateUrl: 'views/cadastro/dialog/formFornecedor.html',
@@ -56,21 +68,15 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, FornecedorRe
       }
     });
     modalInstance.result.then(function(result) {
-      if (result.fornecedor) {
-        if (result.status == "sucesso") {//Se retorno da API com sucesso add a fornecedor à lista
-          $scope.fornecedores.push(angular.copy(result.fornecedor));
+      if (result.status == "sucesso") {//Se retorno da API com sucesso add a fornecedor à lista
+        $scope.fornecedores.push(angular.copy(result.fornecedor));
 //                  $scope.$apply();
-          toastMsg = "Fornecedor " + result.fornecedor.nome + " cadastrado com sucesso!";
-          toastr.success(toastMsg, "successo");
-        } else {//Senão mostra msg erro                  
-          toastMsg = "Erro ao cadastrar Fornecedor " + result.fornecedor.dsCurta + " !";
-          toastr.errror(toastMsg, "erro");
-        }
-      } else {
-        toastr.warning("Formulário em branco", "Não cadastrado!");
+//          toastMsg = "Fornecedor " + result.fornecedor.pj.nomeFantasia + " cadastrado com sucesso!";
+//          toastr.success(toastMsg, "successo");
+      } else {//Senão mostra msg erro                  
+//          toastMsg = "Erro ao cadastrar Fornecedor " + result.fornecedor.pj.nomeFantasia + " !";
+//          toastr.errror(toastMsg, "erro");
       }
-    }, function () {
-      toastr.warning("Nada aconteceu", "Cancelado");
     });
   };
 
@@ -98,10 +104,10 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, FornecedorRe
         if (result.status == "sucesso") {//Se retorno da API com sucesso add a fornecedor à lista
           $scope.fornecedores[index] = result.fornecedor;
 //                  $scope.$apply(); 
-          toastMsg = "Fornecedor " + result.fornecedor.pj.nomeFantasia + " editado com sucesso!";
-          toastr.success(toastMsg, "sucesso");
+//          toastMsg = "Fornecedor " + result.fornecedor.nome + " editado com sucesso!";
+//          toastr.success(toastMsg, "sucesso");
         } else {//Senão mostra msg erro                  
-          toastMsg = "Erro ao editar Fornecedor " + result.fornecedor.pj.nomeFantasia + " !";
+          toastMsg = "Erro ao editar Fornecedor " + result.fornecedor.nome + " !";
           toastr.error(toastMsg, "erro");
         }
       } else {
@@ -115,7 +121,7 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, FornecedorRe
   $scope.openAtivarDesativarDialog = function(fornecedor) {
     index = $scope.fornecedores.indexOf($filter('filter')($scope.fornecedores, fornecedor, true)[0]);
     swal({
-      title: "Deseja mesmo" + (fornecedor.dtDesativacao ? " ativar" : " desativar") + " o fornecedor " + forecedor.pj.nomeFantasia + "?",
+      title: "Deseja mesmo" + (fornecedor.dtDesativacao ? " ativar" : " desativar") + " o fornecedor " + fornecedor.pj.nomeFantasia + "?",
       text: "Você poderá" + (fornecedor.dtDesativacao ? " desativar" : " ativar") + " o fornecedor novamente!",
       type: "warning",
       showCancelButton: true,
@@ -128,7 +134,7 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, FornecedorRe
 //      fornecedor.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
 //      fornecedor.dtDesativacao = new Date();
       fornecedor.dtDesativacao = (fornecedor.dtDesativacao ? null : new Date());
-      FornecedorResource.update(fornecedor, function () {
+      PessoaResource.update(fornecedor, function () {
         $scope.fornecedores[index] = fornecedor;
         toastMsg = fornecedor.pj.nomeFantasia + (fornecedor.dtDesativacao ? " desativado!" : " ativado!");
         toastr.success(toastMsg, "Sucesso!");
@@ -159,6 +165,44 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, FornecedorRe
     });
   };
   
+  $scope.openLookupFornecedor = function(){
+//    index = $scope.fornecedores.indexOf($filter('filter')($scope.fornecedores, fornecedor, true)[0]);
+    $scope.params = {
+      formTipo: 'update',
+      iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
+      tituloDialog: "Editar Fornecedor",
+      fornecedor: angular.copy(fornecedor)
+    };
+    var modalInstance = $modal.open({
+      templateUrl: "views/cadastro/dialog/lookupFornecedor.html",
+      controller: "FornecedorDialogCtrl",
+      backdrop: 'static',
+      size: 'lg',
+      resolve: {
+        params: function () {
+          return $scope.params;
+        }
+      }
+    });
+    modalInstance.result.then(function (result) {//quando foi fechado enviando dados
+      if (result.fornecedor) {
+        if (result.status == "sucesso") {//Se retorno da API com sucesso add a fornecedor à lista
+          $scope.fornecedores[index] = result.fornecedor;
+//                  $scope.$apply(); 
+          toastMsg = "Fornecedor " + result.fornecedor.nome + " editado com sucesso!";
+          toastr.success(toastMsg, "sucesso");
+        } else {//Senão mostra msg erro                  
+          toastMsg = "Erro ao editar Fornecedor " + result.fornecedor.nome + " !";
+          toastr.error(toastMsg, "erro");
+        }
+      } else {
+        toastr.warning("Formulário em branco", "Não cadastrado!");
+      }
+    }, function () {
+      toastr.warning("Nada aconteceu", "Cancelado");
+    });      
+  };
+
 })
 .controller('FornecedorDialogCtrl', function ($scope, $modalInstance, $http, params, CONST, toastr) {
 
@@ -187,12 +231,33 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, FornecedorRe
     $scope.fornecedor = angular.copy(params.fornecedor);
     $scope.fornecedorInit = angular.copy(params.fornecedor);
     
-  }
+      
+    $scope.sexos = [
+      {nome: "Masculino", valor: "masculino"},
+      {nome: "Feminino", valor: "feminino"}
+    ];
+  };
   
-  $scope.getEnderecoWs = function () {
+  //valida email
+  $scope.email = function () {
+    email.clear();
+    email.sendKeys('');
+    expect(text.getText()).toEqual('text =');
+    expect(valid.getText()).toContain('false');
+  };
+  //valida data       
+  $scope.dtNascimento = function () {
+    setInput('');
+    expect(value.getText()).toEqual('value =');
+    expect(valid.getText()).toContain('formFornecedor.input.$valid = false');
+  };
+
+
+  $scope.carregarCep = function () {
     $http.get(CONST.ws.urlCep + $scope.fornecedor.endereco.cep + '/json/'
             ).success(function (endereco) {
       $scope.fornecedor.endereco = endereco;
+//              toastr.info(endereco);
     }).error(function (endereco) {
       console.log("deu ruim - endereco" + endereco);
 //                        carregarFornecedoresFront();
@@ -203,32 +268,74 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, FornecedorRe
     $scope.fornecedor = angular.copy($scope.fornecedorInit);
   };
 
+/*
+modalInstance.result.then(function(result) {
+      if (result.fornecedor) {
+        if (result.status == "sucesso") {//Se retorno da API com sucesso add a fornecedor à lista
+          $scope.fornecedores.push(angular.copy(result.fornecedor));
+//                  $scope.$apply();
+          toastMsg = "Fornecedor " + result.fornecedor.nome + " cadastrado com sucesso!";
+          toastr.success(toastMsg, "successo");
+        } else {//Senão mostra msg erro                  
+          toastMsg = "Erro ao cadastrar Fornecedor " + result.fornecedor.dsCurta + " !";
+          toastr.errror(toastMsg, "erro");
+        }
+      } else {
+        toastr.warning("Formulário em branco", "Não cadastrado!");
+      }
+    }, function () {
+      toastr.warning("Nada aconteceu", "Cancelado");
+    });
+    */
+
   $scope.submit = function () {
     if ($scope.formTipo == 'insert') { //insert
-      $scope.fornecedor.$save(function (data) {
-        // do something which you want with response
-        console.log("insert ok");
-        console.log(data);
-        console.log(status);
+      $scope.fornecedor.$save(function(){
+        var toastMsg = "Fornecedor " + $scope.fornecedor.pj.nomeFantasia + " cadastrado com sucesso!";
+        toastr.success(toastMsg, "successo");
+        var result = {
+          fornecedor: $scope.fornecedor, 
+          status: "sucesso"
+        };
+        $scope.close(result);
       }, function(){
-        console.log("erro");
-        console.log(status);
+        var toastMsg = "Erro ao cadastrar Fornecedor " + $scope.fornecedor.pj.nomeFantasia;
+        toastr.error(toastMsg, "Erro");
+        var result = {
+          status: "erro"
+        };
+        $scope.close(result);
       });
     } else { //update
       $scope.fornecedor.$update(function(){
-        console.log("update ok");
-        console.log(status);
+        var toastMsg = "Fornecedor " + $scope.fornecedor.pj.nomeFantasia + " editado com sucesso!";
+        toastr.success(toastMsg, "Sucesso");
+        var result = {
+          fornecedor: $scope.fornecedor, 
+          status: "sucesso"
+        };
+        $scope.close(result);
       }, function(){
-        console.log("erro");
-        console.log(status);
+        var toastMsg = "Erro ao editar Fornecedor " + $scope.fornecedor.pj.nomeFantasia;
+        toastr.error(toastMsg, "Erro");
+        var result = {
+          status: "erro"
+        };
+        $scope.close(result);
       });
     }
-    $modalInstance.close({
-      fornecedor: $scope.fornecedor,
-      status: "sucesso" //pegar retorno padrão da API ou protocolo HTTP
-//                            fornecedor: response.data,
-//                            status: response.status
-    });
+    //pegar retorno API e definir padrão p/ result
+    //
+//    $modalInstance.close({
+//      fornecedor: $scope.fornecedor,
+//      status: "sucesso" //pegar retorno padrão da API ou protocolo HTTP
+////                            fornecedor: response.data,
+////                            status: response.status
+//    });
+  };
+  
+  $scope.close = function(result){
+    $modalInstance.close(result);
   };
 
   $scope.cancel = function () {

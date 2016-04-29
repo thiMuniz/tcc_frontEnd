@@ -1,24 +1,13 @@
 'use strict';
-app.controller('SeloCtrl', function ($scope, $modal, $filter, SeloResource, CONST, toastr) {
+app.controller('SeloCtrl', function ($scope, $modal, SeloResource, CONST, toastr) {
   
-//  $scope.selos = [
-//    {id: "1", dsCurta: "Selo Gastronomia 2016", dsDetalhada: "Detalhes do Selo 1", imagem: "..."},
-//    {id: "2", dsCurta: "0% Gosdura Trans", dsDetalhada: "Detalhes do Selo 2", imagem: "..."},
-//    {id: "3", dsCurta: "Não Contém Glúten", dsDetalhada: "Detalhes do Selo 3", imagem: "..."},
-//    {id: "4", dsCurta: "Baixo Teor de Gorduras", dsDetalhada: "Detalhes do Selo 4", imagem: "..."}
-//  ];
-  
-  var toastTitle = "";
   var toastMsg = "";
-  var index;
   $scope.CONST = CONST;
   $scope.tituloView = "Cadastro de Selos dos Produtos";
   $scope.headerLista = "Nenhum selo foi encontrado";
   $scope.labelCadastrarBtn = "Novo Selo";
-  
-  atualizarLista();
-  
-  function atualizarLista() {
+    
+  $scope.atualizarLista = function(){
     $scope.selos = SeloResource.query();
     //incluir spinner enquanto esta carregando a lista
   };
@@ -36,12 +25,11 @@ app.controller('SeloCtrl', function ($scope, $modal, $filter, SeloResource, CONS
       tituloDialog: "Cadastrar Selo",
       selo: new SeloResource()
     };
-
     var modalInstance = $modal.open({
       templateUrl: 'views/cadastro/dialog/formSelo.html',
       controller: 'SeloDialogCtrl',
       backdrop: 'static',
-      size: 'lg', //sm, lg
+      size: 'lg',
       resolve: {
         params: function () {
           return $scope.params;
@@ -49,23 +37,16 @@ app.controller('SeloCtrl', function ($scope, $modal, $filter, SeloResource, CONS
       }
     });
     modalInstance.result.then(function (result) {
-      if (result.selo) {
-        if (result.status == "sucesso") {//Se retorno da API com sucesso add o selo à lista
-          $scope.selos.push(angular.copy(result.selo));
-//          atualizarLista();
-//          $scope.$apply();
-          toastMsg = result.selo.nome + " cadastrado";
-          toastr.success(toastMsg, "Sucesso!");
-        } else {//Senão mostra msg erro
-          toastMsg = result.selo.nome + " não cadastrado!";
-          toastr.error(toastMsg, "Erro!");
-        }
-      }
+      if (result.status == "sucesso") {
+//        $scope.selos[index] = result.selo;
+        $scope.atualizarLista();
+//        scope.$apply(); 
+      } 
     });
   };
 
   $scope.openUpdateDialog = function (selo) {    
-    index = $scope.selos.indexOf($filter('filter')($scope.selos, selo, true)[0]);    
+//    index = $scope.selos.indexOf($filter('filter')($scope.selos, selo, true)[0]);    
     $scope.params = {
       formTipo: 'update',
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
@@ -84,28 +65,17 @@ app.controller('SeloCtrl', function ($scope, $modal, $filter, SeloResource, CONS
         }
       }
     });
-    modalInstance.result.then(function (result) {//quando foi fechado enviando dados
-      if (result.selo) {
-        if (result.status == "sucesso") {//Se retorno da API com sucesso add o selo à lista
-          $scope.selos[index] = result.selo;
-//                  $scope.$apply(); 
-          toastMsg = "Dados do selo " + result.selo.nome + " alterados com sucesso!";
-          toastr.success(toastMsg, "Sucesso");
-        } else {//Senão mostra msg erro                  
-          toastMsg = "Dados do selo " + result.selo.nome + " não foram alterados!";
-          
-          toastr.error(toastMsg, "Erro");
-        }
-      } else {
-        toastr.warning("Formulário em branco", "Não alterado!");
-      }
-    }, function () {
-      toastr.warning("Nada aconteceu", "Cancelado");
+    modalInstance.result.then(function (result) {
+      if (result.status == "sucesso") {
+//        $scope.selos[index] = result.selo;
+        $scope.atualizarLista();
+//        scope.$apply(); 
+      } 
     });
   };
   
   $scope.openAtivarDesativarDialog = function (selo) {
-    index = $scope.selos.indexOf($filter('filter')($scope.selos, selo, true)[0]);    
+//    index = $scope.selos.indexOf($filter('filter')($scope.selos, selo, true)[0]);    
     swal({
       title: "Deseja mesmo" + (selo.dtDesativacao ? " ativar" : " desativar") + " o Selo " + selo.nome + "?",
       text: "Você poderá" + (selo.dtDesativacao ? " desativar" : " ativar") + " o Selo novamente!",
@@ -116,16 +86,15 @@ app.controller('SeloCtrl', function ($scope, $modal, $filter, SeloResource, CONS
       confirmButtonText: "SIM"
     },
     function () {
-//      $scope.selos.splice(index, 1);
 //      selo.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
-//      selo.dtDesativacao = new Date();
       selo.dtDesativacao = (selo.dtDesativacao ? null : new Date());
       SeloResource.update(selo, function(){
-          $scope.selos[index] = selo;
-          toastMsg = selo.nome + (selo.dtDesativacao ? " desativado!" : " ativado!");
+//          $scope.selos[index] = selo;
+          $scope.atualizarLista();
+          toastMsg = selo.nome + (selo.dtDesativacao ? " desativada!" : " ativada!");
           toastr.success(toastMsg, "Sucesso!");
         }, function(){
-          toastMsg = selo.nome + " não foi " + (selo.dtDesativacao ? "ativado!" : "desativado!");
+          toastMsg = selo.nome + " não foi " + (selo.dtDesativacao ? "ativada!" : "desativada!");
           toastr.error(toastMsg, "Erro!");
         });
     });    
@@ -138,7 +107,6 @@ app.controller('SeloCtrl', function ($scope, $modal, $filter, SeloResource, CONS
       tituloDialog: "Detalhes Selo",
       selo: angular.copy(selo)
     };
-
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/infoSelo.html",
       controller: "SeloDialogCtrl",
@@ -151,54 +119,63 @@ app.controller('SeloCtrl', function ($scope, $modal, $filter, SeloResource, CONS
       }
     });
   };
+  
+  $scope.atualizarLista();
+  
 })
-  .controller('SeloDialogCtrl', function ($scope, $modalInstance, params, CONST, SeloResource, toastr) {
+  .controller('SeloDialogCtrl', function ($scope, $modalInstance, params, CONST, toastr) {
     $scope.CONST = CONST;
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
-//    if(params.selo){
-        $scope.selo = params.selo;
-//    }else{
-//        $scope.selo = new SeloResource();
-//    }
-//    if($scope.seloInit)delete $scope.seloInit;
+    
+    $scope.selo = params.selo;
     $scope.seloInit = angular.copy($scope.selo);
-        
-    $scope.clear = function () {
-      $scope.selo = angular.copy($scope.seloInit);
-    };    
-
+    
     $scope.submit = function () {
-      //incluir rotina de validação
       if ($scope.formTipo == 'insert') { //insert
-        $scope.selo.$save(function (data) {
-          // do something which you want with response
-          console.log("insert ok");
-          console.log(data);
-          console.log(status);
+        $scope.selo.$save(function(){
+          var toastMsg = "Selo " + $scope.selo.nome + " cadastrada com sucesso!";
+          toastr.success(toastMsg, "successo");
+          var result = {
+            selo: $scope.selo, 
+            status: "sucesso"
+          };
+          $scope.close(result);
         }, function(){
-          console.log("erro");
-          console.log(status);
+          var toastMsg = "Erro ao cadastrar Selo " + $scope.selo.nome;
+          toastr.error(toastMsg, "Erro");
+          var result = {
+            status: "erro"
+          };
+          $scope.close(result);
         });
       } else { //update
         $scope.selo.$update(function(){
-          console.log("update ok");
-          console.log(status);
+          var toastMsg = "Selo " + $scope.selo.nome + " editada com sucesso!";
+          toastr.success(toastMsg, "Sucesso");
+          var result = {
+            selo: $scope.selo, 
+            status: "sucesso"
+          };
+          $scope.close(result);
         }, function(){
-          console.log("erro");
-          console.log(status);
+          var toastMsg = "Erro ao editar Selo " + $scope.selo.nome;
+          toastr.error(toastMsg, "Erro");
+          var result = {
+            status: "erro"
+          };
+          $scope.close(result);
         });
       }
-
-      //pegar retorno API e definir padrão p/ result
-      //
-      $modalInstance.close({
-        selo: $scope.selo,
-        status: "sucesso" //pegar retorno padrão da API ou protocolo HTTP
-//       selo: response.data,
-//       status: response.status
-      });
+    };
+    
+    $scope.clear = function () {
+      $scope.selo = angular.copy($scope.seloInit);
+    };
+    
+    $scope.close = function(result){
+      $modalInstance.close(result);
     };
 
     $scope.cancel = function () {
@@ -206,4 +183,3 @@ app.controller('SeloCtrl', function ($scope, $modal, $filter, SeloResource, CONS
     };
 
   });
-

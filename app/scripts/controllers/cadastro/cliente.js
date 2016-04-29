@@ -1,5 +1,5 @@
 'use strict';
-app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource, CONST, toastr) {
+app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource, CONST, toastr, $stateParams, $httpParamSerializerJQLike) {
   var toastTitle = "Bem vindo programador!!";
   var toastMsg = "Boa sorte dessa vez...";
 
@@ -10,7 +10,8 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
   $scope.labelCadastrarBtn = "Novo Cliente";
 
   toastr.warning(toastMsg, toastTitle);
-  carregarClientesFront();
+//  carregarClientesFront();
+  carregarClientesAPI();
  
   function carregarClientesFront() {
     var pessoa = {id: "1", tipoPessoa: "pf", email: "email PF", telefone1: "tel 1 PF", telefone2: "tel 2 PF", imagem: "img/adm/AdmThiagoMM.jpg", dtDesativacao: "", usuario: "User 1 PF", senha: "", permissao: ""};
@@ -35,21 +36,24 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
   };
 
   function carregarClientesAPI() {
-    $scope.clientes = ClienteResource.query();
+//    $scope.clientes = ClienteResource.query();
+    $scope.clientes = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
   }
 
   $scope.openInsertDialog = function () {
+    $scope.cliente = new PessoaResource();
+    $scope.cliente.perfil = $stateParams.perfil;
     $scope.params = {
       formTipo: 'insert',
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
       tituloDialog: "Cadastrar Cliente",
-      //      cliente: new ClienteResource()
-      cliente: {
-        pessoa: {tipoPessoa: "pj", email: "", telefone1: "", telefone2: "", imagem: "", dtDesativacao: "", usuario: "", senha: "", permissao: ""},
-        pf: {nome: "", sobrenome: "", rg: "", cpf: "", dtNascimento: ""},
-        pj: {razaoSocial: "", nomeFantasia: "", ramoAtividade: "", cnpj: "", inscricaoEst: "", dtAbertura: "", contato: "", tipo: "", hrMinEntrega: "", hrMaxEntrega: ""}, 
-        endereco: {cep: "", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}
-      }
+            cliente: $scope.cliente
+//      cliente: {
+//        pessoa: {tipoPessoa: "pj", email: "", telefone1: "", telefone2: "", imagem: "", dtDesativacao: "", usuario: "", senha: "", permissao: ""},
+//        pf: {nome: "", sobrenome: "", rg: "", cpf: "", dtNascimento: ""},
+//        pj: {razaoSocial: "", nomeFantasia: "", ramoAtividade: "", cnpj: "", inscricaoEst: "", dtAbertura: "", contato: "", tipo: "", hrMinEntrega: "", hrMaxEntrega: ""}, 
+//        endereco: {cep: "", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}
+//      }
     };
     var modalInstance = $modal.open({
       templateUrl: 'views/cadastro/dialog/formCliente.html',
@@ -122,25 +126,25 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
   $scope.openAtivarDesativarDialog = function (cliente) {
     index = $scope.clientes.indexOf($filter('filter')($scope.clientes, cliente, true)[0]);
     swal({
-      title: "Deseja mesmo" + (cliente.pessoa.dtDesativacao ? " ativar" : " desativar") + " o cliente " + (cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia) + "?",
-      text: "Você poderá" + (cliente.pessoa.dtDesativacao ? " desativar" : " ativar") + " o cliente novamente!",
+      title: "Deseja mesmo" + (cliente.dtDesativacao ? " ativar" : " desativar") + " o cliente " + (cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia) + "?",
+      text: "Você poderá" + (cliente.dtDesativacao ? " desativar" : " ativar") + " o cliente novamente!",
       type: "warning",
       showCancelButton: true,
-      confirmButtonColor: (cliente.pessoa.dtDesativacao ? "#428bca" : "#DD6B55"), //#f0ad4e
+      confirmButtonColor: (cliente.dtDesativacao ? "#428bca" : "#DD6B55"), //#f0ad4e
       cancelButtonText: "NÃO",
       confirmButtonText: "SIM"
     },
     function () {
 //      $scope.clientes.splice(index, 1);
-//      cliente.pessoa.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
-//      cliente.pessoa.dtDesativacao = new Date();
-      cliente.pessoa.dtDesativacao = (cliente.pessoa.dtDesativacao ? null : new Date());
+//      cliente.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
+//      cliente.dtDesativacao = new Date();
+      cliente.dtDesativacao = (cliente.dtDesativacao ? null : new Date());
       ClienteResource.update(cliente, function () {
         $scope.clientes[index] = cliente;
-        toastMsg = (cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia) + (cliente.pessoa.dtDesativacao ? " desativado!" : " ativado!");
+        toastMsg = (cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia) + (cliente.dtDesativacao ? " desativado!" : " ativado!");
         toastr.success(toastMsg, "Sucesso!");
       }, function () {
-        toastMsg = (cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia) + " não foi " + (cliente.pessoa.dtDesativacao ? "ativado!" : "desativado!");
+        toastMsg = (cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia) + " não foi " + (cliente.dtDesativacao ? "ativado!" : "desativado!");
         toastr.error(toastMsg, "Erro!");
       });
     });
@@ -168,12 +172,13 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
 
 })
 .controller('ClienteDialogCtrl', function ($scope, $modalInstance, $http, params, CONST, toastr) {
-
+  $scope.tipoPessoa;
   $scope.init = function () {
     $scope.CONST = CONST;
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
+    
 //    if (params.cliente) {      
 //      
 //      $scope.cliente = angular.copy(params.cliente);
@@ -194,6 +199,8 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
     $scope.cliente = angular.copy(params.cliente);
     $scope.clienteInit = angular.copy(params.cliente);
     
+    $scope.tipoPessoa = $scope.cliente.pf ? "pf" : "pj";
+    
     $scope.toogleTipoPessoa();
       
     $scope.sexos = [
@@ -203,16 +210,31 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, ClienteResource
   }
   
 
+//  $scope.toogleTipoPessoa = function () {
+//    var abaPF = 'Passo 2 - Dados Pessoa Física';
+//    var abaPJ = 'Passo 2 - Dados Pessoa Jurídica';
+//    if ($scope.cliente.pf) {
+//      delete $scope.cliente.pj;
+//      $scope.cliente.pf = $scope.cliente.pf;
+//      $scope.steps[1] = abaPF;
+//    } else {
+//      delete $scope.cliente.pf;
+//      $scope.cliente.pj = $scope.cliente.pj;
+//      $scope.steps[1] = abaPJ;
+//    }
+//  };
+    
   $scope.toogleTipoPessoa = function () {
+    console.log($scope.tipoPessoa);
     var abaPF = 'Passo 2 - Dados Pessoa Física';
     var abaPJ = 'Passo 2 - Dados Pessoa Jurídica';
-    if ($scope.cliente.pessoa.tipoPessoa == 'pf') {
+    if ($scope.tipoPessoa == 'pf') {
       delete $scope.cliente.pj;
-      $scope.cliente.pf = $scope.cliente.pf;
+      $scope.cliente.pf = $scope.clienteInit.pf;
       $scope.steps[1] = abaPF;
     } else {
       delete $scope.cliente.pf;
-      $scope.cliente.pj = $scope.cliente.pj;
+      $scope.cliente.pj = $scope.clienteInit.pj;
       $scope.steps[1] = abaPJ;
     }
   };

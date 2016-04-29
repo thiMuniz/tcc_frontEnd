@@ -26,8 +26,8 @@
               <thead>
                 <tr>
                   <th><a href="" ng-click="ordenar('id')">Código</a></th>
-                  <th>Imagem</th>
                   <th><a href="" ng-click="ordenar('nome')">Nome</a></th>
+                  <th><a href="" ng-click="ordenar('descricao')">Descrição</a></th>
                   <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
                   <th>Ação</th>                  
                 </tr>
@@ -35,8 +35,8 @@
               <tbody>
                 <tr ng-repeat="categoria in categorias | filter : filtroGenerico | orderBy : campo : ascDsc">
                   <td>{{categoria.id}}</td>
-                  <td ><img ng-src="{{categoria.imagem}}" class="img-thumbnail img-list-view"/></td>
                   <td>{{categoria.nome}}</td>
+                  <td>{{categoria.descricao}}</td>
                   <td style="{{categoria.dtDesativacao ? 'color: red' : ''}}">
                     {{categoria.dtDesativacao ? "Desativado" : " Ativo"}}
                   </td>

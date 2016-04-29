@@ -13,7 +13,7 @@ var app = angular
           'ui.router',
           'ui.bootstrap',
           'angular-loading-bar',
-          'ngMdIcons',
+          'ngMdIcons',          
           'ngMessages',
           'ngResource',
           'mwl.calendar',
@@ -196,14 +196,18 @@ var app = angular
                     })
                     .state('main.cadastro.fornecedor', {
                       templateUrl: 'views/cadastro/fornecedor.html',
-                      url: '/fornecedor',
+                      url: '/fornecedor/:perfil',
+                      params : {
+                        perfil:''
+                      },
                       resolve: {
                         loadMyFiles: function ($ocLazyLoad) {
                           return $ocLazyLoad.load({
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/cadastro/fornecedor.js',
-                              'scripts/services/fornecedor.js'
+                              'scripts/services/pessoa.js'
+                              
                             ]
                           });
                         }
@@ -211,14 +215,17 @@ var app = angular
                     })
                     .state('main.cadastro.colaborador', {
                       templateUrl: 'views/cadastro/colaborador.html',
-                      url: '/colaborador',
+                      url: '/colaborador/:perfil',
+                      params : {
+                        perfil:''
+                      },
                       resolve: {
                         loadMyFiles: function ($ocLazyLoad) {
                           return $ocLazyLoad.load({
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/cadastro/colaborador.js',
-                              'scripts/services/colaborador.js'
+                              'scripts/services/pessoa.js'
                             ]
                           });
                         }
@@ -226,14 +233,17 @@ var app = angular
                     })
                     .state('main.cadastro.cliente', {
                       templateUrl: 'views/cadastro/cliente.html',
-                      url: '/cliente',
+                      url: '/cliente/:perfil',
+                      params : {
+                        perfil:''
+                      },
                       resolve: {
                         loadMyFiles: function ($ocLazyLoad) {
                           return $ocLazyLoad.load({
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/cadastro/cliente.js',
-                              'scripts/services/cliente.js'
+                              'scripts/services/pessoa.js'
                             ]
                           });
                         }
@@ -324,7 +334,7 @@ var app = angular
                             files: [
                               'scripts/controllers/cadastro/embalagem.js',
                               'scripts/services/embalagem.js',
-                              'scripts/services/fornecedor.js',
+                              'scripts/services/pessoa.js',
                             ]
                           });
                         }

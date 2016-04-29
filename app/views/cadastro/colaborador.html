@@ -28,26 +28,26 @@
                   <th><a href="" ng-click="ordenar('id')">Código</a></th>
                   <th>Imagem</th>
                   <th><a href="" ng-click="ordenar('nome')">Nome</a></th>
-                  <th><a href="" ng-click="ordenar('tipoPessoa')">Tipo Pessoa</a></th>
+                  <th><a href="" ng-click="ordenar('perfil')">Perfil</a></th>
                   <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
                   <th>Ação</th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="colaborador in colaboradores| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
-                  <td>{{colaborador.pessoa.id}}</td>
-                  <td><img ng-src="{{colaborador.pessoa.imagem}}" class="img-thumbnail img-list-view" /></td>
+                  <td>{{colaborador.id}}</td>
+                  <td><img ng-src="{{colaborador.imagem.arquivo}}" class="img-thumbnail img-list-view" /></td>
                   <td>{{colaborador.pf.nome}}</td>
-                  <td>{{'Física'}}</td>
-                  <td style="{{colaborador.pessoa.dtDesativacao ? 'color: red' : ''}}">
-                    {{colaborador.pessoa.dtDesativacao ? "Desativado" : " Ativo"}}
+                  <td>{{colaborador.perfil}}</td>
+                  <td style="{{colaborador.dtDesativacao ? 'color: red' : ''}}">
+                    {{colaborador.dtDesativacao ? "Desativado" : " Ativo"}}
                   </td>
                   <td>
-                    <a class="{{colaborador.pessoa.dtDesativacao ? 'acao-disabled' : ''}}" ng-click="openUpdateDialog(colaborador);" tooltip="{{CONST.editar.tooltipAcao}}" >
+                    <a class="{{colaborador.dtDesativacao ? 'acao-disabled' : ''}}" ng-click="openUpdateDialog(colaborador);" tooltip="{{CONST.editar.tooltipAcao}}" >
                       <ng-md-icon icon="{{CONST.editar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
-                    <a ng-click="openAtivarDesativarDialog(colaborador);" tooltip="{{colaborador.pessoa.dtDesativacao ? CONST.ativar.tooltipAcao : CONST.desativar.tooltipAcao}}" >
-                      <ng-md-icon icon="{{colaborador.pessoa.dtDesativacao ? CONST.ativar.iconeAcao : CONST.desativar.iconeAcao}}"></ng-md-icon>
+                    <a ng-click="openAtivarDesativarDialog(colaborador);" tooltip="{{colaborador.dtDesativacao ? CONST.ativar.tooltipAcao : CONST.desativar.tooltipAcao}}" >
+                      <ng-md-icon icon="{{colaborador.dtDesativacao ? CONST.ativar.iconeAcao : CONST.desativar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
                     <a ng-click="openInfoDialog(colaborador);" tooltip="{{CONST.info.tooltipAcao}}" >
                       <ng-md-icon icon="{{CONST.info.iconeAcao}}"></ng-md-icon>

@@ -11,7 +11,7 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="col-lg-4">
-            <img ng-src="{{colaborador.pessoa.imagem}}" class="img-circle img-info-dialog">
+              <img ng-src="{{colaborador.imagem.arquivo}}" class="img-circle img-info-dialog">
           </div>
           <div class="col-lg-8">
             <!--**informacoes na lateral direita da foto-->
@@ -20,27 +20,31 @@
                 <tbody>
                   <tr>
                     <td><label for="id" class="control-label">Código</label></td>
-                    <td>{{colaborador.pessoa.id}}</td>  
+                    <td>{{colaborador.id}}</td>  
+                  </tr>
+                  <tr>
+                    <td><label for="perfil" class="control-label">Perfil</label></td>
+                    <td>{{colaborador.perfil}}</td>  
                   </tr>
                   <tr>
                     <td><label for="usuario" class="control-label">Usuario</label></td>
-                    <td>{{colaborador.pessoa.usuario}}</td>  
+                    <td>{{colaborador.usuario}}</td>  
                   </tr>
                   <tr>
                     <td><label for="email" class="control-label">Email</label></td>
-                    <td>{{colaborador.pessoa.email}}</td>  
+                    <td>{{colaborador.email}}</td>  
                   </tr>
                   <tr>
                     <td><label for="telefone1" class="control-label">Telefone 1</label></td>
-                    <td>{{colaborador.pessoa.telefone1}}</td>  
+                    <td>{{colaborador.telefone1}}</td>  
                   </tr>
                   <tr>
                     <td><label for="telefone2" class="control-label">Telefone 2</label></td>
-                    <td>{{colaborador.pessoa.telefone2}}</td>  
+                    <td>{{colaborador.telefone2}}</td>  
                   </tr>
                   <tr>
                     <td><label for="dtDesativacao" class=control-label">Status</label></td>
-                    <td >{{colaborador.pessoa.dtDesativacao ? "Desativado em " + colaborador.pessoa.dtDesativacao: " Ativo"}}</td>
+                    <td >{{colaborador.dtDesativacao ? "Desativado em " + colaborador.dtDesativacao: " Ativo"}}</td>
                   </tr>  
                 </tbody>
               </table>
@@ -53,11 +57,7 @@
               
               
                 <!--inicio dados PF-->
-              <tbody ng-if="colaborador.pessoa.tipoPessoa == 'pf'">
-                <tr>
-                  <td><label for="titulo" class="control-label">Título</label></td>
-                  <td>{{colaborador.pf.titulo}}</td>  
-                </tr>
+              <tbody >
                 <tr>
                   <td><label for="nome" class="control-label">Nome</label></td>
                   <td>{{colaborador.pf.nome}}</td>  

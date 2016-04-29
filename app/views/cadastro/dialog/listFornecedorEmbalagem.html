@@ -12,10 +12,14 @@
           <ng-md-icon icon="playlist_add"></ng-md-icon> &nbsp;Incluir
         </button>
           
-        <ui-select multiple ng-model="fornecedoresNew" theme="bootstrap" ng-disabled="fornecedor.id" append-to-body="false">
-          <ui-select-match class="ui-select-match" placeholder="Selecione os Fornecedores">{{fornecedor.pj.nomeFantasia}}</ui-select-match>
-          <ui-select-choices class="ui-select-choices" repeat="fornecedor in fornecedores | filter:$select.search">
-            {{fornecedor.pj.nomeFantasia}}
+        <tags-input ng-model="tags">
+            <auto-complete source="loadTags($query)"></auto-complete>
+        </tags-input>
+          
+        <ui-select multiple ng-model="badge.reason" theme="bootstrap" ng-disabled="badge.id" append-to-body="false">
+          <ui-select-match class="ui-select-match" placeholder="Selecione os Critérios">{{$item.name}}</ui-select-match>
+          <ui-select-choices class="ui-select-choices" repeat="fornecedor in fornecedoresInit | filter:$select.search">
+            {{r.name}}
           </ui-select-choices>
         </ui-select>
           
