@@ -46,6 +46,12 @@
           <input class="form-control" type="text" id="gramatura" placeholder="Espessura da embalagem" ng-model="embalagem.gramatura">
         </div>
       </div>
+      <div class="form-group">
+        <label for="estoqueMinimo" class="col-sm-3 control-label">Estoque Mínimo</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" id="estoqueMinimo" placeholder="Quantidade mínima estoque" ng-model="embalagem.estoqueMinimo">
+        </div>
+      </div>
 <!--  inicio teste img-->
       <div class="form-group"> 
         <label for="imagem" class="col-sm-3 control-label">
@@ -54,11 +60,11 @@
           </button>
         </label>
         <div class="col-sm-5 form-control cropAreaSgp" id="imagem" ng-model="imgSelecionada" ngf-pattern="image/*" ngf-drop>
-            <!--<p>Arraste e solte a imagem aqui ou clique no botão ao lado para localizar no computador</p>-->
-          <img-crop image="imgSelecionada  | ngfDataUrl" result-image="embalagem.imagens[0].arquivo" ng-init="embalagem.imagens[0].arquivo"></img-crop>
+            <p>Arraste e solte a imagem aqui ou clique no botão ao lado para localizar no computador</p>
+          <img-crop image="imgSelecionada  | ngfDataUrl" result-image="imagemAux.arquivo" ng-init="imagemAux.arquivo"></img-crop>
         </div>
         <div class="col-sm-4">
-          <img ng-src="{{embalagem.imagens[0].arquivo}}" />
+          <img ng-src="{{imagemAux.arquivo}}" />
         </div>
       </div>
 <!--fim teste img-->        

@@ -6,7 +6,7 @@ app.controller('CategoriaCtrl', function ($scope, $modal, CategoriaResource, CON
   $scope.tituloView = "Cadastro de Categorias dos Produtos";
   $scope.headerLista = "Nenhuma categoria foi encontrada";
   $scope.labelCadastrarBtn = "Nova Categoria";
-    
+  
   $scope.atualizarLista = function(){
     $scope.categorias = CategoriaResource.query();
     //incluir spinner enquanto esta carregando a lista

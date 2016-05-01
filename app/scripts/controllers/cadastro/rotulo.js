@@ -128,11 +128,15 @@ app.controller('RotuloCtrl', function ($scope, $modal, RotuloResource, CONST, to
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
+    $scope.imagemAux = params.rotulo.imagens ? params.rotulo.imagens[0] : null;
+    console.log($scope.imagemAux);
     
     $scope.rotulo = params.rotulo;
     $scope.rotuloInit = angular.copy($scope.rotulo);
-    
-    $scope.submit = function () {
+        
+    $scope.submit = function(){
+//      $scope.rotulo.imagens.push(angular.copy($scope.arquivo));
+      $scope.rotulo.imagens = [$scope.imagemAux];
       if ($scope.formTipo == 'insert') { //insert
         $scope.rotulo.$save(function(){
           var toastMsg = "Rótulo " + $scope.rotulo.nome + " cadastrada com sucesso!";

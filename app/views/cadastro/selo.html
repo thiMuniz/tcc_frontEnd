@@ -35,7 +35,7 @@
               <tbody>
                 <tr ng-repeat="selo in selos | filter : filtroGenerico | orderBy : campo : ascDsc">
                   <td>{{selo.id}}</td>
-                  <td ><img ng-src="{{selo.imagem}}" class="img-thumbnail img-list-view"/></td>
+                  <td ><img ng-src="{{selo.imagem.arquivo}}" class="img-thumbnail img-list-view"/></td>
                   <td>{{selo.nome}}</td>
                   <td style="{{selo.dtDesativacao ? 'color: red' : ''}}">
                     {{selo.dtDesativacao ? "Desativado" : " Ativo"}}

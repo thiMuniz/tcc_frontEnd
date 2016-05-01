@@ -32,7 +32,9 @@
                   </tr>
                   <tr>
                     <td><label for="dtDesativacao" class=control-label">Status</label></td>
-                    <td>{{embalagem.dtDesativacao ? "Desativado em " + (embalagem.dtDesativacao | date: "dd/MM/yyyy 'às' HH:mm:ss") : "Ativo"}}</td>
+                    <td style="{{embalagem.dtDesativacao ? 'color: red' : ''}}">
+                      {{embalagem.dtDesativacao ? "Desativado em " + (embalagem.dtDesativacao | date: "dd/MM/yyyy 'às' HH:mm:ss") : "Ativo"}}
+                    </td>
                   </tr>    
                 </tbody>
               </table>
@@ -55,7 +57,11 @@
                 <tr>
                   <td><label for="gramatura" class=control-label">Gramatura</label></td>
                   <td >{{embalagem.gramatura}}</td>  
-                </tr>            
+                </tr> 
+                <tr>
+                  <td><label for="estoqueMinimo" class=control-label">Estoque Mínimo</label></td>
+                  <td>{{embalagem.estoqueMinimo}}</td>  
+                </tr> 
               </tbody>
             </table>
           </div><!-- /.table-responsive -->   

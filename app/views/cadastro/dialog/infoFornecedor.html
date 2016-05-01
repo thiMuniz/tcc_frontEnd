@@ -40,7 +40,8 @@
                   </tr>
                   <tr>
                     <td><label for="dtDesativacao" class=control-label">Status</label></td>
-                    <td >{{fornecedor.dtDesativacao ? "Desativado em " + fornecedor.dtDesativacao: " Ativo"}}</td>
+                    <td style="{{fornecedor.dtDesativacao ? 'color: red' : ''}}">
+                      {{fornecedor.dtDesativacao ? "Desativado em " + fornecedor.dtDesativacao: " Ativo"}}</td>
                   </tr>  
                 </tbody>
               </table>
