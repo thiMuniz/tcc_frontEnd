@@ -29,7 +29,8 @@
                   <tr>
                     <td><label for="dtDesativacao" class=control-label">Status</label></td>
                     <td style="{{selo.dtDesativacao ? 'color: red' : ''}}">
-                      {{selo.dtDesativacao ? "Desativado em " + (selo.dtDesativacao | date: "dd/MM/yyyy 'às' HH:mm:ss") : "Ativo"}}</td>
+                      {{selo.dtDesativacao ? "Desativado em " + (selo.dtDesativacao | date: "dd/MM/yyyy 'às' HH:mm:ss") : "Ativo"}}
+                    </td>
                   </tr>    
                 </tbody>
               </table>
@@ -43,10 +44,7 @@
               <tbody>                
                 <tr>
                   <td><label for="descricao" class=control-label">Descrição</label></td>
-                  <td >
-                    <!--{{selo.descricao}}</td>-->
-                  <textarea class="form-control" rows="2" id="descricao" placeholder="Descrição detelhada da selo" ng-model="selo.descricao" disable="true"></textarea>
-                  </td>
+                  <td >{{selo.descricao}}</td>
                 </tr>
               </tbody>
             </table>

@@ -38,9 +38,7 @@ app.controller('SeloCtrl', function ($scope, $modal, SeloResource, CONST, toastr
     });
     modalInstance.result.then(function (result) {
       if (result.status == "sucesso") {
-//        $scope.selos[index] = result.selo;
         $scope.atualizarLista();
-//        scope.$apply(); 
       } 
     });
   };

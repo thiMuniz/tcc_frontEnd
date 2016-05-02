@@ -9,39 +9,16 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
   $scope.headerLista = "Nenhum fornecedor foi encontrado";
   $scope.labelCadastrarBtn = "Novo Fornecedor";
 
-  toastr.warning(toastMsg, toastTitle);
-//  carregarFornecedoresFront();
-  carregarFornecedoresAPI();
- 
-  function carregarFornecedoresFront() {
-    var pessoa = {id: "1", tipoPessoa: "pj", email: "email PJ1", telefone1: "tel 1 PJ1", telefone2: "tel 2 PJ1", imagem: "img/temp/imgFornecedor1.png", dtDesativacao: "", usuario: "User 1 PJ1", senha: "", permissao: ""};
-    var pj = {razaoSocial: "razaoSocial PJ1", nomeFantasia: "nomeFantasia PJ1", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ1", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"};
-    var endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
-    var fornecedor1 = {pessoa: pessoa, pj: pj, endereco: endereco};
-    
-    pessoa = {id: "2", tipoPessoa: "pj", email: "email PJ2", telefone1: "tel 1 PJ2", telefone2: "tel 2 PJ2", imagem: "img/temp/imgFornecedor2.png", dtDesativacao: "", usuario: "User 2 PJ2", senha: "", permissao: ""};
-    pj = {razaoSocial: "razaoSocial PJ2", nomeFantasia: "nomeFantasia PJ2", ramoAtividade: "Rótulos", cnpj: "000002", inscricaoEst: "2000000", dtAbertura: "02/02/2002", contato: "contato PJ2", tipo: "fornecedor", hrMinEntrega: "09:00", hrMaxEntrega: "17:00"};
-    endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
-    var fornecedor2 = {pessoa: pessoa, pj: pj, endereco: endereco};
-    
-    $scope.fornecedores = [
-      fornecedor1,
-      fornecedor2
-    ];
-  }
-
   $scope.ordenar = function (campo) {
     $scope.campo = campo;
     $scope.ascDsc = !$scope.ascDsc;
   };
-
-  toastr.info($stateParams.perfil);
-    
-  function carregarFornecedoresAPI() {
-//    $scope.fornecedores = FornecedorResource.query();
+  
+  $scope.atualizarLista = function(){
     $scope.fornecedores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
-  }
-
+    //incluir spinner enquanto esta carregando a lista
+  };
+  
   $scope.openInsertDialog = function () {
     $scope.fornecedor = new PessoaResource();
     $scope.fornecedor.perfil = $stateParams.perfil;
@@ -50,11 +27,6 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
       tituloDialog: "Cadastrar Fornecedor",
       fornecedor: $scope.fornecedor
-//      fornecedor: {
-//        pessoa: {tipoPessoa: "pj", email: "", telefone1: "", telefone2: "", imagem: "", dtDesativacao: "", usuario: "", senha: "", permissao: ""},
-//        pj: {razaoSocial: "", nomeFantasia: "", ramoAtividade: "", cnpj: "", inscricaoEst: "", dtAbertura: "", contato: "", tipo: "", hrMinEntrega: "", hrMaxEntrega: ""}, 
-//        endereco: {cep: "", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}
-//      }
     };
     var modalInstance = $modal.open({
       templateUrl: 'views/cadastro/dialog/formFornecedor.html',
@@ -67,16 +39,10 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
         }
       }
     });
-    modalInstance.result.then(function(result) {
-      if (result.status == "sucesso") {//Se retorno da API com sucesso add a fornecedor à lista
-        $scope.fornecedores.push(angular.copy(result.fornecedor));
-//                  $scope.$apply();
-//          toastMsg = "Fornecedor " + result.fornecedor.pj.nomeFantasia + " cadastrado com sucesso!";
-//          toastr.success(toastMsg, "successo");
-      } else {//Senão mostra msg erro                  
-//          toastMsg = "Erro ao cadastrar Fornecedor " + result.fornecedor.pj.nomeFantasia + " !";
-//          toastr.errror(toastMsg, "erro");
-      }
+    modalInstance.result.then(function (result) {
+      if (result.status == "sucesso") {
+        $scope.atualizarLista();
+      } 
     });
   };
 
@@ -99,22 +65,10 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
         }
       }
     });
-    modalInstance.result.then(function (result) {//quando foi fechado enviando dados
-      if (result.fornecedor) {
-        if (result.status == "sucesso") {//Se retorno da API com sucesso add a fornecedor à lista
-          $scope.fornecedores[index] = result.fornecedor;
-//                  $scope.$apply(); 
-//          toastMsg = "Fornecedor " + result.fornecedor.nome + " editado com sucesso!";
-//          toastr.success(toastMsg, "sucesso");
-        } else {//Senão mostra msg erro                  
-          toastMsg = "Erro ao editar Fornecedor " + result.fornecedor.nome + " !";
-          toastr.error(toastMsg, "erro");
-        }
-      } else {
-        toastr.warning("Formulário em branco", "Não cadastrado!");
-      }
-    }, function () {
-      toastr.warning("Nada aconteceu", "Cancelado");
+    modalInstance.result.then(function (result) {
+      if (result.status == "sucesso") {
+        $scope.atualizarLista();
+      } 
     });
   };
 
@@ -202,41 +156,24 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
       toastr.warning("Nada aconteceu", "Cancelado");
     });      
   };
+  
+  $scope.atualizarLista();
 
 })
-.controller('FornecedorDialogCtrl', function ($scope, $modalInstance, $http, params, CONST, toastr) {
+.controller('FornecedorDialogCtrl', function ($scope, $modal, $modalInstance, $http, params, CONST, toastr) {
 
-  $scope.init = function () {
-    $scope.CONST = CONST;
-    $scope.formTipo = params.formTipo;
-    $scope.iconeHeaderDialog = params.iconeHeaderDialog;
-    $scope.tituloDialog = params.tituloDialog;
-//    if (params.fornecedor) {      
-//      
-//      $scope.fornecedor = angular.copy(params.fornecedor);
-//      
-//      console.log("params.fornecedor");
-//      console.log(params.fornecedor);
-////      $scope.fornecedor = params.fornecedor;      
-//      console.log("scope.fornecedor");
-//      console.log($scope.fornecedor);
-////      $scope.fornecedorInit = angular.copy($scope.fornecedor);
-////      console.log("fornecedorInit");
-////      console.log($scope.fornecedorInit);
-//    } else {
-//      //        $scope.fornecedor = new FornecedorResource();
-//      
-//    }
-    
-    $scope.fornecedor = angular.copy(params.fornecedor);
-    $scope.fornecedorInit = angular.copy(params.fornecedor);
-    
-      
-    $scope.sexos = [
-      {nome: "Masculino", valor: "masculino"},
-      {nome: "Feminino", valor: "feminino"}
-    ];
-  };
+  $scope.CONST = CONST;
+  $scope.formTipo = params.formTipo;
+  $scope.iconeHeaderDialog = params.iconeHeaderDialog;
+  $scope.tituloDialog = params.tituloDialog;
+
+  $scope.fornecedor = angular.copy(params.fornecedor);
+  $scope.fornecedorInit = angular.copy(params.fornecedor);    
+
+  $scope.sexos = [
+    {nome: "Masculino", valor: "masculino"},
+    {nome: "Feminino", valor: "feminino"}
+  ];
   
   //valida email
   $scope.email = function () {
@@ -252,7 +189,6 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
     expect(valid.getText()).toContain('formFornecedor.input.$valid = false');
   };
 
-
   $scope.carregarCep = function () {
     $http.get(CONST.ws.urlCep + $scope.fornecedor.endereco.cep + '/json/'
             ).success(function (endereco) {
@@ -263,31 +199,33 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
 //                        carregarFornecedoresFront();
     });
   };
-
-  $scope.clear = function () {
-    $scope.fornecedor = angular.copy($scope.fornecedorInit);
-  };
-
-/*
-modalInstance.result.then(function(result) {
-      if (result.fornecedor) {
-        if (result.status == "sucesso") {//Se retorno da API com sucesso add a fornecedor à lista
-          $scope.fornecedores.push(angular.copy(result.fornecedor));
-//                  $scope.$apply();
-          toastMsg = "Fornecedor " + result.fornecedor.nome + " cadastrado com sucesso!";
-          toastr.success(toastMsg, "successo");
-        } else {//Senão mostra msg erro                  
-          toastMsg = "Erro ao cadastrar Fornecedor " + result.fornecedor.dsCurta + " !";
-          toastr.errror(toastMsg, "erro");
+    
+  $scope.openImagemDialog = function(){
+    $scope.params = {
+      formTipo: $scope.formTipo,
+      iconeHeaderDialog: $scope.iconeHeaderDialog,
+      tituloDialog: params.formTipo == 'insert' ? "Cadastrar Imagem" : "Editar Imagem",
+      imagemInit: angular.copy($scope.fornecedor.imagem)
+    };
+    var modalInstance = $modal.open({
+      templateUrl: "views/cadastro/dialog/formImagem.html",
+      controller: "ImagemDialogCtrl",
+      backdrop: 'static',
+      size: 'lg',
+      resolve: {
+        params: function () {
+          return $scope.params;
         }
-      } else {
-        toastr.warning("Formulário em branco", "Não cadastrado!");
       }
-    }, function () {
-      toastr.warning("Nada aconteceu", "Cancelado");
     });
-    */
-
+    modalInstance.result.then(function (imagemNova) {
+      toastr.success("Imagem recebida", "Sucesso");
+      $scope.fornecedor.imagem = imagemNova;        
+    }, function(){
+      toastr.warning("Imagem não recebida", "Atenção");
+    });
+  };
+    
   $scope.submit = function () {
     if ($scope.formTipo == 'insert') { //insert
       $scope.fornecedor.$save(function(){
@@ -334,15 +272,6 @@ modalInstance.result.then(function(result) {
 //    });
   };
   
-  $scope.close = function(result){
-    $modalInstance.close(result);
-  };
-
-  $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
-  };
-
-
   // controle abas
   $scope.steps = [
     'Passo 1 - Dados Gerais',
@@ -391,4 +320,16 @@ modalInstance.result.then(function(result) {
   };
   // Fim controle abas
 
+  $scope.clear = function () {
+    $scope.fornecedor = angular.copy($scope.fornecedorInit);
+  };
+  
+  $scope.close = function(result){
+    $modalInstance.close(result);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+  
 });
