@@ -118,18 +118,14 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
         }
       }
     });
-    modalInstance.result.then(function (result) {//quando foi fechado enviando dados
-//      if (result.embalagem) {
+    modalInstance.result.then(function (result) {
         if (result.status == "sucesso") {
-          $scope.atualizaLista();
-//          $scope.embalagens[index] = result.embalagem;
-//          $scope.$apply(); 
+          $scope.atualizarLista();
         }
     });
   };
   
   $scope.openAtivarDesativarDialog = function (embalagem) {
-//    index = $scope.embalagens.indexOf($filter('filter')($scope.embalagens, embalagem, true)[0]);    
     swal({
       title: "Deseja mesmo" + (embalagem.dtDesativacao ? " ativar" : " desativar") + " a Embalagem " + embalagem.nome + "?",
       text: "Você poderá" + (embalagem.dtDesativacao ? " desativar" : " ativar") + " a Embalagem novamente!",
@@ -215,22 +211,13 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
   $scope.atualizarLista();
   
 })
-  .controller('EmbalagemDialogCtrl', function ($scope, $modalInstance, params, CONST, EmbalagemResource, PessoaResource, toastr, $http) {
+  .controller('EmbalagemDialogCtrl', function ($scope, $modal, $modalInstance, params, CONST, EmbalagemResource, PessoaResource, toastr, $http) {
     $scope.CONST = CONST;
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
-    $scope.imagemAux = params.embalagem.imagens ? params.embalagem.imagens[0] : null;
-//    if(params.embalagem){
-          $scope.embalagem = params.embalagem;
-//        console.log($scope.embalagem);
-//        $scope.embalagem.imagem = new ImagemResource();
-//        $scope.embalagem.imagem = {id:"1", arquivo:"", principal:true};
-//        console.log($scope.embalagem);
-//    }else{
-//        $scope.embalagem = new EmbalagemResource();
-//    }
-//    if($scope.embalagemInit)delete $scope.embalagemInit;
+    
+    $scope.embalagem = params.embalagem;
     $scope.embalagemInit = angular.copy($scope.embalagem);
     
     $scope.materiais = [
@@ -239,67 +226,34 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
       {nome: "PC - Papel Clabin", tipo: "Papel"},
       {nome: "PG - Papel Gordura", tipo: "Papel"}
     ];
-/*    
-    $scope.clear = function () {
-      $scope.embalagem = angular.copy($scope.embalagemInit);
-//      $scope.imgSelecionada = "";
-//      $scope.embalagem.imagem.arquivo = "";
-    };    
-
-    $scope.submit = function () {
-      //incluir rotina de validação
-      
-//        console.log("1");
-//        console.log($scope.embalagem);
-//        $scope.embalagem += {
-//          "nome":"1",
-//          "descricao":"1",
-//          "material":"PE - Polietileno",
-//          "dimensoes":"1",
-//          "gramatura":"1",
-//          "imagem":{"arquivo":"data:image/png;base64,iVBORw0KG"}
-//        };
-//        console.log("2");
-//        console.log($scope.embalagem);
-      if ($scope.formTipo == 'insert') { //insert
-        $scope.embalagem.$save(function (data) {
-          // do something which you want with response
-          console.log("insert ok");
-          console.log(data);
-          console.log(status);
-        }, function(){
-          console.log("erro");
-          console.log(status);
-        });
-      } else { //update
-        $scope.embalagem.$update(function(){
-          console.log("update ok");
-          console.log(status);
-        }, function(){
-          console.log("erro");
-          console.log(status);
-        });
-      }
-
-      //pegar retorno API e definir padrão p/ result
-      //
-      $modalInstance.close({
-        embalagem: $scope.embalagem,
-        status: "sucesso" //pegar retorno padrão da API ou protocolo HTTP
-//       embalagem: response.data,
-//       status: response.status
+    
+    $scope.openImagemDialog = function(){
+      $scope.params = {
+        formTipo: $scope.formTipo,
+        iconeHeaderDialog: $scope.embalagem.imagens ? CONST.editar.iconeHeaderDialog : CONST.inserir.iconeHeaderDialog,
+        tituloDialog: $scope.embalagem.imagens ? "Editar Imagem" : "Cadastrar Imagem",
+        imagemInit: angular.copy(params.embalagem.imagens ? params.embalagem.imagens[0] : null)
+      };
+      var modalInstance = $modal.open({
+        templateUrl: "views/cadastro/dialog/formImagem.html",
+        controller: "ImagemDialogCtrl",
+        backdrop: 'static',
+        size: 'lg',
+        resolve: {
+          params: function () {
+            return $scope.params;
+          }
+        }
       });
-    };
-
-    $scope.cancel = function () {
-      $modalInstance.dismiss('cancel');
-    };
-    
-    $scope.fornecedoresInit = $scope.embalagem.fornecedores;
-    */
+      modalInstance.result.then(function (imagemNova) {
+        toastr.success("Imagem recebida", "Sucesso");
+        $scope.embalagem.imagens = [imagemNova];
+      }, function(){
+        toastr.warning("Imagem não recebida", "Atenção");
+      });
+    };    
     
     $scope.submit = function () {
-      $scope.embalagem.imagens = [$scope.imagemAux];
       if ($scope.formTipo == 'insert') { //insert
         $scope.embalagem.$save(function(){
           var toastMsg = "Embalagem " + $scope.embalagem.nome + " cadastrada com sucesso!";

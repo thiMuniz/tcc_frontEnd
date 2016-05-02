@@ -1,0 +1,54 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel">
+      <ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
+    </h4>
+<!--    Debug ImagemInit {{imagemInit}}
+    Debug ImagemNew {{imagemNew}}-->
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" role="form" name="formImagem">
+      <div class="form-group col-sm-4" ng-hide="{{!imagemInit}}" >
+        <label for="imagemInit" class="control-label">Imagem Atual</label>
+        <div id="imagemInit" class="posCropAreaSgp">
+          <img ng-src="{{imagemInit.arquivo}}" />
+        </div>
+      </div>
+      <div class="form-group col-sm-4">
+        <label for="imagemCrop" class="control-label">
+          <button id="imagemCrop" type="button" class="form-control btn btn-primary btn-sm" ngf-select ng-model="imgSelecionada" accept="image/*">
+            <ng-md-icon icon="file_upload" ></ng-md-icon> &nbsp; Nova Imagem
+          </button>
+        </label>
+<!--        <label for="imagemCrop" class="col-sm-3 control-label">
+          <button type="button" class="btn btn-primary btn-sm" ngf-select ng-model="imgSelecionada" accept="image/*">
+            <ng-md-icon icon="file_upload" ></ng-md-icon> &nbsp; {{textImgBtn}}
+          </button>
+        </label>-->
+        <div class="form-control cropAreaSgp" id="imagemCrop" ng-model="imgSelecionada" ngf-pattern="image/*" ngf-drop>
+            <!--<p>Arraste e solte a imagem aqui ou clique no botão ao lado para localizar no computador</p>-->
+          <img-crop image="imgSelecionada  | ngfDataUrl" result-image="imagemNew.arquivo" ng-init="imagemNew.arquivo"></img-crop>
+        </div>
+      </div>
+      <div class="form-group col-sm-4">
+        <label for="imagemNewCrop" class="control-label">Imagem posCrop</label>
+        <div class="posCropAreaSgp" id="imagemNewCrop">
+          <img ng-src="{{imagemNew.arquivo}}" />
+        </div>
+      </div>
+    </form>
+  </div><!-- /.modal body-->
+  <div class="modal-footer">
+    <!--<button type="submit" class="btn btn-default">Submit Button</button>-->
+    <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
+      <ng-md-icon icon="refresh"></ng-md-icon> Limpar
+    </button>
+    <button type="button" class="btn btn-outline btn-danger" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Cancelar
+    </button>
+    <button type="button" class="btn btn-outline btn-success" ng-click="submit()">
+      <ng-md-icon icon="save"></ng-md-icon> Gravar
+    </button>
+  </div>
+</div><!-- /.modal content-->

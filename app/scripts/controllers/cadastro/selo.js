@@ -29,7 +29,7 @@ app.controller('SeloCtrl', function ($scope, $modal, SeloResource, CONST, toastr
       templateUrl: 'views/cadastro/dialog/formSelo.html',
       controller: 'SeloDialogCtrl',
       backdrop: 'static',
-      size: 'lg',
+      size: '',
       resolve: {
         params: function () {
           return $scope.params;
@@ -58,7 +58,7 @@ app.controller('SeloCtrl', function ($scope, $modal, SeloResource, CONST, toastr
       templateUrl: "views/cadastro/dialog/formSelo.html",
       controller: "SeloDialogCtrl",
       backdrop: 'static',
-      size: 'lg',
+      size: '',
       resolve: {
         params: function () {
           return $scope.params;
@@ -111,7 +111,7 @@ app.controller('SeloCtrl', function ($scope, $modal, SeloResource, CONST, toastr
       templateUrl: "views/cadastro/dialog/infoSelo.html",
       controller: "SeloDialogCtrl",
       backdrop: 'static',
-      size: 'lg',
+      size: '',
       resolve: {
         params: function () {
           return $scope.params;
@@ -123,7 +123,7 @@ app.controller('SeloCtrl', function ($scope, $modal, SeloResource, CONST, toastr
   $scope.atualizarLista();
   
 })
-  .controller('SeloDialogCtrl', function ($scope, $modalInstance, params, CONST, toastr) {
+  .controller('SeloDialogCtrl', function ($scope, $modal, $modalInstance, params, CONST, toastr) {
     $scope.CONST = CONST;
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
@@ -132,6 +132,32 @@ app.controller('SeloCtrl', function ($scope, $modal, SeloResource, CONST, toastr
     $scope.selo = params.selo;
     $scope.seloInit = angular.copy($scope.selo);
     
+    $scope.openImagemDialog = function(){
+      $scope.params = {
+        formTipo: $scope.formTipo,
+        iconeHeaderDialog: $scope.iconeHeaderDialog,
+        tituloDialog: params.formTipo == 'insert' ? "Cadastrar Imagem" : "Editar Imagem",
+        imagemInit: angular.copy($scope.selo.imagem)
+      };
+      var modalInstance = $modal.open({
+        templateUrl: "views/cadastro/dialog/formImagem.html",
+        controller: "ImagemDialogCtrl",
+        backdrop: 'static',
+        size: 'lg',
+        resolve: {
+          params: function () {
+            return $scope.params;
+          }
+        }
+      });
+      modalInstance.result.then(function (imagemNova) {
+        toastr.success("Imagem recebida", "Sucesso");
+        $scope.selo.imagem = imagemNova;        
+      }, function(){
+        toastr.warning("Imagem não recebida", "Atenção");
+      });
+    };
+        
     $scope.submit = function () {
       if ($scope.formTipo == 'insert') { //insert
         $scope.selo.$save(function(){

@@ -44,6 +44,9 @@
                     <a class="{{selo.dtDesativacao ? 'acao-disabled' : ''}}" ng-click="openUpdateDialog(selo)" tooltip="{{CONST.editar.tooltipAcao}}" >
                       <ng-md-icon icon="{{CONST.editar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
+                    <a class="{{selo.dtDesativacao ? 'acao-disabled' : ''}}" ng-click="openImagemDialog(selo)" tooltip="Imagem" >
+                      <ng-md-icon icon="photo_camera"></ng-md-icon>
+                    </a>&nbsp;
                     <a ng-click="openAtivarDesativarDialog(selo);" tooltip="{{selo.dtDesativacao ? CONST.ativar.tooltipAcao : CONST.desativar.tooltipAcao}}" >
                       <ng-md-icon icon="{{selo.dtDesativacao ? CONST.ativar.iconeAcao : CONST.desativar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;

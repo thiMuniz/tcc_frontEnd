@@ -127,7 +127,7 @@ app.controller('CategoriaCtrl', function ($scope, $modal, CategoriaResource, CON
     $scope.CONST = CONST;
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
-    $scope.tituloDialog = params.tituloDialog;
+    $scope.tituloDialog = params.tituloDialog;    
     
     $scope.categoria = params.categoria;
     $scope.categoriaInit = angular.copy($scope.categoria);

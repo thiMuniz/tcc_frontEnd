@@ -61,20 +61,22 @@ var app = angular
                               'scripts/directives/header/header.js',
                               'scripts/directives/header/header-notification/header-notification.js',
                               'scripts/directives/sidebar/sidebar.js',
-                              'scripts/directives/sidebar/sidebar-search/sidebar-search.js'
+                              'scripts/directives/sidebar/sidebar-search/sidebar-search.js',                              
+                              'scripts/services/pessoa.js',
+                              'scripts/controllers/cadastro/imagem.js'
                             ]
                           }),
-                                  $ocLazyLoad.load({
-                                    name: 'toggle-switch',
-                                    files: [
-                                      "bower_components/angular-toggle-switch/angular-toggle-switch.min.js",
-                                      "bower_components/angular-toggle-switch/angular-toggle-switch.css"
-                                    ]
-                                  }),
-                                  $ocLazyLoad.load({
-                                    name: 'ngAnimate',
-                                    files: ['bower_components/angular-animate/angular-animate.js']
-                                  });
+                          $ocLazyLoad.load({
+                            name: 'toggle-switch',
+                            files: [
+                              "bower_components/angular-toggle-switch/angular-toggle-switch.min.js",
+                              "bower_components/angular-toggle-switch/angular-toggle-switch.css"
+                            ]
+                          }),
+                          $ocLazyLoad.load({
+                            name: 'ngAnimate',
+                            files: ['bower_components/angular-animate/angular-animate.js']
+                          });
                           $ocLazyLoad.load({
                             name: 'ngCookies',
                             files: ['bower_components/angular-cookies/angular-cookies.js']
@@ -150,10 +152,10 @@ var app = angular
                               'bower_components/angular-chart.js/dist/angular-chart.css'
                             ]
                           }),
-                                  $ocLazyLoad.load({
-                                    name: 'sbAdminApp',
-                                    files: ['scripts/controllers/chartContoller.js']
-                                  });
+                          $ocLazyLoad.load({
+                            name: 'sbAdminApp',
+                            files: ['scripts/controllers/chartContoller.js']
+                          });
                         }
                       }
                     })
@@ -205,8 +207,7 @@ var app = angular
                           return $ocLazyLoad.load({
                             name: 'sbAdminApp',
                             files: [
-                              'scripts/controllers/cadastro/fornecedor.js',
-                              'scripts/services/pessoa.js'
+                              'scripts/controllers/cadastro/fornecedor.js'
                               
                             ]
                           });
@@ -224,8 +225,7 @@ var app = angular
                           return $ocLazyLoad.load({
                             name: 'sbAdminApp',
                             files: [
-                              'scripts/controllers/cadastro/colaborador.js',
-                              'scripts/services/pessoa.js'
+                              'scripts/controllers/cadastro/colaborador.js'
                             ]
                           });
                         }
@@ -242,8 +242,7 @@ var app = angular
                           return $ocLazyLoad.load({
                             name: 'sbAdminApp',
                             files: [
-                              'scripts/controllers/cadastro/cliente.js',
-                              'scripts/services/pessoa.js'
+                              'scripts/controllers/cadastro/cliente.js'
                             ]
                           });
                         }
@@ -274,6 +273,7 @@ var app = angular
                             files: [
                               'scripts/controllers/cadastro/selo.js',
                               'scripts/services/selo.js'
+                              
                             ]
                           });
                         }
@@ -333,8 +333,7 @@ var app = angular
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/cadastro/embalagem.js',
-                              'scripts/services/embalagem.js',
-                              'scripts/services/pessoa.js',
+                              'scripts/services/embalagem.js'
                             ]
                           });
                         }

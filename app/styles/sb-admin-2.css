@@ -364,7 +364,17 @@ table.dataTable thead .sorting:after {
     background: #f8f8f8 none repeat scroll 0 0;
     border: 5px dashed #ddd;
     overflow: hidden;
-    width:300px;
+    width:250px;
+    height:200px;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+}
+.posCropAreaSgp {
+    background: #f8f8f8 none repeat scroll 0 0;
+    /*border: 5px dashed #ddd;*/
+    overflow: hidden;
+    width:250px;
     height:200px;
     margin: 10px;
     padding: 10px;

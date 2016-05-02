@@ -123,18 +123,42 @@ app.controller('InsumoCtrl', function ($scope, $modal, InsumoResource, CONST, to
   $scope.atualizarLista();
   
 })
-  .controller('InsumoDialogCtrl', function ($scope, $modalInstance, params, CONST, toastr) {
+  .controller('InsumoDialogCtrl', function ($scope, $modal, $modalInstance, params, CONST, toastr) {
     $scope.CONST = CONST;
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
-    $scope.imagemAux = params.insumo.imagens ? params.insumo.imagens[0] : null;
     
     $scope.insumo = params.insumo;
     $scope.insumoInit = angular.copy($scope.insumo);
     
+    $scope.openImagemDialog = function(){
+      $scope.params = {
+        formTipo: $scope.formTipo,
+        iconeHeaderDialog: $scope.insumo.imagens ? CONST.editar.iconeHeaderDialog : CONST.inserir.iconeHeaderDialog,
+        tituloDialog: $scope.insumo.imagens ? "Editar Imagem" : "Cadastrar Imagem",
+        imagemInit: angular.copy(params.insumo.imagens ? params.insumo.imagens[0] : null)
+      };
+      var modalInstance = $modal.open({
+        templateUrl: "views/cadastro/dialog/formImagem.html",
+        controller: "ImagemDialogCtrl",
+        backdrop: 'static',
+        size: 'lg',
+        resolve: {
+          params: function () {
+            return $scope.params;
+          }
+        }
+      });
+      modalInstance.result.then(function (imagemNova) {
+        toastr.success("Imagem recebida", "Sucesso");
+        $scope.insumo.imagens = [imagemNova];
+      }, function(){
+        toastr.warning("Imagem não recebida", "Atenção");
+      });
+    };
+    
     $scope.submit = function () {
-      $scope.insumo.imagens = [$scope.imagemAux];
       if ($scope.formTipo == 'insert') { //insert
         $scope.insumo.$save(function(){
           var toastMsg = "Insumo " + $scope.insumo.nome + " cadastrada com sucesso!";

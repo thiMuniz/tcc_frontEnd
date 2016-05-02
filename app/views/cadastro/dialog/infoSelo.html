@@ -43,7 +43,10 @@
               <tbody>                
                 <tr>
                   <td><label for="descricao" class=control-label">Descrição</label></td>
-                  <td >{{selo.descricao}}</td>  
+                  <td >
+                    <!--{{selo.descricao}}</td>-->
+                  <textarea class="form-control" rows="2" id="descricao" placeholder="Descrição detelhada da selo" ng-model="selo.descricao" disable="true"></textarea>
+                  </td>
                 </tr>
               </tbody>
             </table>

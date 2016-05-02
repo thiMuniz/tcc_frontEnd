@@ -123,20 +123,42 @@ app.controller('RotuloCtrl', function ($scope, $modal, RotuloResource, CONST, to
   $scope.atualizarLista();
   
 })
-  .controller('RotuloDialogCtrl', function ($scope, $modalInstance, params, CONST, toastr) {
+  .controller('RotuloDialogCtrl', function ($scope, $modal, $modalInstance, params, CONST, toastr) {
     $scope.CONST = CONST;
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
-    $scope.imagemAux = params.rotulo.imagens ? params.rotulo.imagens[0] : null;
-    console.log($scope.imagemAux);
     
     $scope.rotulo = params.rotulo;
     $scope.rotuloInit = angular.copy($scope.rotulo);
+    
+    $scope.openImagemDialog = function(){
+      $scope.params = {
+        formTipo: $scope.formTipo,
+        iconeHeaderDialog: $scope.rotulo.imagens ? CONST.editar.iconeHeaderDialog : CONST.inserir.iconeHeaderDialog,
+        tituloDialog: $scope.rotulo.imagens ? "Editar Imagem" : "Cadastrar Imagem",
+        imagemInit: angular.copy(params.rotulo.imagens ? params.rotulo.imagens[0] : null)
+      };
+      var modalInstance = $modal.open({
+        templateUrl: "views/cadastro/dialog/formImagem.html",
+        controller: "ImagemDialogCtrl",
+        backdrop: 'static',
+        size: 'lg',
+        resolve: {
+          params: function () {
+            return $scope.params;
+          }
+        }
+      });
+      modalInstance.result.then(function (imagemNova) {
+        toastr.success("Imagem recebida", "Sucesso");
+        $scope.rotulo.imagens = [imagemNova];
+      }, function(){
+        toastr.warning("Imagem não recebida", "Atenção");
+      });
+    };
         
     $scope.submit = function(){
-//      $scope.rotulo.imagens.push(angular.copy($scope.arquivo));
-      $scope.rotulo.imagens = [$scope.imagemAux];
       if ($scope.formTipo == 'insert') { //insert
         $scope.rotulo.$save(function(){
           var toastMsg = "Rótulo " + $scope.rotulo.nome + " cadastrada com sucesso!";
