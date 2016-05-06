@@ -47,6 +47,9 @@
                     <a ng-click="openAtivarDesativarDialog(insumo);" tooltip="{{insumo.dtDesativacao ? CONST.ativar.tooltipAcao : CONST.desativar.tooltipAcao}}" >
                       <ng-md-icon icon="{{insumo.dtDesativacao ? CONST.ativar.iconeAcao : CONST.desativar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
+                    <a ng-click="openFornecedorItemDialog(insumo);" tooltip="Fornecedores">
+                      <ng-md-icon icon="contacts"></ng-md-icon>
+                    </a>&nbsp;
                     <a ng-click="openInfoDialog(insumo);" tooltip="{{CONST.info.tooltipAcao}}">
                       <ng-md-icon icon="{{CONST.info.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;

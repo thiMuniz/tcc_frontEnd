@@ -1,0 +1,145 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>    
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" role="form" name="formReceita">
+      <ul class="nav nav-tabs">
+        <li ng-repeat="step in steps" ng-class="{active: $index == getCurrentStepIndex()}">
+          <a href="javascript:void(0)" ng-click="goToStep($index)">{{step}}</a>
+        </li>
+      </ul>
+
+      <div ng-switch on="selection">
+        <div ng-switch-when="Passo 1 - Dados Receita"><!-- ABA 1 - Dados Receita -->
+          <div class="form-group" ng-if="formTipo != 'insert'">
+            <label for="id" class="col-sm-3 control-label">Código</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="id" ng-model="receita.id" ng-disabled="true">
+            </div>
+          </div>
+          <div class="form-group" >
+            <label for="nome" class="col-sm-3 control-label">Nome</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="nome" placeholder="Nome da receita" ng-model="receita.nome">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="descricao" class="col-sm-3 control-label">Descrição</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="descricao" placeholder="Descrição detelhada da receita" ng-model="receita.descricao">
+            </div>
+          </div>      
+          <div class="form-group">
+            <label for="rendimento" class="col-sm-3 control-label">Rendimento</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="rendimento" placeholder="Quantidade de produtos resultantes" ng-model="receita.rendimento">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="tempoPreparo" class="col-sm-3 control-label">Tempo de Preparo</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="tempoPreparo" placeholder="Tempo estimado de execução da receita" ng-model="receita.tempoPreparo">
+            </div>
+          </div>
+        </div><!-- /.ABA 1 - Dados Receita -->
+
+        <div ng-switch-when="Passo 2 - Ingredientes" ><!-- ABA 2 - Ingredientes -->
+          <div class="panel-heading"> <!-- Painel Superior -->
+            <ui-select multiple ng-model="temp.insumosReceita" 
+                       on-select="addInsumoReceita($item)"
+                       on-remove="removeInsumoReceita($item)"
+                       theme="bootstrap" ng-disabled="insumo.id" append-to-body="false">
+              <ui-select-match class="ui-select-match" placeholder="Selecione os Insumos"> {{$item.nome}} </ui-select-match>
+              <ui-select-choices class="ui-select-choices" repeat="insumo in insumosAll | filter:$select.search">
+                <img ng-src="{{insumo.imagens[0].arquivo}}" class="img-ui-select">
+                {{insumo.nome}}
+              </ui-select-choices>
+            </ui-select>            
+
+            <table class="table" ng-show="receita.insumosReceita.length > 0">
+              <thead>
+                <tr>
+                  <th colspan="2" align="center">Ingrediente</th>
+                  <th colspan="2" align="center">Quantidade</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="insumoReceita in receita.insumosReceita">
+                  <td class="col-sm-1"><img ng-src="{{insumoReceita.insumo.imagens[0].arquivo}}" class="img-thumbnail img-list-view"/></td>
+                  <td >{{insumoReceita.insumo.nome}}</td>
+                  <td>
+                    <div class="col-sm-3">                      
+                      <input class="form-control" type="text" id="quantidade" ng-model="insumoReceita.quantidade">
+                    </div>
+                    <div class="col-sm-3">
+                      {{insumoReceita.insumo.unMedida}}
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <!--debug {{form}}-->
+          </div><!-- /.panel-heading -->
+        </div><!-- /.ABA 2 - Ingredientes -->
+        
+        <div ng-switch-when="Passo 3 - Instruções" ><!-- ABA 2 - Ingredientes -->
+          <div class="panel-heading"> <!-- Painel Superior -->
+            <button class="btn btn-primary btn-circle btn-lg" ng-click="addPasso()" type="button" tooltip="Adicionar Instrução">
+              <i class="fa-plus-circle"></i>
+            </button>
+
+            <table class="table" ng-show="receita.passos.length > 0">
+              <thead>
+                <tr>
+                  <th>Ordem</th>
+                  <th>Título</th>
+                  <th>Descrição</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="passoReceita in receita.passos">
+                  <div class="col-sm-1">
+                    <input class="form-control" type="text" id="ordem" ng-model="passoReceita.ordem">
+                  </div>
+                  <div class="col-sm-3">
+                    <input class="form-control" type="text" id="nome" ng-model="passoReceita.nome">
+                  </div>
+                  <div class="col-sm-6">
+                    <input class="form-control" type="text" id="descricao" ng-model="passoReceita.descricao">
+                  </div>
+                </tr>
+              </tbody>
+            </table>
+          </div><!-- /.panel-heading -->
+        </div><!-- /.ABA 3 - Instruções -->
+        
+      </div><!-- /.selection -->
+
+      <ul class="pager pull-left">
+        <li class="" ng-class="{disabled: !hasPreviousStep() }">
+          <a href="javascript:void(0);" ng-click="decrementStep()">&larr; Anterior</a>
+        </li>
+        <li class="" ng-class="{disabled: !hasNextStep() || formFornecedor.$invalid}">
+          <a href="javascript:void(0);" ng-click="incrementStep()" >Proximo &rarr;</a>
+        </li>
+      </ul>
+
+    </form>      
+
+  </div><!-- /.modal body-->
+
+  <div class="modal-footer">
+    <!--<button type="submit" class="btn btn-default">Submit Button</button>-->
+    <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
+      <ng-md-icon icon="refresh"></ng-md-icon> Limpar
+    </button>
+    <button type="button" class="btn btn-outline btn-danger" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Cancelar
+    </button>
+    <button type="button" class="btn btn-outline btn-success" ng-click="submit()">
+      <ng-md-icon icon="save"></ng-md-icon> Gravar
+    </button>
+  </div>
+</div><!-- /.modal content-->

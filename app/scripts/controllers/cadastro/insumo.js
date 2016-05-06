@@ -1,5 +1,5 @@
 'use strict';
-app.controller('InsumoCtrl', function ($scope, $modal, InsumoResource, CONST, toastr) {
+app.controller('InsumoCtrl', function ($scope, $modal, InsumoResource, PessoaResource, CONST, toastr, $httpParamSerializerJQLike) {
   
   var toastMsg = "";
   $scope.CONST = CONST;
@@ -120,6 +120,32 @@ app.controller('InsumoCtrl', function ($scope, $modal, InsumoResource, CONST, to
     });
   };
   
+  $scope.openFornecedorItemDialog = function(insumo){
+    $scope.params = {
+      formTipo: 'lookup',
+      iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
+      tituloDialog: "Lookup Fornecedor",
+      insumo: angular.copy(insumo),
+      fornecedores: PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:"fornecedor"})})
+    };
+    var modalInstance = $modal.open({
+      templateUrl: "views/cadastro/dialog/formFornecedorItem.html",
+      controller: "InsumoDialogCtrl",
+      backdrop: 'static',
+      size: 'lg',
+      resolve: {
+        params: function () {
+          return $scope.params;
+        }
+      }
+    });
+    modalInstance.result.then(function (result) {
+        if (result.status == "sucesso") {
+          $scope.atualizarLista();
+        }
+    });
+  };
+  
   $scope.atualizarLista();
   
 })
@@ -131,6 +157,16 @@ app.controller('InsumoCtrl', function ($scope, $modal, InsumoResource, CONST, to
     
     $scope.insumo = params.insumo;
     $scope.insumoInit = angular.copy($scope.insumo);
+    
+    if(params.formTipo == 'lookup'){
+      $scope.fornecedoresAll = params.fornecedores;
+      $scope.temp = {};
+      $scope.temp.fornecedoresItem = $scope.insumoInit.fornecedores;
+    }
+    
+    $scope.atualizarLista = function(){
+      $scope.insumo.fornecedores = $scope.temp.fornecedoresItem;
+    }
     
     $scope.openImagemDialog = function(){
       $scope.params = {
@@ -198,6 +234,9 @@ app.controller('InsumoCtrl', function ($scope, $modal, InsumoResource, CONST, to
     
     $scope.clear = function () {
       $scope.insumo = angular.copy($scope.insumoInit);
+      if(params.formTipo == 'lookup'){
+        $scope.temp.fornecedoresItem = $scope.insumoInit.fornecedores;      
+      }
     };
     
     $scope.close = function(result){

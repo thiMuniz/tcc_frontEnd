@@ -442,3 +442,8 @@ form .progress {
   height: 160px;
   width: 160px;
 }
+
+.img-ui-select {
+  height: 20px;
+  width: 20px;
+}

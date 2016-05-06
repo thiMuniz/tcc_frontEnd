@@ -1,5 +1,5 @@
 'use strict';
-app.controller('RotuloCtrl', function ($scope, $modal, RotuloResource, CONST, toastr) {
+app.controller('RotuloCtrl', function ($scope, $modal, RotuloResource, PessoaResource, CONST, toastr, $httpParamSerializerJQLike) {
   
   var toastMsg = "";
   $scope.CONST = CONST;
@@ -120,6 +120,32 @@ app.controller('RotuloCtrl', function ($scope, $modal, RotuloResource, CONST, to
     });
   };
   
+  $scope.openFornecedorItemDialog = function(rotulo){
+    $scope.params = {
+      formTipo: 'lookup',
+      iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
+      tituloDialog: "Lookup Fornecedor",
+      rotulo: angular.copy(rotulo),
+      fornecedores: PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:"fornecedor"})})
+    };
+    var modalInstance = $modal.open({
+      templateUrl: "views/cadastro/dialog/formFornecedorItem.html",
+      controller: "RotuloDialogCtrl",
+      backdrop: 'static',
+      size: 'lg',
+      resolve: {
+        params: function () {
+          return $scope.params;
+        }
+      }
+    });
+    modalInstance.result.then(function (result) {
+        if (result.status == "sucesso") {
+          $scope.atualizarLista();
+        }
+    });
+  };
+  
   $scope.atualizarLista();
   
 })
@@ -131,6 +157,17 @@ app.controller('RotuloCtrl', function ($scope, $modal, RotuloResource, CONST, to
     
     $scope.rotulo = params.rotulo;
     $scope.rotuloInit = angular.copy($scope.rotulo);
+    
+    
+    if(params.formTipo == 'lookup'){
+      $scope.fornecedoresAll = params.fornecedores;
+      $scope.temp = {};
+      $scope.temp.fornecedoresItem = $scope.rotuloInit.fornecedores;      
+    }
+    
+    $scope.atualizarLista = function(){
+      $scope.rotulo.fornecedores = $scope.temp.fornecedoresItem;
+    }
     
     $scope.openImagemDialog = function(){
       $scope.params = {
@@ -198,6 +235,9 @@ app.controller('RotuloCtrl', function ($scope, $modal, RotuloResource, CONST, to
     
     $scope.clear = function () {
       $scope.rotulo = angular.copy($scope.rotuloInit);
+      if(params.formTipo == 'lookup'){
+        $scope.temp.fornecedoresItem = $scope.rotuloInit.fornecedores;      
+      }
     };
     
     $scope.close = function(result){

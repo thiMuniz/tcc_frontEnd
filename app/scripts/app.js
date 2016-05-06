@@ -257,7 +257,8 @@ var app = angular
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/cadastro/receita.js',
-                              'scripts/services/receita.js'
+                              'scripts/services/receita.js',
+                              'scripts/services/insumo.js'
                             ]
                           });
                         }
@@ -303,7 +304,11 @@ var app = angular
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/cadastro/produto.js',
-                              'scripts/services/produto.js'
+                              'scripts/services/produto.js',
+                              'scripts/services/receita.js',
+                              'scripts/services/selo.js',
+                              'scripts/services/embalagem.js',                              
+                              'scripts/services/rotulo.js'
                             ]
                           });
                         }

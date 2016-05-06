@@ -89,7 +89,7 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
 //      fornecedor.dtDesativacao = new Date();
       fornecedor.dtDesativacao = (fornecedor.dtDesativacao ? null : new Date());
       PessoaResource.update(fornecedor, function () {
-        $scope.fornecedores[index] = fornecedor;
+        $scope.atualizarLista();
         toastMsg = fornecedor.pj.nomeFantasia + (fornecedor.dtDesativacao ? " desativado!" : " ativado!");
         toastr.success(toastMsg, "Sucesso!");
       }, function () {

@@ -1,5 +1,5 @@
 'use strict';
-app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemResource, PessoaResource, CONST, toastr) {
+app.controller('EmbalagemCtrl', function ($scope, $modal, EmbalagemResource, PessoaResource, CONST, toastr, $httpParamSerializerJQLike) {
   
   var toastTitle = "";
   var toastMsg = "";
@@ -170,16 +170,16 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
     });
   };
   
-  $scope.openFornecedorEmbalagemDialog = function(embalagem){
-//    index = $scope.fornecedores.indexOf($filter('filter')($scope.fornecedores, fornecedor, true)[0]);
+  $scope.openFornecedorItemDialog = function(embalagem){
     $scope.params = {
       formTipo: 'lookup',
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
       tituloDialog: "Lookup Fornecedor",
-      embalagem: embalagem
+      embalagem: angular.copy(embalagem),
+      fornecedores: PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:"fornecedor"})})
     };
     var modalInstance = $modal.open({
-      templateUrl: "views/cadastro/dialog/listFornecedorEmbalagem.html",
+      templateUrl: "views/cadastro/dialog/formFornecedorItem.html",
       controller: "EmbalagemDialogCtrl",
       backdrop: 'static',
       size: 'lg',
@@ -189,23 +189,11 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
         }
       }
     });
-    modalInstance.result.then(function (result) {//quando foi fechado enviando dados
-      if (result.fornecedor) {
-        if (result.status == "sucesso") {//Se retorno da API com sucesso add a fornecedor à lista
-          $scope.fornecedores[index] = result.fornecedor;
-//                  $scope.$apply(); 
-          toastMsg = "Fornecedor " + result.fornecedor.nome + " editado com sucesso!";
-          toastr.success(toastMsg, "sucesso");
-        } else {//Senão mostra msg erro                  
-          toastMsg = "Erro ao editar Fornecedor " + result.fornecedor.nome + " !";
-          toastr.error(toastMsg, "erro");
+    modalInstance.result.then(function (result) {
+        if (result.status == "sucesso") {
+          $scope.atualizarLista();
         }
-      } else {
-        toastr.warning("Formulário em branco", "Não cadastrado!");
-      }
-    }, function () {
-      toastr.warning("Nada aconteceu", "Cancelado");
-    });      
+    });
   };
   
   $scope.atualizarLista();
@@ -216,9 +204,15 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
-    
+        
     $scope.embalagem = params.embalagem;
     $scope.embalagemInit = angular.copy($scope.embalagem);
+    
+    if(params.formTipo == 'lookup'){
+      $scope.fornecedoresAll = params.fornecedores;
+      $scope.temp = {};
+      $scope.temp.fornecedoresItem = $scope.embalagemInit.fornecedores;      
+    }
     
     $scope.materiais = [
       {nome: "PE - Polietileno", tipo: "Plástico"},
@@ -226,6 +220,15 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
       {nome: "PC - Papel Clabin", tipo: "Papel"},
       {nome: "PG - Papel Gordura", tipo: "Papel"}
     ];
+    
+//    $scope.addFornecedores = function(){ //método de teste, corrigir a adição no array ao invés de substituição
+//      $scope.embalagem.fornecedores = $scope.temp.fornecedoresAux;
+//      $scope.submit();
+//    }
+    
+    $scope.atualizarLista = function(){
+      $scope.embalagem.fornecedores = $scope.temp.fornecedoresItem;
+    }
     
     $scope.openImagemDialog = function(){
       $scope.params = {
@@ -271,7 +274,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
           };
           $scope.close(result);
         });
-      } else { //update
+      } else { //update ou lookup
         $scope.embalagem.$update(function(){
           var toastMsg = "Embalagem " + $scope.embalagem.nome + " editada com sucesso!";
           toastr.success(toastMsg, "Sucesso");
@@ -289,10 +292,13 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
           $scope.close(result);
         });
       }
-    };
+    };    
     
     $scope.clear = function () {
       $scope.embalagem = angular.copy($scope.embalagemInit);
+      if(params.formTipo == 'lookup'){
+        $scope.temp.fornecedoresItem = $scope.embalagemInit.fornecedores;      
+      }
     };
     
     $scope.close = function(result){
@@ -301,8 +307,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
 
     $scope.cancel = function () {
       $modalInstance.dismiss('cancel');
-    };
-    
+    };    
     
   });
 
