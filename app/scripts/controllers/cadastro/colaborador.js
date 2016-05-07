@@ -3,19 +3,20 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
   var toastTitle = "Bem vindo programador!!";
   var toastMsg = "Boa sorte dessa vez...";
 
-  var index;
-  $scope.CONST = CONST;
-  $scope.tituloView = "Cadastro de Colaboradores";
-  $scope.headerLista = "Nenhum colaborador foi encontrado";
-  $scope.labelCadastrarBtn = "Novo Colaborador";
-
   //var params = {limit:10,page:0}
   var params = {perfil:$stateParams.perfil};
+  
+  $scope.CONST = CONST;
+  $scope.tituloView = "Cadastro de Colaboradores";
+  $scope.headerLista = "Nenhum " + params.perfil + " foi encontrado";
+  $scope.labelCadastrarBtn = "Novo "+params.perfil;
 
-  $scope.colaboradores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
+  
+
+//  $scope.colaboradores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
   
   $scope.atualizarLista = function(){
-    $scope.fornecedores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
+    $scope.colaboradores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
     //incluir spinner enquanto esta carregando a lista
   };
   
@@ -23,11 +24,6 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
     $scope.campo = campo;
     $scope.ascDsc = !$scope.ascDsc;
   };
-
-  function carregarColaboradoresAPI() {
-//    $scope.colaboradores = ColaboradorResource.query();
-    $scope.colaboradores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
-  }
 
   $scope.openInsertDialog = function () {
     $scope.colaborador = new PessoaResource();
@@ -202,15 +198,15 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
   $scope.submit = function () {
     if ($scope.formTipo == 'insert') { //insert
       $scope.colaborador.$save(function(){
-        var toastMsg = "Fornecedor " + $scope.colaborador.pf.nome + " cadastrado com sucesso!";
+        var toastMsg = "Colaborador " + $scope.colaborador.pf.nome + " cadastrado com sucesso!";
         toastr.success(toastMsg, "successo");
         var result = {
-          fornecedor: $scope.fornecedor, 
+          colaborador: $scope.colaborador, 
           status: "sucesso"
         };
         $scope.close(result);
       }, function(){
-        var toastMsg = "Erro ao cadastrar Fornecedor " + $scope.colaborador.pf.nome;
+        var toastMsg = "Erro ao cadastrar Colaborador " + $scope.colaborador.pf.nome;
         toastr.error(toastMsg, "Erro");
         var result = {
           status: "erro"
@@ -219,15 +215,15 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
       });
     } else { //update
       $scope.colaborador.$update(function(){
-        var toastMsg = "Fornecedor " + $scope.colaborador.pf.nome + " editado com sucesso!";
+        var toastMsg = "Colaborador " + $scope.colaborador.pf.nome + " editado com sucesso!";
         toastr.success(toastMsg, "Sucesso");
         var result = {
-          fornecedor: $scope.fornecedor, 
+          colaborador: $scope.colaborador, 
           status: "sucesso"
         };
         $scope.close(result);
       }, function(){
-        var toastMsg = "Erro ao editar Fornecedor " + $scope.colaborador.pf.nome;
+        var toastMsg = "Erro ao editar Colaborador " + $scope.colaborador.pf.nome;
         toastr.error(toastMsg, "Erro");
         var result = {
           status: "erro"
@@ -238,9 +234,9 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
     //pegar retorno API e definir padrão p/ result
     //
 //    $modalInstance.close({
-//      fornecedor: $scope.fornecedor,
+//      colaborador: $scope.colaborador,
 //      status: "sucesso" //pegar retorno padrão da API ou protocolo HTTP
-////                            fornecedor: response.data,
+////                            colaborador: response.data,
 ////                            status: response.status
 //    });
   };

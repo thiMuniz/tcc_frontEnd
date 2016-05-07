@@ -26,8 +26,8 @@
               <thead>
                 <tr>
                   <th><a href="" ng-click="ordenar('id')">Código</a></th>
-                  <th>Imagem</th>
-                  <th><a href="" ng-click="ordenar('nome')">Nome</a></th>
+                  <th colspan="2"><a href="" ng-click="ordenar('nome')">Produto</a></th>
+                  <th><a href="" ng-click="ordenar('nome')">Categoria</a></th>
                   <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
                   <th>Ação</th>                  
                 </tr>
@@ -37,6 +37,7 @@
                   <td>{{produto.id}}</td>
                   <td ><img ng-src="{{produto.imagens[0].arquivo}}" class="img-thumbnail img-list-view"/></td>
                   <td>{{produto.nome}}</td>
+                  <td>{{produto.categoria.nome}}</td>
                   <td style="{{produto.dtDesativacao ? 'color: red' : ''}}">
                     {{produto.dtDesativacao ? "Desativado" : " Ativo"}}
                   </td>

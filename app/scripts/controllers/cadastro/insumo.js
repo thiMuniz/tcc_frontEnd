@@ -197,7 +197,7 @@ app.controller('InsumoCtrl', function ($scope, $modal, InsumoResource, PessoaRes
     $scope.submit = function () {
       if ($scope.formTipo == 'insert') { //insert
         $scope.insumo.$save(function(){
-          var toastMsg = "Insumo " + $scope.insumo.nome + " cadastrada com sucesso!";
+          var toastMsg = "Insumo " + $scope.insumo.nome + " cadastrado com sucesso!";
           toastr.success(toastMsg, "successo");
           var result = {
             insumo: $scope.insumo, 
@@ -214,7 +214,7 @@ app.controller('InsumoCtrl', function ($scope, $modal, InsumoResource, PessoaRes
         });
       } else { //update
         $scope.insumo.$update(function(){
-          var toastMsg = "Insumo " + $scope.insumo.nome + " editada com sucesso!";
+          var toastMsg = "Insumo " + $scope.insumo.nome + " editado com sucesso!";
           toastr.success(toastMsg, "Sucesso");
           var result = {
             insumo: $scope.insumo, 

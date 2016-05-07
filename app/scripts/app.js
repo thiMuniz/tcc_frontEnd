@@ -305,6 +305,7 @@ var app = angular
                             files: [
                               'scripts/controllers/cadastro/produto.js',
                               'scripts/services/produto.js',
+                              'scripts/services/categoria.js',
                               'scripts/services/receita.js',
                               'scripts/services/selo.js',
                               'scripts/services/embalagem.js',                              

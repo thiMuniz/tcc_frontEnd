@@ -1,5 +1,5 @@
 'use strict';
-app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, ReceitaResource, SeloResource, EmbalagemResource, RotuloResource, CONST, toastr, $httpParamSerializerJQLike) {
+app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, CategoriaResource, ReceitaResource, SeloResource, EmbalagemResource, RotuloResource, CONST, toastr, $httpParamSerializerJQLike) {
   
   var toastMsg = "";
   $scope.CONST = CONST;
@@ -23,6 +23,7 @@ app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, Receita
       formTipo: 'insert',
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
       tituloDialog: "Cadastrar Produto",
+      categorias: CategoriaResource.query(),
       produto: new ProdutoResource()
     };
     var modalInstance = $modal.open({
@@ -51,6 +52,7 @@ app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, Receita
       formTipo: 'update',
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
       tituloDialog: "Editar Produto",
+      categorias: CategoriaResource.query(),
       produto: angular.copy(produto)
     };
 
@@ -176,10 +178,10 @@ app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, Receita
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
     
+    $scope.categoriasAll = params.categorias ? params.categorias  : null;
     $scope.produto = params.produto;
     $scope.produtoInit = angular.copy($scope.produto);
-    
-    
+        
     if(params.formTipo == 'lookupItem'){      
       switch(params.item){
         case 'receita':
