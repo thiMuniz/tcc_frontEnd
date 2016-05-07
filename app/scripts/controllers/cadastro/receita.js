@@ -231,9 +231,9 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
       $scope.receita.passos = [];
     }
     
-    $scope.addPasso = function(){      
+    $scope.addPasso = function(){
       var passo = {
-        ordem: null,
+        ordem: $scope.receita.passos ? $scope.receita.passos.length+1 : 1,
         nome: "",
         descricao: ""
       };

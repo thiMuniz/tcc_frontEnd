@@ -86,8 +86,8 @@
         
         <div ng-switch-when="Passo 3 - Instruções" ><!-- ABA 2 - Ingredientes -->
           <div class="panel-heading"> <!-- Painel Superior -->
-            <button class="btn btn-primary btn-circle btn-lg" ng-click="addPasso()" type="button" tooltip="Adicionar Instrução">
-              <i class="fa-plus-circle"></i>
+            <button class="btn btn-primary btn-xs" ng-click="addPasso()" tooltip="Adicionar instrução">
+              <ng-md-icon icon="playlist_add"></ng-md-icon> Adicionar instrução
             </button>
 
             <table class="table" ng-show="receita.passos.length > 0">
@@ -100,15 +100,15 @@
               </thead>
               <tbody>
                 <tr ng-repeat="passoReceita in receita.passos">
-                  <div class="col-sm-1">
-                    <input class="form-control" type="text" id="ordem" ng-model="passoReceita.ordem">
-                  </div>
-                  <div class="col-sm-3">
-                    <input class="form-control" type="text" id="nome" ng-model="passoReceita.nome">
-                  </div>
-                  <div class="col-sm-6">
-                    <input class="form-control" type="text" id="descricao" ng-model="passoReceita.descricao">
-                  </div>
+                  <td class="col-sm-2">
+                      <input class="form-control" type="text" id="ordem" placeholder="Ordem" ng-model="passoReceita.ordem">
+                  </td>
+                  <td class="col-sm-3">
+                      <input class="form-control" type="text" id="nome" placeholder="Título" ng-model="passoReceita.nome">
+                  </td>
+                  <td class="col-sm-7">
+                      <textarea class="form-control" rows="1" type="text" id="descricao" placeholder="Descrição" ng-model="passoReceita.descricao"></textarea>
+                  </td>
                 </tr>
               </tbody>
             </table>
