@@ -12,7 +12,7 @@
       <div class="form-group col-sm-4" ng-hide="{{!imagemInit}}" >
         <label for="imagemInit" class="control-label">Imagem Atual</label>
         <div id="imagemInit" class="posCropAreaSgp">
-          <img ng-src="{{imagemInit.arquivo}}" />
+          <img ng-src="{{imagemInit.caminhoArquivo}}" />
         </div>
       </div>
       <div class="form-group col-sm-4">
@@ -28,7 +28,7 @@
         </label>-->
         <div class="form-control cropAreaSgp" id="imagemCrop" ng-model="imgSelecionada" ngf-pattern="image/*" ngf-drop>
             <!--<p>Arraste e solte a imagem aqui ou clique no botão ao lado para localizar no computador</p>-->
-          <img-crop image="imgSelecionada  | ngfDataUrl" result-image="imagemNew.arquivo" ng-init="imagemNew.arquivo"></img-crop>
+          <img-crop image="imgSelecionada  | ngfDataUrl" result-image="imagemNew.arquivo" ng-init="imagemInit.caminhoArquivo"></img-crop>
         </div>
       </div>
       <div class="form-group col-sm-4">

@@ -16,7 +16,7 @@
         <ui-select multiple ng-model="produto.insumos" ng-show="showUiSelect" theme="bootstrap" ng-disabled="insumo.id" append-to-body="false">
           <ui-select-match class="ui-select-match" placeholder="Selecione os Insumos"> {{$item.nome}} </ui-select-match>
           <ui-select-choices class="ui-select-choices" repeat="insumo in insumosAll | filter:$select.search">
-            <img ng-src="{{insumo.imagens[0].arquivo}}" class="img-ui-select">
+            <img ng-src="{{insumo.imagens[0].caminhoArquivo}}" class="img-ui-select">
             {{insumo.nome}}
           </ui-select-choices>
         </ui-select>
@@ -45,7 +45,7 @@
               <tbody>
                 <tr ng-repeat="insumo in produto.insumos| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
                   <td>{{insumo.id}}</td>
-                  <td><img ng-src="{{insumo.imagens[0].arquivo}}" class="img-thumbnail img-list-view" /></td>
+                  <td><img ng-src="{{insumo.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view" /></td>
                   <td>{{insumo.nome}}</td>
                   
                   <td style="{{insumo.dtDesativacao ? 'color: red' : ''}}">

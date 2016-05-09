@@ -34,7 +34,7 @@
               <tbody>
                 <tr ng-repeat="rotulo in rotulos | filter : filtroGenerico | orderBy : campo : ascDsc">
                   <td>{{rotulo.id}}</td>
-                  <td ><img ng-src="{{rotulo.imagens[0].arquivo}}" class="img-thumbnail img-list-view"/></td>
+                  <td ><img ng-src="{{rotulo.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/></td>
                   <td>{{rotulo.nome}}</td>
                   <td style="{{rotulo.dtDesativacao ? 'color: red' : ''}}">
                     {{rotulo.dtDesativacao ? "Desativado" : " Ativo"}}

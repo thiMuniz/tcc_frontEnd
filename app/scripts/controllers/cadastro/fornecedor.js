@@ -261,15 +261,7 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
         };
         $scope.close(result);
       });
-    }
-    //pegar retorno API e definir padrão p/ result
-    //
-//    $modalInstance.close({
-//      fornecedor: $scope.fornecedor,
-//      status: "sucesso" //pegar retorno padrão da API ou protocolo HTTP
-////                            fornecedor: response.data,
-////                            status: response.status
-//    });
+    }    
   };
   
   // controle abas

@@ -34,7 +34,7 @@
               <tbody>
                 <tr ng-repeat="insumo in insumos | filter : filtroGenerico | orderBy : campo : ascDsc">
                   <td>{{insumo.id}}</td>
-                  <td ><img ng-src="{{insumo.imagens[0].arquivo}}" class="img-thumbnail img-list-view"/></td>
+                  <td ><img ng-src="{{insumo.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/></td>
                   <td>{{insumo.nome}}</td>
                   <td style="{{insumo.dtDesativacao ? 'color: red' : ''}}">
                     {{insumo.dtDesativacao ? "Desativado" : " Ativo"}}

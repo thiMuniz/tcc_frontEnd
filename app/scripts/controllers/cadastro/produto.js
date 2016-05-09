@@ -24,6 +24,7 @@ app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, Categor
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
       tituloDialog: "Cadastrar Produto",
       categorias: CategoriaResource.query(),
+      receitas: ReceitaResource.query(),
       produto: new ProdutoResource()
     };
     var modalInstance = $modal.open({
@@ -53,6 +54,7 @@ app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, Categor
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
       tituloDialog: "Editar Produto",
       categorias: CategoriaResource.query(),
+      receitas: ReceitaResource.query(),
       produto: angular.copy(produto)
     };
 
@@ -126,10 +128,6 @@ app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, Categor
     var itemResource;
     var templateUrl;
     switch(item){
-      case 'receita':
-        itemResource = ReceitaResource.query();
-        templateUrl = "views/cadastro/dialog/formReceitaProduto.html";
-        break;
       case 'selo':
         itemResource = SeloResource.query();
         templateUrl = "views/cadastro/dialog/formSeloProduto.html";
@@ -179,6 +177,7 @@ app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, Categor
     $scope.tituloDialog = params.tituloDialog;
     
     $scope.categoriasAll = params.categorias ? params.categorias  : null;
+    $scope.receitasAll = params.receitas ? params.receitas  : null;
     $scope.produto = params.produto;
     $scope.produtoInit = angular.copy($scope.produto);
         
@@ -214,12 +213,13 @@ app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, Categor
         resolve: {
           params: function () {
             return $scope.params;
-          }
+          } 
         }
       });
       modalInstance.result.then(function (imagemNova) {
         toastr.success("Imagem recebida", "Sucesso");
         $scope.produto.imagens = [imagemNova];
+        $scope.produto.imagens[0].principal = true; //mudar para form
       }, function(){
         toastr.warning("Imagem não recebida", "Atenção");
       });
@@ -264,7 +264,7 @@ app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, Categor
     };
     
     $scope.clear = function () {
-      $scope.produto = angular.copy($scope.produtoInit);      
+      $scope.produto = angular.copy($scope.produtoInit);
     };
     
     $scope.close = function(result){

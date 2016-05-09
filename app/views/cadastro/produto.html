@@ -35,7 +35,7 @@
               <tbody>
                 <tr ng-repeat="produto in produtos | filter : filtroGenerico | orderBy : campo : ascDsc">
                   <td>{{produto.id}}</td>
-                  <td ><img ng-src="{{produto.imagens[0].arquivo}}" class="img-thumbnail img-list-view"/></td>
+                  <td ><img ng-src="{{produto.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/></td>
                   <td>{{produto.nome}}</td>
                   <td>{{produto.categoria.nome}}</td>
                   <td style="{{produto.dtDesativacao ? 'color: red' : ''}}">
@@ -47,9 +47,6 @@
                     </a>&nbsp;
                     <a ng-click="openAtivarDesativarDialog(produto);" tooltip="{{produto.dtDesativacao ? CONST.ativar.tooltipAcao : CONST.desativar.tooltipAcao}}" >
                       <ng-md-icon icon="{{produto.dtDesativacao ? CONST.ativar.iconeAcao : CONST.desativar.iconeAcao}}"></ng-md-icon>
-                    </a>&nbsp;
-                    <a ng-click="openItemProdutoDialog(produto, 'insumo');" tooltip="Receitas">
-                      <ng-md-icon icon="grain"></ng-md-icon>
                     </a>&nbsp;
                     <a ng-click="openItemProdutoDialog(produto, 'selo');" tooltip="Selos">
                       <ng-md-icon icon="stars"></ng-md-icon>

@@ -34,7 +34,7 @@
               <tbody>
                 <tr ng-repeat="embalagem in embalagens | filter : filtroGenerico | orderBy : campo : ascDsc">
                   <td>{{embalagem.id}}</td>
-                  <td ><img ng-src="{{embalagem.imagens[0].arquivo}}" class="img-thumbnail img-list-view"/></td>
+                  <td ><img ng-src="{{embalagem.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/></td>
                   <td>{{embalagem.nome}}</td>
                   <td style="{{embalagem.dtDesativacao ? 'color: red' : ''}}">
                     {{embalagem.dtDesativacao ? "Desativado" : " Ativo"}}

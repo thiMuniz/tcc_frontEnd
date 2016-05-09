@@ -16,7 +16,7 @@
         <ui-select multiple ng-model="produto.selos" ng-show="showUiSelect" theme="bootstrap" ng-disabled="selo.id" append-to-body="false">
           <ui-select-match class="ui-select-match" placeholder="Selecione os Selos"> {{$item.nome}} </ui-select-match>
           <ui-select-choices class="ui-select-choices" repeat="selo in selosAll | filter:$select.search">
-            <img ng-src="{{selo.imagem.arquivo}}" class="img-ui-select">
+            <img ng-src="{{selo.imagem.caminhoArquivo}}" class="img-ui-select">
             {{selo.nome}}
           </ui-select-choices>
         </ui-select>
@@ -45,7 +45,7 @@
               <tbody>
                 <tr ng-repeat="selo in produto.selos| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
                   <td>{{selo.id}}</td>
-                  <td><img ng-src="{{selo.imagem.arquivo}}" class="img-thumbnail img-list-view" /></td>
+                  <td><img ng-src="{{selo.imagem.caminhoArquivo}}" class="img-thumbnail img-list-view" /></td>
                   <td>{{selo.nome}}</td>
                   
                   <td style="{{selo.dtDesativacao ? 'color: red' : ''}}">

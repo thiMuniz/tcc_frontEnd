@@ -3,7 +3,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
   var toastTitle = "Bem vindo programador!!";
   var toastMsg = "Boa sorte dessa vez...";
 
-  var index;
+//  var index;
   $scope.CONST = CONST;
   $scope.tituloView = "Cadastro de Clientes";
   $scope.headerLista = "Nenhum cliente foi encontrado";
@@ -11,34 +11,34 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
 
   toastr.warning(toastMsg, toastTitle);
 //  carregarClientesFront();
-  carregarClientesAPI();
+//  carregarClientesAPI();
  
-  function carregarClientesFront() {
-    var pessoa = {id: "1", tipoPessoa: "pf", email: "email PF", telefone1: "tel 1 PF", telefone2: "tel 2 PF", imagem: "img/adm/AdmThiagoMM.jpg", dtDesativacao: "", usuario: "User 1 PF", senha: "", permissao: ""};
-    var pf = {nome: "nome Pf", sobrenome: "sobrenome PF", rg: "000001", cpf: "1000000", dtNascimento: "01/01/2001"};    
-    var endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
-    var cliente1 = {pessoa: pessoa, pf: pf, endereco: endereco};
-    
-    pessoa = {id: "2", tipoPessoa: "pj", email: "email PJ", telefone1: "tel 1 PJ", telefone2: "tel 2 PJ", imagem: "img/adm/AdmEvertonWB.jpg", dtDesativacao: "", usuario: "User 2 PJ", senha: "", permissao: ""};
-    var pj = {razaoSocial: "razaoSocial PJ", nomeFantasia: "nomeFantasia PJ", ramoAtividade: "ramo ativ. PJ", cnpj: "000002", inscricaoEst: "2000000", dtAbertura: "02/02/2002", contato: "contato PJ", tipo: "cliente", hrMinEntrega: "09:00", hrMaxEntrega: "17:00"};
-    endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
-    var cliente2 = {pessoa: pessoa, pj: pj, endereco: endereco};
-    
-    $scope.clientes = [
-      cliente1,
-      cliente2
-    ];
-  }
+//  function carregarClientesFront() {
+//    var pessoa = {id: "1", tipoPessoa: "pf", email: "email PF", telefone1: "tel 1 PF", telefone2: "tel 2 PF", imagem: "img/adm/AdmThiagoMM.jpg", dtDesativacao: "", usuario: "User 1 PF", senha: "", permissao: ""};
+//    var pf = {nome: "nome Pf", sobrenome: "sobrenome PF", rg: "000001", cpf: "1000000", dtNascimento: "01/01/2001"};    
+//    var endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
+//    var cliente1 = {pessoa: pessoa, pf: pf, endereco: endereco};
+//    
+//    pessoa = {id: "2", tipoPessoa: "pj", email: "email PJ", telefone1: "tel 1 PJ", telefone2: "tel 2 PJ", imagem: "img/adm/AdmEvertonWB.jpg", dtDesativacao: "", usuario: "User 2 PJ", senha: "", permissao: ""};
+//    var pj = {razaoSocial: "razaoSocial PJ", nomeFantasia: "nomeFantasia PJ", ramoAtividade: "ramo ativ. PJ", cnpj: "000002", inscricaoEst: "2000000", dtAbertura: "02/02/2002", contato: "contato PJ", tipo: "cliente", hrMinEntrega: "09:00", hrMaxEntrega: "17:00"};
+//    endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
+//    var cliente2 = {pessoa: pessoa, pj: pj, endereco: endereco};
+//    
+//    $scope.clientes = [
+//      cliente1,
+//      cliente2
+//    ];
+//  }
 
-  $scope.ordenar = function (campo) {
-    $scope.campo = campo;
-    $scope.ascDsc = !$scope.ascDsc;
-  };
-
-  function carregarClientesAPI() {
+  $scope.atualizarLista = function(){
 //    $scope.clientes = ClienteResource.query();
     $scope.clientes = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
   }
+  
+  $scope.ordenar = function (campo) {
+    $scope.campo = campo;
+    $scope.ascDsc = !$scope.ascDsc;
+  };  
 
   $scope.openInsertDialog = function () {
     $scope.cliente = new PessoaResource();
@@ -67,26 +67,16 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
       }
     });
     modalInstance.result.then(function (result) {
-      if (result.cliente) {
-        if (result.status == "sucesso") {//Se retorno da API com sucesso add a cliente à lista
-          $scope.clientes.push(angular.copy(result.cliente));
-//                  $scope.$apply();
-          toastMsg = "Cliente " + result.cliente.nome + " cadastrado com sucesso!";
-          toastr.success(toastMsg, "successo");
-        } else {//Senão mostra msg erro                  
-          toastMsg = "Erro ao cadastrar Cliente " + result.cliente.dsCurta + " !";
-          toastr.errror(toastMsg, "erro");
-        }
-      } else {
-        toastr.warning("Formulário em branco", "Não cadastrado!");
-      }
-    }, function () {
-      toastr.warning("Nada aconteceu", "Cancelado");
+      if (result.status == "sucesso") {
+//        $scope.rotulos[index] = result.rotulo;
+        $scope.atualizarLista();
+//        scope.$apply(); 
+      } 
     });
   };
 
   $scope.openUpdateDialog = function (cliente) {
-    index = $scope.clientes.indexOf($filter('filter')($scope.clientes, cliente, true)[0]);
+//    index = $scope.clientes.indexOf($filter('filter')($scope.clientes, cliente, true)[0]);
     $scope.params = {
       formTipo: 'update',
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
@@ -104,27 +94,17 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
         }
       }
     });
-    modalInstance.result.then(function (result) {//quando foi fechado enviando dados
-      if (result.cliente) {
-        if (result.status == "sucesso") {//Se retorno da API com sucesso add a cliente à lista
-          $scope.clientes[index] = result.cliente;
-//                  $scope.$apply(); 
-          toastMsg = "Cliente " + result.cliente.nome + " editado com sucesso!";
-          toastr.success(toastMsg, "sucesso");
-        } else {//Senão mostra msg erro                  
-          toastMsg = "Erro ao editar Cliente " + result.cliente.nome + " !";
-          toastr.error(toastMsg, "erro");
-        }
-      } else {
-        toastr.warning("Formulário em branco", "Não cadastrado!");
-      }
-    }, function () {
-      toastr.warning("Nada aconteceu", "Cancelado");
+    modalInstance.result.then(function (result) {
+      if (result.status == "sucesso") {
+//        $scope.rotulos[index] = result.rotulo;
+        $scope.atualizarLista();
+//        scope.$apply(); 
+      } 
     });
   };
 
   $scope.openAtivarDesativarDialog = function (cliente) {
-    index = $scope.clientes.indexOf($filter('filter')($scope.clientes, cliente, true)[0]);
+//    index = $scope.clientes.indexOf($filter('filter')($scope.clientes, cliente, true)[0]);
     swal({
       title: "Deseja mesmo" + (cliente.dtDesativacao ? " ativar" : " desativar") + " o cliente " + (cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia) + "?",
       text: "Você poderá" + (cliente.dtDesativacao ? " desativar" : " ativar") + " o cliente novamente!",
@@ -140,7 +120,8 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
 //      cliente.dtDesativacao = new Date();
       cliente.dtDesativacao = (cliente.dtDesativacao ? null : new Date());
       ClienteResource.update(cliente, function () {
-        $scope.clientes[index] = cliente;
+//        $scope.clientes[index] = cliente;
+        $scope.atualizarLista();
         toastMsg = (cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia) + (cliente.dtDesativacao ? " desativado!" : " ativado!");
         toastr.success(toastMsg, "Sucesso!");
       }, function () {
@@ -169,76 +150,52 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
       }
     });
   };
+  
+  $scope.atualizarLista();
 
 })
-.controller('ClienteDialogCtrl', function ($scope, $modalInstance, $http, params, CONST, toastr) {
+.controller('ClienteDialogCtrl', function ($scope, $modal, $modalInstance, $http, params, CONST, toastr) {
   $scope.tipoPessoa;
-  $scope.init = function () {
-    $scope.CONST = CONST;
-    $scope.formTipo = params.formTipo;
-    $scope.iconeHeaderDialog = params.iconeHeaderDialog;
-    $scope.tituloDialog = params.tituloDialog;
-    
-//    if (params.cliente) {      
-//      
-//      $scope.cliente = angular.copy(params.cliente);
-//      
-//      console.log("params.cliente");
-//      console.log(params.cliente);
-////      $scope.cliente = params.cliente;      
-//      console.log("scope.cliente");
-//      console.log($scope.cliente);
-////      $scope.clienteInit = angular.copy($scope.cliente);
-////      console.log("clienteInit");
-////      console.log($scope.clienteInit);
-//    } else {
-//      //        $scope.cliente = new ClienteResource();
-//      
-//    }
-    
-    $scope.cliente = angular.copy(params.cliente);
-    $scope.clienteInit = angular.copy(params.cliente);
-    
-    $scope.tipoPessoa = $scope.cliente.pf ? "pf" : "pj";
-    
-    $scope.toogleTipoPessoa();
-      
-    $scope.sexos = [
-      {nome: "Masculino", valor: "masculino"},
-      {nome: "Feminino", valor: "feminino"}
-    ];
-  }
-  
 
-//  $scope.toogleTipoPessoa = function () {
-//    var abaPF = 'Passo 2 - Dados Pessoa Física';
-//    var abaPJ = 'Passo 2 - Dados Pessoa Jurídica';
-//    if ($scope.cliente.pf) {
-//      delete $scope.cliente.pj;
-//      $scope.cliente.pf = $scope.cliente.pf;
-//      $scope.steps[1] = abaPF;
-//    } else {
-//      delete $scope.cliente.pf;
-//      $scope.cliente.pj = $scope.cliente.pj;
-//      $scope.steps[1] = abaPJ;
-//    }
-//  };
+  $scope.CONST = CONST;
+  $scope.formTipo = params.formTipo;
+  $scope.iconeHeaderDialog = params.iconeHeaderDialog;
+  $scope.tituloDialog = params.tituloDialog;
+  $scope.abaPF = 'Passo 2 - Dados Pessoa Física';
+  $scope.abaPJ = 'Passo 2 - Dados Pessoa Jurídica';
+
+  $scope.cliente = angular.copy(params.cliente);
+  $scope.clienteInit = angular.copy(params.cliente);
+
+  $scope.sexos = [
+    {nome: "Masculino", valor: "masculino"},
+    {nome: "Feminino", valor: "feminino"}
+  ];
+  
+  $scope.initAbas = function () {
+    $scope.isPf = $scope.cliente.pj ? false : true;
+    $scope.setAbaPfPj();
+  };
     
   $scope.toogleTipoPessoa = function () {
     console.log($scope.tipoPessoa);
-    var abaPF = 'Passo 2 - Dados Pessoa Física';
-    var abaPJ = 'Passo 2 - Dados Pessoa Jurídica';
-    if ($scope.tipoPessoa == 'pf') {
-      delete $scope.cliente.pj;
-      $scope.cliente.pf = $scope.clienteInit.pf;
-      $scope.steps[1] = abaPF;
-    } else {
-      delete $scope.cliente.pf;
-      $scope.cliente.pj = $scope.clienteInit.pj;
-      $scope.steps[1] = abaPJ;
-    }
+    $scope.isPf = !$scope.isPf;
+    $scope.setAbaPfPj();
   };
-
+  
+  $scope.setAbaPfPj = function(){
+    if($scope.isPf){
+      delete $scope.cliente.pj;
+      $scope.tipoPessoa = "pf";
+      $scope.cliente.pf = $scope.clienteInit.pf;
+      $scope.steps[1] = $scope.abaPF;
+    }else{
+      delete $scope.cliente.pf;
+      $scope.tipoPessoa = "pj";
+      $scope.cliente.pj = $scope.clienteInit.pj;
+      $scope.steps[1] = $scope.abaPJ;
+    }
+  }
 
   //valida email
   $scope.email = function () {
@@ -254,50 +211,78 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
     expect(valid.getText()).toContain('formCliente.input.$valid = false');
   };
 
-
   $scope.carregarCep = function () {
     $http.get(CONST.ws.urlCep + $scope.cliente.endereco.cep + '/json/'
             ).success(function (endereco) {
       $scope.cliente.endereco = endereco;
-//              toastr.info(endereco);
     }).error(function (endereco) {
       console.log("deu ruim - endereco" + endereco);
-//                        carregarClientesFront();
     });
   };
-
-  $scope.clear = function () {
-    $scope.cliente = angular.copy($scope.clienteInit);
+  
+  $scope.openImagemDialog = function(){
+    $scope.params = {
+      formTipo: $scope.formTipo,
+      iconeHeaderDialog: $scope.cliente.imagem ? CONST.editar.iconeHeaderDialog : CONST.inserir.iconeHeaderDialog,
+      tituloDialog: $scope.cliente.imagem ? "Editar Imagem" : "Cadastrar Imagem",
+      imagemInit: angular.copy(params.cliente.imagem ? params.cliente.imagem : null)
+    };
+    var modalInstance = $modal.open({
+      templateUrl: "views/cadastro/dialog/formImagem.html",
+      controller: "ImagemDialogCtrl",
+      backdrop: 'static',
+      size: 'lg',
+      resolve: {
+        params: function () {
+          return $scope.params;
+        }
+      }
+    });
+    modalInstance.result.then(function (imagemNova) {
+      toastr.success("Imagem recebida", "Sucesso");
+      $scope.cliente.imagem = imagemNova;
+    }, function(){
+      toastr.warning("Imagem não recebida", "Atenção");
+    });
   };
-
+  
   $scope.submit = function () {
-
-    /*
-     //chamar serviço API
-     $http.post(CONST.ws.urlSGP+'cliente/', 
-     $scope.cliente                        
-     ).then(function successCallback(response) {
-     console.log("deu bom"+response.data);
-     }, function errorCallback(response) {
-     console.log("deu ruim"+response);
-     console.log($scope.cliente);
-     });
-     */
-
-    //pegar retorno API e definir padrão p/ result
-    //
-    $modalInstance.close({
-      cliente: $scope.cliente,
-      status: "sucesso" //pegar retorno padrão da API ou protocolo HTTP
-//                            cliente: response.data,
-//                            status: response.status
-    });
+    if ($scope.formTipo == 'insert') { //insert
+      $scope.cliente.$save(function(){
+        var toastMsg = "Cliente " + ($scope.cliente.pf ? $scope.cliente.pf.nome : $scope.cliente.pj.nomeFantasia) + " cadastrado com sucesso!";
+        toastr.success(toastMsg, "successo");
+        var result = {
+          cliente: $scope.cliente, 
+          status: "sucesso"
+        };
+        $scope.close(result);
+      }, function(){
+        var toastMsg = "Erro ao cadastrar Cliente " + ($scope.cliente.pf ? $scope.cliente.pf.nome : $scope.cliente.pj.nomeFantasia);
+        toastr.error(toastMsg, "Erro");
+        var result = {
+          status: "erro"
+        };
+        $scope.close(result);
+      });
+    } else { //update
+      $scope.cliente.$update(function(){
+        var toastMsg = "Cliente " + ($scope.cliente.pf ? $scope.cliente.pf.nome : $scope.cliente.pj.nomeFantasia) + " editado com sucesso!";
+        toastr.success(toastMsg, "Sucesso");
+        var result = {
+          cliente: $scope.cliente, 
+          status: "sucesso"
+        };
+        $scope.close(result);
+      }, function(){
+        var toastMsg = "Erro ao editar Cliente " + ($scope.cliente.pf ? $scope.cliente.pf.nome : $scope.cliente.pj.nomeFantasia);
+        toastr.error(toastMsg, "Erro");
+        var result = {
+          status: "erro"
+        };
+        $scope.close(result);
+      });
+    }
   };
-
-  $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
-  };
-
 
   // controle abas
   $scope.steps = [
@@ -346,5 +331,17 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
     }
   };
   // Fim controle abas
+  
+  $scope.clear = function () {
+    $scope.cliente = angular.copy($scope.clienteInit);
+  };
+  
+  $scope.close = function(result){
+    $modalInstance.close(result);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
 
 });

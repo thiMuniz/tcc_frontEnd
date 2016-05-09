@@ -31,23 +31,7 @@
         <div class="col-sm-7">
           <input class="form-control" type="text" id="estoqueMinimo" placeholder="Quantidade mínima estoque" ng-model="rotulo.estoqueMinimo">
         </div>
-      </div>
-<!--  inicio teste img-->
-<!--      <div class="form-group"> 
-        <label for="imagem" class="col-sm-3 control-label">
-          <button type="button" class="btn btn-primary btn-sm" ngf-select ng-model="imgSelecionada" accept="image/*">
-            <ng-md-icon icon="file_upload" ></ng-md-icon> &nbsp; Imagem
-          </button>
-        </label>
-        <div class="col-sm-5 form-control cropAreaSgp" id="imagem" ng-model="imgSelecionada" ngf-pattern="image/*" ngf-drop>
-            <p>Arraste e solte a imagem aqui ou clique no botão ao lado para localizar no computador</p>
-          <img-crop image="imgSelecionada  | ngfDataUrl" result-image="imagemAux.arquivo" ng-init="imagemAux.arquivo"></img-crop> rotulo.imagens[0].arquivo 
-        </div>
-        <div class="col-sm-4">
-          <img ng-src="{{imagemAux.arquivo}}" />
-        </div>
-      </div>-->
-<!--fim teste img-->        
+      </div>       
       <button type="button" class="btn btn-primary" ng-click="openImagemDialog()">
         <ng-md-icon icon="photo_camera"></ng-md-icon> Imagem
       </button>

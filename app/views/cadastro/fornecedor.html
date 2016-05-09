@@ -35,7 +35,7 @@
               <tbody>
                 <tr ng-repeat="fornecedor in fornecedores| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
                   <td>{{fornecedor.id}}</td>
-                  <td><img ng-src="{{fornecedor.imagem.arquivo}}" class="img-thumbnail img-list-view" /></td>
+                  <td><img ng-src="{{fornecedor.imagem.caminhoArquivo}}" class="img-thumbnail img-list-view" /></td>
                   <td>{{fornecedor.pf ? fornecedor.pf.nome : fornecedor.pj.nomeFantasia}}</td>
                   <td>{{fornecedor.pf ? 'Física' : 'Jurídica'}}</td>
                   <td style="{{fornecedor.dtDesativacao ? 'color: red' : ''}}">

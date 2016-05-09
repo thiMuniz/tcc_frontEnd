@@ -91,13 +91,13 @@ app.controller('RotuloCtrl', function ($scope, $modal, RotuloResource, PessoaRes
       RotuloResource.update(rotulo, function(){
 //          $scope.rotulos[index] = rotulo;
           $scope.atualizarLista();
-          toastMsg = rotulo.nome + (rotulo.dtDesativacao ? " desativada!" : " ativada!");
+          toastMsg = rotulo.nome + (rotulo.dtDesativacao ? " desativado!" : " ativado!");
           toastr.success(toastMsg, "Sucesso!");
         }, function(){
-          toastMsg = rotulo.nome + " não foi " + (rotulo.dtDesativacao ? "ativada!" : "desativada!");
+          toastMsg = rotulo.nome + " não foi " + (rotulo.dtDesativacao ? "ativado!" : "desativado!");
           toastr.error(toastMsg, "Erro!");
         });
-    });    
+    });
   };
 
   $scope.openInfoDialog = function (rotulo) {    

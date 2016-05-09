@@ -4,7 +4,7 @@
     <h4 class="modal-title" id="formModalLabel">
       <ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
     </h4>
-    <!--Debug Produto {{produto}}-->
+    Debug Produto {{produto}}
   </div>
   <div class="modal-body">
     <form class="form-horizontal" role="form" name="formRotulo">
@@ -38,6 +38,14 @@
         <label for="dsDetalhada" class="col-sm-3 control-label">Descrição Detalhada</label>
         <div class="col-sm-7">
           <input class="form-control" type="text" id="dsDetalhada" placeholder="Descrição detelhada da produto" ng-model="produto.dsDetalhada">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="receita" class="col-sm-3 control-label">Receita</label>
+        <div class="col-sm-7">
+          <select class='form-control' id="material" ng-model='produto.receita' ng-options="receita as receita.nome for receita in receitasAll">
+            <option value='' style='color: #999; opacity: 1;'> Selecione uma receita </option>
+          </select>
         </div>
       </div>
       <div class="form-group">
@@ -75,8 +83,7 @@
         <div class="col-sm-7">
           <input class="form-control" type="text" id="estoqueMinimo" placeholder="Quantidade mínima estoque" ng-model="produto.estoqueMinimo">
         </div>
-      </div>
-      
+      </div>      
       <button type="button" class="btn btn-primary" ng-click="openImagemDialog()">
         <ng-md-icon icon="photo_camera"></ng-md-icon> Imagem
       </button>

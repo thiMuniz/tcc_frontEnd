@@ -16,7 +16,7 @@
         <ui-select multiple ng-model="temp.fornecedoresItem" ng-change="atualizarLista()" ng-show="showUiSelect" theme="bootstrap" ng-disabled="fornecedor.id" append-to-body="false">
           <ui-select-match class="ui-select-match" placeholder="Selecione os Fornecedores"> {{$item.pj.nomeFantasia}} </ui-select-match>
           <ui-select-choices class="ui-select-choices" repeat="fornecedor in fornecedoresAll | filter:$select.search">
-            <img ng-src="{{fornecedor.imagem.arquivo}}" class="img-ui-select">
+            <img ng-src="{{fornecedor.imagem.caminhoArquivo}}" class="img-ui-select">
             {{fornecedor.pj.nomeFantasia}}
           </ui-select-choices>
         </ui-select>
@@ -46,7 +46,7 @@
               <tbody>
                 <tr ng-repeat="fornecedor in temp.fornecedoresItem| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
                   <td>{{fornecedor.id}}</td>
-                  <td><img ng-src="{{fornecedor.imagem.arquivo}}" class="img-thumbnail img-list-view" /></td>
+                  <td><img ng-src="{{fornecedor.imagem.caminhoArquivo}}" class="img-thumbnail img-list-view" /></td>
                   <td>{{fornecedor.pj.nomeFantasia}}</td>
                   
                   <td style="{{fornecedor.dtDesativacao ? 'color: red' : ''}}">

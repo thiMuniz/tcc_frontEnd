@@ -1,8 +1,8 @@
-<div class="modal-content" ng-init="init();">
+<div class="modal-content" ng-init="initAbas()">
   <div class="modal-header">    
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>
-    debug cliente{{cliente}}
+    <!--debug cliente{{cliente}}-->
   </div>
   <div class="modal-body">
     <form class="form-horizontal" role="form" name="formCliente">
@@ -25,10 +25,10 @@
             <label for="tipoPessoa" class="col-sm-3 control-label">Tipo de Pessoa</label>
             <div class="col-sm-7">
               <label class="radio-inline">
-                <input id="tipoPessoaPf" name="tipoPessoa" ng-model="tipoPessoa" type="radio" value="pf" ng-click="toogleTipoPessoa()" ng-disabled="formTipo == 'update'"> Física <!-- ng-checked="tipoPessoa == 'pf' || !tipoPessoa" -->
+                <input id="tipoPessoaPf" name="tipoPessoa" ng-model="tipoPessoa" type="radio" value="pf" ng-click="toogleTipoPessoa()" > Física <!-- ng-checked="tipoPessoa == 'pf' || !tipoPessoa" -->
               </label>
               <label class="radio-inline">
-                <input id="tipoPessoaPj" name="tipoPessoa" ng-model="tipoPessoa" type="radio" value="pj" ng-click="toogleTipoPessoa()" ng-disabled="formTipo == 'update'"> Jurídica <!--  ng-checked="tipoPessoa == 'pj'" -->
+                <input id="tipoPessoaPj" name="tipoPessoa" ng-model="tipoPessoa" type="radio" value="pj" ng-click="toogleTipoPessoa()" > Jurídica <!--  ng-checked="tipoPessoa == 'pj'" -->
               </label>
             </div>
           </div>
@@ -63,24 +63,9 @@
               <input class="form-control" type="text" id="telefone2" placeholder="Telefone 2" ng-model="cliente.telefone2" >
             </div>
           </div>
-          <!--  inicio teste img-->
-          <div class="form-group"> 
-            <label for="imagem" class="col-sm-3 control-label">
-                <button type="button" class="btn btn-primary btn-sm" ngf-select ng-model="imgSelecionada" accept="image/">
-                  <ng-md-icon icon="file_upload" ></ng-md-icon> &nbsp; Imagem
-                </button>
-            </label>
-            <div class="col-sm-5 form-control cropAreaSgp" id="imagem" ng-model="imgSelecionada" ngf-pattern="image/" ngf-drop>
-              <img-crop image="imgSelecionada  | ngfDataUrl" result-image="cliente.imagem" ng-init="cliente.imagem">
-                Arraste e solte a imagem ou clique para localizar no computador
-              </img-crop>        
-            </div>
-            <div class="col-sm-4">
-              <img ng-src="{{cliente.imagem}}" />
-            </div>
-          </div>
-          <!--fim teste img-->
-
+          <button type="button" class="btn btn-primary" ng-click="openImagemDialog()">
+            <ng-md-icon icon="photo_camera"></ng-md-icon> Imagem
+          </button>
 
         </div><!-- /.ABA 1 - GERAL -->
 
@@ -100,7 +85,7 @@
           <div class="form-group">
             <label for="sexo" class="col-sm-3 control-label">Sexo</label>
             <div class="col-sm-7">
-              <select class='form-control' id="sexo" ng-model='cliente.pf.sexo' ng-options="sexo.nome as sexo.nome  for sexo in sexos" ng-disabled="formTipo == 'update'">
+              <select class='form-control' id="sexo" ng-model='cliente.pf.sexo' ng-options="sexo.nome as sexo.nome  for sexo in sexos" >
                 <option value='' style='color: #999; opacity: 1;'> Selecione </option>
               </select>
             </div>
@@ -108,13 +93,13 @@
           <div class="form-group">
             <label for="rg" class="col-sm-3 control-label">RG</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="rg" placeholder="" ng-model="cliente.pf.rg" ng-disabled="formTipo == 'update'">
+              <input class="form-control" type="text" id="rg" placeholder="" ng-model="cliente.pf.rg" > <!-- ng-disabled="formTipo == 'update'" -->
             </div>
           </div>
           <div class="form-group">
             <label for="cpf" class="col-sm-3 control-label">Cpf</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="cpf" placeholder="" ng-model="cliente.pf.cpf" ng-disabled="formTipo == 'update'">
+              <input class="form-control" type="text" id="cpf" placeholder="" ng-model="cliente.pf.cpf" >
             </div>
           </div>
           <div class="form-group">
@@ -148,20 +133,20 @@
           <div class="form-group">
             <label for="cnpj" class="col-sm-3 control-label">Cnpj</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="cnpj" placeholder="" ng-model="cliente.pj.cnpj" ng-disabled="formTipo == 'update'">
+              <input class="form-control" type="text" id="cnpj" placeholder="" ng-model="cliente.pj.cnpj" >
             </div>
           </div>     
           <div class="form-group">
             <label for="inscricaoEst" class="col-sm-3 control-label">Inscricao Estadual</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="inscricaoEst" placeholder="" ng-model="cliente.pj.inscricaoEst" ng-disabled="formTipo == 'update'">
+              <input class="form-control" type="text" id="inscricaoEst" placeholder="" ng-model="cliente.pj.inscricaoEst" >
             </div>
           </div> 
 
           <div class="form-group">
             <label for="dtAbertura" class="col-sm-3 control-label">Data Abertura</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="dtAbertura" placeholder="" ng-model="cliente.pj.dtAbertura" ng-disabled="formTipo == 'update'">
+              <input class="form-control" type="text" id="dtAbertura" placeholder="" ng-model="cliente.pj.dtAbertura" >
             </div>
           </div>  
           <div class="form-group">
