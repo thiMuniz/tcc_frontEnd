@@ -50,9 +50,16 @@
           <input class="form-control" type="text" id="estoqueMinimo" placeholder="Quantidade mínima estoque" ng-model="insumo.estoqueMinimo">
         </div>
       </div>
-      <button type="button" class="btn btn-primary" ng-click="openImagemDialog()">
-        <ng-md-icon icon="photo_camera"></ng-md-icon> Imagem
-      </button>      
+      <div class="form-group">
+        <label for="imagens" class="col-sm-3 control-label">
+          <button type="button" class="btn btn-primary" ng-click="openImagemDialog()">
+            <ng-md-icon icon="photo_camera"></ng-md-icon> Imagem
+          </button>
+        </label>
+        <div class="col-sm-7" id="imagens">
+          <img ng-src="{{insumo.imagens[0].caminhoArquivo ? insumo.imagens[0].caminhoArquivo : insumo.imagens[0].arquivo}}" class="img-thumbnail img-form-img" />
+        </div>
+      </div>
     </form>
 
   </div><!-- /.modal body-->

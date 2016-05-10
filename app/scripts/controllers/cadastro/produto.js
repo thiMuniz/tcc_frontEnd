@@ -3,13 +3,16 @@ app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, Categor
   
   var toastMsg = "";
   $scope.CONST = CONST;
-  $scope.tituloView = "Cadastro de Produtos dos Produtos";
+  $scope.tituloView = "Cadastro de Produtos";
   $scope.headerLista = "Nenhum Produto foi encontrado";
   $scope.labelCadastrarBtn = "Novo Produto";
     
   $scope.atualizarLista = function(){
     $scope.produtos = ProdutoResource.query();
-    //incluir spinner enquanto esta carregando a lista
+//    $scope.produtos = [
+//      {nome:"prod1", imagens:[{id:1, caminhoArquivo:"img/produto/max_e_bafinho.jpg"}, {id:2, caminhoArquivo:"img/produto/rabujento.jpg"}]},
+//      {nome:"prod2", imagens:[{id:2, caminhoArquivo:"img/produto/rabujento.jpg"}]}
+//    ];
   };
   
   $scope.ordenar = function (campo) {
@@ -26,6 +29,7 @@ app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, Categor
       categorias: CategoriaResource.query(),
       receitas: ReceitaResource.query(),
       produto: new ProdutoResource()
+//      produto: {imagens: ""}
     };
     var modalInstance = $modal.open({
       templateUrl: 'views/cadastro/dialog/formProduto.html',
@@ -181,11 +185,8 @@ app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, Categor
     $scope.produto = params.produto;
     $scope.produtoInit = angular.copy($scope.produto);
         
-    if(params.formTipo == 'lookupItem'){      
+    if(params.formTipo == 'lookupItem'){
       switch(params.item){
-        case 'receita':
-          $scope.receitasAll = params.itemResource;
-          break;
         case 'selo':
           $scope.selosAll = params.itemResource;
           break;
@@ -203,7 +204,8 @@ app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, Categor
         formTipo: $scope.formTipo,
         iconeHeaderDialog: $scope.produto.imagens ? CONST.editar.iconeHeaderDialog : CONST.inserir.iconeHeaderDialog,
         tituloDialog: $scope.produto.imagens ? "Editar Imagem" : "Cadastrar Imagem",
-        imagemInit: angular.copy(params.produto.imagens ? params.produto.imagens[0] : null)
+        imagens: $scope.produto.imagens ? angular.copy($scope.produto.imagens) : [],
+        maxImagens: 4
       };
       var modalInstance = $modal.open({
         templateUrl: "views/cadastro/dialog/formImagem.html",
@@ -216,10 +218,9 @@ app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, Categor
           } 
         }
       });
-      modalInstance.result.then(function (imagemNova) {
+      modalInstance.result.then(function (imagens) {
         toastr.success("Imagem recebida", "Sucesso");
-        $scope.produto.imagens = [imagemNova];
-        $scope.produto.imagens[0].principal = true; //mudar para form
+        $scope.produto.imagens = imagens;
       }, function(){
         toastr.warning("Imagem não recebida", "Atenção");
       });

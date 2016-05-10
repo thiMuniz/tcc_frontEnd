@@ -205,7 +205,8 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
       formTipo: $scope.formTipo,
       iconeHeaderDialog: $scope.iconeHeaderDialog,
       tituloDialog: params.formTipo == 'insert' ? "Cadastrar Imagem" : "Editar Imagem",
-      imagemInit: angular.copy($scope.fornecedor.imagem)
+      imagens: $scope.fornecedor.imagem ? [angular.copy($scope.fornecedor.imagem)] : [],
+      maxImagens: 1
     };
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formImagem.html",
@@ -218,9 +219,9 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
         }
       }
     });
-    modalInstance.result.then(function (imagemNova) {
+    modalInstance.result.then(function (imagens) {
       toastr.success("Imagem recebida", "Sucesso");
-      $scope.fornecedor.imagem = imagemNova;        
+      $scope.fornecedor.imagem = imagens[0];        
     }, function(){
       toastr.warning("Imagem não recebida", "Atenção");
     });

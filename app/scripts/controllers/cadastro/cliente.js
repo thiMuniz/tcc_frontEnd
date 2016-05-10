@@ -10,25 +10,6 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
   $scope.labelCadastrarBtn = "Novo Cliente";
 
   toastr.warning(toastMsg, toastTitle);
-//  carregarClientesFront();
-//  carregarClientesAPI();
- 
-//  function carregarClientesFront() {
-//    var pessoa = {id: "1", tipoPessoa: "pf", email: "email PF", telefone1: "tel 1 PF", telefone2: "tel 2 PF", imagem: "img/adm/AdmThiagoMM.jpg", dtDesativacao: "", usuario: "User 1 PF", senha: "", permissao: ""};
-//    var pf = {nome: "nome Pf", sobrenome: "sobrenome PF", rg: "000001", cpf: "1000000", dtNascimento: "01/01/2001"};    
-//    var endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
-//    var cliente1 = {pessoa: pessoa, pf: pf, endereco: endereco};
-//    
-//    pessoa = {id: "2", tipoPessoa: "pj", email: "email PJ", telefone1: "tel 1 PJ", telefone2: "tel 2 PJ", imagem: "img/adm/AdmEvertonWB.jpg", dtDesativacao: "", usuario: "User 2 PJ", senha: "", permissao: ""};
-//    var pj = {razaoSocial: "razaoSocial PJ", nomeFantasia: "nomeFantasia PJ", ramoAtividade: "ramo ativ. PJ", cnpj: "000002", inscricaoEst: "2000000", dtAbertura: "02/02/2002", contato: "contato PJ", tipo: "cliente", hrMinEntrega: "09:00", hrMaxEntrega: "17:00"};
-//    endereco = {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""};
-//    var cliente2 = {pessoa: pessoa, pj: pj, endereco: endereco};
-//    
-//    $scope.clientes = [
-//      cliente1,
-//      cliente2
-//    ];
-//  }
 
   $scope.atualizarLista = function(){
 //    $scope.clientes = ClienteResource.query();
@@ -44,16 +25,10 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
     $scope.cliente = new PessoaResource();
     $scope.cliente.perfil = $stateParams.perfil;
     $scope.params = {
-      formTipo: 'insert',
-      iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
-      tituloDialog: "Cadastrar Cliente",
-            cliente: $scope.cliente
-//      cliente: {
-//        pessoa: {tipoPessoa: "pj", email: "", telefone1: "", telefone2: "", imagem: "", dtDesativacao: "", usuario: "", senha: "", permissao: ""},
-//        pf: {nome: "", sobrenome: "", rg: "", cpf: "", dtNascimento: ""},
-//        pj: {razaoSocial: "", nomeFantasia: "", ramoAtividade: "", cnpj: "", inscricaoEst: "", dtAbertura: "", contato: "", tipo: "", hrMinEntrega: "", hrMaxEntrega: ""}, 
-//        endereco: {cep: "", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}
-//      }
+    formTipo: 'insert',
+    iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
+    tituloDialog: "Cadastrar Cliente",
+    cliente: $scope.cliente
     };
     var modalInstance = $modal.open({
       templateUrl: 'views/cadastro/dialog/formCliente.html',
@@ -225,7 +200,8 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
       formTipo: $scope.formTipo,
       iconeHeaderDialog: $scope.cliente.imagem ? CONST.editar.iconeHeaderDialog : CONST.inserir.iconeHeaderDialog,
       tituloDialog: $scope.cliente.imagem ? "Editar Imagem" : "Cadastrar Imagem",
-      imagemInit: angular.copy(params.cliente.imagem ? params.cliente.imagem : null)
+      imagens: $scope.cliente.imagem ? [angular.copy($scope.cliente.imagem)] : [],
+      maxImagens: 1
     };
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formImagem.html",
@@ -238,9 +214,9 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
         }
       }
     });
-    modalInstance.result.then(function (imagemNova) {
+    modalInstance.result.then(function (imagens) {
       toastr.success("Imagem recebida", "Sucesso");
-      $scope.cliente.imagem = imagemNova;
+      $scope.cliente.imagem = imagens[0];
     }, function(){
       toastr.warning("Imagem não recebida", "Atenção");
     });

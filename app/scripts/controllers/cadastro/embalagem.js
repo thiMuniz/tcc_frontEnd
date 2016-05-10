@@ -10,60 +10,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, EmbalagemResource, Pes
   $scope.labelCadastrarBtn = "Nova Embalagem";
   
   $scope.atualizarLista = function(){
-    $scope.embalagens = EmbalagemResource.query();
-/*
-    $scope.embalagens = [
-    { id: "1", nome: "emb 1", descricao: "Detalhes da emb 1", 
-      imagem:{
-        id:"",
-        arquivo:"img/temp/embalagem_papel_kraft_1.jpg",
-        principal:""
-      }, 
-      fornecedores:[
-        {id: "1", tipoPessoa: "pj", email: "email PJ1", telefone1: "tel 1 PJ1", telefone2: "tel 2 PJ1", imagem: "img/temp/imgFornecedor1.png", dtDesativacao: "1", usuario: "User 1 PJ1", senha: "", permissao: "",
-          pj: {razaoSocial: "razaoSocial PJ1", nomeFantasia: "nomeFantasia PJ1", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ1", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-          endereco: {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}},
-        {id: "2", tipoPessoa: "pj", email: "email PJ2", telefone1: "tel 1 PJ2", telefone2: "tel 2 PJ2", imagem: "img/temp/imgFornecedor2.png", dtDesativacao: "1", usuario: "User 2 PJ2", senha: "", permissao: "",
-          pj: {razaoSocial: "razaoSocial PJ2", nomeFantasia: "nomeFantasia PJ2", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ2", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-          endereco: {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}},
-        {id: "3", tipoPessoa: "pj", email: "email PJ3", telefone1: "tel 1 PJ3", telefone2: "tel 2 PJ3", imagem: "img/temp/imgFornecedor3.png", dtDesativacao: "1", usuario: "User 3 PJ3", senha: "", permissao: "",
-          pj: {razaoSocial: "razaoSocial PJ3", nomeFantasia: "nomeFantasia PJ3", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ3", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-          endereco: {cep: "83040", logradouro: "", numero: "", complemento: "", bairro: "", localidade: "", uf: ""}},
-    ]},
-    {id: "2", nome: "emb 2", descricao: "Detalhes da emb 2", 
-      imagem:{
-        id:"",
-        arquivo:"img/temp/embalagem_papelao_1.jpg",
-        principal:""
-      }, 
-      fornecedores:[
-        {razaoSocial: "razaoSocial PJ1", nomeFantasia: "nomeFantasia PJ1", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ1", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-        {razaoSocial: "razaoSocial PJ2", nomeFantasia: "nomeFantasia PJ2", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ2", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-        {razaoSocial: "razaoSocial PJ3", nomeFantasia: "nomeFantasia PJ3", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ3", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"}
-    ]},
-    {id: "3", nome: "emb 3", descricao: "Detalhes da emb 3", 
-      imagem:{
-        id:"",
-        arquivo:"img/temp/embalagem_polietileno_1.jpg",
-        principal:""
-      }, 
-      fornecedores:[
-        {razaoSocial: "razaoSocial PJ1", nomeFantasia: "nomeFantasia PJ1", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ1", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-        {razaoSocial: "razaoSocial PJ2", nomeFantasia: "nomeFantasia PJ2", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ2", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-        {razaoSocial: "razaoSocial PJ3", nomeFantasia: "nomeFantasia PJ3", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ3", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"}
-    ]},
-    {id: "4", nome: "emb 4", descricao: "Detalhes da emb 4", imagem:{
-        id:"",
-        arquivo:"img/temp/embalagem_polipropileno_1.jpg",
-        principal:""
-      }, 
-      fornecedores:[
-        {razaoSocial: "razaoSocial PJ1", nomeFantasia: "nomeFantasia PJ1", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ1", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-        {razaoSocial: "razaoSocial PJ2", nomeFantasia: "nomeFantasia PJ2", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ2", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"},
-        {razaoSocial: "razaoSocial PJ3", nomeFantasia: "nomeFantasia PJ3", ramoAtividade: "Embalagens", cnpj: "000001", inscricaoEst: "1000000", dtAbertura: "01/01/2001", contato: "contato PJ3", tipo: "fornecedor", hrMinEntrega: "08:00", hrMaxEntrega: "18:00"}
-    ]}
-  ];    
-  */
+  $scope.embalagens = EmbalagemResource.query();
     //incluir spinner enquanto esta carregando a lista
   };
   
@@ -98,8 +45,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, EmbalagemResource, Pes
     });
   };
 
-  $scope.openUpdateDialog = function (embalagem) {    
-//    index = $scope.embalagens.indexOf($filter('filter')($scope.embalagens, embalagem, true)[0]);    
+  $scope.openUpdateDialog = function (embalagem) {
     $scope.params = {
       formTipo: 'update',
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
@@ -221,11 +167,6 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, EmbalagemResource, Pes
       {nome: "PG - Papel Gordura", tipo: "Papel"}
     ];
     
-//    $scope.addFornecedores = function(){ //método de teste, corrigir a adição no array ao invés de substituição
-//      $scope.embalagem.fornecedores = $scope.temp.fornecedoresAux;
-//      $scope.submit();
-//    }
-    
     $scope.atualizarLista = function(){
       $scope.embalagem.fornecedores = $scope.temp.fornecedoresItem;
     }
@@ -235,7 +176,8 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, EmbalagemResource, Pes
         formTipo: $scope.formTipo,
         iconeHeaderDialog: $scope.embalagem.imagens ? CONST.editar.iconeHeaderDialog : CONST.inserir.iconeHeaderDialog,
         tituloDialog: $scope.embalagem.imagens ? "Editar Imagem" : "Cadastrar Imagem",
-        imagemInit: angular.copy(params.embalagem.imagens ? params.embalagem.imagens[0] : null)
+        imagens: $scope.embalagem.imagens ? angular.copy($scope.embalagem.imagens) : [],
+        maxImagens: 1
       };
       var modalInstance = $modal.open({
         templateUrl: "views/cadastro/dialog/formImagem.html",
@@ -248,9 +190,9 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, EmbalagemResource, Pes
           }
         }
       });
-      modalInstance.result.then(function (imagemNova) {
+      modalInstance.result.then(function (imagens) {
         toastr.success("Imagem recebida", "Sucesso");
-        $scope.embalagem.imagens = [imagemNova];
+        $scope.embalagem.imagens = imagens;
       }, function(){
         toastr.warning("Imagem não recebida", "Atenção");
       });

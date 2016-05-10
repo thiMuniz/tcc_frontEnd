@@ -1,9 +1,7 @@
 <div class="modal-content">
   <div class="modal-header">    
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="recent_actors" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;Selos do Produto</h4>
-<!--    debug selosInit{{selosInit}}
-    debug selosEmb{{embalagem.selos}}-->
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="recent_actors" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;Embalagens do Produto</h4>
   </div>
   <div class="modal-body">
     <div class="row">
@@ -11,13 +9,13 @@
       <div class="panel-heading"> <!-- Painel Superior -->
         <button class="btn btn-{{showUiSelect ? 'warning' : 'primary'}} btn-xs" ng-click="showUiSelect = !showUiSelect" tooltip="{{showUiSelect ? 'Ocultar' : 'Exibir'}}">
           <!--<ng-md-icon icon="playlist_add"></ng-md-icon>-->
-          <ng-md-icon icon="{{showUiSelect ? 'remove_circle_outline' : 'add_circle_outline'}}"></ng-md-icon> Selo
+          <ng-md-icon icon="{{showUiSelect ? 'remove_circle_outline' : 'add_circle_outline'}}"></ng-md-icon> Embalagem
         </button>
-        <ui-select multiple ng-model="produto.selos" ng-show="showUiSelect" theme="bootstrap" ng-disabled="selo.id" append-to-body="false">
-          <ui-select-match class="ui-select-match" placeholder="Selecione os Selos"> {{$item.nome}} </ui-select-match>
-          <ui-select-choices class="ui-select-choices" repeat="selo in selosAll | filter:$select.search">
-            <img ng-src="{{selo.imagem.caminhoArquivo}}" class="img-ui-select">
-            {{selo.nome}}
+        <ui-select multiple ng-model="produto.embalagens" ng-show="showUiSelect" theme="bootstrap" ng-disabled="embalagem.id" append-to-body="false">
+          <ui-select-match class="ui-select-match" placeholder="Selecione os Embalagens"> {{$item.nome}} </ui-select-match>
+          <ui-select-choices class="ui-select-choices" repeat="embalagem in embalagensAll | filter:$select.search">
+            <img ng-src="{{embalagem.imagens[0].caminhoArquivo}}" class="img-ui-select">
+            {{embalagem.nome}}
           </ui-select-choices>
         </ui-select>
         <div class="pull-right">
@@ -28,7 +26,7 @@
       
       <div class="panel panel-default">
         <div class="panel-heading">
-          {{produto.selos.length}} Selos relacionados
+          {{produto.embalagens.length}} Embalagens relacionados
         </div>
         <div class="panel-body">
           <div class="table-responsive">
@@ -43,19 +41,19 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="selo in produto.selos| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
-                  <td>{{selo.id}}</td>
-                  <td><img ng-src="{{selo.imagem.caminhoArquivo}}" class="img-thumbnail img-list-view" /></td>
-                  <td>{{selo.nome}}</td>
+                <tr ng-repeat="embalagem in produto.embalagens| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
+                  <td>{{embalagem.id}}</td>
+                  <td><img ng-src="{{embalagem.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view" /></td>
+                  <td>{{embalagem.nome}}</td>
                   
-                  <td style="{{selo.dtDesativacao ? 'color: red' : ''}}">
-                    {{selo.dtDesativacao ? "Desativado" : " Ativo"}}
+                  <td style="{{embalagem.dtDesativacao ? 'color: red' : ''}}">
+                    {{embalagem.dtDesativacao ? "Desativado" : " Ativo"}}
                   </td>
                   <td>
-                    <a ng-click="openAtivarDesativarDialog(selo);" tooltip="Remover Fornecedor" >
+                    <a ng-click="openAtivarDesativarDialog(embalagem);" tooltip="Remover Fornecedor" >
                       <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
                     </a>&nbsp;
-                    <a ng-click="openInfoDialog(selo);" tooltip="{{CONST.info.tooltipAcao}}" >
+                    <a ng-click="openInfoDialog(embalagem);" tooltip="{{CONST.info.tooltipAcao}}" >
                       <ng-md-icon icon="{{CONST.info.iconeAcao}}_outline"></ng-md-icon>
                     </a>&nbsp;
                   </td>

@@ -173,7 +173,8 @@ app.controller('InsumoCtrl', function ($scope, $modal, InsumoResource, PessoaRes
         formTipo: $scope.formTipo,
         iconeHeaderDialog: $scope.insumo.imagens ? CONST.editar.iconeHeaderDialog : CONST.inserir.iconeHeaderDialog,
         tituloDialog: $scope.insumo.imagens ? "Editar Imagem" : "Cadastrar Imagem",
-        imagemInit: angular.copy(params.insumo.imagens ? params.insumo.imagens[0] : null)
+        imagens: $scope.insumo.imagens ? angular.copy($scope.insumo.imagens) : [],
+        maxImagens: 1
       };
       var modalInstance = $modal.open({
         templateUrl: "views/cadastro/dialog/formImagem.html",
@@ -186,9 +187,9 @@ app.controller('InsumoCtrl', function ($scope, $modal, InsumoResource, PessoaRes
           }
         }
       });
-      modalInstance.result.then(function (imagemNova) {
+      modalInstance.result.then(function (imagens) {
         toastr.success("Imagem recebida", "Sucesso");
-        $scope.insumo.imagens = [imagemNova];
+        $scope.insumo.imagens = imagens;
       }, function(){
         toastr.warning("Imagem não recebida", "Atenção");
       });

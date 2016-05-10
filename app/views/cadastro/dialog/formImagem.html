@@ -9,38 +9,57 @@
   </div>
   <div class="modal-body">
     <form class="form-horizontal" role="form" name="formImagem">
-      <div class="form-group col-sm-4" ng-hide="{{!imagemInit}}" >
-        <label for="imagemInit" class="control-label">Imagem Atual</label>
-        <div id="imagemInit" class="posCropAreaSgp">
-          <img ng-src="{{imagemInit.caminhoArquivo}}" />
-        </div>
-      </div>
-      <div class="form-group col-sm-4">
-        <label for="imagemCrop" class="control-label">
-          <button id="imagemCrop" type="button" class="form-control btn btn-primary btn-sm" ngf-select ng-model="imgSelecionada" accept="image/*">
-            <ng-md-icon icon="file_upload" ></ng-md-icon> &nbsp; Nova Imagem
-          </button>
-        </label>
-<!--        <label for="imagemCrop" class="col-sm-3 control-label">
-          <button type="button" class="btn btn-primary btn-sm" ngf-select ng-model="imgSelecionada" accept="image/*">
-            <ng-md-icon icon="file_upload" ></ng-md-icon> &nbsp; {{textImgBtn}}
-          </button>
-        </label>-->
-        <div class="form-control cropAreaSgp" id="imagemCrop" ng-model="imgSelecionada" ngf-pattern="image/*" ngf-drop>
-            <!--<p>Arraste e solte a imagem aqui ou clique no botão ao lado para localizar no computador</p>-->
-          <img-crop image="imgSelecionada  | ngfDataUrl" result-image="imagemNew.arquivo" ng-init="imagemInit.caminhoArquivo"></img-crop>
-        </div>
-      </div>
-      <div class="form-group col-sm-4">
-        <label for="imagemNewCrop" class="control-label">Imagem posCrop</label>
-        <div class="posCropAreaSgp" id="imagemNewCrop">
-          <img ng-src="{{imagemNew.arquivo}}" />
-        </div>
-      </div>
+      <table>
+        <tr> <!-- Add  Imagem -->
+          <td class="form-group col-sm-4">
+            <div>
+              <label for="imagemCrop" class="control-label">
+                <button id="imagemCrop" type="button" class="form-control btn btn-primary btn-sm" ngf-select ng-model="imgSelecionada" accept="image/*" ng-disabled="imagens.length >= maxImagens">
+                  <ng-md-icon icon="file_upload" ></ng-md-icon> &nbsp; Nova Imagem
+                </button>
+              </label>
+              <div class="form-control cropAreaSgp" id="imagemCrop" ng-model="imgSelecionada" ngf-pattern="image/*" ngf-drop>
+                  <!--<p>Arraste e solte a imagem aqui ou clique no botão ao lado para localizar no computador</p>-->
+                <img-crop image="imgSelecionada  | ngfDataUrl" result-image="imagemNew.arquivo"></img-crop> <!-- ng-init="imagemInit.caminhoArquivo" -->
+              </div>
+            </div>
+          </td>
+          <td class="form-group col-sm-4">
+            <div >
+              <label for="imagemNewCrop" class="control-label">Imagem posCrop</label>
+              <div class="posCropAreaSgp" >
+                <img id="imagemNewCrop" ng-src="{{imagemNew.arquivo}}" />
+              </div>
+            </div>            
+          </td>
+          <td class="form-group col-sm-2">
+            <div >
+              <button class="btn btn-success btn-circle btn-xl" ng-click="addImagem()" tooltip="Adicionar imagem" ng-disabled="imagens.length >= maxImagens || !imagemNew.arquivo">
+                <i class="fa fa-check"></i>
+              </button>
+            </div>
+          </td>
+        </tr> <!-- /.Add  Imagem -->
+      </table>
+        <!--{{imagens}}-->
+      <table>
+        <tr> <!-- Show  Imagens -->
+          <td class="form-group" ng-repeat="imagem in imagens">
+            <div>
+              <img ng-src="{{imagem.caminhoArquivo ? imagem.caminhoArquivo : imagem.arquivo}}" class="img-thumbnail img-form-img{{$index == 0 ? '-principal' : ''}}"/>&nbsp;&nbsp;&nbsp;&nbsp;
+              <br>&nbsp;
+            </div>
+            <div>
+              <button class="btn btn-danger btn-outline btn-xs" ng-click="removerImagem($index)" tooltip="Remover imagem" tooltip-placement="bottom">
+                <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
+              </button>
+            </div>
+          </td>
+        </tr> <!-- /.Show  Imagens -->
+      </table>
     </form>
   </div><!-- /.modal body-->
   <div class="modal-footer">
-    <!--<button type="submit" class="btn btn-default">Submit Button</button>-->
     <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
       <ng-md-icon icon="refresh"></ng-md-icon> Limpar
     </button>

@@ -158,7 +158,6 @@ app.controller('RotuloCtrl', function ($scope, $modal, RotuloResource, PessoaRes
     $scope.rotulo = params.rotulo;
     $scope.rotuloInit = angular.copy($scope.rotulo);
     
-    
     if(params.formTipo == 'lookup'){
       $scope.fornecedoresAll = params.fornecedores;
       $scope.temp = {};
@@ -174,7 +173,8 @@ app.controller('RotuloCtrl', function ($scope, $modal, RotuloResource, PessoaRes
         formTipo: $scope.formTipo,
         iconeHeaderDialog: $scope.rotulo.imagens ? CONST.editar.iconeHeaderDialog : CONST.inserir.iconeHeaderDialog,
         tituloDialog: $scope.rotulo.imagens ? "Editar Imagem" : "Cadastrar Imagem",
-        imagemInit: angular.copy(params.rotulo.imagens ? params.rotulo.imagens[0] : null)
+        imagens: $scope.rotulo.imagens ? angular.copy($scope.rotulo.imagens) : [],
+        maxImagens: 1
       };
       var modalInstance = $modal.open({
         templateUrl: "views/cadastro/dialog/formImagem.html",
@@ -187,9 +187,9 @@ app.controller('RotuloCtrl', function ($scope, $modal, RotuloResource, PessoaRes
           }
         }
       });
-      modalInstance.result.then(function (imagemNova) {
+      modalInstance.result.then(function (imagens) {
         toastr.success("Imagem recebida", "Sucesso");
-        $scope.rotulo.imagens = [imagemNova];
+        $scope.rotulo.imagens = imagens;
       }, function(){
         toastr.warning("Imagem não recebida", "Atenção");
       });

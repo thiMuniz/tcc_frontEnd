@@ -135,7 +135,8 @@ app.controller('SeloCtrl', function ($scope, $modal, SeloResource, CONST, toastr
         formTipo: $scope.formTipo,
         iconeHeaderDialog: $scope.iconeHeaderDialog,
         tituloDialog: params.formTipo == 'insert' ? "Cadastrar Imagem" : "Editar Imagem",
-        imagemInit: angular.copy($scope.selo.imagem)
+        imagens: $scope.selo.imagem ? [angular.copy($scope.selo.imagem)] : [],
+        maxImagens: 1
       };
       var modalInstance = $modal.open({
         templateUrl: "views/cadastro/dialog/formImagem.html",
@@ -148,9 +149,9 @@ app.controller('SeloCtrl', function ($scope, $modal, SeloResource, CONST, toastr
           }
         }
       });
-      modalInstance.result.then(function (imagemNova) {
+      modalInstance.result.then(function (imagens) {
         toastr.success("Imagem recebida", "Sucesso");
-        $scope.selo.imagem = imagemNova;        
+        $scope.selo.imagem = imagens[0];
       }, function(){
         toastr.warning("Imagem não recebida", "Atenção");
       });

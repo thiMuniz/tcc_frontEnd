@@ -11,10 +11,6 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
   $scope.headerLista = "Nenhum " + params.perfil + " foi encontrado";
   $scope.labelCadastrarBtn = "Novo "+params.perfil;
 
-  
-
-//  $scope.colaboradores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
-  
   $scope.atualizarLista = function(){
     $scope.colaboradores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
     //incluir spinner enquanto esta carregando a lista
@@ -174,7 +170,8 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
       formTipo: $scope.formTipo,
       iconeHeaderDialog: $scope.iconeHeaderDialog,
       tituloDialog: params.formTipo == 'insert' ? "Cadastrar Imagem" : "Editar Imagem",
-      imagemInit: angular.copy($scope.colaborador.imagem)
+      imagens: $scope.colaborador.imagem ? [angular.copy($scope.colaborador.imagem)] : [],
+      maxImagens: 1
     };
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formImagem.html",
@@ -187,9 +184,9 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
         }
       }
     });
-    modalInstance.result.then(function (imagemNova) {
+    modalInstance.result.then(function (imagens) {
       toastr.success("Imagem recebida", "Sucesso");
-      $scope.colaborador.imagem = imagemNova;        
+      $scope.colaborador.imagem = imagens[0];
     }, function(){
       toastr.warning("Imagem não recebida", "Atenção");
     });

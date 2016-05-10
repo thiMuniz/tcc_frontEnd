@@ -2,7 +2,7 @@
   <div class="modal-header">    
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>
-    debug fornecedor{{fornecedor}}
+    <!--debug fornecedor{{fornecedor}}-->
   </div>
   <div class="modal-body">
     <form class="form-horizontal" role="form" name="formFornecedor">
@@ -51,9 +51,16 @@
               <input class="form-control" type="text" id="telefone2" placeholder="Telefone 2" ng-model="fornecedor.telefone2" >
             </div>
           </div>
-          <button type="button" class="btn btn-primary" ng-click="openImagemDialog()">
-            <ng-md-icon icon="photo_camera"></ng-md-icon> Imagem
-          </button>
+          <div class="form-group">
+            <label for="imagens" class="col-sm-3 control-label">
+              <button type="button" class="btn btn-primary" ng-click="openImagemDialog()">
+                <ng-md-icon icon="photo_camera"></ng-md-icon> Imagem
+              </button>
+            </label>
+            <div class="col-sm-7" id="imagens">
+              <img ng-src="{{fornecedor.imagem.caminhoArquivo ? fornecedor.imagem.caminhoArquivo : fornecedor.imagem.arquivo}}" class="img-thumbnail img-form-img" />
+            </div>
+          </div>
         </div><!-- /.ABA 1 - GERAL -->
         
         <div ng-switch-when="Passo 2 - Dados Pessoa Jurídica" ><!-- ABA 2 -PJ -->
@@ -98,6 +105,12 @@
             <label for="contato" class="col-sm-3 control-label">Contato</label>
             <div class="col-sm-7">
               <input class="form-control" type="text" id="contato" placeholder="" ng-model="fornecedor.pj.contato" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="website" class="col-sm-3 control-label">Website</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="website" placeholder="" ng-model="fornecedor.pj.website" >
             </div>
           </div> 
           <div class="form-group">
