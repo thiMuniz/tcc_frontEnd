@@ -15,7 +15,8 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
   };
   
   $scope.atualizarLista = function(){
-    $scope.fornecedores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
+//    $scope.fornecedores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
+    $scope.fornecedores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike($stateParams.perfil)});
     //incluir spinner enquanto esta carregando a lista
   };
   
@@ -269,7 +270,7 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
   $scope.steps = [
     'Passo 1 - Dados Gerais',
     'Passo 2 - Dados Pessoa Jurídica', // apenas pj em fornecedor
-    'Passo 3 - Endereço e Contato'
+    'Passo 3 - Endereço'
   ];
   $scope.selection = $scope.steps[0];//esse indice que diz se sera comecar qual aba
   $scope.getCurrentStepIndex = function () {

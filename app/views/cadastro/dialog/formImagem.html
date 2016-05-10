@@ -1,4 +1,4 @@
-<div class="modal-content">
+<div class="modal-content" >
   <div class="modal-header">
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title" id="formModalLabel">
@@ -7,14 +7,14 @@
 <!--    Debug ImagemInit {{imagemInit}}
     Debug ImagemNew {{imagemNew}}-->
   </div>
-  <div class="modal-body">
-    <form class="form-horizontal" role="form" name="formImagem">
+  <div class="modal-body table-responsive">
+    <!--<form class="form-horizontal" role="form" name="formImagem">-->
       <table>
         <tr> <!-- Add  Imagem -->
           <td class="form-group col-sm-4">
             <div>
               <label for="imagemCrop" class="control-label">
-                <button id="imagemCrop" type="button" class="form-control btn btn-primary btn-sm" ngf-select ng-model="imgSelecionada" accept="image/*" ng-disabled="imagens.length >= maxImagens">
+                <button id="imagemCrop" type="button" class="form-control btn btn-primary btn-sm" ngf-select ng-model="imgSelecionada" accept="image/*" tooltip="{{imagens.length < maxImagens ? 'Adicionar imagem' : 'Não é possível adicionar mais imagens'}}" ng-disabled="imagens.length >= maxImagens">
                   <ng-md-icon icon="file_upload" ></ng-md-icon> &nbsp; Nova Imagem
                 </button>
               </label>
@@ -24,7 +24,7 @@
               </div>
             </div>
           </td>
-          <td class="form-group col-sm-4">
+          <td class="form-group col-sm-4" ng-hide="!imgSelecionada">
             <div >
               <label for="imagemNewCrop" class="control-label">Imagem posCrop</label>
               <div class="posCropAreaSgp" >
@@ -32,9 +32,9 @@
               </div>
             </div>            
           </td>
-          <td class="form-group col-sm-2">
+          <td class="form-group col-sm-2"  ng-hide="!imgSelecionada">
             <div >
-              <button class="btn btn-success btn-circle btn-xl" ng-click="addImagem()" tooltip="Adicionar imagem" ng-disabled="imagens.length >= maxImagens || !imagemNew.arquivo">
+              <button class="btn btn-success btn-circle btn-xl" ng-click="addImagem()" tooltip="Confirmar" ng-disabled="imagens.length >= maxImagens || !imagemNew.arquivo">
                 <i class="fa fa-check"></i>
               </button>
             </div>
@@ -42,11 +42,11 @@
         </tr> <!-- /.Add  Imagem -->
       </table>
         <!--{{imagens}}-->
-      <table>
+      <table class="table-responsive">
         <tr> <!-- Show  Imagens -->
           <td class="form-group" ng-repeat="imagem in imagens">
             <div>
-              <img ng-src="{{imagem.caminhoArquivo ? imagem.caminhoArquivo : imagem.arquivo}}" class="img-thumbnail img-form-img{{$index == 0 ? '-principal' : ''}}"/>&nbsp;&nbsp;&nbsp;&nbsp;
+              <img ng-src="{{imagem.caminhoArquivo ? imagem.caminhoArquivo : imagem.arquivo}}" class="img-thumbnail img-form-img{{(maxImagens > 1 && $index == 0) ? '-principal' : ''}}"/>&nbsp;&nbsp;&nbsp;&nbsp;
               <br>&nbsp;
             </div>
             <div>
@@ -57,7 +57,7 @@
           </td>
         </tr> <!-- /.Show  Imagens -->
       </table>
-    </form>
+    <!--</form>-->
   </div><!-- /.modal body-->
   <div class="modal-footer">
     <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
@@ -66,7 +66,7 @@
     <button type="button" class="btn btn-outline btn-danger" ng-click="cancel()" data-dismiss="modal">
       <ng-md-icon icon="clear"></ng-md-icon> Cancelar
     </button>
-    <button type="button" class="btn btn-outline btn-success" ng-click="submit()">
+    <button type="button" class="btn btn-outline btn-success" ng-click="submit()" ng-disabled="imagens == imagensInit">
       <ng-md-icon icon="save"></ng-md-icon> Gravar
     </button>
   </div>

@@ -10,7 +10,6 @@ app.controller('ImagemDialogCtrl', function ($scope, $modalInstance, params, CON
     
     $scope.imagensInit = angular.copy($scope.imagens);
     
-//    $scope.imagemNew;
     $scope.addImagem = function(){
       $scope.imagens.push(angular.copy($scope.imagemNew));
       $scope.limparCamposImagem();
@@ -23,21 +22,14 @@ app.controller('ImagemDialogCtrl', function ($scope, $modalInstance, params, CON
     $scope.limparCamposImagem = function(){
       $scope.imagemNew.arquivo = null;
       $scope.imgSelecionada  = null;
-      angular.element('#imagemNewCrop').prop('src', '');
     };
     
     $scope.submit = function () {
-//      if($scope.imagemNew){
-//        $scope.close($scope.imagemNew);
-//      }else{
-//        $scope.cancel();
-//      }
-      
-        $scope.close($scope.imagens);
+      $scope.close($scope.imagens);
     };
     
     $scope.clear = function () {
-      $scope.imagens - $scope.imagensInit;
+      $scope.imagens = $scope.imagensInit;
     };
     
     $scope.close = function(result){

@@ -13,7 +13,8 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
 
   $scope.atualizarLista = function(){
 //    $scope.clientes = ClienteResource.query();
-    $scope.clientes = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
+//    $scope.clientes = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
+      $scope.clientes = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike($stateParams.perfil)});
   }
   
   $scope.ordenar = function (campo) {
@@ -264,7 +265,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
   $scope.steps = [
     'Passo 1 - Dados Gerais',
     '', //pf default
-    'Passo 3 - Endereço e Contato'
+    'Passo 3 - Endereço'
   ];
   $scope.selection = $scope.steps[0];//esse indice que diz se sera comecar qual aba
   $scope.getCurrentStepIndex = function () {

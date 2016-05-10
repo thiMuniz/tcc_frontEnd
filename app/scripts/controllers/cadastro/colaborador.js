@@ -12,7 +12,8 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
   $scope.labelCadastrarBtn = "Novo "+params.perfil;
 
   $scope.atualizarLista = function(){
-    $scope.colaboradores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
+//    $scope.colaboradores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
+    $scope.colaboradores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike($stateParams.perfil)});
     //incluir spinner enquanto esta carregando a lista
   };
   
@@ -242,7 +243,7 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
   $scope.steps = [
     'Passo 1 - Dados Gerais',
     'Passo 2 - Dados Pessoa Física', // apenas f em colaborador
-    'Passo 3 - Endereço e Contato'
+    'Passo 3 - Endereço'
   ];
   $scope.selection = $scope.steps[0];//esse indice que diz se sera comecar qual aba
   $scope.getCurrentStepIndex = function () {
