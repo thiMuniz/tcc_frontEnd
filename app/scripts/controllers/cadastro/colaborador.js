@@ -12,8 +12,7 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
   $scope.labelCadastrarBtn = "Novo "+params.perfil;
 
   $scope.atualizarLista = function(){
-//    $scope.colaboradores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
-    $scope.colaboradores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike($stateParams.perfil)});
+    $scope.colaboradores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
     //incluir spinner enquanto esta carregando a lista
   };
   
