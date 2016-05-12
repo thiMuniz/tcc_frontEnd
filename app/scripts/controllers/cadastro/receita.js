@@ -240,6 +240,30 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
       $scope.receita.passos.push(passo);
     };
     
+    $scope.removerPasso = function(indexToRemove){
+      $scope.receita.passos.splice(indexToRemove, 1);
+      angular.forEach($scope.receita.passos, function(passo, passoIndex){
+        if(passoIndex >= indexToRemove){
+         passo.ordem = passo.ordem - 1;
+        }
+      });
+    };
+    
+    $scope.movePassoToUp = function(indexToMove){
+      toastr.info(indexToMove+1, 'passo selecionado');
+      $scope.receita.passos[indexToMove].ordem = $scope.receita.passos[indexToMove].ordem + 1;
+      $scope.receita.passos[indexToMove+1].ordem = $scope.receita.passos[indexToMove+1].ordem - 1;
+//      toastr.info(indexToMove+1, 'passo selecionado');
+//      $scope.movePassoToDown(indexToMove + 1);
+    };
+    
+    $scope.movePassoToDown = function(indexToMove){
+      toastr.info(indexToMove+1, 'passo selecionado');
+      $scope.receita.passos[indexToMove].ordem = $scope.receita.passos[indexToMove].ordem - 1;
+      $scope.receita.passos[indexToMove-1].ordem = $scope.receita.passos[indexToMove-1].ordem + 1;
+//      $scope.movePassoToUp(indexToMove - 1);
+    };
+    
     $scope.openImagemDialog = function(){      
       $scope.params = {
         formTipo: $scope.formTipo,

@@ -96,18 +96,30 @@
                   <th>Ordem</th>
                   <th>Título</th>
                   <th>Descrição</th>
+                  <th>Ação</th>
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="passoReceita in receita.passos">
+                <tr ng-repeat="passoReceita in receita.passos | orderBy : 'ordem'"> 
                   <td class="col-sm-2">
                       <input class="form-control" type="text" id="ordem" placeholder="Ordem" ng-model="passoReceita.ordem">
                   </td>
                   <td class="col-sm-3">
                       <input class="form-control" type="text" id="nome" placeholder="Título" ng-model="passoReceita.nome">
                   </td>
-                  <td class="col-sm-7">
+                  <td class="col-sm-5">
                       <textarea class="form-control" rows="1" type="text" id="descricao" placeholder="Descrição" ng-model="passoReceita.descricao"></textarea>
+                  </td>
+                  <td class="col-sm-2">
+                    <a ng-click="removerPasso($index);" tooltip="Remover" >
+                      <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
+                    </a>&nbsp;
+                    <a ng-click="movePassoToUp($index);" ng-class="{acao-disabled: $index == receita.passoslength - 1}" tooltip="Mover para baixo" >
+                      <ng-md-icon icon="keyboard_arrow_down"></ng-md-icon>
+                    </a>&nbsp;
+                    <a ng-click="movePassoToDown($index);" ng-class="{acao-disabled: $index == 0}" tooltip="Mover para cima" >
+                      <ng-md-icon icon="keyboard_arrow_up"></ng-md-icon>
+                    </a>&nbsp;                    
                   </td>
                 </tr>
               </tbody>

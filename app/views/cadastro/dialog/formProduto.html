@@ -90,17 +90,12 @@
             <ng-md-icon icon="photo_camera"></ng-md-icon> Imagem
           </button>
         </label>
-        <div class="col-sm-7">
-          <table id="imagens">
-            <tr>
-              <td class="form-group" ng-repeat="imagem in produto.imagens">              
-                <div>
-                  <img ng-src="{{imagem.caminhoArquivo ? imagem.caminhoArquivo : imagem.arquivo}}" class="img-thumbnail img-form-img{{$index == 0 ? '-principal' : ''}}" />&nbsp;&nbsp;&nbsp;&nbsp;
-                </div>
-              </td>
-            </tr>
-          </table>
+        <div class="row img-list col-sm-9">
+          <div class="col-md-2" ng-repeat="imagem in produto.imagens">
+            <img ng-src="{{imagem.caminhoArquivo ? imagem.caminhoArquivo : imagem.arquivo}}" class="img-thumbnail form-img pull-left"/>            
+          </div>
         </div>
+        <!--{{produto.imagens.length}}-->
       </div>
     </form>
   </div><!-- /.modal body-->

@@ -4,8 +4,8 @@
     <h4 class="modal-title" id="formModalLabel">
       <ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
     </h4>
-<!--    Debug ImagemInit {{imagemInit}}
-    Debug ImagemNew {{imagemNew}}-->
+<!--    Debug ImagensInit {{imagensInit.length}}
+    Debug Imagens {{imagens.length}}-->
   </div>
   <div class="modal-body table-responsive">
     <!--<form class="form-horizontal" role="form" name="formImagem">-->
@@ -41,22 +41,13 @@
           </td>
         </tr> <!-- /.Add  Imagem -->
       </table>
-        <!--{{imagens}}-->
-      <table class="table-responsive">
-        <tr> <!-- Show  Imagens -->
-          <td class="form-group" ng-repeat="imagem in imagens">
-            <div>
-              <img ng-src="{{imagem.caminhoArquivo ? imagem.caminhoArquivo : imagem.arquivo}}" class="img-thumbnail img-form-img{{(maxImagens > 1 && $index == 0) ? '-principal' : ''}}"/>&nbsp;&nbsp;&nbsp;&nbsp;
-              <br>&nbsp;
-            </div>
-            <div>
-              <button class="btn btn-danger btn-outline btn-xs" ng-click="removerImagem($index)" tooltip="Remover imagem" tooltip-placement="bottom">
-                <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
-              </button>
-            </div>
-          </td>
-        </tr> <!-- /.Show  Imagens -->
-      </table>
+      <div class="row img-list">
+        <div class="col-md-2 col-sm-3 col-xs-12" ng-repeat="imagem in imagens">
+            <button type="button" class="close pull-right" ng-click="removerImagem($index)" aria-hidden="true" tooltip="Remover">&times;</button>
+            <img ng-src="{{imagem.caminhoArquivo ? imagem.caminhoArquivo : imagem.arquivo}}" class="img-thumbnail form-img pull-right"/>            
+        </div>
+      </div>
+
     <!--</form>-->
   </div><!-- /.modal body-->
   <div class="modal-footer">
