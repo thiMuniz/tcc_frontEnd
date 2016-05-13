@@ -21,7 +21,8 @@ var app = angular
           'toastr',
           'ngImgCrop',
           'ngFileUpload',
-          'ui.select'
+          'ui.select',
+          'as.sortable'
         ])
         .constant("CONST", {
           ws:{
@@ -355,6 +356,25 @@ var app = angular
                             files: [
                               'scripts/controllers/cadastro/rotulo.js',
                               'scripts/services/rotulo.js'
+                            ]
+                          });
+                        }
+                      }
+                    })
+                    .state('main.estoque', {
+                      templateUrl: 'views/estoque/estoque.html',
+                      url: '/estoque/:tipoItem',
+                      params : {
+                        tipoItem:''
+                      },
+                      resolve: {
+                        loadMyFiles: function ($ocLazyLoad) {
+                          return $ocLazyLoad.load({
+                            name: 'sbAdminApp',
+                            files: [
+                              'scripts/controllers/estoque/estoque.js',
+                              'scripts/services/estoque.js',
+                              'scripts/services/produto.js'
                             ]
                           });
                         }
