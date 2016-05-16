@@ -22,7 +22,8 @@ var app = angular
           'ngImgCrop',
           'ngFileUpload',
           'ui.select',
-          'as.sortable'
+          'as.sortable',
+          '720kb.datepicker'
         ])
         .constant("CONST", {
           ws:{
@@ -135,7 +136,10 @@ var app = angular
                         loadMyFiles: function ($ocLazyLoad) {
                           return $ocLazyLoad.load({
                             name: 'sbAdminApp',
-                            files: ['scripts/controllers/login.js']
+                            files: [
+                              'scripts/controllers/login.js',
+                              'scripts/services/pessoa.js',
+                            ]
                           });
                         }
                       }
@@ -373,7 +377,10 @@ var app = angular
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/estoque/estoque.js',
-                              'scripts/services/estoque.js',
+                              'scripts/services/lote.js',
+                              'scripts/services/embalagem.js',
+                              'scripts/services/rotulo.js',
+                              'scripts/services/insumo.js',
                               'scripts/services/produto.js'
                             ]
                           });

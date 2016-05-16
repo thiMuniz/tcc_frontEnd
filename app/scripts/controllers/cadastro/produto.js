@@ -6,7 +6,7 @@ app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, Categor
   $scope.tituloView = "Cadastro de Produtos";
   $scope.headerLista = "Nenhum Produto foi encontrado";
   $scope.labelCadastrarBtn = "Novo Produto";
-    
+  
   $scope.atualizarLista = function(){
     $scope.produtos = ProdutoResource.query();
 //    $scope.produtos = [

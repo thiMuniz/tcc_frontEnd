@@ -7,6 +7,10 @@ app.factory("PessoaResource", function ($resource, CONST) {
       url : CONST.ws.urlSGP+'pessoa/filtro?:p',
       params : {p:"p"}                  
     },
-    update: { method:'PUT' }
+    update: { method:'PUT' },
+    login: { 
+      method: 'POST',
+      url : CONST.ws.urlSGP+'login',
+    }
   });
 });

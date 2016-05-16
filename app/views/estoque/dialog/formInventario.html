@@ -1,0 +1,113 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="storage" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>    
+  </div>
+  <!--{{lotes}}-->
+  <div class="modal-body">
+    <form class="form-horizontal" role="form" name="formInventario">
+      <div class="panel-body">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th><a href="" ng-click="ordenar('codLote')">Cód. Lote</a></th>
+                <th><a href="" ng-click="ordenar('item.id')">Cód. Item</a></th>
+                <th colspan="2"><a href="" ng-click="ordenar('item.nome')">Item</a></th>
+                <th><a href="" ng-click="ordenar('estoqueDisponivel')">Qtd Disponível Atual</a></th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="lote in lotes| filter : filtroGenerico | orderBy : campo : ascDsc">
+                <td>{{lote.codLote}}</td>
+                <td>{{lote.item.id}}</td>
+                <td ><img ng-src="{{lote.item.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/></td>
+                <td>{{lote.item.nome}}</td>
+                <td >{{lote.estoqueDisponivel}}</td>
+                <td>
+                  <a ng-click="" tooltip="ALterar Saldo">
+                    <ng-md-icon icon="swap_vert"></ng-md-icon>
+                  </a>&nbsp;
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div><!-- /.table-responsive -->
+      </div><!-- /.panel-body -->
+    </form>      
+  </div><!-- /.modal body-->
+
+  <div class="modal-footer">
+    <!--<button type="submit" class="btn btn-default">Submit Button</button>-->
+    <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
+      <ng-md-icon icon="refresh"></ng-md-icon> Limpar
+    </button>
+    <button type="button" class="btn btn-outline btn-danger" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Cancelar
+    </button>
+    <button type="button" class="btn btn-outline btn-success" ng-click="submit()">
+      <ng-md-icon icon="save"></ng-md-icon> Gravar
+    </button>
+  </div>
+</div><!-- /.modal content-->
+
+
+<!-----------------------
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">{{tituloView}}</h1>
+    </div>
+  </div> 
+  <div class="row">        
+    <div class="col-lg-12">
+      <div class="panel-heading">  Painel Superior                 
+        <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" tooltip='Dar entrada de {{tipoItem.desc}} no estoque'>
+          <ng-md-icon icon="{{CONST.inserir.iconeBtn}}"></ng-md-icon> &nbsp;{{'Entrada'}}
+        </button>
+        <div class="pull-right">
+          <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Busca geral"/>
+        </div>
+        <div class="clearfix"></div>        
+      </div> /.Painel Superior 
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          {{lotes.length}} Lotes encontrados                    
+        </div>        
+        <div class="panel-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th><a href="" ng-click="ordenar('codLote')">Código Lote</a></th>
+                  <th colspan="2"><a href="" ng-click="ordenar('item.nome')">Item</a></th>
+                  <th><a href="" ng-click="ordenar('estoqueDisponivel')">Quantidade Disponível</a></th>
+                  <th>Ação</th>                  
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="lote in lotes| filter : filtroGenerico | orderBy : campo : ascDsc">
+                  <td>{{lote.codLote}}</td>
+                  <td ><img ng-src="{{lote.item.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/></td>
+                  <td>{{lote.item.nome}}</td>
+                  <td >{{lote.estoqueDisponivel}}</td>
+                  <td>
+                    <a class="{{lote.dtDesativacao ? 'acao-disabled' : ''}}" ng-click="openUpdateDialog(lote)" tooltip="{{CONST.editar.tooltipAcao}}" >
+                      <ng-md-icon icon="{{CONST.editar.iconeAcao}}"></ng-md-icon>
+                    </a>&nbsp;
+                    <a ng-click="openAtivarDesativarDialog(lote);" tooltip="{{lote.dtDesativacao ? CONST.ativar.tooltipAcao : CONST.desativar.tooltipAcao}}" >
+                      <ng-md-icon icon="{{lote.dtDesativacao ? CONST.ativar.iconeAcao : CONST.desativar.iconeAcao}}"></ng-md-icon>
+                    </a>&nbsp;
+                    <a ng-click="openInfoDialog(lote);" tooltip="{{CONST.info.tooltipAcao}}">
+                      <ng-md-icon icon="{{CONST.info.iconeAcao}}"></ng-md-icon>
+                    </a>&nbsp;
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div> /.table-responsive 
+        </div> /.panel-body 
+      </div> /.panel-default 
+    </div> /.col-lg-12 
+  </div> /.row -->
