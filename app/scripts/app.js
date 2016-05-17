@@ -23,11 +23,11 @@ var app = angular
           'ngFileUpload',
           'ui.select',
           'as.sortable',
-          '720kb.datepicker'
+          '720kb.datepicker',
+          'ngCookies'
         ])
         .constant("CONST", {
           ws:{
-//            urlSGP: "http://sgptcc.jelastic.servint.net/sgp/", //antigo
 //            urlSGP: "http://45.55.228.230:8080/sgp/", //HTTP
             urlSGP: "https://45.55.228.230:8181/sgp/",  //HTTPS
             urlCep: "https://viacep.com.br/ws/",
@@ -125,10 +125,6 @@ var app = angular
                       templateUrl: 'views/pages/blank.html',
                       url: '/blank'
                     })
-//      .state('login',{
-//        templateUrl:'views/pages/login.html',
-//        url:'/login'
-//    })
                     .state('login', {
                       templateUrl: 'views/login.html',
                       url: '/login',
@@ -139,6 +135,7 @@ var app = angular
                             files: [
                               'scripts/controllers/login.js',
                               'scripts/services/pessoa.js',
+                              'scripts/services/base64.js'
                             ]
                           });
                         }

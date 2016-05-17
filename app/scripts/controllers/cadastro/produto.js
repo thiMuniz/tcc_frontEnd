@@ -219,10 +219,9 @@ app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, Categor
         }
       });
       modalInstance.result.then(function (imagens) {
-        toastr.success("Imagem recebida", "Sucesso");
         $scope.produto.imagens = imagens;
       }, function(){
-        toastr.warning("Imagem não recebida", "Atenção");
+        toastr.warning("As imagens não foram registradas");
       });
     };
     

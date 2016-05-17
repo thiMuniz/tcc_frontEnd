@@ -282,11 +282,10 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
           }
         }
       });
-      modalInstance.result.then(function (imagemNova) {
-        toastr.success("Imagem recebida", "Sucesso");
+      modalInstance.result.then(function (imagemNova){
         $scope.receita.imagens = [imagemNova];
       }, function(){
-        toastr.warning("Imagem não recebida", "Atenção");
+        toastr.warning("A imagem não foi registrada");
       });
     };
     

@@ -215,10 +215,9 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
       }
     });
     modalInstance.result.then(function (imagens) {
-      toastr.success("Imagem recebida", "Sucesso");
       $scope.cliente.imagem = imagens[0];
     }, function(){
-      toastr.warning("Imagem não recebida", "Atenção");
+      toastr.warning("A imagem não foi registrada");
     });
   };
   

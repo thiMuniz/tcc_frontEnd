@@ -150,10 +150,9 @@ app.controller('SeloCtrl', function ($scope, $modal, SeloResource, CONST, toastr
         }
       });
       modalInstance.result.then(function (imagens) {
-        toastr.success("Imagem recebida", "Sucesso");
         $scope.selo.imagem = imagens[0];
       }, function(){
-        toastr.warning("Imagem não recebida", "Atenção");
+        toastr.warning("A imagem não foi registrada");
       });
     };
         

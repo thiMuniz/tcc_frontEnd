@@ -10,9 +10,11 @@ app.controller('EstoqueCtrl', function (
     LoteResource,     
     CONST, 
     toastr, 
-    $httpParamSerializerJQLike
+    $httpParamSerializerJQLike,
+    $http
 ){
   
+  $http.defaults.headers.common.ApiKey ? toastr.success("tem ApiKey") : toastr.error("não tem ApiKey");
   switch($stateParams.tipoItem){
     case 'embalagem':
       $scope.tipoItem = {dsSing:"Embalagem", dsPlur:"Embalagens", rsc: "EmbalagemResource"};
@@ -55,7 +57,7 @@ app.controller('EstoqueCtrl', function (
   };
   
   $scope.atualizarLista = function(){
-    $scope.lotes = LoteResource.listTotalPorItem({p:$httpParamSerializerJQLike({tipoItem: $stateParams.tipoItem, totalPorItem: 'S'})},
+    $scope.lotes = LoteResource.listFiltro({p:$httpParamSerializerJQLike({tipoItem: $stateParams.tipoItem, totalPorItem: 'S'})},
     function(){
       $scope.calcularEstoque();
       $scope.setHeaderLista();
@@ -264,7 +266,7 @@ app.controller('EstoqueCtrl', function (
       
 //      toastr.info(params.itemEstoque);
       $scope.itemEstoque = params.itemEstoque;
-      $scope.lotes = LoteResource.listLotesItem({p:$httpParamSerializerJQLike({idItem: params.itemEstoque.item.id})});
+      $scope.lotes = LoteResource.listFiltro({p:$httpParamSerializerJQLike({idItem: params.itemEstoque.item.id})});
 //      $scope.lotes = $filter('filter')(params.lotesAll, {$: params.itemEstoque.item.nome});
 //      console.log($scope.lotes);
     }else{

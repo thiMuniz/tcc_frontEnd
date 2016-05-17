@@ -3,28 +3,29 @@
         <ul class="nav in" id="side-menu">
                         
             <li ng-class="{active: collapseVar==1}">
-                <a href ng-click="check(1)"><i class="fa fa-folder-open fa-fw"></i> Cadastros <span
-                        class="fa arrow"></span></a>
+                <a href ng-click="check(1)">
+                  <i class="fa fa-folder-open fa-fw"></i> Cadastros <span class="fa arrow"></span>
+                </a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=1">
-                    <li ><a ui-sref="main.cadastro.fornecedor({perfil: 'fornecedor'})"> Fornecedor </a></li>
-                    <li ><a ui-sref="main.cadastro.cliente({perfil: 'cliente'})"> Cliente </a></li>
-                        <li ng-init="third=!third" ng-class="{active: multiCollapseVar==2}">
-                            <a href ng-click="multiCheck(2)">Colaborador <span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level" collapse="multiCollapseVar!=2">
-                                <li><a ui-sref="main.cadastro.colaborador({perfil: 'diretor'})"> Diretor </a></li>
-                                <li><a ui-sref="main.cadastro.colaborador({perfil: 'gerente'})"> Gerente </a></li>
-                                <li><a ui-sref="main.cadastro.colaborador({perfil: 'producao'})"> Produção </a></li>
-                                <li><a ui-sref="main.cadastro.colaborador({perfil: 'entrega'})"> Entrega </a></li>
-                            </ul>
-                            <!-- /.nav-third-level -->
-                        </li>
-                    <li ><a ui-sref="main.cadastro.receita"> Receita </a></li>
-                    <li ><a ui-sref="main.cadastro.selo"> Selo </a></li>
-                    <li ><a ui-sref="main.cadastro.categoria"> Categoria </a></li>
-                    <li ><a ui-sref="main.cadastro.produto"> Produto </a></li>
-                    <li ><a ui-sref="main.cadastro.insumo"> Insumo </a></li>
-                    <li ><a ui-sref="main.cadastro.embalagem"> Embalagem </a></li>
-                    <li ><a ui-sref="main.cadastro.rotulo"> Rótulo </a></li>
+                  <li><a ui-sref="main.cadastro.embalagem"> Embalagem </a></li>
+                  <li><a ui-sref="main.cadastro.rotulo"> Rótulo </a></li>
+                  <li><a ui-sref="main.cadastro.insumo"> Insumo </a></li>
+                  <li><a ui-sref="main.cadastro.categoria"> Categoria </a></li>
+                  <li><a ui-sref="main.cadastro.receita"> Receita </a></li>
+                  <li><a ui-sref="main.cadastro.produto"> Produto </a></li>
+                  <li><a ui-sref="main.cadastro.selo"> Selo </a></li>
+                  <li><a ui-sref="main.cadastro.fornecedor({perfil: 'fornecedor'})"> Fornecedor </a></li>
+                  <li><a ui-sref="main.cadastro.cliente({perfil: 'cliente'})"> Cliente </a></li>
+                    <li ng-init="third=!third" ng-class="{active: multiCollapseVar==2}">
+                      <a href ng-click="multiCheck(2)">Colaborador <span class="fa arrow"></span></a>
+                      <ul class="nav nav-third-level" collapse="multiCollapseVar!=2">
+                        <li><a ui-sref="main.cadastro.colaborador({perfil: 'diretor'})"> Diretor </a></li>
+                        <li><a ui-sref="main.cadastro.colaborador({perfil: 'gerente'})"> Gerente </a></li>
+                        <li><a ui-sref="main.cadastro.colaborador({perfil: 'producao'})"> Produção </a></li>
+                        <li><a ui-sref="main.cadastro.colaborador({perfil: 'entrega'})"> Entrega </a></li>
+                      </ul>
+                      <!-- /.nav-third-level -->
+                    </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
@@ -33,10 +34,10 @@
                 <a href ng-click="check(3)"><i class="fa fa-cubes fa-fw"></i> Estoque <span
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=3">
-                    <li ><a href ui-sref="main.estoque({tipoItem: 'produto'})"> Produto </a></li>
-                    <li ><a href ui-sref="main.estoque({tipoItem: 'insumo'})"> Insumo </a></li>
-                    <li ><a href ui-sref="main.estoque({tipoItem: 'embalagem'})"> Embalagem </a></li>
-                    <li ><a href ui-sref="main.estoque({tipoItem: 'rotulo'})"> Rótulo </a></li>
+                    <li><a href ui-sref="main.estoque({tipoItem: 'produto'})"> Produto </a></li>
+                    <li><a href ui-sref="main.estoque({tipoItem: 'insumo'})"> Insumo </a></li>
+                    <li><a href ui-sref="main.estoque({tipoItem: 'embalagem'})"> Embalagem </a></li>
+                    <li><a href ui-sref="main.estoque({tipoItem: 'rotulo'})"> Rótulo </a></li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
@@ -64,8 +65,8 @@
                 <a href ng-click="check(6)"><i class="fa fa-check-circle-o fa-fw"></i> Qualidade <span
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=6">
-                    <li ><a href ui-sref="main.qualidade.formulario"> Formulários </a></li>
-                    <li ><a href ui-sref="main.qualidade.contato"> Contato </a></li>
+                    <li><a href ui-sref="main.qualidade.formulario"> Formulários </a></li>
+                    <li><a href ui-sref="main.qualidade.contato"> Contato </a></li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
@@ -74,10 +75,10 @@
                 <a href ng-click="check(7)"><i class="fa fa-shopping-cart fa-fw"></i> E-Commerce <span
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=7">
-                    <li ><a href ui-sref="main.loja.destaque">   Destaque </a></li>
-                    <li ><a href ui-sref="main.loja.lancamento">  Lançamentos </a></li>
-                    <li ><a href ui-sref="main.loja.promocao"> Promoção </a></li>
-                    <li ><a href ui-sref="main.loja.parceiro">  Parceiros </a></li>
+                    <li><a href ui-sref="main.loja.destaque">   Destaque </a></li>
+                    <li><a href ui-sref="main.loja.lancamento">  Lançamentos </a></li>
+                    <li><a href ui-sref="main.loja.promocao"> Promoção </a></li>
+                    <li><a href ui-sref="main.loja.parceiro">  Parceiros </a></li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>

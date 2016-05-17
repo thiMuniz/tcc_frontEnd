@@ -169,8 +169,18 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, EmbalagemResource, Pes
     
     $scope.atualizarLista = function(){
       $scope.embalagem.fornecedores = $scope.temp.fornecedoresItem;
-    }
+    };
     
+    $scope.removerFornecedor = function(indexToRemove){
+      $scope.temp.fornecedoresItem.splice(indexToRemove, 1);
+      $scope.atualizarLista;
+//      angular.forEach($scope.receita.passos, function(passo, passoIndex){
+//        if(passoIndex >= indexToRemove){
+//         passo.ordem = passo.ordem - 1;
+//        }
+//      });
+    };
+        
     $scope.openImagemDialog = function(){
       $scope.params = {
         formTipo: $scope.formTipo,
@@ -191,12 +201,11 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, EmbalagemResource, Pes
         }
       });
       modalInstance.result.then(function (imagens) {
-        toastr.success("Imagem recebida", "Sucesso");
         $scope.embalagem.imagens = imagens;
       }, function(){
-        toastr.warning("Imagem não recebida", "Atenção");
+        toastr.warning("A imagem não foi registrada");
       });
-    };    
+    };
     
     $scope.submit = function () {
       if ($scope.formTipo == 'insert') { //insert

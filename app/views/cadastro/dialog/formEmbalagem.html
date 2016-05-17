@@ -30,7 +30,7 @@
         <label for="material" class="col-sm-3 control-label">Material</label>
         <div class="col-sm-7">
           <select class='form-control' id="material" ng-model='embalagem.material' ng-options="material.nome as material.nome group by material.tipo for material in materiais">
-            <option value='' style='color: #999; opacity: 1;'> Selecione um material </option>
+            <option value="" disabled selected style="display: none;"> Selecione um material </option>
           </select>
         </div>
       </div>
