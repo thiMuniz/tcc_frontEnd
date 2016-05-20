@@ -168,6 +168,11 @@ app.controller('InsumoCtrl', function ($scope, $modal, InsumoResource, PessoaRes
       $scope.insumo.fornecedores = $scope.temp.fornecedoresItem;
     }
     
+    $scope.removerFornecedor = function(index){
+      $scope.temp.fornecedoresItem.splice(index, 1);
+      $scope.atualizarLista;
+    };
+    
     $scope.openImagemDialog = function(){
       $scope.params = {
         formTipo: $scope.formTipo,

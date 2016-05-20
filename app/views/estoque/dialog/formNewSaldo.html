@@ -3,18 +3,18 @@
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>    
   </div>
+  {{newSaldo}}
   <div class="modal-body">
-    <form class="form-horizontal" role="form" name="formSaldoLote">
+    <form class="form" role="form" name="formNewSaldo">
       <div class="form-group">
         <label for="quantidade">Nova Quantidade</label>
         <input id="quantidade" placeholder="Novo saldo" class="form-control com-sm-7" ng-model="newSaldo.quantidade">
       </div>
       <div class="form-group">
-        <label for="justificativa">Justificativa</label>
-        <textarea id="justificativa" placeholder="Justifique a alteração do saldo" class="form-control com-sm-10" row="3" ng-model="newSaldo.justificativa" />
+        <label for="motivo">Motivo</label>
+        <textarea id="motivo" placeholder="Justifique a alteração do saldo" class="form-control com-sm-10" row="3" ng-model="newSaldo.motivo" ></textarea>
       </div>
     </form>
-
   </div><!-- /.modal body-->
 
   <div class="modal-footer">
@@ -22,7 +22,7 @@
       <ng-md-icon icon="clear"></ng-md-icon> Cancelar
     </button>
     <button type="button" class="btn btn-outline btn-success" ng-click="submit()">
-      <ng-md-icon icon="save"></ng-md-icon> Confirmar
+      <ng-md-icon icon="done"></ng-md-icon> Confirmar
     </button>
   </div>
 </div><!-- /.modal content-->

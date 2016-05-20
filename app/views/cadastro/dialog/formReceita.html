@@ -89,8 +89,10 @@
             <button class="btn btn-primary btn-xs" ng-click="addPasso()" tooltip="Adicionar instrução">
               <ng-md-icon icon="playlist_add"></ng-md-icon> Adicionar instrução
             </button>
-
+            
+<!--  INÍCIO TESTES
             <div data-as-sortable="board.dragControlListeners" data-ng-model="receita.passos" ng-show="receita.passos.length > 0">
+
               <div class="row">
                 <div class="col-sm-2">Index</div>
                 <div class="col-sm-2">Ordem</div>
@@ -98,6 +100,7 @@
                 <div class="col-sm-2">Descrição</div>
                 <div class="col-sm-2">Ação</div>
               </div>
+
               <div data-ng-repeat="passoReceita in receita.passos" data-as-sortable-item>
                 <div data-as-sortable-item-handle class="table-responsive">
                   <table class="table" ng-show="receita.passos.length > 0">
@@ -137,13 +140,14 @@
                         </td>
                       </tr>
                     </tbody>
-                  </table>
+                  </table>-->
 <!--                  [{{$index}}]{{passoReceita.ordem}}-->
-                </div>
+<!--                </div>
               </div>
             </div>
-            
-<!--            <table class="table" ng-show="receita.passos.length > 0">
+FIM TESTES              -->
+
+            <table class="table" ng-show="receita.passos.length > 0">
               <thead>
                 <tr>
                   <th>Ordem</th>
@@ -176,7 +180,7 @@
                   </td>
                 </tr>
               </tbody>
-            </table>-->
+            </table>
           </div><!-- /.panel-heading -->
         </div><!-- /.ABA 3 - Instruções -->
         

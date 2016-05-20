@@ -166,7 +166,12 @@ app.controller('RotuloCtrl', function ($scope, $modal, RotuloResource, PessoaRes
     
     $scope.atualizarLista = function(){
       $scope.rotulo.fornecedores = $scope.temp.fornecedoresItem;
-    }
+    };
+    
+    $scope.removerFornecedor = function(index){
+      $scope.temp.fornecedoresItem.splice(index, 1);
+      $scope.atualizarLista;
+    };
     
     $scope.openImagemDialog = function(){
       $scope.params = {

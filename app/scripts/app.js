@@ -24,7 +24,8 @@ var app = angular
           'ui.select',
           'as.sortable',
           '720kb.datepicker',
-          'ngCookies'
+          'ngCookies',
+          'datatables'
         ])
         .constant("CONST", {
           ws:{
@@ -374,6 +375,7 @@ var app = angular
                             name: 'sbAdminApp',
                             files: [
                               'scripts/controllers/estoque/estoque.js',
+                              'scripts/controllers/estoque/saldoLote.js',
                               'scripts/services/lote.js',
                               'scripts/services/embalagem.js',
                               'scripts/services/rotulo.js',

@@ -171,14 +171,9 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, EmbalagemResource, Pes
       $scope.embalagem.fornecedores = $scope.temp.fornecedoresItem;
     };
     
-    $scope.removerFornecedor = function(indexToRemove){
-      $scope.temp.fornecedoresItem.splice(indexToRemove, 1);
+    $scope.removerFornecedor = function(index){
+      $scope.temp.fornecedoresItem.splice(index, 1);
       $scope.atualizarLista;
-//      angular.forEach($scope.receita.passos, function(passo, passoIndex){
-//        if(passoIndex >= indexToRemove){
-//         passo.ordem = passo.ordem - 1;
-//        }
-//      });
     };
         
     $scope.openImagemDialog = function(){

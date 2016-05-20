@@ -11,10 +11,10 @@ app.controller('EstoqueCtrl', function (
     CONST, 
     toastr, 
     $httpParamSerializerJQLike,
-    $http
+    $http,
+    $cookies
 ){
-  
-  $http.defaults.headers.common.ApiKey ? toastr.success("tem ApiKey") : toastr.error("não tem ApiKey");
+  $scope.tipoItem = {};  
   switch($stateParams.tipoItem){
     case 'embalagem':
       $scope.tipoItem = {dsSing:"Embalagem", dsPlur:"Embalagens", rsc: "EmbalagemResource"};
@@ -35,6 +35,8 @@ app.controller('EstoqueCtrl', function (
   $scope.tituloView = "Estoque de " + $scope.tipoItem.dsPlur;
   $scope.labelCadastrarBtn = "Entrada";
   
+  /*
+   * Excluir após testes (método atualizarLista pega a lista direto da API)
   $scope.calcularEstoque = function(){
     $scope.estoque = [];
     angular.forEach($scope.lotes, function(value, key){
@@ -55,14 +57,17 @@ app.controller('EstoqueCtrl', function (
       }
     });
   };
-  
+  */
   $scope.atualizarLista = function(){
-    $scope.lotes = LoteResource.listFiltro({p:$httpParamSerializerJQLike({tipoItem: $stateParams.tipoItem, totalPorItem: 'S'})},
+    $scope.estoque = LoteResource.listFiltro({p:$httpParamSerializerJQLike({tipoItem: $stateParams.tipoItem, totalPorItem: 'S'})},
     function(){
-      $scope.calcularEstoque();
       $scope.setHeaderLista();
-    }); //definir c gustavo tipo || tipoItem
-//    $scope.lotes = LoteResource.query();
+    });
+//    $scope.lotes = LoteResource.listFiltro({p:$httpParamSerializerJQLike({tipoItem: $stateParams.tipoItem})},
+//    function(){
+//      $scope.calcularEstoque();
+//      $scope.setHeaderLista();
+//    });
   };
   
   $scope.ordenar = function (campo) {
@@ -149,47 +154,19 @@ app.controller('EstoqueCtrl', function (
     });
   };
 
-  $scope.openUpdateDialog = function (lote) {    
-//    index = $scope.lotes.indexOf($filter('filter')($scope.lotes, lote, true)[0]);    
+  $scope.openListLotesDialog = function(itemEstoque){
     $scope.params = {
-      formTipo: 'update',
-      iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
-      tituloDialog: "Editar Lote",
-      itens: getItensList(),
-      lote: angular.copy(lote)
-    };
-
-    var modalInstance = $modal.open({
-      templateUrl: "views/estoque/dialog/formLote.html",
-      controller: "LoteDialogCtrl",
-      backdrop: 'static',
-      size: '',
-      resolve: {
-        params: function () {
-          return $scope.params;
-        }
-      }
-    });
-    modalInstance.result.then(function (result) {
-      if (result.status == "sucesso") {
-//        $scope.lotes[index] = result.lote;
-        $scope.atualizarLista();
-//        scope.$apply(); 
-      } 
-    });
-  };
-  
-  $scope.openUpdateSaldoDialog = function(itemEstoque){
-    $scope.params = {
-      formTipo: 'updateSaldo',
+      formTipo: 'updateLotes',
       iconeHeaderDialog: 'settings',
-      tituloDialog: "Atualizar Saldo Lotes",
-      tipoItem: $scope.tipoItem,
-      lotesAll: angular.copy($scope.lotes),
+      tituloDialog: "Editar Lotes",
+      itensList: getItensList(),
+//      tipoItem: $scope.tipoItem,
+//      lotesAll: angular.copy($scope.lotes),
+//      lotesItem: LoteResource.listFiltro({p:$httpParamSerializerJQLike({idItem: params.itemEstoque.item.id})}),
       itemEstoque: angular.copy(itemEstoque)
     };
     var modalInstance = $modal.open({
-      templateUrl: "views/estoque/dialog/formSaldo.html",
+      templateUrl: "views/estoque/dialog/listLotesItem.html",
       controller: "LoteDialogCtrl",
       backdrop: 'static',
       size: 'lg',
@@ -201,10 +178,8 @@ app.controller('EstoqueCtrl', function (
     });
     modalInstance.result.then(function (result) {
       if (result.status == "sucesso") {
-//        $scope.lotes[index] = result.lote;
         $scope.atualizarLista();
-//        scope.$apply(); 
-      } 
+      }
     });
   };
   
@@ -255,160 +230,192 @@ app.controller('EstoqueCtrl', function (
   };
   
   $scope.atualizarLista();
+  
 })
-  .controller('LoteDialogCtrl', function ($scope, $modal, $modalInstance, LoteResource, $filter, $httpParamSerializerJQLike, params, CONST, toastr) {
-    $scope.CONST = CONST;
-    $scope.formTipo = params.formTipo;
-    $scope.iconeHeaderDialog = params.iconeHeaderDialog;
-    $scope.tituloDialog = params.tituloDialog;
-    $scope.tipoItem = params.tipoItem;
-    if($scope.formTipo == "updateSaldo"){
-      
+.controller('LoteDialogCtrl', function ($scope, $modal, $modalInstance, LoteResource, $filter, $httpParamSerializerJQLike, params, CONST, toastr) {
+  $scope.CONST = CONST;
+  $scope.formTipo = params.formTipo;
+  $scope.iconeHeaderDialog = params.iconeHeaderDialog;
+  $scope.tituloDialog = params.tituloDialog;
+  $scope.tipoItem = params.tipoItem;
+  $scope.lotesNew = [];
+
+  $scope.ordenar = function (campo) {
+    $scope.campo = campo;
+    $scope.ascDsc = !$scope.ascDsc;
+  };  
+
+  $scope.atualizarLista = function(){
+    $scope.lotes = LoteResource.listFiltro({p:$httpParamSerializerJQLike({idItem: params.itemEstoque.item.id})});
+  };
+  
+  if($scope.formTipo == "updateLotes"){
+    $scope.loteAtualizado = false;
+
 //      toastr.info(params.itemEstoque);
-      $scope.itemEstoque = params.itemEstoque;
-      $scope.lotes = LoteResource.listFiltro({p:$httpParamSerializerJQLike({idItem: params.itemEstoque.item.id})});
+    $scope.itemEstoque = params.itemEstoque;
+    $scope.atualizarLista();
+//    $scope.lotes = LoteResource.listFiltro({p:$httpParamSerializerJQLike({idItem: params.itemEstoque.item.id})});
+//        function(){
+//          $scope.lotesNew = [];
+//          angular.forEach($scope.lotes, function(value, key){
+//            var loteNew = {
+//              loteOrig: value,
+//              newSaldo: $scope.newSaldo
+//            };
+//            $scope.lotesNew.push(loteNew);
+//          });
+//        });
+//        
 //      $scope.lotes = $filter('filter')(params.lotesAll, {$: params.itemEstoque.item.nome});
 //      console.log($scope.lotes);
-    }else{
-      $scope.itensAll = params.itens;
-      $scope.lote = params.lote;
-      $scope.loteInit = angular.copy($scope.lote);
-      $scope.lotes = params.lotes ? params.lotes : null;
-    }
-    
-    $scope.openNewSaldoDialog = function(){
-      $scope.params = {
-        formTipo: $scope.formTipo,
-        iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
-        tituloDialog: "Informe o novo saldo",
-        newSaldo: null
-      };
-      var modalInstance = $modal.open({
-        templateUrl: "views/estoque/dialog/formNewSaldo.html",
-        controller: "NewSaldoDialogCtrl",
-        backdrop: 'static',
-        size: 'sm',
-        resolve: {
-          params: function () {
-            return $scope.params;
-          } 
+  }else{
+    $scope.itensAll = params.itens;
+    $scope.lote = params.lote;
+    $scope.loteInit = angular.copy($scope.lote);
+    $scope.lotes = params.lotes ? params.lotes : null;
+  }
+   
+//    testes datatables responsive
+//    $('#myTable').DataTable( {
+//        responsive: true
+//    } );
+
+//    $scope.WithResponsiveCtrl = function (DTOptionsBuilder, DTColumnBuilder) {
+//      var vm = this;
+//      vm.dtOptions = DTOptionsBuilder.fromSource($scope.lotes)
+////        .withPaginationType('full_numbers')
+//        // Active Responsive plugin
+//        .withOption('responsive', true);
+//      vm.dtColumns = [
+//        DTColumnBuilder.newColumn('id').withTitle('ID'),
+//        DTColumnBuilder.newColumn('firstName').withTitle('First name'),
+//        // .notVisible() does not work in this case. Use .withClass('none') instead
+//        DTColumnBuilder.newColumn('lastName').withTitle('Last name').withClass('none')
+//      ];
+//    }
+//    
+//    fim testes datatables responsive
+
+  $scope.openUpdateDialog = function(lote){
+//    index = $scope.lotes.indexOf($filter('filter')($scope.lotes, lote, true)[0]);    
+    $scope.params = {
+      formTipo: 'update',
+      iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
+      tituloDialog: "Editar Lote",
+      itens: params.itensList,
+      lote: angular.copy(lote)
+    };
+    var modalInstance = $modal.open({
+      templateUrl: "views/estoque/dialog/formLote.html",
+      controller: "LoteDialogCtrl",
+      backdrop: 'static',
+      size: '',
+      resolve: {
+        params: function () {
+          return $scope.params;
         }
-      });
-      modalInstance.result.then(function (newSaldo) {
-        toastr.success("Novo saldo recebido");
-        $scope.produto.imagens = imagens;
+      }
+    });
+    modalInstance.result.then(function (result) {
+      if (result.status == "sucesso") {
+        $scope.loteAtualizado = true;
+        $scope.atualizarLista();        
+      } 
+    });
+  };
+  
+  $scope.openNewSaldoDialog = function(lote){
+    $scope.params = {
+      formTipo: $scope.formTipo,
+      iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
+      tituloDialog: "Novo saldo",
+      lote: angular.copy(lote)
+    };
+    var modalInstance = $modal.open({
+      templateUrl: "views/estoque/dialog/formNewSaldo.html",
+      controller: "NewSaldoDialogCtrl",
+      backdrop: 'static',
+      size: '',
+      resolve: {
+        params: function () {
+          return $scope.params;
+        } 
+      }
+    });
+    modalInstance.result.then(function (result) {
+      if (result.status == "sucesso") {
+        $scope.atualizarLista();
+      } 
+    }, function(){
+      toastr.warning("Saldo não alterado");
+    });
+  };
+
+
+  $scope.submit = function(){
+    if ($scope.formTipo == 'insert') { //insert
+      $scope.lote.$save(function(){
+        var toastMsg = "Lote " + $scope.lote.codLote + " cadastrado com sucesso!";
+        toastr.success(toastMsg, "successo");
+        var result = {
+          lote: $scope.lote, 
+          status: "sucesso"
+        };
+        $scope.close(result);
       }, function(){
-        toastr.warning("Saldo não alterado");
+        var toastMsg = "Erro ao cadastrar Lote " + $scope.lote.codLote;
+        toastr.error(toastMsg, "Erro");
+        var result = {
+          status: "erro"
+        };
+        $scope.close(result);
       });
-    };
-    
-    
-    $scope.submit = function(){
-      if ($scope.formTipo == 'insert') { //insert
-        $scope.lote.$save(function(){
-          var toastMsg = "Lote " + $scope.lote.codLote + " cadastrado com sucesso!";
-          toastr.success(toastMsg, "successo");
-          var result = {
-            lote: $scope.lote, 
-            status: "sucesso"
-          };
-          $scope.close(result);
-        }, function(){
-          var toastMsg = "Erro ao cadastrar Lote " + $scope.lote.codLote;
-          toastr.error(toastMsg, "Erro");
-          var result = {
-            status: "erro"
-          };
-          $scope.close(result);
-        });
-      } else { //update
-        $scope.lote.$update(function(){
-          var toastMsg = "Lote " + $scope.lote.codLote + " editado com sucesso!";
-          toastr.success(toastMsg, "Sucesso");
-          var result = {
-            lote: $scope.lote, 
-            status: "sucesso"
-          };
-          $scope.close(result);
-        }, function(){
-          var toastMsg = "Erro ao editar Lote " + $scope.lote.codLote;
-          toastr.error(toastMsg, "Erro");
-          var result = {
-            status: "erro"
-          };
-          $scope.close(result);
-        });
-      }
-    };
-    
-    $scope.clear = function () {
-      $scope.lote = angular.copy($scope.loteInit);
-      if(params.formTipo == 'lookup'){
-        $scope.temp.fornecedoresItem = $scope.loteInit.fornecedores;      
-      }
-    };
-    
-    $scope.close = function(result){
-      $modalInstance.close(result);
-    };
+    } else { //update
+      $scope.lote.$update(function(){
+        var toastMsg = "Lote " + $scope.lote.codLote + " editado com sucesso!";
+        toastr.success(toastMsg, "Sucesso");
+        var result = {
+          lote: $scope.lote, 
+          status: "sucesso"
+        };
+        $scope.close(result);
+      }, function(){
+        var toastMsg = "Erro ao editar Lote " + $scope.lote.codLote;
+        toastr.error(toastMsg, "Erro");
+        var result = {
+          status: "erro"
+        };
+        $scope.close(result);
+      });
+    }
+  };
+  
+  $scope.closeListLotesDialog = function(){
+    if($scope.loteAtualizado){
+      var result = {
+        status: "sucesso"
+      };
+      $scope.close(result);
+    }else{
+      $scope.cancel();
+    }
+  };
 
-    $scope.cancel = function () {
-      $modalInstance.dismiss('cancel');
-    };
+  $scope.clear = function () {
+    $scope.lote = angular.copy($scope.loteInit);
+    if(params.formTipo == 'lookup'){
+      $scope.temp.fornecedoresItem = $scope.loteInit.fornecedores;      
+    }
+  };
 
-  })
-  .controller('NewSaldoDialogCtrl', function ($scope, $modal, $modalInstance, LoteResource, $filter, $httpParamSerializerJQLike, params, CONST, toastr) {
-    $scope.CONST = CONST;
-    $scope.formTipo = params.formTipo;
-    $scope.iconeHeaderDialog = params.iconeHeaderDialog;
-    $scope.tituloDialog = params.tituloDialog;
-    $scope.tipoItem = params.tipoItem;
-    
-    $scope.submit = function(){
-      if ($scope.formTipo == 'insert') { //insert
-        $scope.lote.$save(function(){
-          var toastMsg = "Lote " + $scope.lote.codLote + " cadastrado com sucesso!";
-          toastr.success(toastMsg, "successo");
-          var result = {
-            lote: $scope.lote, 
-            status: "sucesso"
-          };
-          $scope.close(result);
-        }, function(){
-          var toastMsg = "Erro ao cadastrar Lote " + $scope.lote.codLote;
-          toastr.error(toastMsg, "Erro");
-          var result = {
-            status: "erro"
-          };
-          $scope.close(result);
-        });
-      } else { //update
-        $scope.lote.$update(function(){
-          var toastMsg = "Lote " + $scope.lote.codLote + " editado com sucesso!";
-          toastr.success(toastMsg, "Sucesso");
-          var result = {
-            lote: $scope.lote, 
-            status: "sucesso"
-          };
-          $scope.close(result);
-        }, function(){
-          var toastMsg = "Erro ao editar Lote " + $scope.lote.codLote;
-          toastr.error(toastMsg, "Erro");
-          var result = {
-            status: "erro"
-          };
-          $scope.close(result);
-        });
-      }
-    };
-    
-    $scope.close = function(result){
-      $modalInstance.close(result);
-    };
+  $scope.close = function(result){
+    $modalInstance.close(result);
+  };
 
-    $scope.cancel = function () {
-      $modalInstance.dismiss('cancel');
-    };
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
 
-  });
+});
 

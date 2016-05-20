@@ -51,14 +51,14 @@
     <!--</form>-->
   </div><!-- /.modal body-->
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
+<!--    <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
       <ng-md-icon icon="refresh"></ng-md-icon> Limpar
-    </button>
+    </button>-->
     <button type="button" class="btn btn-outline btn-danger" ng-click="cancel()" data-dismiss="modal">
       <ng-md-icon icon="clear"></ng-md-icon> Cancelar
     </button>
     <button type="button" class="btn btn-outline btn-success" ng-click="submit()" ng-disabled="imagens == imagensInit">
-      <ng-md-icon icon="save"></ng-md-icon> Confirmar
+      <ng-md-icon icon="{{maxImagens > 1 ? 'done_all' : 'done'}}"></ng-md-icon> Confirmar
     </button>
   </div>
 </div><!-- /.modal content-->

@@ -11,6 +11,10 @@ app.factory("PessoaResource", function ($resource, CONST) {
     login: { 
       method: 'POST',
       url : CONST.ws.urlSGP+'login',
+    },
+    logout: { 
+      method: 'POST',
+      url : CONST.ws.urlSGP+'logout',
     }
   });
 });

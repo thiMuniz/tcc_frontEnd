@@ -1,15 +1,11 @@
 'use strict';
 app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource, CONST, toastr, $stateParams, $httpParamSerializerJQLike) {
-  var toastTitle = "Bem vindo programador!!";
-  var toastMsg = "Boa sorte dessa vez...";
+  var toastMsg = "";
 
-//  var index;
   $scope.CONST = CONST;
   $scope.tituloView = "Cadastro de Clientes";
   $scope.headerLista = "Nenhum cliente foi encontrado";
   $scope.labelCadastrarBtn = "Novo Cliente";
-
-  toastr.warning(toastMsg, toastTitle);
 
   $scope.atualizarLista = function(){
 //    $scope.clientes = ClienteResource.query();
