@@ -10,44 +10,43 @@ app.controller('NewSaldoDialogCtrl', function ($scope, $modal, $modalInstance, L
   $scope.newSaldo = null;
   $scope.motivo = null;
 
-//  $scope.submit = function () {
-//    $scope.close($scope.newSaldo);
-//  };
+  $scope.motivos = [
+    'motivo 1',
+    'motivo 2',
+    'motivo 3',
+    'motivo 4',
+    'motivo 5',
+    'motivo 6',
+    'motivo 7'
+  ];
+  
   $scope.submit = function(){
-    if ($scope.formTipo == 'insert') { //insert
-      $scope.lote.$save(function(){
-        var toastMsg = "Lote " + $scope.lote.codLote + " cadastrado com sucesso!";
-        toastr.success(toastMsg, "successo");
+    if($scope.formTipo == 'updateLotes'){
+      $scope.lote.estoqueDisponivel = $scope.newSaldo;
+      $scope.lote.$updateSaldo({p:$httpParamSerializerJQLike({motivo: $scope.motivo})}, function(){
+        var toastMsg = "Saldo do Lote " + $scope.lote.codLote + " alterado com sucesso!";
+        toastr.success(toastMsg);
         var result = {
           lote: $scope.lote, 
           status: "sucesso"
         };
         $scope.close(result);
       }, function(){
-        var toastMsg = "Erro ao cadastrar Lote " + $scope.lote.codLote;
+        var toastMsg = "Erro ao alterar saldo do Lote " + $scope.lote.codLote;
         toastr.error(toastMsg, "Erro");
         var result = {
           status: "erro"
         };
         $scope.close(result);
       });
-    } else { //update
-      $scope.lote.$update(function(){
-        var toastMsg = "Lote " + $scope.lote.codLote + " editado com sucesso!";
-        toastr.success(toastMsg, "Sucesso");
-        var result = {
-          lote: $scope.lote, 
-          status: "sucesso"
-        };
-        $scope.close(result);
-      }, function(){
-        var toastMsg = "Erro ao editar Lote " + $scope.lote.codLote;
-        toastr.error(toastMsg, "Erro");
-        var result = {
-          status: "erro"
-        };
-        $scope.close(result);
-      });
+    }else{
+      var toastMsg = "Saldo do Lote " + $scope.lote.codLote + " alterado com sucesso!";
+      toastr.success(toastMsg);
+      var result = {
+        lote: $scope.lote,
+        newSaldo: $scope.newSaldo
+      };
+      $scope.close(result);
     }
   };
   
@@ -55,7 +54,9 @@ app.controller('NewSaldoDialogCtrl', function ($scope, $modal, $modalInstance, L
     $modalInstance.close(result);
   };
 
-  $scope.cancel = function () {
+  $scope.cancel = function(){
+    var toastMsg = "Saldo do Lote " + $scope.lote.codLote + " não foi alterado";
+    toastr.warning(toastMsg, "Erro");    
     $modalInstance.dismiss('cancel');
   };
 

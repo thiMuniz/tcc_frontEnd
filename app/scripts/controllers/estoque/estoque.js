@@ -136,7 +136,7 @@ app.controller('EstoqueCtrl', function (
     };
     var modalInstance = $modal.open({
       templateUrl: "views/estoque/dialog/formInventario.html",
-      controller: "LoteDialogCtrl",
+      controller: "InventarioDialogCtrl",
       backdrop: 'static',
       size: 'lg',
       resolve: {
@@ -147,9 +147,7 @@ app.controller('EstoqueCtrl', function (
     });
     modalInstance.result.then(function (result) {
       if (result.status == "sucesso") {
-//        $scope.lotes[index] = result.lote;
         $scope.atualizarLista();
-//        scope.$apply(); 
       } 
     });
   };
@@ -250,7 +248,7 @@ app.controller('EstoqueCtrl', function (
   };
   
   if($scope.formTipo == "updateLotes"){
-    $scope.loteAtualizado = false;
+    $scope.atualizarListaEstoque = false;
 
 //      toastr.info(params.itemEstoque);
     $scope.itemEstoque = params.itemEstoque;
@@ -319,39 +317,39 @@ app.controller('EstoqueCtrl', function (
     });
     modalInstance.result.then(function (result) {
       if (result.status == "sucesso") {
-        $scope.loteAtualizado = true;
-        $scope.atualizarLista();        
-      } 
+        $scope.atualizarListaEstoque = true;
+        $scope.atualizarLista();
+      }
     });
   };
   
   $scope.openNewSaldoDialog = function(lote){
     $scope.params = {
       formTipo: $scope.formTipo,
-      iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
-      tituloDialog: "Novo saldo",
+      iconeHeaderDialog: 'swap_vert',
+      tituloDialog: "Alterar saldo",
       lote: angular.copy(lote)
     };
     var modalInstance = $modal.open({
       templateUrl: "views/estoque/dialog/formNewSaldo.html",
       controller: "NewSaldoDialogCtrl",
       backdrop: 'static',
-      size: '',
+      size: 'sm',
       resolve: {
         params: function () {
           return $scope.params;
-        } 
+        }
       }
     });
     modalInstance.result.then(function (result) {
       if (result.status == "sucesso") {
+        $scope.atualizarListaEstoque = true;
         $scope.atualizarLista();
       } 
     }, function(){
       toastr.warning("Saldo não alterado");
     });
   };
-
 
   $scope.submit = function(){
     if ($scope.formTipo == 'insert') { //insert
@@ -392,7 +390,7 @@ app.controller('EstoqueCtrl', function (
   };
   
   $scope.closeListLotesDialog = function(){
-    if($scope.loteAtualizado){
+    if($scope.atualizarListaEstoque){
       var result = {
         status: "sucesso"
       };

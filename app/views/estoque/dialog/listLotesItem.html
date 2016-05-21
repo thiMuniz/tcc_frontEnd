@@ -41,7 +41,10 @@
 <!--              <td><input type="text" class="form-control" ng-model="lote.novoEstoqueDisponivel"></td>
               <td><textarea class="form-control" ng-model="lote.justificativa"/></td>-->
               <td>
-                <a ng-click="openUpdateDialog(lote);" tooltip="Novo saldo">
+                <a ng-click="openNewSaldoDialog(lote);" tooltip="Novo saldo">
+                  <ng-md-icon icon="swap_vert"></ng-md-icon>
+                </a>&nbsp;
+                <a ng-click="openUpdateDialog(lote);" tooltip="Editar Lote">
                   <ng-md-icon icon="edit"></ng-md-icon>
                 </a>&nbsp;
                 <a ng-click="openInfoDialog(lote);" tooltip="{{CONST.info.tooltipAcao}}">

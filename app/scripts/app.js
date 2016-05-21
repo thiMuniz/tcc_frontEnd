@@ -376,6 +376,7 @@ var app = angular
                             files: [
                               'scripts/controllers/estoque/estoque.js',
                               'scripts/controllers/estoque/saldoLote.js',
+                              'scripts/controllers/estoque/inventario.js',
                               'scripts/services/lote.js',
                               'scripts/services/embalagem.js',
                               'scripts/services/rotulo.js',
