@@ -109,10 +109,19 @@
               <input class="form-control" type="text" id="cpf" placeholder="" ng-model="cliente.pf.cpf" >
             </div>
           </div>
-          <div class="form-group">
+          <!--          apagar após testes com datepicker-->
+<!--          <div class="form-group">
             <label for="dtNascimento" class="col-sm-3 control-label">Data Nascimento</label>
             <div class="col-sm-7">
               <input class="form-control" type="text" id="dtNascimento" placeholder="" ng-model="cliente.pf.dtNascimento" >
+            </div>
+          </div>-->
+          <div class="form-group">
+            <label for="dtNascimento" class="col-sm-3 control-label">Data de Nascimento</label>
+            <div class="col-sm-7">
+              <div class="datepicker" date-format="dd/MM/yyyy">
+                <input class="form-control" type="text" id="dtNascimento" placeholder="Data de Nascimento" ng-model="cliente.pf.dtNascimento">
+              </div>
             </div>
           </div>
         </div><!-- /.ABA 2 - PF  -->
@@ -149,13 +158,21 @@
               <input class="form-control" type="text" id="inscricaoEst" placeholder="" ng-model="cliente.pj.inscricaoEst" >
             </div>
           </div> 
-
-          <div class="form-group">
+          <!--          apagar após testes com datepicker-->
+<!--          <div class="form-group">
             <label for="dtAbertura" class="col-sm-3 control-label">Data Abertura</label>
             <div class="col-sm-7">
               <input class="form-control" type="text" id="dtAbertura" placeholder="" ng-model="cliente.pj.dtAbertura" >
             </div>
-          </div>  
+          </div>  -->
+          <div class="form-group">
+            <label for="dtAbertura" class="col-sm-3 control-label">Data de Abertura</label>
+            <div class="col-sm-7">
+              <div class="datepicker" date-format="dd/MM/yyyy">
+                <input class="form-control" type="text" id="dtAbertura" placeholder="Data de Abertura" ng-model="cliente.pj.dtAbertura">
+              </div>
+            </div>
+          </div>
           <div class="form-group">
             <label for="contato" class="col-sm-3 control-label">Contato</label>
             <div class="col-sm-7">

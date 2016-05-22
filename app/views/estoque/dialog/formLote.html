@@ -26,7 +26,7 @@
           </ui-select>
         </div>
       </div>
-      <div class="form-group" ng-hide="tipoItem.desc == 'Produtos'">
+      <div class="form-group" ng-hide="tipoItem.dsSing == 'Produto'">
         <label for="codLote" class="col-sm-3 control-label">Lote</label>
         <div class="col-sm-7">
           <input class="form-control" type="text" id="codLote" placeholder="Código do lote" ng-model="lote.codLote">
@@ -53,6 +53,10 @@
             <input class="form-control" type="text" id="dtVencimento" placeholder="Data de validade do lote" ng-model="lote.dtVencimento">
           </div>
         </div>
+      </div>      
+      <div class="alert alert-danger alert-dismissable">
+        <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
+        *Confirmar com cliente regra p/ exibição das datas cfm tipo do Item
       </div>
     </form>      
 

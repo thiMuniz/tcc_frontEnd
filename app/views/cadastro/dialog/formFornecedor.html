@@ -94,13 +94,21 @@
               <input class="form-control" type="text" id="inscricaoEst" placeholder="" ng-model="fornecedor.pj.inscricaoEst" ng-disabled="formTipo == 'update'">
             </div>
           </div> 
-
-          <div class="form-group">
+          <!--          apagar após testes com datepicker-->
+<!--          <div class="form-group">
             <label for="dtAbertura" class="col-sm-3 control-label">Data Abertura</label>
             <div class="col-sm-7">
               <input class="form-control" type="text" id="dtAbertura" placeholder="" ng-model="fornecedor.pj.dtAbertura" ng-disabled="formTipo == 'update'">
             </div>
-          </div>  
+          </div>  -->
+          <div class="form-group">
+            <label for="dtAbertura" class="col-sm-3 control-label">Data de Abertura</label>
+            <div class="col-sm-7">
+              <div class="datepicker" date-format="dd/MM/yyyy">
+                <input class="form-control" type="text" id="dtAbertura" placeholder="Data de Abertura" ng-model="fornecedor.pj.dtAbertura">
+              </div>
+            </div>
+          </div>
           <div class="form-group">
             <label for="contato" class="col-sm-3 control-label">Contato</label>
             <div class="col-sm-7">

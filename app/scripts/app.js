@@ -43,8 +43,8 @@ var app = angular
           info: {iconeAcao: "info", iconeHeaderDialog: "info_outline", tooltipAcao:"Detalhes"}
           
         })
-        .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
-
+        .config(function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
+          
             $ocLazyLoadProvider.config({
               debug: false,
               events: true
@@ -387,4 +387,29 @@ var app = angular
                         }
                       }
                     });
-          }]);
+          })
+          .run(function ($http, $cookies, $interval, $filter) {
+//          
+            if($cookies.getObject('objToken')){
+              var objToken = $cookies.getObject('objToken');
+              $http.defaults.headers.common.Token = objToken.token;
+            }else{
+              $http.defaults.headers.common.Token = undefined;
+            }
+            
+            $interval(function(){
+              if($cookies.getObject('objToken')){
+                var expDt = $cookies.getObject('objToken').dtExpiracao;
+                var curDt = new Date();
+                console.log('remainig time: ' + (moment.utc(moment(expDt).diff(moment(curDt))).format("HH:mm:ss")));
+                //exibir o remaining time no header
+              } else {
+                console.log('sessão inativa');
+                if($http.defaults.headers.common.Token){
+                  $http.defaults.headers.common.Token = undefined;
+                }
+                  //chamar pop up de login
+              }
+            }, 5*60*1000); //o 3º param pode ser o numero de iterações da function
+            
+          });

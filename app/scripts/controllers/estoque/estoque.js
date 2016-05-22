@@ -331,8 +331,8 @@ app.controller('EstoqueCtrl', function (
       lote: angular.copy(lote)
     };
     var modalInstance = $modal.open({
-      templateUrl: "views/estoque/dialog/formNewSaldo.html",
-      controller: "NewSaldoDialogCtrl",
+      templateUrl: "views/estoque/dialog/formSaldo.html",
+      controller: "SaldoDialogCtrl",
       backdrop: 'static',
       size: 'sm',
       resolve: {

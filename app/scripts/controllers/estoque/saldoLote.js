@@ -1,5 +1,5 @@
 'use strict';
-app.controller('NewSaldoDialogCtrl', function ($scope, $modal, $modalInstance, LoteResource, $filter, $httpParamSerializerJQLike, params, CONST, toastr) {
+app.controller('SaldoDialogCtrl', function ($scope, $modal, $modalInstance, LoteResource, $filter, $httpParamSerializerJQLike, params, CONST, toastr) {
   $scope.CONST = CONST;
   $scope.formTipo = params.formTipo;
   $scope.iconeHeaderDialog = params.iconeHeaderDialog;
