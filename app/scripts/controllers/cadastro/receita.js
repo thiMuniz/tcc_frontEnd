@@ -231,6 +231,11 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
       $scope.receita.passos = [];
     }
     
+    $scope.ordenar = function (campo) {
+      $scope.campo = campo;
+      $scope.ascDsc = !$scope.ascDsc;
+    };
+    
     $scope.addPasso = function(){
       var passo = {
         ordem: $scope.receita.passos ? $scope.receita.passos.length+1 : 1,
@@ -249,19 +254,12 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
       });
     };
     
-    $scope.movePassoToUp = function(indexToMove){
-      toastr.info(indexToMove+1, 'passo selecionado');
-      $scope.receita.passos[indexToMove].ordem = $scope.receita.passos[indexToMove].ordem + 1;
-      $scope.receita.passos[indexToMove+1].ordem = $scope.receita.passos[indexToMove+1].ordem - 1;
-//      toastr.info(indexToMove+1, 'passo selecionado');
-//      $scope.movePassoToDown(indexToMove + 1);
-    };
-    
-    $scope.movePassoToDown = function(indexToMove){
-      toastr.info(indexToMove+1, 'passo selecionado');
-      $scope.receita.passos[indexToMove].ordem = $scope.receita.passos[indexToMove].ordem - 1;
-      $scope.receita.passos[indexToMove-1].ordem = $scope.receita.passos[indexToMove-1].ordem + 1;
-//      $scope.movePassoToUp(indexToMove - 1);
+    $scope.passoSwap = function(curIndex, newIndex){
+      var passoTemp = angular.copy($scope.receita.passos[curIndex]);
+      $scope.receita.passos[curIndex].nome = $scope.receita.passos[newIndex].nome;
+      $scope.receita.passos[curIndex].descricao = $scope.receita.passos[newIndex].descricao;
+      $scope.receita.passos[newIndex].nome = passoTemp.nome;
+      $scope.receita.passos[newIndex].descricao = passoTemp.descricao;
     };
     
     $scope.openImagemDialog = function(){      

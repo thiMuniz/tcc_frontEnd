@@ -410,6 +410,6 @@ var app = angular
                 }
                   //chamar pop up de login
               }
-            }, 5*60*1000); //o 3º param pode ser o numero de iterações da function
+            }, 1*60*1000); //é possível incluir um 3º param para limitar o numero de iterações da function
             
           });
