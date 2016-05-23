@@ -9,6 +9,8 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
   $scope.headerLista = "Nenhum fornecedor foi encontrado";
   $scope.labelCadastrarBtn = "Novo Fornecedor";
 
+  $scope.perfil = $stateParams.perfil;
+
   $scope.ordenar = function (campo) {
     $scope.campo = campo;
     $scope.ascDsc = !$scope.ascDsc;
@@ -26,7 +28,8 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
       formTipo: 'insert',
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
       tituloDialog: "Cadastrar Fornecedor",
-      fornecedor: $scope.fornecedor
+      fornecedor: $scope.fornecedor,
+      perfil: $scope.perfil
     };
     var modalInstance = $modal.open({
       templateUrl: 'views/cadastro/dialog/formFornecedor.html',
@@ -159,7 +162,7 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
   $scope.atualizarLista();
 
 })
-.controller('FornecedorDialogCtrl', function ($scope, $modal, $modalInstance, $http, params, CONST, toastr) {
+.controller('FornecedorDialogCtrl', function ($scope, $modal, $modalInstance, $http, $httpParamSerializerJQLike, params, CONST, toastr) {
 
   $scope.CONST = CONST;
   $scope.formTipo = params.formTipo;

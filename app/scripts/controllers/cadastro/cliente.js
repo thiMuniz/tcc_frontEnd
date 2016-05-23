@@ -1,11 +1,13 @@
 'use strict';
-app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource, CONST, toastr, $stateParams, $httpParamSerializerJQLike) {
+app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource, CONST, toastr, $stateParams, $httpParamSerializerJQLike){
   var toastMsg = "";
 
   $scope.CONST = CONST;
   $scope.tituloView = "Cadastro de Clientes";
   $scope.headerLista = "Nenhum cliente foi encontrado";
   $scope.labelCadastrarBtn = "Novo Cliente";
+  
+  $scope.perfil = $stateParams.perfil;
 
   $scope.atualizarLista = function(){
 //    $scope.clientes = ClienteResource.query();
@@ -19,12 +21,13 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
 
   $scope.openInsertDialog = function () {
     $scope.cliente = new PessoaResource();
-    $scope.cliente.perfil = $stateParams.perfil;
+//    $scope.cliente.perfil = $stateParams.perfil;
     $scope.params = {
     formTipo: 'insert',
     iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
     tituloDialog: "Cadastrar Cliente",
-    cliente: $scope.cliente
+    cliente: $scope.cliente,
+    perfil: $scope.perfil
     };
     var modalInstance = $modal.open({
       templateUrl: 'views/cadastro/dialog/formCliente.html',
@@ -123,7 +126,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
   $scope.atualizarLista();
 
 })
-.controller('ClienteDialogCtrl', function ($scope, $modal, $modalInstance, $http, params, CONST, toastr) {
+.controller('ClienteDialogCtrl', function ($scope, $modal, $modalInstance, $http, $httpParamSerializerJQLike, params, CONST, toastr) {
   $scope.tipoPessoa;
 
   $scope.CONST = CONST;
