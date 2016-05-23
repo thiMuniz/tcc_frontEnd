@@ -88,12 +88,12 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
     function () {
       var clienteCopy = angular.copy(cliente);
       clienteCopy.dtDesativacao = (cliente.dtDesativacao ? null : $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'));
-      clienteCopy.$update(
-      function () {
+      clienteCopy.$update({p:$httpParamSerializerJQLike({perfil:$scope.perfil})},
+      function(){
         $scope.atualizarLista();
         toastMsg = (cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia) + (cliente.dtDesativacao ? " ativado!" : " desativado!");
         toastr.success(toastMsg, "Sucesso!");
-      }, function () {
+      }, function(){
         toastMsg = (cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia) + " não foi " + (cliente.dtDesativacao ? "ativado!" : "desativado!");
         toastr.error(toastMsg, "Erro!");
       });
@@ -130,6 +130,8 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
   $scope.formTipo = params.formTipo;
   $scope.iconeHeaderDialog = params.iconeHeaderDialog;
   $scope.tituloDialog = params.tituloDialog;
+  $scope.perfil = params.perfil;
+  
   $scope.abaPF = 'Passo 2 - Dados Pessoa Física';
   $scope.abaPJ = 'Passo 2 - Dados Pessoa Jurídica';
 
@@ -217,7 +219,8 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
   
   $scope.submit = function () {
     if ($scope.formTipo == 'insert') { //insert
-      $scope.cliente.$save(function(){
+      $scope.cliente.$save({p:$httpParamSerializerJQLike({perfil:$scope.perfil})},
+      function(){
         var toastMsg = "Cliente " + ($scope.cliente.pf ? $scope.cliente.pf.nome : $scope.cliente.pj.nomeFantasia) + " cadastrado com sucesso!";
         toastr.success(toastMsg, "successo");
         var result = {
@@ -234,7 +237,8 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
         $scope.close(result);
       });
     } else { //update
-      $scope.cliente.$update(function(){
+      $scope.cliente.$update({p:$httpParamSerializerJQLike({perfil:$scope.cliente.permissao.perfil})},
+      function(){
         var toastMsg = "Cliente " + ($scope.cliente.pf ? $scope.cliente.pf.nome : $scope.cliente.pj.nomeFantasia) + " editado com sucesso!";
         toastr.success(toastMsg, "Sucesso");
         var result = {

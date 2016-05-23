@@ -86,12 +86,12 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
     function () {
       var fornecedorCopy = angular.copy(fornecedor);
       fornecedorCopy.dtDesativacao = (fornecedor.dtDesativacao ? null : $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'));
-      fornecedorCopy.$update(
-      function () {
+      fornecedorCopy.$update({p:$httpParamSerializerJQLike({perfil:$scope.perfil})},
+      function(){
         $scope.atualizarLista();
         toastMsg = fornecedor.pj.nomeFantasia + (fornecedor.dtDesativacao ? " ativado!" : " desativado!");
         toastr.success(toastMsg, "Sucesso!");
-      }, function () {
+      }, function(){
         toastMsg = fornecedor.pj.nomeFantasia + " não foi " + (fornecedor.dtDesativacao ? "ativado!" : "desativado!");
         toastr.error(toastMsg, "Erro!");
       });
@@ -165,6 +165,7 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
   $scope.formTipo = params.formTipo;
   $scope.iconeHeaderDialog = params.iconeHeaderDialog;
   $scope.tituloDialog = params.tituloDialog;
+  $scope.perfil = params.perfil;
 
   $scope.fornecedor = angular.copy(params.fornecedor);
   $scope.fornecedorInit = angular.copy(params.fornecedor);    
@@ -227,7 +228,8 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
     
   $scope.submit = function () {
     if ($scope.formTipo == 'insert') { //insert
-      $scope.fornecedor.$save(function(){
+      $scope.fornecedor.$save({p:$httpParamSerializerJQLike({perfil:$scope.perfil})},
+      function(){
         var toastMsg = "Fornecedor " + $scope.fornecedor.pj.nomeFantasia + " cadastrado com sucesso!";
         toastr.success(toastMsg, "successo");
         var result = {
@@ -244,7 +246,8 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
         $scope.close(result);
       });
     } else { //update
-      $scope.fornecedor.$update(function(){
+      $scope.fornecedor.$update({p:$httpParamSerializerJQLike({perfil:$scope.fornecedor.permissao.perfil})},
+      function(){
         var toastMsg = "Fornecedor " + $scope.fornecedor.pj.nomeFantasia + " editado com sucesso!";
         toastr.success(toastMsg, "Sucesso");
         var result = {

@@ -23,12 +23,12 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
 
   $scope.openInsertDialog = function () {
     $scope.colaborador = new PessoaResource();
-    $scope.colaborador.permissao.perfil = $scope.perfil;
     $scope.params = {
       formTipo: 'insert',
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
       tituloDialog: "Cadastrar Colaborador",
-      colaborador: $scope.colaborador
+      colaborador: $scope.colaborador,
+      perfil: $scope.perfil
     };
     var modalInstance = $modal.open({
       templateUrl: 'views/cadastro/dialog/formColaborador.html',
@@ -86,7 +86,7 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
     function () {
       var colaboradorCopy = angular.copy(colaborador);
       colaboradorCopy.dtDesativacao = (colaborador.dtDesativacao ? null : $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'));
-      colaboradorCopy.$update(
+      colaboradorCopy.$update({p:$httpParamSerializerJQLike({perfil:$scope.perfil})},
       function(){
         $scope.atualizarLista();
         toastMsg = (colaborador.pf.nome) + (colaborador.dtDesativacao ? " ativado!" : " desativado!");
@@ -121,16 +121,17 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
   $scope.atualizarLista();
 
 })
-.controller('ColaboradorDialogCtrl', function ($scope, $modal, $modalInstance, $http, params, CONST, toastr) {
+.controller('ColaboradorDialogCtrl', function ($scope, $modal, $modalInstance, $http, params, CONST, toastr, $httpParamSerializerJQLike) {
 
 //  $scope.init = function () {
     $scope.CONST = CONST;
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
+    $scope.perfil = params.perfil;
     
     $scope.colaborador = angular.copy(params.colaborador);
-    $scope.colaboradorInit = angular.copy(params.colaborador);
+    $scope.colaboradorInit = angular.copy($scope.colaborador);
       
     $scope.sexos = [
       {nome: "Masculino", valor: "masculino"},
@@ -192,7 +193,8 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
   
   $scope.submit = function () {
     if ($scope.formTipo == 'insert') { //insert
-      $scope.colaborador.$save(function(){
+      $scope.colaborador.$save({p:$httpParamSerializerJQLike({perfil:$scope.perfil})},
+      function(){
         var toastMsg = "Colaborador " + $scope.colaborador.pf.nome + " cadastrado com sucesso!";
         toastr.success(toastMsg, "successo");
         var result = {
@@ -209,7 +211,8 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
         $scope.close(result);
       });
     } else { //update
-      $scope.colaborador.$update(function(){
+      $scope.colaborador.$update({p:$httpParamSerializerJQLike({perfil:$scope.colaborador.permissao.perfil})},
+      function(){
         var toastMsg = "Colaborador " + $scope.colaborador.pf.nome + " editado com sucesso!";
         toastr.success(toastMsg, "Sucesso");
         var result = {

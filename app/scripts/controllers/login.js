@@ -12,7 +12,7 @@ app.controller('LoginCtrl', function ($scope, $filter, $http, $cookies, $state, 
       });
       $cookies.putObject('objToken', retorno, {
 //        secure: true, 
-        expires: $filter('date')(retorno.dtExpiracao, 'dd/MM/yyyy HH:mm:ss')
+        expires: new Date(retorno.dtExpiracao)
       });
       $http.defaults.headers.common.Token = retorno.token;
       $state.go('main.home');        
