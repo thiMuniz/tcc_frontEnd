@@ -4,15 +4,15 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
   var toastMsg = "Boa sorte dessa vez...";
 
   //var params = {limit:10,page:0}
-  var params = {perfil:$stateParams.perfil};
+  $scope.perfil = $stateParams.perfil;
   
   $scope.CONST = CONST;
   $scope.tituloView = "Cadastro de Colaboradores";
-  $scope.headerLista = "Nenhum " + params.perfil + " foi encontrado";
-  $scope.labelCadastrarBtn = "Novo "+params.perfil;
+  $scope.headerLista = "Nenhum " + $scope.perfil + " foi encontrado";
+  $scope.labelCadastrarBtn = "Novo "+$scope.perfil;
 
   $scope.atualizarLista = function(){
-    $scope.colaboradores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
+    $scope.colaboradores = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$scope.perfil})});
     //incluir spinner enquanto esta carregando a lista
   };
   
@@ -23,7 +23,7 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
 
   $scope.openInsertDialog = function () {
     $scope.colaborador = new PessoaResource();
-    $scope.colaborador.perfil = $stateParams.perfil;
+    $scope.colaborador.permissao.perfil = $scope.perfil;
     $scope.params = {
       formTipo: 'insert',
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
@@ -84,15 +84,14 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
       confirmButtonText: "SIM"
     },
     function () {
-//      $scope.colaboradores.splice(index, 1);
-//      colaborador.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
-//      colaborador.dtDesativacao = new Date();
-      colaborador.dtDesativacao = (colaborador.dtDesativacao ? null : new Date());
-      PessoaResource.update(colaborador, function () {
+      var colaboradorCopy = angular.copy(colaborador);
+      colaboradorCopy.dtDesativacao = (colaborador.dtDesativacao ? null : $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'));
+      colaboradorCopy.$update(
+      function(){
         $scope.atualizarLista();
-        toastMsg = (colaborador.pf.nome) + (colaborador.dtDesativacao ? " desativado!" : " ativado!");
+        toastMsg = (colaborador.pf.nome) + (colaborador.dtDesativacao ? " ativado!" : " desativado!");
         toastr.success(toastMsg, "Sucesso!");
-      }, function () {
+      }, function(){
         toastMsg = (colaborador.pf.nome) + " não foi " + (colaborador.dtDesativacao ? "ativado!" : "desativado!");
         toastr.error(toastMsg, "Erro!");
       });
@@ -124,7 +123,7 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
 })
 .controller('ColaboradorDialogCtrl', function ($scope, $modal, $modalInstance, $http, params, CONST, toastr) {
 
-  $scope.init = function () {
+//  $scope.init = function () {
     $scope.CONST = CONST;
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
@@ -137,7 +136,7 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
       {nome: "Masculino", valor: "masculino"},
       {nome: "Feminino", valor: "feminino"}
     ];
-  }
+//  }
   
   //valida email
   $scope.email = function () {
@@ -240,7 +239,7 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
   // controle abas
   $scope.steps = [
     'Passo 1 - Dados Gerais',
-    'Passo 2 - Dados Pessoa Física', // apenas f em colaborador
+    'Passo 2 - Dados Pessoa Física', // apenas pf em colaborador
     'Passo 3 - Endereço'
   ];
   $scope.selection = $scope.steps[0];//esse indice que diz se sera comecar qual aba

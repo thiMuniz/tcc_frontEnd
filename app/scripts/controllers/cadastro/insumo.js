@@ -1,5 +1,5 @@
 'use strict';
-app.controller('InsumoCtrl', function ($scope, $modal, InsumoResource, PessoaResource, CONST, toastr, $httpParamSerializerJQLike) {
+app.controller('InsumoCtrl', function ($scope, $modal, $filter, InsumoResource, PessoaResource, CONST, toastr, $httpParamSerializerJQLike) {
   
   var toastMsg = "";
   $scope.CONST = CONST;
@@ -86,17 +86,17 @@ app.controller('InsumoCtrl', function ($scope, $modal, InsumoResource, PessoaRes
       confirmButtonText: "SIM"
     },
     function () {
-//      insumo.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
-      insumo.dtDesativacao = (insumo.dtDesativacao ? null : new Date());
-      InsumoResource.update(insumo, function(){
-//          $scope.insumos[index] = insumo;
-          $scope.atualizarLista();
-          toastMsg = insumo.nome + (insumo.dtDesativacao ? " desativada!" : " ativada!");
-          toastr.success(toastMsg, "Sucesso!");
-        }, function(){
-          toastMsg = insumo.nome + " não foi " + (insumo.dtDesativacao ? "ativada!" : "desativada!");
-          toastr.error(toastMsg, "Erro!");
-        });
+      var insumoCopy = angular.copy(insumo);
+      insumoCopy.dtDesativacao = (insumo.dtDesativacao ? null : $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'));
+      insumoCopy.$update(
+      function(){
+        $scope.atualizarLista();
+        toastMsg = insumo.nome + (insumo.dtDesativacao ? " ativada!" : " desativada!");
+        toastr.success(toastMsg, "Sucesso!");
+      }, function(){
+        toastMsg = insumo.nome + " não foi " + (insumo.dtDesativacao ? "ativada!" : "desativada!");
+        toastr.error(toastMsg, "Erro!");
+      });
     });    
   };
 

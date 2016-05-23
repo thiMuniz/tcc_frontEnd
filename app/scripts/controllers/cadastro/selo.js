@@ -1,5 +1,5 @@
 'use strict';
-app.controller('SeloCtrl', function ($scope, $modal, SeloResource, CONST, toastr) {
+app.controller('SeloCtrl', function ($scope, $modal, $filter, SeloResource, CONST, toastr) {
   
   var toastMsg = "";
   $scope.CONST = CONST;
@@ -84,17 +84,17 @@ app.controller('SeloCtrl', function ($scope, $modal, SeloResource, CONST, toastr
       confirmButtonText: "SIM"
     },
     function () {
-//      selo.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
-      selo.dtDesativacao = (selo.dtDesativacao ? null : new Date());
-      SeloResource.update(selo, function(){
-//          $scope.selos[index] = selo;
-          $scope.atualizarLista();
-          toastMsg = selo.nome + (selo.dtDesativacao ? " desativada!" : " ativada!");
-          toastr.success(toastMsg, "Sucesso!");
-        }, function(){
-          toastMsg = selo.nome + " não foi " + (selo.dtDesativacao ? "ativada!" : "desativada!");
-          toastr.error(toastMsg, "Erro!");
-        });
+      var seloCopy = angular.copy(selo);
+      seloCopy.dtDesativacao = (selo.dtDesativacao ? null : $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'));
+      seloCopy.$update(
+      function(){
+        $scope.atualizarLista();
+        toastMsg = selo.nome + (selo.dtDesativacao ? " ativado!" : " desativado!");
+        toastr.success(toastMsg, "Sucesso!");
+      }, function(){
+        toastMsg = selo.nome + " não foi " + (selo.dtDesativacao ? "ativado!" : "desativado!");
+        toastr.error(toastMsg, "Erro!");
+      });
     });    
   };
 

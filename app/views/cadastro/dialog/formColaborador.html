@@ -4,6 +4,8 @@
     <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>
     <!--debug colaborador{{colaborador}}-->
   </div>
+  
+  {{colaborador.permissao.perfil}}
   <div class="modal-body">
     <form class="form-horizontal" role="form" name="formColaborador">
       <ul class="nav nav-tabs">
@@ -25,16 +27,13 @@
             <label for="perfil" class="col-sm-3 control-label">Perfil</label>
             <div class="col-sm-7">
               <label class="radio-inline">
-                <input id="diretor" name="perfil" ng-model="colaborador.perfil" type="radio" value="diretor" > Diretor
+                <input id="gerente" name="perfil" ng-model="colaborador.permissao.perfil" type="radio" value="gerente" > Gerente 
               </label>
               <label class="radio-inline">
-                <input id="gerente" name="perfil" ng-model="colaborador.perfil" type="radio" value="gerente" > Gerente 
+                <input id="producao" name="perfil" ng-model="colaborador.permissao.perfil" type="radio" value="producao" > Produção
               </label>
               <label class="radio-inline">
-                <input id="producao" name="perfil" ng-model="colaborador.perfil" type="radio" value="producao" > Produção
-              </label>
-              <label class="radio-inline">
-                <input id="entrega" name="perfil" ng-model="colaborador.perfil" type="radio" value="entrega" > Entrega 
+                <input id="entrega" name="perfil" ng-model="colaborador.permissao.perfil" type="radio" value="entrega" > Entrega 
               </label>
             </div>
           </div>

@@ -19,7 +19,6 @@
                     <li ng-init="third=!third" ng-class="{active: multiCollapseVar==2}">
                       <a href ng-click="multiCheck(2)">Colaborador <span class="fa arrow"></span></a>
                       <ul class="nav nav-third-level" collapse="multiCollapseVar!=2">
-                        <li><a ui-sref="main.cadastro.colaborador({perfil: 'diretor'})"> Diretor </a></li>
                         <li><a ui-sref="main.cadastro.colaborador({perfil: 'gerente'})"> Gerente </a></li>
                         <li><a ui-sref="main.cadastro.colaborador({perfil: 'producao'})"> Produção </a></li>
                         <li><a ui-sref="main.cadastro.colaborador({perfil: 'entrega'})"> Entrega </a></li>

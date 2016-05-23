@@ -88,17 +88,17 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
       confirmButtonText: "SIM"
     },
     function () {
-//      receita.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
-      receita.dtDesativacao = (receita.dtDesativacao ? null : new Date());
-      ReceitaResource.update(receita, function(){
-//          $scope.receitas[index] = receita;
-          $scope.atualizarLista();
-          toastMsg = receita.nome + (receita.dtDesativacao ? " desativada!" : " ativada!");
-          toastr.success(toastMsg, "Sucesso!");
-        }, function(){
-          toastMsg = receita.nome + " não foi " + (receita.dtDesativacao ? "ativada!" : "desativada!");
-          toastr.error(toastMsg, "Erro!");
-        });
+      var receitaCopy = angular.copy(receita);
+      receitaCopy.dtDesativacao = (receita.dtDesativacao ? null : $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'));
+      receitaCopy.$update(
+      function(){
+        $scope.atualizarLista();
+        toastMsg = receita.nome + (receita.dtDesativacao ? " ativada!" : " desativada!");
+        toastr.success(toastMsg, "Sucesso!");
+      }, function(){
+        toastMsg = receita.nome + " não foi " + (receita.dtDesativacao ? "ativada!" : "desativada!");
+        toastr.error(toastMsg, "Erro!");
+      });
     });    
   };
 

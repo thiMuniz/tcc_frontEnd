@@ -1,5 +1,5 @@
 'use strict';
-app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, CategoriaResource, ReceitaResource, SeloResource, EmbalagemResource, RotuloResource, CONST, toastr, $httpParamSerializerJQLike) {
+app.controller('ProdutoCtrl', function ($scope, $modal, $filter, ProdutoResource, CategoriaResource, ReceitaResource, SeloResource, EmbalagemResource, RotuloResource, CONST, toastr, $httpParamSerializerJQLike) {
   
   var toastMsg = "";
   $scope.CONST = CONST;
@@ -94,17 +94,17 @@ app.controller('ProdutoCtrl', function ($scope, $modal, ProdutoResource, Categor
       confirmButtonText: "SIM"
     },
     function () {
-//      produto.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
-      produto.dtDesativacao = (produto.dtDesativacao ? null : new Date());
-      ProdutoResource.update(produto, function(){
-//          $scope.produtos[index] = produto;
-          $scope.atualizarLista();
-          toastMsg = produto.nome + (produto.dtDesativacao ? " desativada!" : " ativada!");
-          toastr.success(toastMsg, "Sucesso!");
-        }, function(){
-          toastMsg = produto.nome + " não foi " + (produto.dtDesativacao ? "ativada!" : "desativada!");
-          toastr.error(toastMsg, "Erro!");
-        });
+      var produtoCopy = angular.copy(produto);
+      produtoCopy.dtDesativacao = (produto.dtDesativacao ? null : $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'));
+      produtoCopy.$update(
+      function(){
+        $scope.atualizarLista();
+        toastMsg = produto.nome + (produto.dtDesativacao ? " ativado!" : " desativado!");
+        toastr.success(toastMsg, "Sucesso!");
+      }, function(){
+        toastMsg = produto.nome + " não foi " + (produto.dtDesativacao ? "ativado!" : "desativado!");
+        toastr.error(toastMsg, "Erro!");
+      });
     });    
   };
 

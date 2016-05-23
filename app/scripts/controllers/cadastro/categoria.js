@@ -1,5 +1,5 @@
 'use strict';
-app.controller('CategoriaCtrl', function ($scope, $modal, CategoriaResource, CONST, toastr) {
+app.controller('CategoriaCtrl', function ($scope, $modal, $filter, CategoriaResource, CONST, toastr) {
   
   var toastMsg = "";
   $scope.CONST = CONST;
@@ -86,17 +86,17 @@ app.controller('CategoriaCtrl', function ($scope, $modal, CategoriaResource, CON
       confirmButtonText: "SIM"
     },
     function () {
-//      categoria.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
-      categoria.dtDesativacao = (categoria.dtDesativacao ? null : new Date());
-      CategoriaResource.update(categoria, function(){
-//          $scope.categorias[index] = categoria;
-          $scope.atualizarLista();
-          toastMsg = categoria.nome + (categoria.dtDesativacao ? " desativada!" : " ativada!");
-          toastr.success(toastMsg, "Sucesso!");
-        }, function(){
-          toastMsg = categoria.nome + " não foi " + (categoria.dtDesativacao ? "ativada!" : "desativada!");
-          toastr.error(toastMsg, "Erro!");
-        });
+      var categoriaCopy = angular.copy(categoria);
+      categoriaCopy.dtDesativacao = (categoria.dtDesativacao ? null : $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'));
+      categoriaCopy.$update(
+      function(){
+        $scope.atualizarLista();
+        toastMsg = categoria.nome + (categoria.dtDesativacao ? " ativada!" : " desativada!");
+        toastr.success(toastMsg, "Sucesso!");
+      }, function(){
+        toastMsg = categoria.nome + " não foi " + (categoria.dtDesativacao ? "ativada!" : "desativada!");
+        toastr.error(toastMsg, "Erro!");
+      });
     });    
   };
 

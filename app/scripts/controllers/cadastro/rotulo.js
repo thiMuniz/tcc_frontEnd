@@ -1,5 +1,5 @@
 'use strict';
-app.controller('RotuloCtrl', function ($scope, $modal, RotuloResource, PessoaResource, CONST, toastr, $httpParamSerializerJQLike) {
+app.controller('RotuloCtrl', function ($scope, $modal, $filter, RotuloResource, PessoaResource, CONST, toastr, $httpParamSerializerJQLike) {
   
   var toastMsg = "";
   $scope.CONST = CONST;
@@ -86,17 +86,17 @@ app.controller('RotuloCtrl', function ($scope, $modal, RotuloResource, PessoaRes
       confirmButtonText: "SIM"
     },
     function () {
-//      rotulo.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
-      rotulo.dtDesativacao = (rotulo.dtDesativacao ? null : new Date());
-      RotuloResource.update(rotulo, function(){
-//          $scope.rotulos[index] = rotulo;
-          $scope.atualizarLista();
-          toastMsg = rotulo.nome + (rotulo.dtDesativacao ? " desativado!" : " ativado!");
-          toastr.success(toastMsg, "Sucesso!");
-        }, function(){
-          toastMsg = rotulo.nome + " não foi " + (rotulo.dtDesativacao ? "ativado!" : "desativado!");
-          toastr.error(toastMsg, "Erro!");
-        });
+      var rotuloCopy = angular.copy(rotulo);
+      rotuloCopy.dtDesativacao = (rotulo.dtDesativacao ? null : $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'));
+      rotuloCopy.$update(
+      function(){
+        $scope.atualizarLista();
+        toastMsg = rotulo.nome + (rotulo.dtDesativacao ? " ativado!" : " desativado!");
+        toastr.success(toastMsg, "Sucesso!");
+      }, function(){
+        toastMsg = rotulo.nome + " não foi " + (rotulo.dtDesativacao ? "ativado!" : "desativado!");
+        toastr.error(toastMsg, "Erro!");
+      });
     });
   };
 

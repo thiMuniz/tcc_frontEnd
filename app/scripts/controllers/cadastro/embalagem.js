@@ -1,5 +1,5 @@
 'use strict';
-app.controller('EmbalagemCtrl', function ($scope, $modal, EmbalagemResource, PessoaResource, CONST, toastr, $httpParamSerializerJQLike) {
+app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemResource, PessoaResource, CONST, toastr, $httpParamSerializerJQLike) {
   
   var toastTitle = "";
   var toastMsg = "";
@@ -82,17 +82,17 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, EmbalagemResource, Pes
       confirmButtonText: "SIM"
     },
     function () {
-//      embalagem.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
-      embalagem.dtDesativacao = (embalagem.dtDesativacao ? null : new Date());
-      EmbalagemResource.update(embalagem, function(){
-//          $scope.embalagens[index] = embalagem;
-          $scope.atualizarLista();
-          toastMsg = embalagem.nome + (embalagem.dtDesativacao ? " desativada!" : " ativada!");
-          toastr.success(toastMsg, "Sucesso!");
-        }, function(){
-          toastMsg = embalagem.nome + " não foi " + (embalagem.dtDesativacao ? "ativada!" : "desativada!");
-          toastr.error(toastMsg, "Erro!");
-        });
+      var embalagemCopy = angular.copy(embalagem);
+      embalagemCopy.dtDesativacao = (embalagem.dtDesativacao ? null : $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'));
+      embalagemCopy.$update(
+      function(){
+        $scope.atualizarLista();
+        toastMsg = embalagem.nome + (embalagem.dtDesativacao ? " ativada!" : " desativada!");
+        toastr.success(toastMsg, "Sucesso!");
+      }, function(){
+        toastMsg = embalagem.nome + " não foi " + (embalagem.dtDesativacao ? "ativada!" : "desativada!");
+        toastr.error(toastMsg, "Erro!");
+      });
     });    
   };
 

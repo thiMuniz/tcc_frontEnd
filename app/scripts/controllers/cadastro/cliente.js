@@ -86,14 +86,12 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
       confirmButtonText: "SIM"
     },
     function () {
-//      $scope.clientes.splice(index, 1);
-//      cliente.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
-//      cliente.dtDesativacao = new Date();
-      cliente.dtDesativacao = (cliente.dtDesativacao ? null : new Date());
-      ClienteResource.update(cliente, function () {
-//        $scope.clientes[index] = cliente;
+      var clienteCopy = angular.copy(cliente);
+      clienteCopy.dtDesativacao = (cliente.dtDesativacao ? null : $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'));
+      clienteCopy.$update(
+      function () {
         $scope.atualizarLista();
-        toastMsg = (cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia) + (cliente.dtDesativacao ? " desativado!" : " ativado!");
+        toastMsg = (cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia) + (cliente.dtDesativacao ? " ativado!" : " desativado!");
         toastr.success(toastMsg, "Sucesso!");
       }, function () {
         toastMsg = (cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia) + " não foi " + (cliente.dtDesativacao ? "ativado!" : "desativado!");

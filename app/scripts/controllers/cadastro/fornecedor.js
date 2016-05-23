@@ -84,13 +84,12 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
       confirmButtonText: "SIM"
     },
     function () {
-//      $scope.fornecedores.splice(index, 1);
-//      fornecedor.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
-//      fornecedor.dtDesativacao = new Date();
-      fornecedor.dtDesativacao = (fornecedor.dtDesativacao ? null : new Date());
-      PessoaResource.update(fornecedor, function () {
+      var fornecedorCopy = angular.copy(fornecedor);
+      fornecedorCopy.dtDesativacao = (fornecedor.dtDesativacao ? null : $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'));
+      fornecedorCopy.$update(
+      function () {
         $scope.atualizarLista();
-        toastMsg = fornecedor.pj.nomeFantasia + (fornecedor.dtDesativacao ? " desativado!" : " ativado!");
+        toastMsg = fornecedor.pj.nomeFantasia + (fornecedor.dtDesativacao ? " ativado!" : " desativado!");
         toastr.success(toastMsg, "Sucesso!");
       }, function () {
         toastMsg = fornecedor.pj.nomeFantasia + " não foi " + (fornecedor.dtDesativacao ? "ativado!" : "desativado!");

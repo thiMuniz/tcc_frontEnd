@@ -11,6 +11,7 @@ app.controller('EstoqueCtrl', function (
     CONST, 
     toastr, 
     $httpParamSerializerJQLike,
+    $filter,
     $http,
     $cookies
 ){
@@ -193,17 +194,17 @@ app.controller('EstoqueCtrl', function (
       confirmButtonText: "SIM"
     },
     function () {
-//      lote.dtDesativacao = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
-      lote.dtDesativacao = (lote.dtDesativacao ? null : new Date());
-      LoteResource.update(lote, function(){
-//          $scope.lotes[index] = lote;
-          $scope.atualizarLista();
-          toastMsg = lote.codLote + (lote.dtDesativacao ? " desativado!" : " ativado!");
-          toastr.success(toastMsg, "Sucesso!");
-        }, function(){
-          toastMsg = lote.codLote + " não foi " + (lote.dtDesativacao ? "ativado!" : "desativado!");
-          toastr.error(toastMsg, "Erro!");
-        });
+      var loteCopy = angular.copy(lote);
+      loteCopy.dtDesativacao = (lote.dtDesativacao ? null : $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'));
+      loteCopy.$update(
+      function(){
+        $scope.atualizarLista();
+        toastMsg = lote.codLote + (lote.dtDesativacao ? " ativado!" : " desativado!");
+        toastr.success(toastMsg, "Sucesso!");
+      }, function(){
+        toastMsg = lote.codLote + " não foi " + (lote.dtDesativacao ? "ativado!" : "desativado!");
+        toastr.error(toastMsg, "Erro!");
+      });
     });
   };
 
