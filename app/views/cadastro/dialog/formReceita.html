@@ -86,9 +86,9 @@
         
         <div ng-switch-when="Passo 3 - Instruções" ><!-- ABA 3 - Instruções -->
           <div class="panel-heading"> <!-- Painel Superior -->
-            <button class="btn btn-primary btn-xs" ng-click="addPasso()" tooltip="Adicionar instrução">
+<!--            <button class="btn btn-primary btn-xs" ng-click="addPasso()" tooltip="Adicionar instrução">
               <ng-md-icon icon="playlist_add"></ng-md-icon> Adicionar instrução
-            </button>
+            </button>-->
             
 <!--  INÍCIO TESTES
             <div data-as-sortable="board.dragControlListeners" data-ng-model="receita.passos" ng-show="receita.passos.length > 0">
@@ -146,42 +146,48 @@
               </div>
             </div>
 FIM TESTES              -->
-
-            <table class="table" ng-show="receita.passos.length > 0">
-              <thead>
-                <tr>
-                  <th>Ordem</th>
-                  <th>Título</th>
-                  <th>Descrição</th>
-                  <th>Ação</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="passoReceita in receita.passos | orderBy : 'ordem'"> 
-                  <td class="col-sm-1">
-                    <input class="form-control" type="text" id="ordem" placeholder="Ordem" ng-model="passoReceita.ordem" disabled="true">
-                  </td>
-                  <td class="col-sm-3">
-                    <input class="form-control" type="text" id="nome" placeholder="Título" ng-model="passoReceita.nome">
-                  </td>
-                  <td class="col-sm-6">
-                    <textarea class="form-control" rows="1" type="text" id="descricao" placeholder="Descrição" ng-model="passoReceita.descricao"></textarea>
-                  </td>
-                  <td class="col-sm-2">
-                    <a ng-click="removerPasso($index);" tooltip="Remover" >
-                      <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
-                    </a>&nbsp;
-                    <a ng-click="passoSwap($index, $index+1);" ng-class="$last ? 'acao-disabled' : '' " tooltip="Mover para baixo" >
-                      <ng-md-icon icon="keyboard_arrow_down"></ng-md-icon>
-                    </a>&nbsp;
-                    <a ng-click="passoSwap($index, $index-1);" ng-class="$first ? 'acao-disabled' : '' " tooltip="Mover para cima" >
-                      <ng-md-icon icon="keyboard_arrow_up"></ng-md-icon>
-                    </a>&nbsp;
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div><!-- /.panel-heading -->          
+            <div class="table-responsive">
+              <table class="table" ng-show="receita.passos.length > 0">
+                <thead>
+                  <tr>
+                    <th>Ordem</th>
+                    <th>Título</th>
+                    <th>Descrição</th>
+                    <th>Ação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="passoReceita in receita.passos | orderBy : 'ordem'"> 
+                    <td class="col-sm-1">
+                      <input class="form-control" type="text" id="ordem" placeholder="Ordem" ng-model="passoReceita.ordem" disabled="true">
+                    </td>
+                    <td class="col-sm-3">
+                      <input class="form-control" type="text" id="nome" placeholder="Título" ng-model="passoReceita.nome">
+                    </td>
+                    <td class="col-sm-6">
+                      <textarea class="form-control" rows="1" type="text" id="descricao" placeholder="Descrição" ng-model="passoReceita.descricao"></textarea>
+                    </td>
+                    <td class="col-sm-2">
+                      <a ng-click="removerPasso($index);" tooltip="Remover" >
+                        <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
+                      </a>&nbsp;
+                      <a ng-click="passoSwap($index, $index+1);" ng-class="$last ? 'acao-disabled' : '' " tooltip="Mover para baixo" >
+                        <ng-md-icon icon="keyboard_arrow_down"></ng-md-icon>
+                      </a>&nbsp;
+                      <a ng-click="passoSwap($index, $index-1);" ng-class="$first ? 'acao-disabled' : '' " tooltip="Mover para cima" >
+                        <ng-md-icon icon="keyboard_arrow_up"></ng-md-icon>
+                      </a>&nbsp;
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <button class="btn btn-primary btn-xs pull-left" ng-click="addPasso()" tooltip="Adicionar instrução">
+                <ng-md-icon icon="playlist_add"></ng-md-icon> Adicionar instrução
+              </button>
+             </div>
+            
+          </div><!-- /.panel-heading -->   
+          
           <div class="alert alert-warning alert-dismissable">
             <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
             *Verificar viabilidade de implementar plugin ng-sortable

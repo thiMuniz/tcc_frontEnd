@@ -31,10 +31,13 @@ var app = angular
           ws:{
 //            urlSGP: "http://45.55.228.230:8080/sgp/", //HTTP
             urlSGP: "https://45.55.228.230:8181/sgp/",  //HTTPS
+//            urlSGP: "http://45.55.228.230:8080/uat/", //HTTP
+//            urlSGP: "https://45.55.228.230:8181/uat/",  //HTTPS
             urlCep: "https://viacep.com.br/ws/",
             urlCorreios: "",
             urlRF: ""
           },
+          sessao: {alive: "Tempo restante: ", dead: "Sessão encerrada !"},
           inserir: {iconeBtn: "add_circle", iconeHeaderDialog: "add_circle_outline", tooltipBtn:"Cadastrar"},
           editar: {iconeAcao: "edit", iconeHeaderDialog: "edit", tooltipAcao:"Editar"},
           ativar: {iconeAcao: "settings_backup_restore", tooltipAcao:"Ativar"},
@@ -66,7 +69,8 @@ var app = angular
                               'scripts/directives/sidebar/sidebar.js',
                               'scripts/directives/sidebar/sidebar-search/sidebar-search.js',                              
                               'scripts/services/pessoa.js',
-                              'scripts/controllers/cadastro/imagem.js'
+                              'scripts/controllers/cadastro/imagem.js',
+                              'scripts/controllers/header.js',
                             ]
                           }),
                           $ocLazyLoad.load({
@@ -388,11 +392,10 @@ var app = angular
                       }
                     });
           })
-          .run(function ($http, $cookies, $interval, $filter) {
+          .run(function ($http, $cookies, $interval, $rootScope, CONST) {
 //          
             if($cookies.getObject('objToken')){
-              var objToken = $cookies.getObject('objToken');
-              $http.defaults.headers.common.Token = objToken.token;
+              $http.defaults.headers.common.Token = $cookies.getObject('objToken').token;
             }else{
               $http.defaults.headers.common.Token = undefined;
             }
@@ -401,16 +404,16 @@ var app = angular
               if($cookies.getObject('objToken')){
                 var expDt = $cookies.getObject('objToken').dtExpiracao;
                 var curDt = new Date();
-                console.log('remainig time: ' + (moment.utc(moment(expDt).diff(moment(curDt))).format("HH:mm:ss")));
-                //exibir o remaining time no header
+                $rootScope.sessionCountDown = CONST.sessao.alive + (moment.utc(moment(expDt).diff(moment(curDt))).format("HH:mm:ss"));
               } else {
-                console.log('sessão inativa');
+                $rootScope.isLogged = false;
+                $rootScope.sessionCountDown = CONST.sessao.dead;
                 if($http.defaults.headers.common.Token){
                   $http.defaults.headers.common.Token = undefined;
                 }
                   //chamar pop up de login
               }
-//              }, 5*1000);
-            }, 1*60*1000); //é possível incluir um 3º param para limitar o numero de iterações da function
+            }, 1*1000);
+            //}, 1*60*1000); //é possível incluir um 3º param para limitar o numero de iterações da function
             
           });

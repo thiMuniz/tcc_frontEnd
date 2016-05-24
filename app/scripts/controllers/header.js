@@ -1,18 +1,20 @@
 'use strict';
-app.controller('LoginCtrl', function ($scope, $http, $cookies, $state, toastr, PessoaResource) {
+app.controller('HeaderCtrl', function ($scope, $filter, $http, $cookies, $state, $rootScope, PessoaResource) {
   
   if($cookies.getObject('objToken')){
-    $scope.logout();
+    $rootScope.isLogged = true;
+    $rootScope.usuario = $cookies.getObject('objToken').pessoa;
   }else{
-    toastr.error('Usuário não localizado nos cookies');
-  }  
+    $rootScope.isLogged = false;
+    $state.go('login');
+  }
   
   $scope.logout = function(){
     $scope.user = new PessoaResource();
     $scope.user.$logout(function(retorno){ /*success 200~299*/
       swal({
         title: "Sessão finalizada",
-        text: "Até logo " + (retorno.pessoa.pf ? retorno.pessoa.pf.nome : retorno.pessoa.pj.nomeFantasia),
+        text: "Até logo " + $rootScope.usuario.pf.nome,
         type: "success"
       });
       $http.defaults.headers.common.Token = undefined;
@@ -26,4 +28,5 @@ app.controller('LoginCtrl', function ($scope, $http, $cookies, $state, toastr, P
        });
     });
   };
+  
 });

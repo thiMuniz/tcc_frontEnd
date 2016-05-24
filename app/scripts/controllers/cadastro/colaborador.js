@@ -131,6 +131,8 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
     $scope.perfil = params.perfil;
     
     $scope.colaborador = angular.copy(params.colaborador);
+    console.log($scope.colaborador);
+    
     $scope.colaboradorInit = angular.copy($scope.colaborador);
       
     $scope.sexos = [
