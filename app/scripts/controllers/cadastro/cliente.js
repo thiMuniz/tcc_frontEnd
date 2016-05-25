@@ -21,7 +21,6 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
 
   $scope.openInsertDialog = function () {
     $scope.cliente = new PessoaResource();
-//    $scope.cliente.perfil = $stateParams.perfil;
     $scope.params = {
     formTipo: 'insert',
     iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
@@ -50,12 +49,12 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
   };
 
   $scope.openUpdateDialog = function (cliente) {
-//    index = $scope.clientes.indexOf($filter('filter')($scope.clientes, cliente, true)[0]);
     $scope.params = {
       formTipo: 'update',
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
       tituloDialog: "Editar Cliente",
-      cliente: angular.copy(cliente)
+      cliente: angular.copy(cliente),
+      perfil: $scope.cliente.permissao.perfil
     };
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formCliente.html",
@@ -133,7 +132,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
   $scope.formTipo = params.formTipo;
   $scope.iconeHeaderDialog = params.iconeHeaderDialog;
   $scope.tituloDialog = params.tituloDialog;
-  $scope.perfil = params.perfil;
+  $scope.cliente.paramPerfil = params.perfil;
   
   $scope.abaPF = 'Passo 2 - Dados Pessoa Física';
   $scope.abaPJ = 'Passo 2 - Dados Pessoa Jurídica';
@@ -222,7 +221,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
   
   $scope.submit = function () {
     if ($scope.formTipo == 'insert') { //insert
-      $scope.cliente.$save({p:$httpParamSerializerJQLike({perfil:$scope.perfil})},
+      $scope.cliente.$save({p:$httpParamSerializerJQLike({perfil:$scope.cliente.paramPerfil})},
       function(){
         var toastMsg = "Cliente " + ($scope.cliente.pf ? $scope.cliente.pf.nome : $scope.cliente.pj.nomeFantasia) + " cadastrado com sucesso!";
         toastr.success(toastMsg, "successo");
@@ -240,7 +239,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
         $scope.close(result);
       });
     } else { //update
-      $scope.cliente.$update({p:$httpParamSerializerJQLike({perfil:$scope.cliente.permissao.perfil})},
+      $scope.cliente.$update({p:$httpParamSerializerJQLike({perfil:$scope.cliente.paramPerfil})},
       function(){
         var toastMsg = "Cliente " + ($scope.cliente.pf ? $scope.cliente.pf.nome : $scope.cliente.pj.nomeFantasia) + " editado com sucesso!";
         toastr.success(toastMsg, "Sucesso");

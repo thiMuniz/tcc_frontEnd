@@ -53,7 +53,8 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
       formTipo: 'update',
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
       tituloDialog: "Editar Colaborador",
-      colaborador: angular.copy(colaborador)
+      colaborador: angular.copy(colaborador),
+      perfil: colaborador.permissao.perfil
     };
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formColaborador.html",
@@ -123,23 +124,19 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
 })
 .controller('ColaboradorDialogCtrl', function ($scope, $modal, $modalInstance, $http, params, CONST, toastr, $httpParamSerializerJQLike) {
 
-//  $scope.init = function () {
-    $scope.CONST = CONST;
-    $scope.formTipo = params.formTipo;
-    $scope.iconeHeaderDialog = params.iconeHeaderDialog;
-    $scope.tituloDialog = params.tituloDialog;
-    $scope.perfil = params.perfil;
-    
-    $scope.colaborador = angular.copy(params.colaborador);
-    console.log($scope.colaborador);
-    
-    $scope.colaboradorInit = angular.copy($scope.colaborador);
-      
-    $scope.sexos = [
-      {nome: "Masculino", valor: "masculino"},
-      {nome: "Feminino", valor: "feminino"}
-    ];
-//  }
+  $scope.CONST = CONST;
+  $scope.formTipo = params.formTipo;
+  $scope.iconeHeaderDialog = params.iconeHeaderDialog;
+  $scope.tituloDialog = params.tituloDialog;
+
+  $scope.colaborador = angular.copy(params.colaborador);
+  $scope.colaborador.paramPerfil = params.perfil;
+  $scope.colaboradorInit = angular.copy($scope.colaborador);
+
+  $scope.sexos = [
+    {nome: "Masculino", valor: "masculino"},
+    {nome: "Feminino", valor: "feminino"}
+  ];
   
   //valida email
   $scope.email = function () {
@@ -195,7 +192,7 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
   
   $scope.submit = function () {
     if ($scope.formTipo == 'insert') { //insert
-      $scope.colaborador.$save({p:$httpParamSerializerJQLike({perfil:$scope.perfil})},
+      $scope.colaborador.$save({p:$httpParamSerializerJQLike({perfil:$scope.colaborador.paramPerfil})},
       function(){
         var toastMsg = "Colaborador " + $scope.colaborador.pf.nome + " cadastrado com sucesso!";
         toastr.success(toastMsg, "successo");
@@ -213,7 +210,7 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
         $scope.close(result);
       });
     } else { //update
-      $scope.colaborador.$update({p:$httpParamSerializerJQLike({perfil:$scope.colaborador.permissao.perfil})},
+      $scope.colaborador.$update({p:$httpParamSerializerJQLike({perfil:$scope.colaborador.paramPerfil})},
       function(){
         var toastMsg = "Colaborador " + $scope.colaborador.pf.nome + " editado com sucesso!";
         toastr.success(toastMsg, "Sucesso");
