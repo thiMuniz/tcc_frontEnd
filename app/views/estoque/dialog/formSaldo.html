@@ -21,7 +21,7 @@
       <div class="form-group" ng-if="formTipo!='inventario'">
         <label for="motivo" class="control-label">Motivo</label>
         <div class="">
-          <select class="form-control" id="motivo" ng-model='motivo' ng-options="motivo for motivo in motivos">
+          <select class="form-control" id="motivo" ng-model='temp.motivo' ng-options="motivo for motivo in motivos">
             <option value="" disabled selected style="display: none;"> Selecione um motivo </option>
           </select>
         </div>

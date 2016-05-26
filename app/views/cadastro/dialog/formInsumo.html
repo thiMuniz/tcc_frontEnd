@@ -35,7 +35,9 @@
       <div class="form-group">
         <label for="unMedida" class="col-sm-3 control-label">Unidade de Medida</label>
         <div class="col-sm-7">
-          <input class="form-control" type="text" id="unMedida" placeholder="Unidade de Medida" ng-model="insumo.unMedida">
+          <select class='form-control' id="unMedida" ng-model="insumo.unMedida" ng-options="unMedida.nome as unMedida.nome  for unMedida in unidadesMedida" >
+            <option value='' style='color: #999; opacity: 1;'> Selecione </option>
+          </select>
         </div>
       </div>
       <div class="form-group">

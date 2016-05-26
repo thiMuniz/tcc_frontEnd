@@ -6,7 +6,7 @@ app.controller('InsumoCtrl', function ($scope, $modal, $filter, InsumoResource, 
   $scope.tituloView = "Cadastro de Insumos dos Produtos";
   $scope.headerLista = "Nenhum rótulo foi encontrado";
   $scope.labelCadastrarBtn = "Novo Insumo";
-    
+  
   $scope.atualizarLista = function(){
     $scope.insumos = InsumoResource.query();
     //incluir spinner enquanto esta carregando a lista
@@ -158,6 +158,11 @@ app.controller('InsumoCtrl', function ($scope, $modal, $filter, InsumoResource, 
     $scope.insumo = params.insumo;
     $scope.insumoInit = angular.copy($scope.insumo);
     
+    $scope.unidadesMedida = [
+      {nome: "gramas", sigla: "(g)"},
+      {nome: "unidades", sigla: "(unid)"}
+    ];
+  
     if(params.formTipo == 'lookup'){
       $scope.fornecedoresAll = params.fornecedores;
       $scope.temp = {};

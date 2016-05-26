@@ -208,13 +208,18 @@
         <p>{{usuario.pf.nome}}{{usuario.pf.sobrenome}}
           <small align="right">{{usuario.permissao.perfil}}</small>
         </p>
-      </li>
-
-
-      <!--<ul class="dropdown-menu dropdown-user">-->
-      <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-      </li>
+      </li><!--<ul class="dropdown-menu dropdown-user">-->
       <li class="divider"></li>
+      <li>
+        <a ng-click="alterarSenha()">
+          <ng-md-icon icon="lock"></ng-md-icon>&nbsp; Alterar Senha 
+        </a>
+      </li><li class="divider"></li>
+      <li>
+        <a ng-click="alterarSenha()">
+          <ng-md-icon icon="person"></ng-md-icon>&nbsp; Alterar meus dados
+        </a>
+      </li>
     </ul>    
     <!-- /.dropdown-user -->
   </li>

@@ -29,10 +29,10 @@ var app = angular
         ])
         .constant("CONST", {
           ws:{
-//            urlSGP: "http://45.55.228.230:8080/sgp/", //HTTP
-            urlSGP: "https://45.55.228.230:8181/sgp/",  //HTTPS
-//            urlSGP: "http://45.55.228.230:8080/uat/", //HTTP
-//            urlSGP: "https://45.55.228.230:8181/uat/",  //HTTPS
+//            urlSGP: "http://45.55.228.230:8080/sgp/",  //HTTP  SGP
+            urlSGP: "https://45.55.228.230:8181/sgp/",   //HTTPS SGP
+//            urlSGP: "http://45.55.228.230:8080/uat/",  //HTTP  UAT
+//            urlSGP: "https://45.55.228.230:8181/uat/", //HTTPS UAT
             urlCep: "https://viacep.com.br/ws/",
             urlCorreios: "",
             urlRF: ""

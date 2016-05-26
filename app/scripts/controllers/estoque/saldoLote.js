@@ -8,7 +8,7 @@ app.controller('SaldoDialogCtrl', function ($scope, $modal, $modalInstance, Lote
   $scope.lote = params.lote;
   $scope.loteOrig = angular.copy(params.lote);
   $scope.newSaldo = null;
-  $scope.motivo = null;
+  $scope.temp = { motivo: null };
 
   $scope.motivos = [
     'motivo 1',
@@ -23,7 +23,7 @@ app.controller('SaldoDialogCtrl', function ($scope, $modal, $modalInstance, Lote
   $scope.submit = function(){
     if($scope.formTipo == 'updateLotes'){
       $scope.lote.estoqueDisponivel = $scope.newSaldo;
-      $scope.lote.$updateSaldo({p:$httpParamSerializerJQLike({motivo: $scope.motivo})}, function(){
+      $scope.lote.$updateSaldo({p:$httpParamSerializerJQLike({motivo: $scope.temp.motivo})}, function(){
         var toastMsg = "Saldo do Lote " + $scope.lote.codLote + " alterado com sucesso!";
         toastr.success(toastMsg);
         var result = {

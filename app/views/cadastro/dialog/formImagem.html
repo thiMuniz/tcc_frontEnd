@@ -47,6 +47,10 @@
             <img ng-src="{{imagem.caminhoArquivo ? imagem.caminhoArquivo : imagem.arquivo}}" class="img-thumbnail form-img pull-right"/>            
         </div>
       </div>
+    <div class="alert alert-danger alert-dismissable">
+      <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
+      *Criar regras para habilitar botão confirmar com expressão no ng-class ou ng-disable
+    </div>
 
     <!--</form>-->
   </div><!-- /.modal body-->
@@ -57,7 +61,7 @@
     <button type="button" class="btn btn-outline btn-danger" ng-click="cancel()" data-dismiss="modal">
       <ng-md-icon icon="clear"></ng-md-icon> Cancelar
     </button>
-    <button type="button" class="btn btn-outline btn-success" ng-click="submit()" ng-disabled="imagens == imagensInit">
+    <button type="button" class="btn btn-outline btn-success" ng-click="submit()">
       <ng-md-icon icon="{{maxImagens > 1 ? 'done_all' : 'done'}}"></ng-md-icon> Confirmar
     </button>
   </div>

@@ -56,7 +56,7 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
       tituloDialog: "Editar Fornecedor",
       fornecedor: angular.copy(fornecedor),
-      perfil: $scope.fornecedor.permissao.perfil
+      perfil: $scope.perfil
     };
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formFornecedor.html",
@@ -169,9 +169,9 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
   $scope.formTipo = params.formTipo;
   $scope.iconeHeaderDialog = params.iconeHeaderDialog;
   $scope.tituloDialog = params.tituloDialog;
-  $scope.fornecedor.paramPerfil = params.perfil;
 
   $scope.fornecedor = angular.copy(params.fornecedor);
+  $scope.fornecedor.paramPerfil = params.perfil;
   $scope.fornecedorInit = angular.copy(params.fornecedor);    
 
   $scope.sexos = [

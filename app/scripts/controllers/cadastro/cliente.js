@@ -54,7 +54,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
       tituloDialog: "Editar Cliente",
       cliente: angular.copy(cliente),
-      perfil: $scope.cliente.permissao.perfil
+      perfil: $scope.perfil
     };
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formCliente.html",
@@ -132,12 +132,13 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
   $scope.formTipo = params.formTipo;
   $scope.iconeHeaderDialog = params.iconeHeaderDialog;
   $scope.tituloDialog = params.tituloDialog;
-  $scope.cliente.paramPerfil = params.perfil;
+  
   
   $scope.abaPF = 'Passo 2 - Dados Pessoa Física';
   $scope.abaPJ = 'Passo 2 - Dados Pessoa Jurídica';
 
   $scope.cliente = angular.copy(params.cliente);
+  $scope.cliente.paramPerfil = params.perfil;
   $scope.clienteInit = angular.copy(params.cliente);
 
   $scope.sexos = [
@@ -151,7 +152,6 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
   };
     
   $scope.toogleTipoPessoa = function () {
-    console.log($scope.tipoPessoa);
     $scope.isPf = !$scope.isPf;
     $scope.setAbaPfPj();
   };
