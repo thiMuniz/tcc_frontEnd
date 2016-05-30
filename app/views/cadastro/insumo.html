@@ -25,6 +25,7 @@
             <table class="table table-striped">
               <thead>
                 <tr>
+                  <!--<th><a href="" ng-click="ordenar('id')">Código</a></th>-->
                   <th colspan="2"><a href="" ng-click="ordenar('nome')">Nome</a></th>
                   <th><a href="" ng-click="ordenar('descricao')">Descrição</a></th>
                   <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
@@ -32,7 +33,8 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="insumo in insumos | filter : filtroGenerico | orderBy : campo : ascDsc">                  
+                <tr ng-repeat="insumo in insumos | filter : filtroGenerico | orderBy : campo : ascDsc">
+                  <!--<td>{{insumo.id}}</td>-->
                   <td ><img ng-src="{{insumo.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/></td>
                   <td>{{insumo.nome}}</td>
                   <td>{{insumo.descricao}}</td>

@@ -164,7 +164,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
       {nome: "PP - Polipropileno", tipo: "Plástico"},
       {nome: "PK - Papel Klabin", tipo: "Papel"}
     ];
-    
+        
     $scope.atualizarLista = function(){
       $scope.embalagem.fornecedores = $scope.temp.fornecedoresItem;
     };

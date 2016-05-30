@@ -25,17 +25,19 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th><a href="" ng-click="ordenar('id')">Código</a></th>
+                  <!--<th><a href="" ng-click="ordenar('id')">Código</a></th>-->
                   <th colspan="2"><a href="" ng-click="ordenar('nome')">Nome</a></th>
+                  <th><a href="" ng-click="ordenar('descricao')">Descrição</a></th>
                   <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
                   <th>Ação</th>                  
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="rotulo in rotulos | filter : filtroGenerico | orderBy : campo : ascDsc">
-                  <td>{{rotulo.id}}</td>
+<!--                  <td>{{rotulo.id}}</td>-->
                   <td ><img ng-src="{{rotulo.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/></td>
                   <td>{{rotulo.nome}}</td>
+                  <td>{{rotulo.descricao}}</td>
                   <td style="{{rotulo.dtDesativacao ? 'color: red' : ''}}">
                     {{rotulo.dtDesativacao ? "Desativado" : " Ativo"}}
                   </td>

@@ -12,14 +12,24 @@
         <label for="id" class="col-sm-3 control-label">Código</label>
         <div class="col-sm-7">
           <input class="form-control" type="text" id="id" ng-model="insumo.id" ng-disabled="true">
-          <span id="helpBlock" class="help-block"> Código de referência do produto no sistema </span>
+          <span id="helpBlock" class="help-block" ng-show="showHelp.id"> Código de referência do ingrediente no sistema </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.id = true" ng-mouseleave="showHelp.id = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group" >
         <label for="nome" class="col-sm-3 control-label">Nome</label>
         <div class="col-sm-7">
           <input class="form-control" type="text" id="nome" placeholder="Nome do ingrediente" ng-model="insumo.nome">
-          <span id="helpBlock" class="help-block"> Nome que irá aparecer sempre que o ingrediente for exibido no sistema </span>
+          <span id="helpBlock" class="help-block" ng-show="showHelp.nome"> Nome que irá aparecer sempre que o ingrediente for exibido no sistema </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.nome = true" ng-mouseleave="showHelp.nome = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group">
@@ -27,7 +37,12 @@
         <div class="col-sm-7">
           <!--<input class="form-control" type="text" id="descricao" placeholder="Descrição detelhada do ingrediente" ng-model="insumo.descricao">-->
           <textarea class="form-control" rows="1" type="text" id="descricao" placeholder="Descrição detelhada do ingrediente" ng-model="insumo.descricao"></textarea>
-          <span id="helpBlock" class="help-block"> Espaço para informações complementares ao nome </span>
+          <span id="helpBlock" class="help-block" ng-show="showHelp.descricao"> Espaço para informações complementares ao nome </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.descricao = true" ng-mouseleave="showHelp.descricao = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group" ng-hide="true">
@@ -42,14 +57,24 @@
           <select class="form-control" id="unMedida" ng-model="insumo.unMedida" ng-options="unMedida.nome as unMedida.nome  for unMedida in unidadesMedida" >
             <option value='' style='color: #999; opacity: 1;'> Selecione </option>
           </select>
-          <span id="helpBlock" class="help-block"> Unidade padrão que o ingrediente é medido(contado) </span>           
+          <span id="helpBlock" class="help-block" ng-show="showHelp.unMedida"> Unidade padrão que o ingrediente é medido (contado) </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.unMedida = true" ng-mouseleave="showHelp.unMedida = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group">
         <label for="estoqueMinimo" class="col-sm-3 control-label">Estoque Mínimo</label>
         <div class="col-sm-7">
-          <input class="form-control" type="text" id="estoqueMinimo" placeholder="Quantidade mínima que deve ter em estoque" ui-number-mask="0" ng-model="insumo.estoqueMinimo">
-          <span id="helpBlock" class="help-block">  Quando o estoque estiver abaixo desta quantidade, será disparado o alerta de compra </span>
+          <input class="form-control" type="text" id="estoqueMinimo" placeholder="Apenas números" ui-number-mask="0" ng-model="insumo.estoqueMinimo">
+          <span id="helpBlock" class="help-block" ng-show="showHelp.estoqueMinimo"> Quantidade mínima que este ingrediente deve ter estocado (conforme unidade de medida escolhida). Quando o estoque estiver abaixo desta quantidade, será disparado o alerta de compra </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.estoqueMinimo = true" ng-mouseleave="showHelp.estoqueMinimo = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group" ng-hide="true">
