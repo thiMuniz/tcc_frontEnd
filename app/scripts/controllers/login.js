@@ -1,6 +1,7 @@
 'use strict';
-app.controller('LoginCtrl', function ($scope, $filter, $http, $cookies, $state, PessoaResource, $rootScope) {
+app.controller('LoginCtrl', function ($scope, $filter, $http, $cookies, $state, PessoaResource, $rootScope, $httpParamSerializerJQLike) {
   
+  $scope.showLogin = true;
   $scope.user = new PessoaResource();
 
   $scope.login = function(){
@@ -23,5 +24,14 @@ app.controller('LoginCtrl', function ($scope, $filter, $http, $cookies, $state, 
          type: "error"
        });
     });
-  };  
+  };
+  
+  $scope.toogleShowLogin = function(){
+    $scope.showLogin = !$scope.showLogin;
+  };
+  
+  $scope.recuperarSenha = function(){
+    $scope.user.$recuperarSenha({p:$httpParamSerializerJQLike({email:$scope.emailRecuperacao})});
+  };
+  
 });

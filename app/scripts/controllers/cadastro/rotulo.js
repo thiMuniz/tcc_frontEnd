@@ -170,7 +170,7 @@ app.controller('RotuloCtrl', function ($scope, $modal, $filter, RotuloResource, 
     
     $scope.removerFornecedor = function(index){
       $scope.temp.fornecedoresItem.splice(index, 1);
-      $scope.atualizarLista;
+      $scope.atualizarLista();
     };
     
     $scope.openImagemDialog = function(){

@@ -7,7 +7,8 @@
   </div>
   <div class="modal-body">
     <div class="row">    
-      <div class="panel-heading"> <!-- Painel Superior -->        
+      <div class="panel-heading"> <!-- Painel Superior --> 
+        <span>Clique abaixo e selecione os fornecedores</span>
         <ui-select multiple ng-model="temp.fornecedoresItem" ng-change="atualizarLista()" theme="bootstrap" ng-disabled="fornecedor.id" append-to-body="false">
           <ui-select-match class="ui-select-match" placeholder="Selecione os Fornecedores"> {{$item.pj.nomeFantasia}} </ui-select-match>
           <ui-select-choices class="ui-select-choices" repeat="fornecedor in fornecedoresAll | filter:$select.search">

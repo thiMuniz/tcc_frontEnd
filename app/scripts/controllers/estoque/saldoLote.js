@@ -55,8 +55,8 @@ app.controller('SaldoDialogCtrl', function ($scope, $modal, $modalInstance, Lote
   };
 
   $scope.cancel = function(){
-    var toastMsg = "Saldo do Lote " + $scope.lote.codLote + " não foi alterado";
-    toastr.warning(toastMsg, "Erro");    
+//    var toastMsg = "Saldo do Lote " + $scope.lote.codLote + " não foi alterado";
+//    toastr.warning(toastMsg, "Erro");    
     $modalInstance.dismiss('cancel');
   };
 

@@ -25,7 +25,8 @@ var app = angular
           'as.sortable',
           '720kb.datepicker',
           'ngCookies',
-          'datatables'
+          'datatables',
+          'ui.utils.masks'
         ])
         .constant("CONST", {
           ws:{
@@ -249,7 +250,8 @@ var app = angular
                           return $ocLazyLoad.load({
                             name: 'sbAdminApp',
                             files: [
-                              'scripts/controllers/cadastro/cliente.js'
+                              'scripts/controllers/cadastro/cliente.js',                              
+                              'scripts/services/formaPgto.js'
                             ]
                           });
                         }

@@ -2,7 +2,9 @@
 <html class="no-js">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>
+      Naturefibras - Admin
+    </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -69,29 +71,16 @@
     <script src="bower_components/ng-sortable/dist/ng-sortable.min.js"></script>
     <script src="bower_components/angularjs-datepicker/src/js/angular-datepicker.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-input-masks/angular-input-masks-standalone.min.js"></script>
     <!--https://github.com/l-lin/angular-datatables-->
     <!-- endbower -->
     <!-- endbuild -->
-    
-    <!-- resources -->
-<!--    <script src="scripts/resources/colaboradorResource.js"></script>
-    <script src="scripts/resources/clienteResource.js"></script>
-    <script src="scripts/resources/receitaResource.js"></script>
-    <script src="scripts/resources/seloResource.js"></script>
-    <script src="scripts/resources/categoriaResource.js"></script>
-    <script src="scripts/resources/produtoResource.js"></script>
-    <script src="scripts/resources/insumoResource.js"></script>
-    <script src="scripts/resources/embalagemResource.js"></script>
-    <script src="scripts/resources/rotuloResource.js"></script>-->
-    <!-- ./resources -->
-    
+        
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="js/sb-admin-2.js"></script>
         <script src="scripts/utils/sgpFunctions.js"></script>
     <!-- endbuild -->
-
-
 
     <script>
        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -107,18 +96,10 @@
 
     <!-- Morris Charts CSS -->
     <!-- <link href="styles/morrisjs/morris.css" rel="stylesheet"> -->
-
-
-    </head>
-   
+    </head>   
     <body>
-
-    <div ng-app="sbAdminApp">
-
+      <div ng-app="sbAdminApp">
         <div ui-view></div>
-
-    </div>
-
+      </div>
     </body>
-
 </html>

@@ -45,6 +45,9 @@
                     <a class="{{cliente.dtDesativacao ? 'acao-disabled' : ''}}" ng-click="openUpdateDialog(cliente);" tooltip="{{CONST.editar.tooltipAcao}}" >
                       <ng-md-icon icon="{{CONST.editar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
+                    <a class="{{cliente.dtDesativacao ? 'acao-disabled' : ''}}" ng-click="openFormaPgtoDialog(cliente);" tooltip="Relacionar Formas de Pagamento" >
+                      <ng-md-icon icon="attach_money"></ng-md-icon>
+                    </a>&nbsp;
                     <a ng-click="openAtivarDesativarDialog(cliente);" tooltip="{{cliente.dtDesativacao ? CONST.ativar.tooltipAcao : CONST.desativar.tooltipAcao}}" >
                       <ng-md-icon icon="{{cliente.dtDesativacao ? CONST.ativar.iconeAcao : CONST.desativar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;

@@ -1,32 +1,65 @@
 <section ng-controller="LoginCtrl">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="login-panel panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Please Sign In</h3>
-                    </div>
-                    <div class="panel-body">
-                        <form role="form" ng-submit="login()">
-                            <fieldset>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="User name" name="email" type="text" autofocus ng-model="user.usuario">
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" ng-model="user.senha">
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                    </label>
-                                </div>
-                                <!-- Change this to a button or input when using this as a form -->
-                                <button  type="submit" class="btn btn-lg btn-success btn-block">Login</button>
-                            </fieldset>
-                        </form>
-                    </div>
+  <div class="container">
+    <div class="row" ng-show="showLogin">
+      <div class="col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Login</h3>
+          </div>
+          <div class="panel-body">
+            <form role="form" ng-submit="login()">
+              <fieldset>
+                <div class="form-group">
+                  <input class="form-control" placeholder="Usuário" name="usuario" type="text" autofocus ng-model="user.usuario">
                 </div>
-            </div>
+                <div class="form-group">
+                  <input class="form-control" placeholder="Senha" name="senha" type="password" ng-model="user.senha">
+                </div>
+                <div class="checkbox">
+                  <label>
+                    <input name="remember" type="checkbox" value="Remember Me">Lembrar meus dados
+                  </label>
+                </div>
+                <button  type="submit" class="btn btn-lg btn-success btn-block">Login</button>
+                <button  type="button" ng-click="toogleShowLogin()" class="btn btn-xs btn-info btn-block">Esqueci minha senha</button>
+              </fieldset>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
+    
+    <div class="row" ng-show="!showLogin">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="login-panel panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Recuperar Senha</h3>
+          </div>
+          <div class="panel-body">
+            <form role="form" ng-submit="recuperarSenha()">
+              <fieldset>
+                <div class="form-group">
+<!--                  <span id="helpBlock" class="help-block has-success">Informe o e-mail que deseja receber a nova senha
+                  <input class="form-control" placeholder="E-mail" name="emailRecuperacao" type="email" autofocus ng-model="emailRecuperacao">-->
+                  <div class="form-group has-success has-feedback">
+                    <label class="control-label" for="inputGroupSuccess1">Input group with success</label>
+                    <!--<span id="helpBlock" class="help-block has-success">Informe o e-mail que deseja receber a nova senha-->
+                    <div class="input-group">
+                      <span class="input-group-addon">@</span>
+                      <input type="text" class="form-control" id="inputGroupSuccess1" aria-describedby="inputGroupSuccess1Status" autofocus ng-model="emailRecuperacao">
+                    </div>
+                    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                    <span id="inputGroupSuccess1Status" class="sr-only">(success)</span>
+                  </div>
+
+                </div>
+                <button  type="submit" class="btn btn-lg btn-success btn-block">Enviar</button>
+                <button  type="button" ng-click="toogleShowLogin()" class="btn btn-xs btn-info btn-block">Lembrei minha senha</button>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>

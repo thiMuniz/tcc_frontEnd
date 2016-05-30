@@ -19,11 +19,21 @@ app.factory("PessoaResource", function ($resource, CONST) {
     },
     login: { 
       method: 'POST',
-      url : CONST.ws.urlSGP+'login',
+      url : CONST.ws.urlSGP+'login'
     },
     logout: { 
       method: 'POST',
-      url : CONST.ws.urlSGP+'logout',
+      url : CONST.ws.urlSGP+'logout'
+    },
+    recuperarSenha: { 
+      method: 'POST',
+      url : CONST.ws.urlSGP+'pessoa/recuperarsenha?:p',
+      params : {p:"p"}
+    },
+    updateSenha: { 
+      method: 'PUT',
+      url : CONST.ws.urlSGP+'pessoa/updatesenha?:p',
+      params : {p:"p"}
     }
   });
 });

@@ -157,14 +157,12 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
     if(params.formTipo == 'lookup'){
       $scope.fornecedoresAll = params.fornecedores;
       $scope.temp = {};
-      $scope.temp.fornecedoresItem = $scope.embalagemInit.fornecedores;      
+      $scope.temp.fornecedoresItem = $scope.embalagemInit.fornecedores;
     }
     
     $scope.materiais = [
-      {nome: "PE - Polietileno", tipo: "Plástico"},
       {nome: "PP - Polipropileno", tipo: "Plástico"},
-      {nome: "PC - Papel Clabin", tipo: "Papel"},
-      {nome: "PG - Papel Gordura", tipo: "Papel"}
+      {nome: "PK - Papel Klabin", tipo: "Papel"}
     ];
     
     $scope.atualizarLista = function(){
@@ -173,7 +171,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
     
     $scope.removerFornecedor = function(index){
       $scope.temp.fornecedoresItem.splice(index, 1);
-      $scope.atualizarLista;
+      $scope.atualizarLista();
     };
         
     $scope.openImagemDialog = function(){

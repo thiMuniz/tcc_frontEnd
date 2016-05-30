@@ -18,24 +18,24 @@
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          {{insumos.length}} Insumos encontrados                    
+          {{insumos.length}} Ingredientes encontrados                    
         </div>        
         <div class="panel-body">
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th><a href="" ng-click="ordenar('id')">Código</a></th>
                   <th colspan="2"><a href="" ng-click="ordenar('nome')">Nome</a></th>
+                  <th><a href="" ng-click="ordenar('descricao')">Descrição</a></th>
                   <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
                   <th>Ação</th>                  
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="insumo in insumos | filter : filtroGenerico | orderBy : campo : ascDsc">
-                  <td>{{insumo.id}}</td>
+                <tr ng-repeat="insumo in insumos | filter : filtroGenerico | orderBy : campo : ascDsc">                  
                   <td ><img ng-src="{{insumo.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/></td>
                   <td>{{insumo.nome}}</td>
+                  <td>{{insumo.descricao}}</td>
                   <td style="{{insumo.dtDesativacao ? 'color: red' : ''}}">
                     {{insumo.dtDesativacao ? "Desativado" : " Ativo"}}
                   </td>

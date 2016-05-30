@@ -3,9 +3,9 @@ app.controller('InsumoCtrl', function ($scope, $modal, $filter, InsumoResource, 
   
   var toastMsg = "";
   $scope.CONST = CONST;
-  $scope.tituloView = "Cadastro de Insumos dos Produtos";
-  $scope.headerLista = "Nenhum rótulo foi encontrado";
-  $scope.labelCadastrarBtn = "Novo Insumo";
+  $scope.tituloView = "Cadastro de Ingredientes dos Produtos";
+  $scope.headerLista = "Nenhum ingrediente foi encontrado";
+  $scope.labelCadastrarBtn = "Novo Ingrediente";
   
   $scope.atualizarLista = function(){
     $scope.insumos = InsumoResource.query();
@@ -22,7 +22,7 @@ app.controller('InsumoCtrl', function ($scope, $modal, $filter, InsumoResource, 
     $scope.params = {
       formTipo: 'insert',
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
-      tituloDialog: "Cadastrar Insumo",
+      tituloDialog: "Cadastrar Ingrediente",
       insumo: new InsumoResource()
     };
     var modalInstance = $modal.open({
@@ -50,7 +50,7 @@ app.controller('InsumoCtrl', function ($scope, $modal, $filter, InsumoResource, 
     $scope.params = {
       formTipo: 'update',
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
-      tituloDialog: "Editar Insumo",
+      tituloDialog: "Editar Ingrediente",
       insumo: angular.copy(insumo)
     };
 
@@ -77,8 +77,8 @@ app.controller('InsumoCtrl', function ($scope, $modal, $filter, InsumoResource, 
   $scope.openAtivarDesativarDialog = function (insumo) {
 //    index = $scope.insumos.indexOf($filter('filter')($scope.insumos, insumo, true)[0]);    
     swal({
-      title: "Deseja mesmo" + (insumo.dtDesativacao ? " ativar" : " desativar") + " o Insumo " + insumo.nome + "?",
-      text: "Você poderá" + (insumo.dtDesativacao ? " desativar" : " ativar") + " o Insumo novamente!",
+      title: "Deseja mesmo" + (insumo.dtDesativacao ? " ativar" : " desativar") + " o Ingrediente " + insumo.nome + "?",
+      text: "Você poderá" + (insumo.dtDesativacao ? " desativar" : " ativar") + " o Ingrediente novamente!",
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: (insumo.dtDesativacao ? "#428bca" : "#DD6B55"), //#f0ad4e
@@ -104,7 +104,7 @@ app.controller('InsumoCtrl', function ($scope, $modal, $filter, InsumoResource, 
     $scope.params = {
       formTipo: 'info',
       iconeHeaderDialog: CONST.info.iconeHeaderDialog,
-      tituloDialog: "Detalhes Insumo",
+      tituloDialog: "Detalhes Ingrediente",
       insumo: angular.copy(insumo)
     };
     var modalInstance = $modal.open({
@@ -175,7 +175,7 @@ app.controller('InsumoCtrl', function ($scope, $modal, $filter, InsumoResource, 
     
     $scope.removerFornecedor = function(index){
       $scope.temp.fornecedoresItem.splice(index, 1);
-      $scope.atualizarLista;
+      $scope.atualizarLista();
     };
     
     $scope.openImagemDialog = function(){
@@ -215,7 +215,7 @@ app.controller('InsumoCtrl', function ($scope, $modal, $filter, InsumoResource, 
           };
           $scope.close(result);
         }, function(){
-          var toastMsg = "Erro ao cadastrar Insumo " + $scope.insumo.nome;
+          var toastMsg = "Erro ao cadastrar Ingrediente " + $scope.insumo.nome;
           toastr.error(toastMsg, "Erro");
           var result = {
             status: "erro"
@@ -232,7 +232,7 @@ app.controller('InsumoCtrl', function ($scope, $modal, $filter, InsumoResource, 
           };
           $scope.close(result);
         }, function(){
-          var toastMsg = "Erro ao editar Insumo " + $scope.insumo.nome;
+          var toastMsg = "Erro ao editar Ingrediente " + $scope.insumo.nome;
           toastr.error(toastMsg, "Erro");
           var result = {
             status: "erro"

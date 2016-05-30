@@ -2,7 +2,7 @@
   <div class="modal-header">    
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>
-    debug cliente{{cliente}}
+    <!--PF - {{cliente.pf}} - PJ - {{cliente.pj}}-->
   </div>
   <div class="modal-body">
     <form class="form-horizontal" role="form" name="formCliente">
@@ -45,10 +45,16 @@
               <input class="form-control" type="text" id="usuario" placeholder="Usuario" ng-model="cliente.usuario" >
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" ng-if="formTipo == 'insert'">
             <label for="senha" class="col-sm-3 control-label">Senha</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="senha" placeholder="Senha" ng-model="cliente.senha" >
+              <input class="form-control" type="password" id="senha" placeholder="Senha" ng-model="cliente.senha" >
+            </div>
+          </div>
+          <div class="form-group" ng-if="formTipo == 'insert'">
+            <label for="confSenha" class="col-sm-3 control-label">Confirme a Senha</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="password" id="confSenha" placeholder="Repetir Senha" ng-model="temp.confSenha" >
             </div>
           </div>
           <div class="form-group">
@@ -131,31 +137,31 @@
           <div class="form-group">
             <label for="razaoSocial" class="col-sm-3 control-label">Razão Social</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="razaoSocial" placeholder="Somente numeros" ng-model="cliente.pj.razaoSocial" >
+              <input class="form-control" type="text" id="razaoSocial" placeholder="Razão Social" ng-model="cliente.pj.razaoSocial" >
             </div>
           </div>  
           <div class="form-group">
             <label for="nomeFantasia" class="col-sm-3 control-label">Nome Fantasia</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="nomeFantasia" placeholder="" ng-model="cliente.pj.nomeFantasia" >
+              <input class="form-control" type="text" id="nomeFantasia" placeholder="Nome Fantasia" ng-model="cliente.pj.nomeFantasia" >
             </div>
           </div>  
           <div class="form-group">
             <label for="ramoAtividade" class="col-sm-3 control-label">Ramo da Atividade</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="ramoAtividade" placeholder="" ng-model="cliente.pj.ramoAtividade" >
+              <input class="form-control" type="text" id="ramoAtividade" placeholder="Ramo de atividade" ng-model="cliente.pj.ramoAtividade" >
             </div>
           </div>    
           <div class="form-group">
             <label for="cnpj" class="col-sm-3 control-label">Cnpj</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="cnpj" placeholder="" ng-model="cliente.pj.cnpj" >
+              <input class="form-control" type="text" id="cnpj" placeholder="Somente números" ng-model="cliente.pj.cnpj" >
             </div>
           </div>     
           <div class="form-group">
             <label for="inscricaoEst" class="col-sm-3 control-label">Inscricao Estadual</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="inscricaoEst" placeholder="" ng-model="cliente.pj.inscricaoEst" >
+              <input class="form-control" type="text" id="inscricaoEst" placeholder="Somente números" ng-model="cliente.pj.inscricaoEst" >
             </div>
           </div> 
           <!--          apagar após testes com datepicker-->

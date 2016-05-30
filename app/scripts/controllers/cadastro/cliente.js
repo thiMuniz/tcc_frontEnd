@@ -1,5 +1,5 @@
 'use strict';
-app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource, CONST, toastr, $stateParams, $httpParamSerializerJQLike){
+app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource, FormaPgtoResource, CONST, toastr, $stateParams, $httpParamSerializerJQLike){
   var toastMsg = "";
 
   $scope.CONST = CONST;
@@ -10,14 +10,13 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
   $scope.perfil = $stateParams.perfil;
 
   $scope.atualizarLista = function(){
-//    $scope.clientes = ClienteResource.query();
     $scope.clientes = PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
   }
   
   $scope.ordenar = function (campo) {
     $scope.campo = campo;
     $scope.ascDsc = !$scope.ascDsc;
-  };  
+  };
 
   $scope.openInsertDialog = function () {
     $scope.cliente = new PessoaResource();
@@ -73,6 +72,36 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
         $scope.atualizarLista();
 //        scope.$apply(); 
       } 
+    });
+  };
+  
+  $scope.openFormaPgtoDialog = function(cliente){
+    var formasPgtoAll = FormaPgtoResource.query(
+    function(){
+      $scope.params = {
+        formTipo: 'updateFormaPgto',
+        iconeHeaderDialog: 'local_atm',
+        tituloDialog: "Relacionar Formas de Pagamento ao Cliente",
+        cliente: angular.copy(cliente),
+        perfil: $scope.perfil,
+        formasPgtoAll: formasPgtoAll
+      };
+      var modalInstance = $modal.open({
+        templateUrl: "views/cadastro/dialog/formFormaPgtoCliente.html",
+        controller: "ClienteDialogCtrl",
+        backdrop: 'static',
+        size: 'lg',
+        resolve: {
+          params: function () {
+            return $scope.params;
+          }
+        }
+      });
+      modalInstance.result.then(function (result) {
+        if (result.status == "sucesso") {
+          $scope.atualizarLista();
+        } 
+      });
     });
   };
 
@@ -132,19 +161,39 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
   $scope.formTipo = params.formTipo;
   $scope.iconeHeaderDialog = params.iconeHeaderDialog;
   $scope.tituloDialog = params.tituloDialog;
-  
-  
+    
   $scope.abaPF = 'Passo 2 - Dados Pessoa Física';
   $scope.abaPJ = 'Passo 2 - Dados Pessoa Jurídica';
 
   $scope.cliente = angular.copy(params.cliente);
   $scope.cliente.paramPerfil = params.perfil;
-  $scope.clienteInit = angular.copy(params.cliente);
-
+  $scope.clienteInit = angular.copy($scope.cliente);
+  
   $scope.sexos = [
     {nome: "Masculino", valor: "masculino"},
     {nome: "Feminino", valor: "feminino"}
   ];
+  
+  $scope.temp = {};
+  
+  if($scope.formTipo == "updateFormaPgto"){
+    $scope.formasPgtoAll = params.formasPgtoAll;
+    $scope.temp.formasPgtoCliente = $scope.clienteInit.formasPgto;
+  }
+    
+  $scope.ordenar = function (campo) {
+    $scope.campo = campo;
+    $scope.ascDsc = !$scope.ascDsc;
+  };
+  
+  $scope.atualizarLista = function(){
+    $scope.cliente.formasPgto = $scope.temp.formasPgtoCliente;
+  };
+  
+  $scope.removerFormaPgto = function(index){
+    $scope.temp.formasPgtoCliente.splice(index, 1);
+    $scope.atualizarLista();
+  };
   
   $scope.initAbas = function () {
     $scope.isPf = $scope.cliente.pj ? false : true;
@@ -193,6 +242,17 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
     });
   };
   
+  $scope.validarSenha = function(){ //definir
+    if($scope.cliente.senha === $scope.temp.confSenha){
+      toastr.info("senha confirmada");
+      return true;
+    }else{
+//      $scope.temp.confSenha = $scope.cliente.senha = null; 
+      toastr.error("senhas diferentes");
+      return false;
+    }
+  };
+  
   $scope.openImagemDialog = function(){
     $scope.params = {
       formTipo: $scope.formTipo,
@@ -221,23 +281,25 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
   
   $scope.submit = function () {
     if ($scope.formTipo == 'insert') { //insert
-      $scope.cliente.$save({p:$httpParamSerializerJQLike({perfil:$scope.cliente.paramPerfil})},
-      function(){
-        var toastMsg = "Cliente " + ($scope.cliente.pf ? $scope.cliente.pf.nome : $scope.cliente.pj.nomeFantasia) + " cadastrado com sucesso!";
-        toastr.success(toastMsg, "successo");
-        var result = {
-          cliente: $scope.cliente, 
-          status: "sucesso"
-        };
-        $scope.close(result);
-      }, function(){
-        var toastMsg = "Erro ao cadastrar Cliente " + ($scope.cliente.pf ? $scope.cliente.pf.nome : $scope.cliente.pj.nomeFantasia);
-        toastr.error(toastMsg, "Erro");
-        var result = {
-          status: "erro"
-        };
-        $scope.close(result);
-      });
+      if($scope.validarSenha()){
+        $scope.cliente.$save({p:$httpParamSerializerJQLike({perfil:$scope.cliente.paramPerfil})},
+        function(){
+          var toastMsg = "Cliente " + ($scope.cliente.pf ? $scope.cliente.pf.nome : $scope.cliente.pj.nomeFantasia) + " cadastrado com sucesso!";
+          toastr.success(toastMsg, "successo");
+          var result = {
+            cliente: $scope.cliente, 
+            status: "sucesso"
+          };
+          $scope.close(result);
+        }, function(){
+          var toastMsg = "Erro ao cadastrar Cliente " + ($scope.cliente.pf ? $scope.cliente.pf.nome : $scope.cliente.pj.nomeFantasia);
+          toastr.error(toastMsg, "Erro");
+          var result = {
+            status: "erro"
+          };
+          $scope.close(result);
+        });
+      }
     } else { //update
       $scope.cliente.$update({p:$httpParamSerializerJQLike({perfil:$scope.cliente.paramPerfil})},
       function(){

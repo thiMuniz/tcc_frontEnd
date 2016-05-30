@@ -5,8 +5,18 @@ app.controller('InventarioDialogCtrl', function ($scope, $modal, $modalInstance,
   $scope.iconeHeaderDialog = params.iconeHeaderDialog;
   $scope.tituloDialog = params.tituloDialog;
   $scope.tipoItem = params.tipoItem;
-  $scope.lotes = LoteResource.listFiltro({p:$httpParamSerializerJQLike({tipoItem: $scope.tipoItem.dsSing})});
-  $scope.newSaldo = null;
+  $scope.lotes = LoteResource.listFiltro({p:$httpParamSerializerJQLike({tipoItem: $scope.tipoItem.dsSing})},
+  function(){
+    $scope.lotesInit = angular.copy($scope.lotes);
+  });
+    
+  $scope.removeSaldo = function(index){
+    $scope.lotes[index].estoqueDisponivel = $scope.lotes[index].estoqueDisponivel - 1;
+  };
+  
+  $scope.addSaldo = function(index){
+    $scope.lotes[index].estoqueDisponivel = $scope.lotes[index].estoqueDisponivel + 1;
+  };
   
   $scope.openNewSaldoDialog = function(lote){
     $scope.params = {
@@ -34,30 +44,22 @@ app.controller('InventarioDialogCtrl', function ($scope, $modal, $modalInstance,
   };
 
   $scope.submit = function(){
-    if($scope.newSaldo && ($scope.newSaldo != $scope.loteOrig.estoqueDisponivel)){
-      $scope.lote.estoqueDisponivel = $scope.newSaldo;
-      LoteResource.inventario($scope.listaLotesTeste, function(){
-        var toastMsg = "Saldo do Lote " + $scope.lote.codLote + " alterado com sucesso!";
-        toastr.success(toastMsg);
-        var result = {
-          lote: $scope.lote, 
-          status: "sucesso"
-        };
-        $scope.close(result);
-      }, function(){
-        var toastMsg = "Erro ao alterar saldo do Lote " + $scope.lote.codLote;
-        toastr.error(toastMsg, "Erro");
-        var result = {
-          status: "erro"
-        };
-        $scope.close(result);
-      });
-    }else{
-      var toastMsg = "Saldo do Lote " + $scope.lote.codLote + " não foi alterado";
-      toastr.warning(toastMsg, "Erro");
-      $scope.cancel();
-      //informar que saldo n foi alterado
-    }
+    LoteResource.inventario($scope.lotes,
+    function(){
+      var toastMsg = "Inventário de " + $scope.tipoItem.dsPlur + " realizado com sucesso!";
+      toastr.success(toastMsg);
+      var result = {
+        status: "sucesso"
+      };
+      $scope.close(result);
+    }, function(){
+      var toastMsg = "Erro ao alterar saldo do Lote " + $scope.lote.codLote;
+      toastr.error(toastMsg, "Erro");
+      var result = {
+        status: "erro"
+      };
+      $scope.close(result);
+    });
   };
   
   $scope.close = function (result) {

@@ -138,6 +138,8 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
     {nome: "Feminino", valor: "feminino"}
   ];
   
+  $scope.temp = {};
+  
   //valida email
   $scope.email = function () {
     email.clear();
@@ -164,6 +166,17 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
     });
   };
 
+  $scope.validarSenha = function(){ //definir
+    if($scope.cliente.senha === $scope.temp.confSenha){
+      toastr.info("senha confirmada");
+      return true;
+    }else{
+//      $scope.temp.confSenha = $scope.cliente.senha = null; 
+      toastr.error("senhas diferentes");
+      return false;
+    }
+  };
+  
   $scope.openImagemDialog = function(){
     $scope.params = {
       formTipo: $scope.formTipo,
@@ -192,23 +205,25 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
   
   $scope.submit = function () {
     if ($scope.formTipo == 'insert') { //insert
-      $scope.colaborador.$save({p:$httpParamSerializerJQLike({perfil:$scope.colaborador.paramPerfil})},
-      function(){
-        var toastMsg = "Colaborador " + $scope.colaborador.pf.nome + " cadastrado com sucesso!";
-        toastr.success(toastMsg, "successo");
-        var result = {
-          colaborador: $scope.colaborador, 
-          status: "sucesso"
-        };
-        $scope.close(result);
-      }, function(){
-        var toastMsg = "Erro ao cadastrar Colaborador " + $scope.colaborador.pf.nome;
-        toastr.error(toastMsg, "Erro");
-        var result = {
-          status: "erro"
-        };
-        $scope.close(result);
-      });
+      if($scope.validarSenha()){
+        $scope.colaborador.$save({p:$httpParamSerializerJQLike({perfil:$scope.colaborador.paramPerfil})},
+        function(){
+          var toastMsg = "Colaborador " + $scope.colaborador.pf.nome + " cadastrado com sucesso!";
+          toastr.success(toastMsg, "successo");
+          var result = {
+            colaborador: $scope.colaborador, 
+            status: "sucesso"
+          };
+          $scope.close(result);
+        }, function(){
+          var toastMsg = "Erro ao cadastrar Colaborador " + $scope.colaborador.pf.nome;
+          toastr.error(toastMsg, "Erro");
+          var result = {
+            status: "erro"
+          };
+          $scope.close(result);
+        });
+      }
     } else { //update
       $scope.colaborador.$update({p:$httpParamSerializerJQLike({perfil:$scope.colaborador.paramPerfil})},
       function(){

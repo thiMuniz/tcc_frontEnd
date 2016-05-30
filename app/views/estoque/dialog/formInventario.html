@@ -11,27 +11,35 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th><a href="" ng-click="ordenar('item.id')">Cód. Item</a></th>
-                <th colspan="2"><a href="" ng-click="ordenar('item.nome')">Item</a></th>
-                <th><a href="" ng-click="ordenar('codLote')">Cód. Lote</a></th>
-                <th><a href="" ng-click="ordenar('estoqueDisponivel')">Qtd Disponível Atual</a></th>
-                <th>Ação</th>
+                <th class="col-sm-1"><a href="" ng-click="ordenar('item.id')">Cód. Item</a></th>
+                <th class="col-sm-4" colspan="2"><a href="" ng-click="ordenar('item.nome')">Item</a></th>
+                <th class="col-sm-2"><a href="" ng-click="ordenar('codLote')">Cód. Lote</a></th>
+                <th class="col-sm-2"><a href="" ng-click="ordenar('estoqueDisponivel')">Saldo Atual</a></th>
+                <th class="col-sm-3"><a href="" ng-click="ordenar('newSaldo')">Saldo Corrigido</a></th>
+                <!--<th>Ação</th>-->
               </tr>
             </thead>
             <tbody>
               <tr ng-repeat="lote in lotes| filter : filtroGenerico | orderBy : campo : ascDsc">
-                <td>{{lote.item.id}}</td>
-                <td ><img ng-src="{{lote.item.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/></td>
-                <td>{{lote.item.nome}}</td>
-                <td>{{lote.codLote}}</td>
-                <td >{{lote.estoqueDisponivel}}</td>
-                <td>
-                  <a ng-click="openNewSaldoDialog(lote)" tooltip="Alterar Saldo">
-                    <ng-md-icon icon="swap_vert"></ng-md-icon>
-                  </a>&nbsp;
-                </td>
-                <td ng-show="lote.newSaldo">
-                  {{lote.newSaldo}}
+                <td class="col-sm-1">{{lote.item.id}}</td>
+                <td class="col-sm-1"><img ng-src="{{lote.item.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/></td>
+                <td class="col-sm-3">{{lote.item.nome}}</td>
+                <td class="col-sm-2">{{lote.codLote}}</td>
+                <td class="col-sm-2">{{lotesInit[$index].estoqueDisponivel}}</td>
+                <td class="col-sm-3">
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default btn-number" ng-click="removeSaldo($index)">
+                        <span class="glyphicon glyphicon-minus"></span>
+                      </button>
+                    </span>
+                    <input type="text" name="newSaldo" class="form-control" ng-model="lote.estoqueDisponivel">
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default btn-number" ng-click="addSaldo($index)">
+                        <span class="glyphicon glyphicon-plus"></span>
+                      </button>
+                    </span>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -39,6 +47,10 @@
         </div><!-- /.table-responsive -->
       </div><!-- /.panel-body -->
     </form>      
+    <div class="alert alert-warning alert-dismissable">
+      <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
+      *Verificar com cliente quais lotes exibir (expira por data ou por saldo) e se saldo poderá ser negativo
+    </div>
   </div><!-- /.modal body-->
 
   <div class="modal-footer">
