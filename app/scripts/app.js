@@ -26,7 +26,7 @@ var app = angular
           '720kb.datepicker',
           'ngCookies',
           'datatables',
-          'ui.utils.masks'
+          'ui.utils.masks'          
         ])
         .constant("CONST", {
           ws:{

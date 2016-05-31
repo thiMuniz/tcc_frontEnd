@@ -12,14 +12,14 @@
                 <div class="form-group">
                   <div class="form-group {{user.usuario.length > 3 ? 'has-success has-feedback' : ''}}">
                     <label class="control-label" for="usuario">Usuário</label>
-                      <input class="form-control" placeholder="Usuário" name="usuario" type="text" autofocus ng-model="user.usuario">
+                      <input class="form-control" placeholder="Usuário" name="usuario" type="text" required autofocus ng-model="user.usuario">
                     <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="user.usuario.length > 2"></span>
                   </div>                  
                 </div>
                 <div class="form-group">
                   <div class="form-group {{user.senha.length > 3 ? 'has-success has-feedback' : ''}}">
                     <label class="control-label" for="usuario">Senha</label>
-                      <input class="form-control" placeholder="Senha" name="senha" type="password" ng-model="user.senha">
+                      <input class="form-control" placeholder="Senha" name="senha" type="password" required ng-model="user.senha">
                     <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="user.senha.length > 3"></span>
                   </div>                  
                 </div>
@@ -28,7 +28,7 @@
                     <input name="remember" type="checkbox" value="Remember Me">Lembrar meus dados
                   </label>
                 </div>
-                <button  type="submit" class="btn btn-lg btn-success btn-block" >Login</button>
+                <button  type="submit" class="btn btn-lg btn-success btn-block" ng-disabled="formLogin.$invalid">Login</button> <!--formLogin.usuario.$pristine || formLogin.senha.$pristine-->
                 <button  type="button" ng-click="toogleShowLogin()" class="btn btn-xs btn-primary btn-block">Esqueci minha senha</button>
               </fieldset>
             </form>
@@ -49,21 +49,19 @@
                 <div class="form-group">
                   <div class="form-group has-success has-feedback">
                     <label class="control-label" for="cpf">Informe seu CPF</label>
-                      <input type="text" class="form-control" name="cpf" placeholder="Apenas números" aria-describedby="cpfStatus" ng-cpf ui-br-cpf-mask autofocus ng-model="user.pf.cpf">
-                    <span id="helpBlock" class="help-block has-success" ng-show="user.pf.cpf && formRecSenha.cpf.$valid">A nova senha será enviada no e-mail cadastrado. Se não tiver acesso a esse e-mail entre em contato com a gerência. </span>
-                    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="user.pf.cpf && formRecSenha.cpf.$valid"></span>
+                      <input type="text" class="form-control" name="cpf" placeholder="Apenas números" required aria-describedby="cpfStatus" ng-cpf ui-br-cpf-mask autofocus ng-model="user.pf.cpf">
+                    <span id="helpBlock" class="help-block has-success" ng-show="formRecSenha.cpf.$valid">A nova senha será enviada no e-mail cadastrado. Se não tiver acesso a esse e-mail entre em contato com a gerência. </span>
+                    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="formRecSenha.cpf.$valid"></span>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-sm-6">
-                  <button  type="submit" class="btn btn-lg btn-success btn-block" ng-disabled="!user.pf.cpf || !formRecSenha.cpf.$valid">Enviar</button>
+                  <button  type="submit" class="btn btn-lg btn-success btn-block" ng-disabled="formRecSenha.$invalid">Enviar</button>
                   </div>
                   <div class="col-sm-6">
                   <button  type="button" class="btn btn-lg btn-default btn-block" ng-click="toogleShowLogin()">Cancelar</button>
                   </div>
-                  <!--<button  type="button" ng-click="toogleShowLogin()" class="btn btn-xs btn-info btn-block">Lembrei minha senha</button>-->
-                </div>
-                
+                </div>                
               </fieldset>
             </form>
           </div>
