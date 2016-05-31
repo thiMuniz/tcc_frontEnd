@@ -27,8 +27,7 @@ app.factory("PessoaResource", function ($resource, CONST) {
     },
     recuperarSenha: { 
       method: 'POST',
-      url : CONST.ws.urlSGP+'pessoa/recuperarsenha?:p',
-      params : {p:"p"}
+      url : CONST.ws.urlSGP+'pessoa/recuperarsenha'
     },
     updateSenha: { 
       method: 'PUT',

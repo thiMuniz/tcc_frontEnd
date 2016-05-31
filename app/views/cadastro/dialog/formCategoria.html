@@ -12,18 +12,36 @@
         <label for="id" class="col-sm-3 control-label">Código</label>
         <div class="col-sm-7">
           <input class="form-control" type="text" id="id" ng-model="categoria.id" ng-disabled="true">
+          <span id="helpBlock" class="help-block" ng-show="showHelp.id"> Código de referência da categoria no sistema </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.id = true" ng-mouseleave="showHelp.id = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group" >
         <label for="nome" class="col-sm-3 control-label">Nome</label>
         <div class="col-sm-7">
           <input class="form-control" type="text" id="nome" placeholder="Nome da categoria" ng-model="categoria.nome">
+          <span id="helpBlock" class="help-block" ng-show="showHelp.nome"> Nome que irá aparecer sempre que a categoria for exibida no sistema </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.nome = true" ng-mouseleave="showHelp.nome = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group">
         <label for="descricao" class="col-sm-3 control-label">Descrição</label>
         <div class="col-sm-7">
           <input class="form-control" type="text" id="descricao" placeholder="Descrição detelhada da categoria" ng-model="categoria.descricao">
+        <span id="helpBlock" class="help-block" ng-show="showHelp.descricao"> Espaço para informações complementares ao nome </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.descricao = true" ng-mouseleave="showHelp.descricao = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
     </form>

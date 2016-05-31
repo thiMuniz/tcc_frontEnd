@@ -213,9 +213,10 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
     $scope.addInsumoReceita = function(insumo){
       var insumoReceita = {
         insumo : insumo,
-        quantidade : 0
+        quantidade : null
       };
       $scope.receita.insumosReceita.push(insumoReceita);
+      //colocar focus na qtd do ultimo elemento
     };
     
     $scope.removeInsumoReceita = function(insumo){

@@ -31,7 +31,21 @@ app.controller('LoginCtrl', function ($scope, $filter, $http, $cookies, $state, 
   };
   
   $scope.recuperarSenha = function(){
-    $scope.user.$recuperarSenha({p:$httpParamSerializerJQLike({email:$scope.emailRecuperacao})});
+    $scope.user.$recuperarSenha(
+    function(retorno){
+      swal({
+        title: "Senha alterada com sucesso!",
+        text: "Uma nova senha foi enviada para o endereço de E-mail cadastrado. ",
+        type: "success"
+      });
+      $scope.toogleShowLogin();
+    }, function(){
+       swal({
+         title: "Senha não alterada!",
+         text: "O CPF infomado não corresponde a nenhum colaborador ativo.",
+         type: "error"
+       });
+    });
   };
   
 });

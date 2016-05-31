@@ -2,70 +2,82 @@
   <div class="modal-header">    
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="recent_actors" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;Fornecedores do Ítem</h4>
-<!--    debug fornecedoresInit{{fornecedoresInit}}
-    debug fornecedoresEmb{{embalagem.fornecedores}}-->
+    <!--    debug fornecedoresInit{{fornecedoresInit}}
+        debug fornecedoresEmb{{embalagem.fornecedores}}-->
   </div>
   <div class="modal-body">
-    <div class="row">    
-      <div class="panel-heading"> <!-- Painel Superior --> 
-        <span>Clique abaixo e selecione os fornecedores</span>
-        <ui-select multiple ng-model="temp.fornecedoresItem" ng-change="atualizarLista()" theme="bootstrap" ng-disabled="fornecedor.id" append-to-body="false">
-          <ui-select-match class="ui-select-match" placeholder="Selecione os Fornecedores"> {{$item.pj.nomeFantasia}} </ui-select-match>
-          <ui-select-choices class="ui-select-choices" repeat="fornecedor in fornecedoresAll | filter:$select.search">
-            <img ng-src="{{fornecedor.imagem.caminhoArquivo}}" class="img-ui-select">
-            {{fornecedor.pj.nomeFantasia}}
-          </ui-select-choices>
-        </ui-select>        
-      </div><!-- /.Painel Superior -->
-    </div><!-- /.row -->
-    <!--<div class="row">-->
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          Há {{temp.fornecedoresItem.length}} Fornecedores relacionados
+    <div class="panel-heading"> <!-- Painel Superior --> 
+      <div class="row">
+        <div class="col-sm-11">
+          <label>Clique abaixo e selecione os fornecedores</label>
+          <ui-select multiple ng-model="temp.fornecedoresItem" ng-change="atualizarLista()" theme="bootstrap" ng-disabled="fornecedor.id" append-to-body="false">
+            <ui-select-match class="ui-select-match" placeholder="Selecione os Fornecedores"> {{$item.pj.nomeFantasia}} </ui-select-match>
+            <ui-select-choices class="ui-select-choices" repeat="fornecedor in fornecedoresAll | filter:$select.search">
+              <img ng-src="{{fornecedor.imagem.caminhoArquivo}}" class="img-ui-select">
+              {{fornecedor.pj.nomeFantasia}}
+            </ui-select-choices>
+          </ui-select>
+          <span id="helpBlock" class="help-block" ng-show="showHelp.fornecedores"> Para selecionar um fornecedor, basta clicar à direita do ultimo item da lista e digitar as primeiras letras do fornecedor que deseja encontrar. Quando o fornecedor aparecer, clique nele e pronto. Ao selecionar um fornecedor o mesmo deverá aparecer na lista abaixo </span>
         </div>
-        <div class="panel-body">
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th><a href="" ng-click="ordenar('id')">Código</a></th>
-                  <th><a href="" ng-click="ordenar('nome')">Nome</a></th>
-                  <th><a href="" ng-click="ordenar('nome')">E-mail</a></th>
-                  <th><a href="" ng-click="ordenar('nome')">Telefone</a></th>
-                  <th><a href="" ng-click="ordenar('nome')">Contato</a></th>
-                  <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
-                  <th>Ação</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="fornecedor in temp.fornecedoresItem| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
-                  <td>{{fornecedor.id}}</td>
-                  <td>
-                    <img ng-src="{{fornecedor.imagem.caminhoArquivo}}" class="img-thumbnail img-list-view" />
-                    &nbsp;{{fornecedor.pj.nomeFantasia}}
-                  </td>
-                  <td>{{fornecedor.email}}</td>
-                  <td>{{fornecedor.telefone}}</td>
-                  <td>{{fornecedor.pj.contato}}</td>
-                  <td style="{{fornecedor.dtDesativacao ? 'color: red' : ''}}">
-                    {{fornecedor.dtDesativacao ? "Desativado" : " Ativo"}}
-                  </td>
-                  <td>
-                    <a ng-click="removerFornecedor($index);" tooltip="Remover Fornecedor" >
-                      <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
-                    </a>&nbsp;
-                    <a ng-click="openInfoDialog(fornecedor);" tooltip="{{CONST.info.tooltipAcao}}" >
-                      <ng-md-icon icon="{{CONST.info.iconeAcao}}_outline"></ng-md-icon>
-                    </a>&nbsp;
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div><!-- /.table-responsive -->
-        </div><!-- /.panel-body -->
-      </div><!-- /.panel-default -->
+        <div class="col-sm-1">
+          <div>&nbsp;</div>
+          <div>
+            <a ng-mouseover="showHelp.fornecedores = true" ng-mouseleave="showHelp.fornecedores = false" tooltip="Ajuda" >
+              <ng-md-icon icon="help"></ng-md-icon>
+            </a>
+          </div>
+        </div>
+      </div> <!-- /.row -->
+    </div> <!-- /.Painel Superior -->
+
+    <!--<div class="row">-->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Há {{temp.fornecedoresItem.length}} Fornecedores relacionados
+      </div>
+      <div class="panel-body">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th><a href="" ng-click="ordenar('id')">Código</a></th>
+                <th><a href="" ng-click="ordenar('nome')">Nome</a></th>
+                <th><a href="" ng-click="ordenar('nome')">E-mail</a></th>
+                <th><a href="" ng-click="ordenar('nome')">Telefone</a></th>
+                <th><a href="" ng-click="ordenar('nome')">Contato</a></th>
+                <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="fornecedor in temp.fornecedoresItem| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
+                <td>{{fornecedor.id}}</td>
+                <td>
+                  <img ng-src="{{fornecedor.imagem.caminhoArquivo}}" class="img-thumbnail img-list-view" />
+                  &nbsp;{{fornecedor.pj.nomeFantasia}}
+                </td>
+                <td>{{fornecedor.email}}</td>
+                <td>{{fornecedor.telefone}}</td>
+                <td>{{fornecedor.pj.contato}}</td>
+                <td style="{{fornecedor.dtDesativacao ? 'color: red' : ''}}">
+                  {{fornecedor.dtDesativacao ? "Desativado" : " Ativo"}}
+                </td>
+                <td>
+                  <a ng-click="removerFornecedor($index);" tooltip="Remover Fornecedor" >
+                    <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
+                  </a>&nbsp;
+                  <a ng-click="openInfoDialog(fornecedor);" tooltip="{{CONST.info.tooltipAcao}}" >
+                    <ng-md-icon icon="{{CONST.info.iconeAcao}}_outline"></ng-md-icon>
+                  </a>&nbsp;
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div><!-- /.table-responsive -->
+      </div><!-- /.panel-body -->
+    </div><!-- /.panel-default -->
     <!--</div> /.row -->
-  
+
 
   </div> <!-- modal-body -->
 
