@@ -199,6 +199,10 @@ app.controller('ProdutoCtrl', function ($scope, $modal, $filter, ProdutoResource
       }
     }
     
+    $scope.unidadesMedida = [
+      {nome: "gramas", sigla: "(g)"}
+    ];
+    
     $scope.openImagemDialog = function(){
       $scope.params = {
         formTipo: $scope.formTipo,

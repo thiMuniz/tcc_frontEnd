@@ -12,19 +12,36 @@
         <label for="id" class="col-sm-3 control-label">Código</label>
         <div class="col-sm-7">
           <input class="form-control" type="text" id="id" ng-model="selo.id" ng-disabled="true">
+          <span id="helpBlock" class="help-block" ng-show="showHelp.id"> Código de referência do selo no sistema </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.id = true" ng-mouseleave="showHelp.id = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group" >
         <label for="nome" class="col-sm-3 control-label">Nome</label>
         <div class="col-sm-7">
           <input class="form-control" type="text" id="nome" placeholder="Nome da selo" ng-model="selo.nome">
+          <span id="helpBlock" class="help-block" ng-show="showHelp.nome"> Nome que irá aparecer sempre que o selo for exibido no sistema </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.nome = true" ng-mouseleave="showHelp.nome = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group">
         <label for="descricao" class="col-sm-3 control-label">Descrição</label>
         <div class="col-sm-7">
-          <!--<textarea class="form-control" rows="2" id="descricao" placeholder="Descrição detelhada da selo" ng-model="selo.descricao"></textarea>-->
-          <input class="form-control" type="text" id="descricao" placeholder="Descrição detelhada da selo" ng-model="selo.descricao">
+          <textarea class="form-control" rows="1" type="text" id="descricao" placeholder="Descrição detelhada da selo" ng-model="selo.descricao"></textarea>
+          <span id="helpBlock" class="help-block" ng-show="showHelp.descricao"> Espaço para informações complementares ao nome </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.descricao = true" ng-mouseleave="showHelp.descricao = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>        
         </div>
       </div>
       <div class="form-group">
@@ -33,8 +50,8 @@
             <ng-md-icon icon="photo_camera"></ng-md-icon> Imagem
           </button>
         </label>
-        <div class="col-sm-7" id="imagens">
-          <img ng-src="{{selo.imagem.caminhoArquivo ? selo.imagem.caminhoArquivo : selo.imagem.arquivo}}" class="img-thumbnail img-form-img" />
+        <div class="col-sm-7" id="imagens" ng-show="selo.imagem">
+          <img ng-src="{{selo.imagem.caminhoArquivo ? selo.imagem.caminhoArquivo : selo.imagem.arquivo}}" class="img-thumbnail form-img" />
         </div>
       </div>
     </form>

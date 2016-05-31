@@ -12,24 +12,50 @@
         <label for="id" class="col-sm-3 control-label">Código</label>
         <div class="col-sm-7">
           <input class="form-control" type="text" id="id" ng-model="produto.id" ng-disabled="true">
+          <span id="helpBlock" class="help-block" ng-show="showHelp.id"> Código de referência do produto no sistema </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.id = true" ng-mouseleave="showHelp.id = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>      
       <div class="form-group" >
         <label for="nome" class="col-sm-3 control-label">Nome</label>
         <div class="col-sm-7">
-          <input class="form-control" type="text" id="nome" placeholder="Nome da produto" ng-model="produto.nome">
+          <input class="form-control" type="text" id="nome" placeholder="Nome do produto" ng-model="produto.nome">
+          <span id="helpBlock" class="help-block" ng-show="showHelp.nome"> Nome que irá aparecer sempre que o produto for exibido no sistema. Esse também será o nome de destaque do produto na loja virtual </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.nome = true" ng-mouseleave="showHelp.nome = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group">
         <label for="descricao" class="col-sm-3 control-label">Descrição</label>
         <div class="col-sm-7">
-          <input class="form-control" type="text" id="descricao" placeholder="Descrição do produto" ng-model="produto.descricao">
+          <!--<input class="form-control" type="text" id="descricao" placeholder="Descrição curta do produto" ng-model="produto.descricao">-->
+          <textarea class="form-control" rows="1" type="text" id="descricao" placeholder="Descrição curta do produto" ng-model="produto.descricao"></textarea>
+          <span id="helpBlock" class="help-block" ng-show="showHelp.descricao"> Espaço para informações complementares ao nome. Essa descrição será exibida abaixo do nome do produto na loja virtual, na área de detalhes do produto </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.descricao = true" ng-mouseleave="showHelp.descricao = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group">
         <label for="dsDetalhada" class="col-sm-3 control-label">Descrição Detalhada</label>
         <div class="col-sm-7">
-          <input class="form-control" type="text" id="dsDetalhada" placeholder="Descrição detelhada da produto" ng-model="produto.dsDetalhada">
+          <!--<input class="form-control" type="text" id="dsDetalhada" placeholder="Descritivo técnico do produto" ng-model="produto.dsDetalhada">-->
+        <textarea class="form-control" rows="2" type="text" id="dsDetalhada" placeholder="Descritivo técnico do produto" ng-model="produto.dsDetalhada"></textarea>
+          <span id="helpBlock" class="help-block" ng-show="showHelp.dsDetalhada"> Espaço para informações técnicas, detalhadas e motivacionais. É aqui que devem ser inseridas as informações que aparecerão na loja virtual da área de informações técnicas sobre o produto </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.dsDetalhada = true" ng-mouseleave="showHelp.dsDetalhada = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group">
@@ -38,6 +64,12 @@
           <select class='form-control' id="material" ng-model='produto.categoria' ng-options="categoria as categoria.nome for categoria in categoriasAll">
             <option value='' style='color: #999; opacity: 1;'> Selecione uma categoria </option>
           </select>
+        <span id="helpBlock" class="help-block" ng-show="showHelp.categoria"> Categoria a qual o produto pertence. Na loja virtual os produtos serão agrupados de acordo com essas categorias </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.categoria = true" ng-mouseleave="showHelp.categoria = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group">
@@ -45,43 +77,93 @@
         <div class="col-sm-7">
           <select class='form-control' id="material" ng-model='produto.receita' ng-options="receita as receita.nome for receita in receitasAll">
             <option value='' style='color: #999; opacity: 1;'> Selecione uma receita </option>
-          </select>
+          </select>        
+          <span id="helpBlock" class="help-block" ng-show="showHelp.receita"> Receita que o produto utiliza. Essa informação que relaciona os ingredientes utilizados no produto </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.receita = true" ng-mouseleave="showHelp.receita = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group">
         <label for="pesoLiquido" class="col-sm-3 control-label">Peso Líquido</label>
         <div class="col-sm-7">
-          <input class="form-control" type="text" id="pesoLiquido" placeholder="Peso Liquido" ng-model="produto.pesoLiquido">
+          <input class="form-control" type="text" id="pesoLiquido" placeholder="Peso Liquido" ui-number-mask="0" ng-model="produto.pesoLiquido">
+        <span id="helpBlock" class="help-block" ng-show="showHelp.pesoLiquido"> Peso final do produto (selecionar unidade de medida abaixo) </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.pesoLiquido = true" ng-mouseleave="showHelp.pesoLiquido = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group">
         <label for="unMedida" class="col-sm-3 control-label">Unidade de Medida</label>
         <div class="col-sm-7">
-          <input class="form-control" type="text" id="unMedida" placeholder="Quantidade mínima estoque" ng-model="produto.unMedida">
+          <select class="form-control" id="unMedida" ng-model="produto.unMedida" ng-options="unMedida.nome as unMedida.nome  for unMedida in unidadesMedida" >
+            <option value='' style='color: #999; opacity: 1;'> Selecione </option>
+          </select>
+          <span id="helpBlock" class="help-block" ng-show="showHelp.unMedida"> Unidade padrão que o produto é medido (contado) </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.unMedida = true" ng-mouseleave="showHelp.unMedida = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group">
         <label for="vidaUtil" class="col-sm-3 control-label">Vida Útil</label>
         <div class="col-sm-7">
-          <input class="form-control" type="text" id="vidaUtil" placeholder="Vida Útil" ng-model="produto.vidaUtil">
+          <input class="form-control" type="text" id="vidaUtil" placeholder="Apenas números" ui-number-mask="0" ng-model="produto.vidaUtil">
+          <span id="helpBlock" class="help-block" ng-show="showHelp.vidaUtil"> Tempo de vida (em dias) previsto para o produto. Essa informação é usada para calcular a data de validade de um produto no dia em que é fabricado </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.vidaUtil = true" ng-mouseleave="showHelp.vidaUtil = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group">
-        <label for="precoUnitario" class="col-sm-3 control-label">Preço Unitário</label>
+        <label for="precoUnitariopj" class="col-sm-3 control-label">Preço Unitário PJ</label>
         <div class="col-sm-7">
-          <input class="form-control" type="text" id="precoUnitario" placeholder="Preço Unitário" ng-model="produto.precoUnitario">
+          <input class="form-control" type="text" id="precoUnitariopj" placeholder="Apenas Números" ui-money-mask ng-model="produto.precoUnitariopj">
+          <span id="helpBlock" class="help-block" ng-show="showHelp.precoUnitariopj"> Valor de referência (em R$) que o produto será comercializado para pessoas jurídicas. Obs:Esse valor aparecerá apenas para lojistas logados na loja virtual </span>
         </div>
-      </div>      
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.precoUnitariopj = true" ng-mouseleave="showHelp.precoUnitariopj = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
+        </div>
+      </div>
       <div class="form-group">
-        <label for="codBarras" class="col-sm-3 control-label">Código de Barras</label>
+        <label for="precoUnitariopf" class="col-sm-3 control-label">Preço Unitário PF</label>
         <div class="col-sm-7">
-          <input class="form-control" type="text" id="codBarras" placeholder="Quantidade mínima estoque" ng-model="produto.codBarras">
+          <input class="form-control" type="text" id="precoUnitariopf" placeholder="Apenas Números" ui-money-mask ng-model="produto.precoUnitariopf">
+          <span id="helpBlock" class="help-block" ng-show="showHelp.precoUnitariopf"> Valor de referência (em R$) que o produto será comercializado para pessoas físicas. Obs:Esse é o valor padrão que aparecerá para todos os visitantes da loja virtual </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.precoUnitariopf = true" ng-mouseleave="showHelp.precoUnitariopf = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
         </div>
       </div>
       <div class="form-group">
         <label for="estoqueMinimo" class="col-sm-3 control-label">Estoque Mínimo</label>
         <div class="col-sm-7">
-          <input class="form-control" type="text" id="estoqueMinimo" placeholder="Quantidade mínima estoque" ng-model="produto.estoqueMinimo">
+          <input class="form-control" type="text" id="estoqueMinimo" placeholder="Apenas números" ui-number-mask="0" ng-model="produto.estoqueMinimo">
+          <span id="helpBlock" class="help-block" ng-show="showHelp.estoqueMinimo"> Quantidade mínima que este produto deve ter estocado (conforme unidade de medida escolhida). Quando o estoque estiver abaixo desta quantidade, será disparado o alerta de compra </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.estoqueMinimo = true" ng-mouseleave="showHelp.estoqueMinimo = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
+        </div>
+      </div>    
+      <div class="form-group" ng-hide="true">
+        <label for="codBarras" class="col-sm-3 control-label">Código de Barras</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" id="codBarras" placeholder="Quantidade mínima estoque" ng-model="produto.codBarras">
         </div>
       </div>
       <div class="form-group">
@@ -98,6 +180,10 @@
         <!--{{produto.imagens.length}}-->
       </div>
     </form>
+    <div class="alert alert-info alert-dismissable">
+      <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
+      * Confirmar c/ Stakeholders se é necessário unMedida para produtos ou se é obrigatoriamente em gramas
+    </div>
   </div><!-- /.modal body-->
   
   <div class="modal-footer">

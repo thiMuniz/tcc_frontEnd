@@ -52,7 +52,7 @@
           <div class="form-group">
             <label for="rendimento" class="col-sm-3 control-label">Rendimento</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="rendimento" placeholder="Apenas números" ng-model="receita.rendimento">
+              <input class="form-control" type="text" id="rendimento" placeholder="Apenas números" ui-number-mask="0" ng-model="receita.rendimento">
               <span id="helpBlock" class="help-block" ng-show="showHelp.rendimento"> Quantidade (em unidades) de produtos que a receita produzirá </span>
             </div>
             <div class="col-sm-1">
@@ -64,7 +64,7 @@
           <div class="form-group">
             <label for="tempoPreparo" class="col-sm-3 control-label">Tempo de Preparo</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="tempoPreparo" placeholder="Apenas números (minutos)" ng-model="receita.tempoPreparo">
+              <input class="form-control" type="text" id="tempoPreparo" placeholder="Apenas números (minutos)" ui-number-mask="0" ng-model="receita.tempoPreparo">
               <span id="helpBlock" class="help-block" ng-show="showHelp.tempoPreparo"> Tempo previsto (em minutos) para execução total da receita. Considerar tempo de execução, embalagem e rotulagem </span>
             </div>
             <div class="col-sm-1">

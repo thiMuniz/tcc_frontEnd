@@ -167,7 +167,7 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
   };
 
   $scope.validarSenha = function(){ //definir
-    if($scope.cliente.senha === $scope.temp.confSenha){
+    if($scope.colaborador.senha === $scope.temp.confSenha){
       toastr.info("senha confirmada");
       return true;
     }else{

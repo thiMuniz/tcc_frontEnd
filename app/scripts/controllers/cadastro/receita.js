@@ -189,7 +189,8 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
 //    $scope.temp.insumosReceita = $scope.receitaInit.insumosReceita;
     $scope.temp.insumosReceita = [];
     
-    angular.forEach($scope.receitaInit.insumosReceita, function(insumoReceita){
+    angular.forEach($scope.receitaInit.insumosReceita, 
+    function(insumoReceita){
       $scope.temp.insumosReceita.push(insumoReceita.insumo);
     });
 

@@ -5,66 +5,69 @@
   </div>
   <div class="modal-body">
     <div class="row">
-    <div class="col-lg-12">            
-      <div class="panel-heading"> <!-- Painel Superior -->
-        <button class="btn btn-{{showUiSelect ? 'warning' : 'primary'}} btn-xs" ng-click="showUiSelect = !showUiSelect" tooltip="{{showUiSelect ? 'Ocultar' : 'Exibir'}}">
-          <!--<ng-md-icon icon="playlist_add"></ng-md-icon>-->
-          <ng-md-icon icon="{{showUiSelect ? 'remove_circle_outline' : 'add_circle_outline'}}"></ng-md-icon> Rótulo
-        </button>
-        <ui-select multiple ng-model="produto.rotulos" ng-show="showUiSelect" theme="bootstrap" ng-disabled="rotulo.id" append-to-body="false">
-          <ui-select-match class="ui-select-match" placeholder="Selecione os Rotulos"> {{$item.nome}} </ui-select-match>
-          <ui-select-choices class="ui-select-choices" repeat="rotulo in rotulosAll | filter:$select.search">
-            <img ng-src="{{rotulo.imagens[0].caminhoArquivo}}" class="img-ui-select">
-            {{rotulo.nome}}
-          </ui-select-choices>
-        </ui-select>
-        <div class="pull-right">
-          <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Busca geral"/>
-        </div>
-        <div class="clearfix"></div>
-      </div><!-- /.Painel Superior -->
-      
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          {{produto.rotulos.length}} Rótulos relacionados
-        </div>
-        <div class="panel-body">
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th><a href="" ng-click="ordenar('id')">Código</a></th>
-                  <th>Imagem</th>
-                  <th><a href="" ng-click="ordenar('nome')">Nome</a></th>                  
-                  <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
-                  <th>Ação</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="rotulo in produto.rotulos| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
-                  <td>{{rotulo.id}}</td>
-                  <td><img ng-src="{{rotulo.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view" /></td>
-                  <td>{{rotulo.nome}}</td>
-                  
-                  <td style="{{rotulo.dtDesativacao ? 'color: red' : ''}}">
-                    {{rotulo.dtDesativacao ? "Desativado" : " Ativo"}}
-                  </td>
-                  <td>
-                    <a ng-click="openAtivarDesativarDialog(rotulo);" tooltip="Remover Fornecedor" >
-                      <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
-                    </a>&nbsp;
-                    <a ng-click="openInfoDialog(rotulo);" tooltip="{{CONST.info.tooltipAcao}}" >
-                      <ng-md-icon icon="{{CONST.info.iconeAcao}}_outline"></ng-md-icon>
-                    </a>&nbsp;
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div><!-- /.table-responsive -->
-        </div><!-- /.panel-body -->
-      </div><!-- /.panel-default -->
-    </div><!-- /.col-lg-12 -->
-  </div><!-- /.row -->
+      <div class="col-lg-12">            
+        <div class="panel-heading"> 
+          <div class="row">
+            <div class="col-sm-11">
+              <label>Clique abaixo e selecione os rótulos</label>
+              <ui-select multiple ng-model="produto.rotulos" theme="bootstrap" ng-disabled="rotulo.id" append-to-body="false">
+                <ui-select-match class="ui-select-match" placeholder="Selecione os Rotulos"> {{$item.nome}} </ui-select-match>
+                <ui-select-choices class="ui-select-choices" repeat="rotulo in rotulosAll | filter:$select.search">
+                  <img ng-src="{{rotulo.imagens[0].caminhoArquivo}}" class="img-ui-select">
+                  {{rotulo.nome}}
+                </ui-select-choices>
+              </ui-select>
+              <span id="helpBlock" class="help-block" ng-show="showHelp.rotulos"> Para selecionar um rótulo, basta clicar à direita do ultimo item da lista e digitar as primeiras letras do rótulo que deseja encontrar. Quando o rótulo aparecer, clique nele e pronto. Ao selecionar um rótulo o mesmo deverá aparecer na lista abaixo </span>
+            </div>
+            <div class="col-sm-1">
+              <div>&nbsp;</div>
+              <div>
+                <a ng-mouseover="showHelp.rotulos = true" ng-mouseleave="showHelp.rotulos = false" tooltip="Ajuda" >
+                  <ng-md-icon icon="help"></ng-md-icon>
+                </a>
+              </div>
+            </div>
+          </div> <!-- /.row -->                
+        </div><!-- /.Painel Superior -->
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            {{produto.rotulos.length}} Rótulos relacionados
+          </div>
+          <div class="panel-body">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th><a href="" ng-click="ordenar('id')">Código</a></th>
+                    <th>Imagem</th>
+                    <th><a href="" ng-click="ordenar('nome')">Nome</a></th>                  
+                    <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
+                    <th>Ação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="rotulo in produto.rotulos| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
+                    <td>{{rotulo.id}}</td>
+                    <td><img ng-src="{{rotulo.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view" /></td>
+                    <td>{{rotulo.nome}}</td>
+
+                    <td style="{{rotulo.dtDesativacao ? 'color: red' : ''}}">
+                      {{rotulo.dtDesativacao ? "Desativado" : " Ativo"}}
+                    </td>
+                    <td>
+                      <a ng-click="openAtivarDesativarDialog(rotulo);" tooltip="Remover Fornecedor" >
+                        <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
+                      </a>&nbsp;
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div><!-- /.table-responsive -->
+          </div><!-- /.panel-body -->
+        </div><!-- /.panel-default -->
+      </div><!-- /.col-lg-12 -->
+    </div><!-- /.row -->
 
   </div> <!-- modal-body -->
 

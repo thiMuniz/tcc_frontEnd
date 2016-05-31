@@ -7,12 +7,12 @@
           <i class="fa fa-folder-open fa-fw"></i> Cadastros <span class="fa arrow"></span>
         </a>
         <ul class="nav nav-second-level" collapse="collapseVar!=1">
+          <li><a ui-sref="main.cadastro.insumo"> Ingrediente </a></li>
           <li><a ui-sref="main.cadastro.embalagem"> Embalagem </a></li>
           <li><a ui-sref="main.cadastro.rotulo"> Rótulo </a></li>
-          <li><a ui-sref="main.cadastro.insumo"> Insumo </a></li>
-          <li><a ui-sref="main.cadastro.categoria"> Categoria </a></li>
           <li><a ui-sref="main.cadastro.receita"> Receita </a></li>
           <li><a ui-sref="main.cadastro.produto"> Produto </a></li>
+          <li><a ui-sref="main.cadastro.categoria"> Categoria </a></li>
           <li><a ui-sref="main.cadastro.selo"> Selo </a></li>
           <li><a ui-sref="main.cadastro.fornecedor({perfil: 'fornecedor'})"> Fornecedor </a></li>
           <li><a ui-sref="main.cadastro.cliente({perfil: 'cliente'})"> Cliente </a></li>
@@ -32,7 +32,7 @@
             class="fa arrow"></span></a>
         <ul class="nav nav-second-level" collapse="collapseVar!=3">
           <li><a href ui-sref="main.estoque({tipoItem: 'produto'})"> Produto </a></li>
-          <li><a href ui-sref="main.estoque({tipoItem: 'insumo'})"> Insumo </a></li>
+          <li><a href ui-sref="main.estoque({tipoItem: 'insumo'})"> Ingrediente </a></li>
           <li><a href ui-sref="main.estoque({tipoItem: 'embalagem'})"> Embalagem </a></li>
           <li><a href ui-sref="main.estoque({tipoItem: 'rotulo'})"> Rótulo </a></li>
         </ul>

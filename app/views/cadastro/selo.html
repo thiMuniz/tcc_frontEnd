@@ -25,17 +25,19 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th><a href="" ng-click="ordenar('id')">Código</a></th>
+<!--                  <th><a href="" ng-click="ordenar('id')">Código</a></th>-->
                   <th colspan="2"><a href="" ng-click="ordenar('nome')">Nome</a></th>
+                  <th><a href="" ng-click="ordenar('descricao')">Descrição</a></th>
                   <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
                   <th>Ação</th>                  
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="selo in selos | filter : filtroGenerico | orderBy : campo : ascDsc">
-                  <td>{{selo.id}}</td>
+<!--                  <td>{{selo.id}}</td>-->
                   <td ><img ng-src="{{selo.imagem.caminhoArquivo}}" class="img-thumbnail img-list-view"/></td>
                   <td>{{selo.nome}}</td>
+                  <td>{{selo.descricao}}</td>
                   <td style="{{selo.dtDesativacao ? 'color: red' : ''}}">
                     {{selo.dtDesativacao ? "Desativado" : " Ativo"}}
                   </td>
