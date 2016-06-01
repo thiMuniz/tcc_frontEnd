@@ -1,7 +1,7 @@
 <div class="modal-content">
   <div class="modal-header">    
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="recent_actors" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;Selos do Produto</h4>
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;Selos do Produto</h4>
     <!--    debug selosInit{{selosInit}}
         debug selosEmb{{embalagem.selos}}-->
   </div>
@@ -41,7 +41,7 @@
               <table class="table table-striped">
                 <thead>
                   <tr>
-                    <th><a href="" ng-click="ordenar('id')">Código</a></th>
+                    <!--<th><a href="" ng-click="ordenar('id')">Código</a></th>-->
                     <th colspan="2"><a href="" ng-click="ordenar('nome')">Nome</a></th>                  
                     <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
                     <th>Ação</th>
@@ -49,7 +49,7 @@
                 </thead>
                 <tbody>
                   <tr ng-repeat="selo in produto.selos| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
-                    <td>{{selo.id}}</td>
+                    <!--<td>{{selo.id}}</td>-->
                     <td><img ng-src="{{selo.imagem.caminhoArquivo}}" class="img-thumbnail img-list-view" /></td>
                     <td>{{selo.nome}}</td>
 
@@ -57,7 +57,7 @@
                       {{selo.dtDesativacao ? "Desativado" : " Ativo"}}
                     </td>
                     <td>
-                      <a ng-click="openAtivarDesativarDialog(selo);" tooltip="Remover Fornecedor" >
+                      <a ng-click="removerSeloProduto($index);" tooltip="Remover Selo" >
                         <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
                       </a>&nbsp;
                     </td>

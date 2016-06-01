@@ -1,7 +1,7 @@
 <div class="modal-content">
   <div class="modal-header">    
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="recent_actors" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;Rótulos do Produto</h4>
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;Rótulos do Produto</h4>
   </div>
   <div class="modal-body">
     <div class="row">
@@ -39,16 +39,16 @@
               <table class="table table-striped">
                 <thead>
                   <tr>
-                    <th><a href="" ng-click="ordenar('id')">Código</a></th>
-                    <th>Imagem</th>
-                    <th><a href="" ng-click="ordenar('nome')">Nome</a></th>                  
+                    <!--<th><a href="" ng-click="ordenar('id')">Código</a></th>-->
+                    <!--<th>Imagem</th>-->
+                    <th colspan="2" ><a href="" ng-click="ordenar('nome')">Nome</a></th>                  
                     <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
                     <th>Ação</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr ng-repeat="rotulo in produto.rotulos| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
-                    <td>{{rotulo.id}}</td>
+                    <!--<td>{{rotulo.id}}</td>-->
                     <td><img ng-src="{{rotulo.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view" /></td>
                     <td>{{rotulo.nome}}</td>
 
@@ -56,7 +56,7 @@
                       {{rotulo.dtDesativacao ? "Desativado" : " Ativo"}}
                     </td>
                     <td>
-                      <a ng-click="openAtivarDesativarDialog(rotulo);" tooltip="Remover Fornecedor" >
+                      <a ng-click="removerRotuloProduto($index);" tooltip="Remover Rótulo" >
                         <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
                       </a>&nbsp;
                     </td>

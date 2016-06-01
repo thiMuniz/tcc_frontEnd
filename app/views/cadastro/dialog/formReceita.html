@@ -13,6 +13,7 @@
 
       <div ng-switch on="selection">
         <div ng-switch-when="Passo 1 - Dados Receita"><!-- ABA 1 - Dados Receita -->
+          <div class="clearfix">&nbsp;</div>
           <div class="form-group" ng-if="formTipo != 'insert'">
             <label for="id" class="col-sm-3 control-label">Código</label>
             <div class="col-sm-7">
@@ -76,6 +77,7 @@
         </div><!-- /.ABA 1 - Dados Receita -->
 
         <div ng-switch-when="Passo 2 - Ingredientes" ><!-- ABA 2 - Ingredientes -->
+          <div class="clearfix">&nbsp;</div>
           <div class="panel-heading"> <!-- Painel Superior -->
             <div class="row">
               <div class="col-sm-11">
@@ -106,12 +108,15 @@
               <thead>
                 <tr>
                   <th colspan="2" align="center">Ingrediente</th>
-                  <th colspan="2" align="center">Quantidade</th>
+                  <th align="center">Quantidade</th>
+                  <th>Remover</th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="insumoReceita in receita.insumosReceita">
-                  <td class="col-sm-1"><img ng-src="{{insumoReceita.insumo.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/></td>
+                  <td class="col-sm-1">
+                    <img ng-src="{{insumoReceita.insumo.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/>
+                  </td>
                   <td >{{insumoReceita.insumo.nome}}</td>
                   <td>
                     <div class="col-sm-3">                      
@@ -119,7 +124,12 @@
                     </div>
                     <div class="col-sm-3">
                       {{insumoReceita.insumo.unMedida}}
-                    </div>
+                    </div>                    
+                  </td>
+                  <td>
+                    <a ng-click="removeInsumoReceita(insumoReceita);" tooltip="Remover ingrediente" >
+                      <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
+                    </a>&nbsp;
                   </td>
                 </tr>
               </tbody>
@@ -132,6 +142,7 @@
         </div><!-- /.ABA 2 - Ingredientes -->
 
         <div ng-switch-when="Passo 3 - Instruções" ><!-- ABA 3 - Instruções -->
+          <div class="clearfix">&nbsp;</div>
           <div class="panel-heading"> <!-- Painel Superior -->
             <!--            <button class="btn btn-primary btn-xs" ng-click="addPasso()" tooltip="Adicionar instrução">
                           <ng-md-icon icon="playlist_add"></ng-md-icon> Adicionar instrução

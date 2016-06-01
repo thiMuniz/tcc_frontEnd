@@ -224,9 +224,14 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
       angular.forEach($scope.receita.insumosReceita, function(insumoReceita){
         if(insumoReceita.insumo.id === insumo.id){
           $scope.receita.insumosReceita.splice($scope.receita.insumosReceita.indexOf(insumoReceita), 1);
+//          $scope.atualizarLista();
           return;
         }
       });
+    };
+    
+    $scope.atualizarLista = function(){ //corrigir function pra permitir remover insumo pela tabela
+      $scope.temp.insumosReceita = $scope.receita.insumosReceita;
     };
     
     if(!$scope.receita.passos){

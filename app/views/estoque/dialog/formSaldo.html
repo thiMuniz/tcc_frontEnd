@@ -15,7 +15,7 @@
       <div class="form-group" >
         <label for="newSaldo" class="control-label">Nova Quantidade</label>
         <div class="">
-          <input type="text" id="newSaldo" class="form-control" ng-model="newSaldo">
+          <input type="text" id="newSaldo" class="form-control" ui-number-mask="1" ng-model="newSaldo">
         </div>
       </div>
       <div class="form-group" ng-if="formTipo!='inventario'">

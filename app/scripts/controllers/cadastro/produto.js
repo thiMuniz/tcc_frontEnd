@@ -131,23 +131,27 @@ app.controller('ProdutoCtrl', function ($scope, $modal, $filter, ProdutoResource
   $scope.openItemProdutoDialog = function(produto, item){
     var itemResource;
     var templateUrl;
+    var iconeHeaderDialog;
     switch(item){
       case 'selo':
         itemResource = SeloResource.query();
         templateUrl = "views/cadastro/dialog/formSeloProduto.html";
+        iconeHeaderDialog = "stars";
         break;
       case 'embalagem':
         itemResource = EmbalagemResource.query();
         templateUrl = "views/cadastro/dialog/formEmbalagemProduto.html";
+        iconeHeaderDialog = "inbox";
         break;
       case 'rotulo':
         itemResource = RotuloResource.query();
         templateUrl = "views/cadastro/dialog/formRotuloProduto.html";
+        iconeHeaderDialog = "label_outline";
         break;
     }
     $scope.params = {
       formTipo: 'lookupItem',
-      iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
+      iconeHeaderDialog: iconeHeaderDialog,
       tituloDialog: "Lookup " + item,
       produto: angular.copy(produto),
       item: item,
@@ -228,7 +232,24 @@ app.controller('ProdutoCtrl', function ($scope, $modal, $filter, ProdutoResource
         toastr.warning("As imagens não foram registradas");
       });
     };
+          
+    $scope.ordenar = function (campo) {
+      $scope.campo = campo;
+      $scope.ascDsc = !$scope.ascDsc;
+    };
+
+    $scope.removerSeloProduto = function(index){
+      $scope.produto.selos.splice(index, 1);
+    };
     
+    $scope.removerEmbalagemProduto = function(index){
+      $scope.produto.embalagens.splice(index, 1);
+    };
+    
+    $scope.removerRotuloProduto = function(index){
+      $scope.produto.rotulos.splice(index, 1);
+    };
+
     $scope.submit = function () {
       if ($scope.formTipo == 'insert') { //insert
         $scope.produto.$save(function(){
