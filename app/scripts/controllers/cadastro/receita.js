@@ -23,7 +23,7 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
       formTipo: 'insert',
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
       tituloDialog: "Cadastrar Receita",
-      insumos: InsumoResource.query(),
+      insumos: InsumoResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})}),
       receita: new ReceitaResource()
     };
     var modalInstance = $modal.open({
@@ -52,7 +52,7 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
       formTipo: 'update',
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
       tituloDialog: "Editar Receita",
-      insumos: InsumoResource.query(),
+      insumos: InsumoResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})}),
       receita: angular.copy(receita)
     };
 
@@ -122,62 +122,20 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
     });
   };
   
-  $scope.openItemReceitaDialog = function(receita, item){
-    var itemResource;
-    var templateUrl;
-    switch(item){
-      case 'insumo':
-        itemResource = InsumoResource.query();
-        templateUrl = "views/cadastro/dialog/formInsumoReceita.html";
-        break;
-      case 'selo':
-        itemResource = SeloResource.query();
-        templateUrl = "views/cadastro/dialog/formSeloReceita.html";
-        break;
-      case 'embalagem':
-        itemResource = EmbalagemResource.query();
-        templateUrl = "views/cadastro/dialog/formEmbalagemReceita.html";
-        break;
-      case 'rotulo':
-        itemResource = RotuloResource.query();
-        templateUrl = "views/cadastro/dialog/formRotuloReceita.html";
-        break;
-    }
-    $scope.params = {
-      formTipo: 'lookup',
-      iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
-      tituloDialog: "Lookup " + item,
-      receita: angular.copy(receita),
-      item: item,
-      itemResource: itemResource
-    };
-    var modalInstance = $modal.open({
-      templateUrl: templateUrl,
-      controller: "ReceitaDialogCtrl",
-      backdrop: 'static',
-      size: 'lg',
-      resolve: {
-        params: function () {
-          return $scope.params;
-        }
-      }
-    });
-    modalInstance.result.then(function (result) {
-        if (result.status == "sucesso") {
-          $scope.atualizarLista();
-        }
-    });
-  };
-  
   $scope.atualizarLista();
   
 })
-  .controller('ReceitaDialogCtrl', function ($scope, $modal, $filter, $modalInstance, params, CONST, toastr) {
+  .controller('ReceitaDialogCtrl', function ($scope, $modal, $filter, $modalInstance, $httpParamSerializerJQLike, InsumoResource, params, CONST, toastr) {
     $scope.CONST = CONST;
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
     $scope.insumosAll = params.insumos;
+//    $scope.insumosAll = InsumoResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})},
+//    function(){
+//      console.log($scope.insumosAll);
+//    });
+    
           
     $scope.receita = params.receita;
     $scope.receitaInit = angular.copy($scope.receita);

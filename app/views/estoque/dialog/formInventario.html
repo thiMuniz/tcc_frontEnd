@@ -33,7 +33,7 @@
                         <span class="glyphicon glyphicon-minus"></span>
                       </button>
                     </span>
-                    <input type="text" name="newSaldo" class="form-control" ng-model="lote.estoqueDisponivel">
+                    <input type="text" name="newSaldo" class="form-control" ui-number-mask="1" ui-negative-number ng-model="lote.estoqueDisponivel">
                     <span class="input-group-btn">
                       <button type="button" class="btn btn-default btn-number" ng-click="addSaldo($index)">
                         <span class="glyphicon glyphicon-plus"></span>
@@ -47,9 +47,9 @@
         </div><!-- /.table-responsive -->
       </div><!-- /.panel-body -->
     </form>      
-    <div class="alert alert-warning alert-dismissable">
+    <div class="alert alert-info alert-dismissable">
       <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
-      *Verificar com cliente quais lotes exibir (expira por data ou por saldo) e se saldo poderá ser negativo
+      *Verificar com stakeholders quais lotes exibir (expira por data ou por saldo) e se saldo poderá ser negativo
     </div>
   </div><!-- /.modal body-->
 

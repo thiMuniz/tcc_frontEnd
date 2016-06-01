@@ -42,18 +42,20 @@
       <li ng-class="{active: collapseVar == 4}">
         <a href ng-click="check(4)"><i class="fa fa-gear fa-fw"></i> Produção <span
             class="fa arrow"></span></a>
-        <ul class="nav nav-second-level" collapse="collapseVar!=4">                    
+        <ul class="nav nav-second-level" collapse="collapseVar!=4">
+          <li><a href ui-sref="main.producao.pedido"> Pedidos </a></li>
           <li ng-init="third = !third" ng-class="{active: multiCollapseVar == 5}">
-            <a href ng-click="multiCheck(5)">Pedidos Level <span class="fa arrow"></span></a>
+            <a href ng-click="multiCheck(5)"> Tarefas <span class="fa arrow"></span></a>
             <ul class="nav nav-third-level" collapse="multiCollapseVar!=5">
-              <li><a href ui-sref="main.producao.gerenciar_pedido"> Gerenciar </a></li>
-              <li><a href ui-sref="main.producao.sugerir_pedido"> Sugerir </a></li>
+              <li><a href ui-sref="main.producao.tarefa.compra"> Compras </a></li>
+              <li><a href ui-sref="main.producao.tarefa.fabricacao"> Fábricação </a></li>
+              <li><a href ui-sref="main.producao.tarefa.expedicao"> Expedição </a></li>
+              <li><a href ui-sref="main.producao.tarefa.emissao_nota"> Emissão NF </a></li>
+              <li><a href ui-sref="main.producao.tarefa.entrega"> Entrega </a></li>
+              <li><a href ui-sref="main.producao.tarefa.inventario"> Inventário </a></li>
             </ul>
             <!-- /.nav-third-level -->
           </li>
-          <li><a href ui-sref="main.producao.fabricacao"> Ordem Fabricação </a></li>
-          <li><a href ui-sref="main.producao.expedicao"> Ordem Expedição </a></li>
-          <li><a href ui-sref="main.producao.entrega"> Ordem Entrega </a></li>
         </ul>
         <!-- /.nav-second-level -->
       </li>
