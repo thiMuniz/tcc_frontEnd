@@ -126,7 +126,7 @@ app.controller('RotuloCtrl', function ($scope, $modal, $filter, RotuloResource, 
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
       tituloDialog: "Lookup Fornecedor",
       rotulo: angular.copy(rotulo),
-      fornecedores: PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:"fornecedor"})})
+      fornecedores: PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:"fornecedor"})})
     };
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formFornecedorItem.html",

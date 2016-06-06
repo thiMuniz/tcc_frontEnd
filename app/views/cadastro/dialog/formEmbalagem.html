@@ -75,7 +75,7 @@
         <label for="gramatura" class="col-sm-3 control-label">Gramatura</label>
         <div class="col-sm-7">
           <input class="form-control" type="text" id="gramatura" placeholder="Apenas números" ui-number-mask="2" ng-model="embalagem.gramatura">
-          <span id="helpBlock" class="help-block" ng-show="showHelp.gramatura"> Valor padrão da gramatura da embalagem. ex: 0.12 </span>
+          <span id="helpBlock" class="help-block" ng-show="showHelp.gramatura"> Valor padrão da gramatura da embalagem (em g/m²). Ex: 0.12 </span>
         </div>
         <div class="col-sm-1">
           <a ng-mouseover="showHelp.gramatura = true" ng-mouseleave="showHelp.gramatura = false" tooltip="Ajuda" >

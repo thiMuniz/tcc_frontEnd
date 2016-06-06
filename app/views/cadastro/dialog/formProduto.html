@@ -61,9 +61,14 @@
       <div class="form-group">
         <label for="categoria" class="col-sm-3 control-label">Categoria</label>
         <div class="col-sm-7">
-          <select class='form-control' id="material" ng-model='produto.categoria' ng-options="categoria as categoria.nome for categoria in categoriasAll">
-            <option value='' style='color: #999; opacity: 1;'> Selecione uma categoria </option>
-          </select>
+          <ui-select ng-model="produto.categoria" theme="bootstrap" append-to-body="false" >
+            <ui-select-match class="ui-select-match" placeholder="Selecione a Categoria"> 
+              {{$select.selected.nome}}
+            </ui-select-match>
+            <ui-select-choices class="ui-select-choices" repeat="categoria in categoriasAll | filter:$select.search">
+              {{categoria.nome}}
+            </ui-select-choices>
+          </ui-select>
         <span id="helpBlock" class="help-block" ng-show="showHelp.categoria"> Categoria a qual o produto pertence. Na loja virtual os produtos serão agrupados de acordo com essas categorias </span>
         </div>
         <div class="col-sm-1">
@@ -75,9 +80,14 @@
       <div class="form-group">
         <label for="receita" class="col-sm-3 control-label">Receita</label>
         <div class="col-sm-7">
-          <select class='form-control' id="material" ng-model='produto.receita' ng-options="receita as receita.nome for receita in receitasAll">
-            <option value='' style='color: #999; opacity: 1;'> Selecione uma receita </option>
-          </select>        
+          <ui-select ng-model="produto.receita" theme="bootstrap" append-to-body="false" >
+            <ui-select-match class="ui-select-match" placeholder="Selecione a Receita"> 
+              {{$select.selected.nome}}
+            </ui-select-match>
+            <ui-select-choices class="ui-select-choices" repeat="receita in receitasAll | filter:$select.search">
+              {{receita.nome}}
+            </ui-select-choices>
+          </ui-select>
           <span id="helpBlock" class="help-block" ng-show="showHelp.receita"> Receita que o produto utiliza. Essa informação que relaciona os ingredientes utilizados no produto </span>
         </div>
         <div class="col-sm-1">

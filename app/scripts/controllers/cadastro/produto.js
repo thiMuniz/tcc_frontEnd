@@ -26,10 +26,7 @@ app.controller('ProdutoCtrl', function ($scope, $modal, $filter, ProdutoResource
       formTipo: 'insert',
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
       tituloDialog: "Cadastrar Produto",
-      categorias: CategoriaResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})}),
-      receitas: ReceitaResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})}),
       produto: new ProdutoResource()
-//      produto: {imagens: ""}
     };
     var modalInstance = $modal.open({
       templateUrl: 'views/cadastro/dialog/formProduto.html',
@@ -57,8 +54,6 @@ app.controller('ProdutoCtrl', function ($scope, $modal, $filter, ProdutoResource
       formTipo: 'update',
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
       tituloDialog: "Editar Produto",
-      categorias: CategoriaResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})}),
-      receitas: ReceitaResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})}),
       produto: angular.copy(produto)
     };
 
@@ -178,14 +173,15 @@ app.controller('ProdutoCtrl', function ($scope, $modal, $filter, ProdutoResource
   $scope.atualizarLista();
   
 })
-  .controller('ProdutoDialogCtrl', function ($scope, $modal, $modalInstance, params, CONST, toastr, CategoriaResource, ReceitaResource) {
+  .controller('ProdutoDialogCtrl', function ($scope, $modal, $modalInstance, params, CONST, toastr, CategoriaResource, ReceitaResource, $httpParamSerializerJQLike) {
     $scope.CONST = CONST;
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
     
-    $scope.categoriasAll = params.categorias ? params.categorias  : null;
-    $scope.receitasAll = params.receitas ? params.receitas  : null;
+    $scope.categoriasAll = CategoriaResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})});
+    $scope.receitasAll = ReceitaResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})});
+    
     $scope.produto = params.produto;
     $scope.produtoInit = angular.copy($scope.produto);
         

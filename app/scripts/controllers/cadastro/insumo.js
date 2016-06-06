@@ -126,7 +126,7 @@ app.controller('InsumoCtrl', function ($scope, $modal, $filter, InsumoResource, 
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
       tituloDialog: "Lookup Fornecedor",
       insumo: angular.copy(insumo),
-      fornecedores: PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:"fornecedor"})})
+      fornecedores: PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:"fornecedor"})})
     };
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formFornecedorItem.html",

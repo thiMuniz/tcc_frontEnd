@@ -7,6 +7,10 @@ app.factory("PedidoResource", function ($resource, CONST) {
       isArray: true,
       url: CONST.ws.urlSGP+'pedido/filtro?:p',
       params : {p:"p"}
-    }
+    },
+    getCarrinho:{method: 'GET',//,isArray : true
+                 url : CONST.ws.urlSGP+'pedido/filtro?:p',
+                  params : {p: "p"}
+    },
   });
 });

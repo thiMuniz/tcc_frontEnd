@@ -290,6 +290,7 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
       }
     };
     
+    // inicio controle de abas
     $scope.steps = [
       'Passo 1 - Dados Receita',
       'Passo 2 - Ingredientes',

@@ -406,7 +406,10 @@ var app = angular.module('sbAdminApp', [
           name: 'sbAdminApp',
           files: [
             'scripts/controllers/producao/pedido.js',
-            'scripts/services/pedido.js'
+            'scripts/services/pedido.js',
+            'scripts/services/produto.js',
+            'scripts/services/formaEntrega.js',
+            'scripts/services/formaVenda.js'
           ]
         });
       }

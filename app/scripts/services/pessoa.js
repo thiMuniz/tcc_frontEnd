@@ -1,7 +1,7 @@
 'use strict';
 app.factory("PessoaResource", function ($resource, CONST) {
   return $resource(CONST.ws.urlSGP + 'pessoa/:id', {id: '@_id'}, {
-    listByPerfil:{
+    listFiltro:{
       method: 'GET',
       isArray : true,
       url : CONST.ws.urlSGP+'pessoa/filtro?:p',

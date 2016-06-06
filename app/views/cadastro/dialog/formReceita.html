@@ -82,10 +82,13 @@
             <div class="row">
               <div class="col-sm-11">
                 <label>Clique abaixo e selecione os ingredientes</label>
-                <ui-select multiple ng-model="temp.insumosReceita"
+                <ui-select class="col-sm-10"
+                           theme="bootstrap" 
                            on-select="addInsumoReceita($item)"
                            on-remove="removeInsumoReceita($item)"
-                           theme="bootstrap" ng-disabled="insumo.id" append-to-body="false" class="col-sm-10">
+                           ng-disabled="insumo.id" 
+                           multiple ng-model="temp.insumosReceita"
+                           append-to-body="false" >
                   <ui-select-match class="ui-select-match" placeholder="Selecione os Insumos"> {{$item.nome}} </ui-select-match>
                   <ui-select-choices class="ui-select-choices" repeat="insumo in insumosAll | filter:$select.search">
                     <img ng-src="{{insumo.imagens[0].caminhoArquivo}}" class="img-ui-select">
@@ -239,11 +242,12 @@
                   </tr>
                 </tbody>
               </table>
-              <button class="btn btn-primary btn-xs pull-left" ng-click="addPasso()" tooltip="Adicionar instrução">
-                <ng-md-icon icon="playlist_add"></ng-md-icon> Adicionar instrução
-              </button>
+              <div class="row">
+                <button class="btn btn-primary btn-xs pull-left" ng-click="addPasso()" tooltip="Adicionar instrução">
+                  <ng-md-icon icon="playlist_add"></ng-md-icon> Adicionar instrução
+                </button>
+              </div>
             </div>
-
           </div><!-- /.panel-heading -->   
 
           <div class="alert alert-warning alert-dismissable">

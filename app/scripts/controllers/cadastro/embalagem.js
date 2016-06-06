@@ -122,7 +122,7 @@ app.controller('EmbalagemCtrl', function ($scope, $modal, $filter, EmbalagemReso
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
       tituloDialog: "Lookup Fornecedor",
       embalagem: angular.copy(embalagem),
-      fornecedores: PessoaResource.listByPerfil({p:$httpParamSerializerJQLike({perfil:"fornecedor"})})
+      fornecedores: PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:"fornecedor"})})
     };
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formFornecedorItem.html",

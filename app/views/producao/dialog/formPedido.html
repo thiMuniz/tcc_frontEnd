@@ -1,0 +1,265 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>    
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" role="form" name="formPedido">
+      <ul class="nav nav-tabs">
+        <li ng-repeat="step in steps" ng-class="{active: $index == getCurrentStepIndex()}">
+          <a href="javascript:void(0)" ng-click="goToStep($index)">{{step}}</a>
+        </li>
+      </ul>
+
+      <div ng-switch on="selection">
+        
+        <div ng-switch-when="Passo 1 - Dados Pedido" ><!-- ABA 1 - Dados Pedido -->
+          <div class="clearfix">&nbsp;</div>
+          <div class="form-group" ng-if="formTipo != 'insert'">
+            <label for="id" class="col-sm-3 control-label">Código</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="id" ng-model="pedido.id" ng-disabled="true">
+              <span id="helpBlock" class="help-block" ng-show="showHelp.id"> Código de referência do pedido no sistema </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.id = true" ng-mouseleave="showHelp.id = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+          <div class="form-group" >
+            <label for="cliente" class="col-sm-3 control-label">Cliente</label>
+            <div class="col-sm-7">
+              <ui-select ng-model="pedido.pessoa" theme="bootstrap" required append-to-body="false" >
+                <ui-select-match class="ui-select-match" placeholder="Selecione o Cliente"> 
+                  <img ng-src="{{$select.selected.imagem.caminhoArquivo}}" class="img-circle img-ui-select">
+                  &nbsp;{{$select.selected.pf ? $select.selected.pf.nome : $select.selected.pj.nomeFantasia}}
+                </ui-select-match>
+                <ui-select-choices class="ui-select-choices" repeat="cliente in clientesAll | filter:$select.search">
+                  <img ng-src="{{cliente.imagem.caminhoArquivo}}" class="img-circle img-ui-select">
+                  &nbsp;{{cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia}}
+                </ui-select-choices>
+              </ui-select>
+              <span id="helpBlock" class="help-block" ng-show="showHelp.cliente"> Cliente que está fazendo o pedido. Deve estar cadastrado no sistema </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.cliente = true" ng-mouseleave="showHelp.cliente = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+          
+          <div class="form-group" >
+            <label for="formaVenda" class="col-sm-3 control-label">Canal de Venda</label>
+            <div class="col-sm-7">
+              <ui-select ng-model="pedido.formaVenda" theme="bootstrap" append-to-body="false" >
+                <ui-select-match class="ui-select-match" placeholder="Selecione o canal de venda"> 
+                  {{$select.selected.nome}} 
+                </ui-select-match>
+                <ui-select-choices class="ui-select-choices" repeat="formaVenda in formasVendaAll | filter:$select.search">
+                  {{formaVenda.nome}}
+                </ui-select-choices>
+              </ui-select>
+              <span id="helpBlock" class="help-block" ng-show="showHelp.formaVenda"> Forma pela qual o pedido foi realizado. Ex: Telefone, Balcão, etc... </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.formaVenda = true" ng-mouseleave="showHelp.formaVenda = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+        </div><!-- /.ABA 1 - Dados Pedido -->
+
+        <div ng-switch-when="Passo 2 - Produtos"><!-- ABA 2 - Produtos -->
+          <div class="clearfix">&nbsp;</div>          
+          <div class="panel-heading"> <!-- Painel Superior -->
+            <div class="row">
+              <div class="col-sm-11">
+                <label>Clique abaixo e selecione os produtos</label>
+                <ui-select class="col-sm-10"
+                           theme="bootstrap" 
+                           on-select="addProdutoPedido($item)"
+                           on-remove="removeProdutoPedido($item)"
+                           ng-disabled="produto.id" 
+                           multiple ng-model="temp.produtosPedido"
+                           append-to-body="false" >
+                  <ui-select-match class="ui-select-match" placeholder="Selecione os Produtos"> {{$item.nome}} </ui-select-match>
+                  <ui-select-choices class="ui-select-choices" repeat="produto in produtosAll | filter:$select.search">
+                    <img ng-src="{{produto.imagens[0].caminhoArquivo}}" class="img-circle img-ui-select">
+                    {{produto.nome}}
+                  </ui-select-choices>
+                </ui-select>
+                <span id="helpBlock" class="help-block" ng-show="showHelp.produtos"> Para selecionar um produto, basta clicar à direita do ultimo item da lista e digitar as primeiras letras do produto que deseja encontrar. Quando o produto aparecer, clique nele e pronto. Ao selecionar um produto o mesmo deverá aparecer na lista abaixo </span>
+              </div>
+              <div class="col-sm-1">
+                <div>&nbsp;</div>
+                <div>
+                  <a ng-mouseover="showHelp.produtos = true" ng-mouseleave="showHelp.produtos = false" tooltip="Ajuda" >
+                    <ng-md-icon icon="help"></ng-md-icon>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <table class="table" ng-show="pedido.produtosPedido.length > 0">
+              <thead>
+                <tr>
+                  <th colspan="2" align="center">Produto</th>
+                  <th align="center">Quantidade</th>
+                  <th align="center">Valor Unitário</th>
+                  <th align="center">Sub-total</th>
+                  <th>Remover</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="produtoPedido in pedido.produtosPedido">
+                  <td class="col-sm-1">
+                    <img ng-src="{{produtoPedido.produto.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/>
+                  </td>
+                  <td>
+                    {{produtoPedido.produto.nome}}
+                  </td>
+                  <td class="col-sm-2">
+                    <input class="form-control" type="text" id="quantidade" ui-number-mask="0" ng-model="produtoPedido.quantidade">
+                  </td>
+                  <td class="col-sm-2">
+                    <input class="form-control" type="text" id="precoUnitario" ui-money-mask disabled="true" ng-model="getPrecoUnitario(produtoPedido.produto)">
+                  </td>
+                  <td class="col-sm-2">
+                    <input class="form-control" type="text" id="subTotal" ui-money-mask disabled="true" ng-model="produtoPedido.quantidade * getPrecoUnitario(produtoPedido.produto)">
+                  </td>
+                  <td>
+                    <a class="col-sm-1" ng-click="removeProdutoPedido(produtoPedido);" tooltip="Remover produto" >
+                      <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
+                    </a>&nbsp;
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <td colspan="3"></td>
+                <td>
+                  Total em Produtos:
+                </td>
+                <td class="col-sm-2">
+                  <input class="form-control" type="text" id="totalProdutos" ui-money-mask disabled="true" ng-model="getTotalProdutos()">
+                </td>                  
+              </tfoot>
+            </table>
+          </div><!-- /.panel-heading -->
+        </div><!-- /.ABA 2 - Produtos -->
+        
+        <div ng-switch-when="Passo 3 - Entrega e Pagamento" ><!-- ABA 3 - Passo 3 - Entrega e Pagamento -->
+          <div class="clearfix">&nbsp;</div>
+          <div class="form-group" >
+            <label for="formaEntrega" class="col-sm-3 control-label">Entrega</label>
+            <div class="col-sm-7">
+              <ui-select ng-model="pedido.formaEntregaPedido.formaEntrega" theme="bootstrap" append-to-body="false" >
+                <ui-select-match class="ui-select-match" placeholder="Selecione a forma de Entrega"> 
+                  {{$select.selected.nome}} 
+                </ui-select-match>
+                <ui-select-choices class="ui-select-choices" repeat="formaEntrega in formasEntregaAll | filter:$select.search">
+                  {{formaEntrega.nome}}
+                </ui-select-choices>
+              </ui-select>
+              <span id="helpBlock" class="help-block" ng-show="showHelp.formaEntrega"> Tipo de serviço de transporte desejado para a entrega do pedido </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.formaEntrega = true" ng-mouseleave="showHelp.formaEntrega = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+          
+          <div class="form-group" ng-show="pedido.formaEntregaPedido.formaEntrega == 'TRANSPORTADORA'">
+            <label for="transportadora" class="col-sm-3 control-label">Transportadora</label>
+            <div class="col-sm-7">
+              <ui-select ng-model="pedido.formaEntregaPdido.transportadora" theme="bootstrap" append-to-body="false" >
+                <ui-select-match class="ui-select-match" placeholder="Selecione a transportadora"> 
+                  {{$select.selected.pj.nomeFantasia}} 
+                </ui-select-match>
+                <ui-select-choices class="ui-select-choices" repeat="transportadora in fornecedoresAll | filter:$select.search">
+                  {{transportadora.pj.nomeFantasia}}
+                </ui-select-choices>
+              </ui-select>
+              <span id="helpBlock" class="help-block" ng-show="showHelp.transportadora"> Transportadora (Pessoa Jurídica) escolhida para realizar a entrega do pedido </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.transportadora = true" ng-mouseleave="showHelp.transportadora = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="tempoPrevisto" class="col-sm-3 control-label">Dias Previstos</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="tempoPrevisto" placeholder="Apenas números" ui-number-mask="0" ng-model="pedido.formaEntregaPedido.tempoPrevisto">
+              <span id="helpBlock" class="help-block" ng-show="showHelp.tempoPrevisto"> Tempo Previsto (em dias úteis) para o transporte do pedido </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.tempoPrevisto = true" ng-mouseleave="showHelp.tempoPrevisto = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="valorCusto" class="col-sm-3 control-label">Custo</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="valorCusto" placeholder="Apenas números" ui-money-mask ng-model="pedido.formaEntregaPedido.valorCusto">
+              <span id="helpBlock" class="help-block" ng-show="showHelp.valorCusto"> Valor cobrado para realizar o transporte do pedido. Esse valor adicionado ao valor final do pedido  </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.valorCusto = true" ng-mouseleave="showHelp.valorCusto = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+          
+          <div class="form-group" >
+            <label for="formaEntrega" class="col-sm-3 control-label">Entrega</label>
+            <div class="col-sm-7">
+              <ui-select ng-model="pedido.formaEntrega" theme="bootstrap" append-to-body="false" >
+                <ui-select-match class="ui-select-match" placeholder="Selecione a forma de Entrega"> 
+                  {{$select.selected.nome}} 
+                </ui-select-match>
+                <ui-select-choices class="ui-select-choices" repeat="formaEntrega in formasEntregaAll | filter:$select.search">
+                  {{formaEntrega.nome}}
+                </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+          
+          <div class="alert alert-info alert-dismissable">
+            <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
+            * colocar aqui qqer observação pertinente
+          </div>
+        </div><!-- /.ABA 3 - Passo 3 - Entrega e Pagamento -->
+      </div><!-- /.selection -->
+
+      <ul class="pager pull-left">
+        <li class="" ng-class="{disabled: !hasPreviousStep() }">
+          <a href="javascript:void(0);" ng-click="decrementStep()">&larr; Anterior</a>
+        </li>
+        <li class="" ng-class="{disabled: !hasNextStep() || formFornecedor.$invalid}">
+          <a href="javascript:void(0);" ng-click="incrementStep()" >Proximo &rarr;</a>
+        </li>
+      </ul>
+
+    </form>
+
+  </div><!-- /.modal body-->
+
+  <div class="modal-footer">
+    <!--<button type="submit" class="btn btn-default">Submit Button</button>-->
+    <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
+      <ng-md-icon icon="refresh"></ng-md-icon> Limpar
+    </button>
+    <button type="button" class="btn btn-outline btn-danger" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Cancelar
+    </button>
+    <button type="button" class="btn btn-outline btn-success" ng-click="submit()">
+      <ng-md-icon icon="save"></ng-md-icon> Gravar
+    </button>
+  </div>
+</div><!-- /.modal content-->

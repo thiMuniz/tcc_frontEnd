@@ -7,8 +7,11 @@
   <div class="row">        
     <div class="col-lg-12">
       <div class="panel-heading"> <!-- Painel Superior -->
-        <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" tooltip='-----'>
-          <ng-md-icon icon="{{CONST.inserir.iconeBtn}}"></ng-md-icon> &nbsp;{{"-------"}}
+        <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" tooltip="Lançar pedido">
+          <ng-md-icon icon="{{CONST.inserir.iconeBtn}}"></ng-md-icon> &nbsp;{{labelCadastrarBtn}}
+        </button>
+        <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" tooltip="Sugerir pedido para cliente">
+          <ng-md-icon icon="add_shopping_cart"></ng-md-icon> &nbsp;Sugerir pedido
         </button>
         <div class="pull-right">
           <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Busca geral"/>
@@ -17,30 +20,59 @@
       </div><!-- /.Painel Superior -->
       <div class="panel panel-default">
         <div class="panel-heading">
-          <!--Há {{estoque.length}} {{estoque.length > 1 ? {{tipoItem.dsPlur}} : {{tipoItem.dsDesc}} }} com saldo em estoque-->
-          {{headerLista}}
+          Há {{pedidos.length}} pedidos em aberto 
+          {{pedidos[10].statusPedido[0].dtStatus}}
         </div>        
         <div class="panel-body">
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
+                  <th><a href="" ng-click="ordenar('id')">Id </a></th>
                   <th><a href="" ng-click="ordenar('codPedido')">Cód. Pedido</a></th>
+                  <th><a href="" ng-click="ordenar('statusPedido[0].status.nome')">Status</a></th>
+                  <th><a href="" ng-click="ordenar('statusPedido[0].dtStatus')">Data</a></th>
                   <th>Ação</th>                  
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="pedido in pedidos | filter : filtroGenerico | orderBy : campo : ascDsc">
+                  <td>{{pedido.id}}</td>
                   <td>{{pedido.codPedido}}</td>
+                  <td>{{pedido.statusPedido[0].status.nome}}</td>
+                  <td>{{pedido.statusPedido[0].dtStatus}}</td>
+                  
                   <td>
-                    <a ng-click="(pedido);" tooltip="Alterar Lotes">
-                      <ng-md-icon icon="settings"></ng-md-icon>
+                    <a ng-click="openUpdateDialog(pedido)" tooltip="{{CONST.editar.tooltipAcao}}" >
+                      <ng-md-icon icon="{{CONST.editar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
-                    <a ng-click="openInfoDialog(pedido);" tooltip="{{CONST.info.tooltipAcao}}">
+                    <a href="" ng-click="acao1(pedido);" tooltip="acao 1">
+                      <ng-md-icon icon="looks_one"></ng-md-icon>
+                    </a>&nbsp;
+                    <a href="" ng-click="acao2(pedido);" tooltip="acao 2">
+                      <ng-md-icon icon="looks_two"></ng-md-icon>
+                    </a>&nbsp;
+                    <a href="" ng-click="acao3(pedido);" tooltip="acao 3">
+                      <ng-md-icon icon="looks_3"></ng-md-icon>
+                    </a>&nbsp;
+                    <a href="" ng-click="acao4(pedido);" tooltip="acao 4">
+                      <ng-md-icon icon="looks_4"></ng-md-icon>
+                    </a>&nbsp;
+                    <a href="" ng-click="acao5(pedido);" tooltip="acao 5">
+                      <ng-md-icon icon="looks_5"></ng-md-icon>
+                    </a>&nbsp;
+                    <a href="" ng-click="acao6(pedido);" tooltip="acao 6">
+                      <ng-md-icon icon="looks_6"></ng-md-icon>
+                    </a>&nbsp;
+                    <a href="" ng-click="openInfoDialog(pedido);" tooltip="{{CONST.info.tooltipAcao}}">
                       <ng-md-icon icon="{{CONST.info.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
                   </td>
+                  <div>
+                      oi
+                  </div>
                 </tr>
+                
               </tbody>
             </table>
           </div><!-- /.table-responsive -->
