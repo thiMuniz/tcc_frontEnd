@@ -21,7 +21,6 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           Há {{pedidos.length}} pedidos em aberto 
-          {{pedidos[10].statusPedido[0].dtStatus}}
         </div>        
         <div class="panel-body">
           <div class="table-responsive">
@@ -31,7 +30,9 @@
                   <th><a href="" ng-click="ordenar('id')">Id </a></th>
                   <th><a href="" ng-click="ordenar('codPedido')">Cód. Pedido</a></th>
                   <th><a href="" ng-click="ordenar('statusPedido[0].status.nome')">Status</a></th>
-                  <th><a href="" ng-click="ordenar('statusPedido[0].dtStatus')">Data</a></th>
+                  <th><a href="" ng-click="ordenar('statusPedido[0].dtStatus')">Última Alteração</a></th>
+                  <th><a href="" ng-click="ordenar('codPedido')">Cliente</a></th>
+                  <th><a href="" ng-click="ordenar('codPedido')">Valor Total</a></th>
                   <th>Ação</th>                  
                 </tr>
               </thead>
@@ -41,6 +42,8 @@
                   <td>{{pedido.codPedido}}</td>
                   <td>{{pedido.statusPedido[0].status.nome}}</td>
                   <td>{{pedido.statusPedido[0].dtStatus}}</td>
+                  <td>{{'**'}}</td>
+                  <td>{{'****'}}</td>
                   
                   <td>
                     <a ng-click="openUpdateDialog(pedido)" tooltip="{{CONST.editar.tooltipAcao}}" >

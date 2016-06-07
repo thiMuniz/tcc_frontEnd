@@ -238,7 +238,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
             ).success(function (endereco) {
       $scope.cliente.endereco = endereco;
     }).error(function (endereco) {
-      console.log("deu ruim - endereco" + endereco);
+      toastr.error("Não foi possível encontrar o CEP informado");
     });
   };
   

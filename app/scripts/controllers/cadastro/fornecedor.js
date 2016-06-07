@@ -163,7 +163,7 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
   $scope.atualizarLista();
 
 })
-.controller('FornecedorDialogCtrl', function ($scope, $modal, $modalInstance, $http, $httpParamSerializerJQLike, params, CONST, toastr) {
+.controller('FornecedorDialogCtrl', function ($scope, $modal, $modalInstance, $http, $cookies, $httpParamSerializerJQLike, CorreiosResource, params, CONST, toastr) {
 
   $scope.CONST = CONST;
   $scope.formTipo = params.formTipo;
@@ -194,14 +194,30 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
   };
 
   $scope.carregarCep = function () {
-    $http.get(CONST.ws.urlCep + $scope.fornecedor.endereco.cep + '/json/'
-            ).success(function (endereco) {
-      $scope.fornecedor.endereco = endereco;
-//              toastr.info(endereco);
-    }).error(function (endereco) {
-      console.log("deu ruim - endereco" + endereco);
-//                        carregarFornecedoresFront();
+    console.log($scope.fornecedor.endereco.cep);
+//    $http.defaults.headers.common.Token = undefined;
+    var endere = CorreiosResource.get({cep:$scope.fornecedor.endereco.cep},
+    function(retorno){
+      toastr.success(retorno);
+      $scope.fornecedor.endereco = endere;
+      console.log(retorno);
+      console.log(endere);
+    },
+    function(retorno){
+      toastr.error(retorno);
+      console.log(retorno);
+      console.log(endere);
     });
+//    $http.defaults.headers.common.Token = $cookies.getObject('objToken').token;
+    
+//    $http.get(CONST.ws.urlCep + $scope.fornecedor.endereco.cep + '/json/'
+//            ).success(function (endereco) {
+//      $scope.fornecedor.endereco = endereco;
+////              toastr.info(endereco);
+//    }).error(function (endereco) {
+//      toastr.error("Não foi possível encontrar o CEP informado");
+//    });
+    
   };
     
   $scope.openImagemDialog = function(){

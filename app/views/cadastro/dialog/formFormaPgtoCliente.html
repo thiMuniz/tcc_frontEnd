@@ -8,9 +8,9 @@
     <div class="row">    
       <div class="panel-heading"> <!-- Painel Superior -->        
         <ui-select multiple ng-model="temp.formasPgtoCliente" ng-change="atualizarLista()" theme="bootstrap" ng-disabled="formaPgto.id" append-to-body="false">
-          <ui-select-match class="ui-select-match" placeholder="Selecione as formas de pagamento"> {{$item.tipo}} </ui-select-match>
+          <ui-select-match class="ui-select-match" placeholder="Selecione as formas de pagamento"> {{$item.nome}} </ui-select-match>
           <ui-select-choices class="ui-select-choices" repeat="formaPgto in formasPgtoAll | filter:$select.search">            
-            {{formaPgto.tipo}} 
+            {{formaPgto.nome}} 
             <!-- inserir desc com fonte menor abaixo do tipo -->
           </ui-select-choices>
         </ui-select>        
@@ -27,16 +27,18 @@
               <thead>
                 <tr>
                   <th><a href="" ng-click="ordenar('id')">Código</a></th>
-                  <th><a href="" ng-click="ordenar('tipo')">Nome</a></th>
+                  <th><a href="" ng-click="ordenar('nome')">Nome</a></th>
                   <th><a href="" ng-click="ordenar('descricao')">Descrição</a></th>
+                  <th><a href="" ng-click="ordenar('tipo')">Tipo</a></th>
                   <th>Ação</th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="formaPgto in temp.formasPgtoCliente| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
                   <td>{{formaPgto.id}}</td>
-                  <td>{{formaPgto.tipo}}</td>
+                  <td>{{formaPgto.nome}}</td>
                   <td>{{formaPgto.descricao}}</td>
+                  <td>{{formaPgto.tipo}}</td>
                   <td>
                     <a ng-click="removerFormaPgto($index);" tooltip="Remover Forma de Pagamento" ng-disabled="true">
                       <ng-md-icon icon="remove_circle_outline"></ng-md-icon>

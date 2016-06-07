@@ -122,11 +122,11 @@
                   <td class="col-sm-2">
                     <input class="form-control" type="text" id="quantidade" ui-number-mask="0" ng-model="produtoPedido.quantidade">
                   </td>
-                  <td class="col-sm-2">
-                    <input class="form-control" type="text" id="precoUnitario" ui-money-mask disabled="true" ng-model="getPrecoUnitario(produtoPedido.produto)">
+                  <td class="col-sm-2" align="center">
+                    {{getPrecoUnitario(produtoPedido.produto) | currency}}
                   </td>
-                  <td class="col-sm-2">
-                    <input class="form-control" type="text" id="subTotal" ui-money-mask disabled="true" ng-model="produtoPedido.quantidade * getPrecoUnitario(produtoPedido.produto)">
+                  <td class="col-sm-2"  align="center">
+                    {{produtoPedido.quantidade * getPrecoUnitario(produtoPedido.produto) | currency}}
                   </td>
                   <td>
                     <a class="col-sm-1" ng-click="removeProdutoPedido(produtoPedido);" tooltip="Remover produto" >
@@ -140,15 +140,15 @@
                 <td>
                   Total em Produtos:
                 </td>
-                <td class="col-sm-2">
-                  <input class="form-control" type="text" id="totalProdutos" ui-money-mask disabled="true" ng-model="getTotalProdutos()">
+                <td class="col-sm-2" >
+                  {{ getTotalProdutos() | currency}}
                 </td>                  
               </tfoot>
             </table>
           </div><!-- /.panel-heading -->
         </div><!-- /.ABA 2 - Produtos -->
         
-        <div ng-switch-when="Passo 3 - Entrega e Pagamento" ><!-- ABA 3 - Passo 3 - Entrega e Pagamento -->
+        <div ng-switch-when="Passo 3 - Entrega" ><!-- ABA 3 - Passo 3 - Entrega -->
           <div class="clearfix">&nbsp;</div>
           <div class="form-group" >
             <label for="formaEntrega" class="col-sm-3 control-label">Entrega</label>
@@ -173,7 +173,7 @@
           <div class="form-group" ng-show="pedido.formaEntregaPedido.formaEntrega == 'TRANSPORTADORA'">
             <label for="transportadora" class="col-sm-3 control-label">Transportadora</label>
             <div class="col-sm-7">
-              <ui-select ng-model="pedido.formaEntregaPdido.transportadora" theme="bootstrap" append-to-body="false" >
+              <ui-select ng-model="pedido.formaEntregaPedido.transportadora" theme="bootstrap" append-to-body="false" >
                 <ui-select-match class="ui-select-match" placeholder="Selecione a transportadora"> 
                   {{$select.selected.pj.nomeFantasia}} 
                 </ui-select-match>
@@ -216,25 +216,69 @@
             </div>
           </div>
           
+          <div class="alert alert-info alert-dismissable">
+            <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
+            * colocar aqui qqer observação pertinente
+          </div>
+        </div><!-- /.ABA 3 - Passo 3 - Entrega -->
+        
+        <div ng-switch-when="Passo 4 - Pagamento" ><!-- ABA 3 - Passo 4 - Pagamento -->
+          <div class="clearfix">&nbsp;</div>
           <div class="form-group" >
-            <label for="formaEntrega" class="col-sm-3 control-label">Entrega</label>
+            <label for="formaPgto" class="col-sm-3 control-label">Forma de Pagamento</label>
             <div class="col-sm-7">
-              <ui-select ng-model="pedido.formaEntrega" theme="bootstrap" append-to-body="false" >
-                <ui-select-match class="ui-select-match" placeholder="Selecione a forma de Entrega"> 
+              <ui-select ng-model="pedido.formaPagamento" theme="bootstrap" append-to-body="false" >
+                <ui-select-match class="ui-select-match" placeholder="Selecione a forma de Pagamento"> 
                   {{$select.selected.nome}} 
                 </ui-select-match>
-                <ui-select-choices class="ui-select-choices" repeat="formaEntrega in formasEntregaAll | filter:$select.search">
-                  {{formaEntrega.nome}}
+                <ui-select-choices class="ui-select-choices" repeat="formaPgto in pedido.pessoa.formasPgto | filter:$select.search">
+                  {{formaPgto.nome}}
                 </ui-select-choices>
               </ui-select>
+              <span id="helpBlock" class="help-block" ng-show="showHelp.formaPgto"> Forma que o cliente irá realizar o pagamento. As opções são apresentadas conforme cadastrado previamente. Para alterar acesse: Cadastros > cliente > Relacionar Formas de Pagamento </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.formaPgto = true" ng-mouseleave="showHelp.formaPgto = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
             </div>
           </div>
+          
+          <div class="form-group">
+            <label for="vencimentoPagamento" class="col-sm-3 control-label">Data Limite pagamento</label>
+            <div class="col-sm-7">
+              <div class="datepicker" date-format="dd/MM/yyyy" >
+                <input class="form-control" type="text" id="vencimentoPagamento" placeholder="Apenas números" ng-model="pedido.vencimentoPagamento">
+              </div>              
+              <span id="helpBlock" class="help-block" ng-show="showHelp.vencimentoPagamento"> Data máxima do prazo concedido ao cliente para pagamento do pedido  </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.vencimentoPagamento = true" ng-mouseleave="showHelp.vencimentoPagamento = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="dtPrevisaoEntrega" class="col-sm-3 control-label">Data Limite Previsão Entrega</label>
+            <div class="col-sm-7">
+              <div class="datepicker" date-format="dd/MM/yyyy" >
+                <input class="form-control" type="text" id="dtPrevisaoEntrega" placeholder="Apenas números" ng-model="pedido.dtPrevisaoEntrega">
+              </div>
+              <span id="helpBlock" class="help-block" ng-show="showHelp.dtPrevisaoEntrega"> Data limite prevista para o cliente receber o pedido. Esse prazo deve considerar a soma do tempo previsto pela transportadora, tempo de produção da encomenda, emissão de NF, etc... </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.dtPrevisaoEntrega = true" ng-mouseleave="showHelp.dtPrevisaoEntrega = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>                   
           
           <div class="alert alert-info alert-dismissable">
             <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
             * colocar aqui qqer observação pertinente
           </div>
-        </div><!-- /.ABA 3 - Passo 3 - Entrega e Pagamento -->
+        </div><!-- /.ABA 3 - Passo 4 - Pagamento -->
       </div><!-- /.selection -->
 
       <ul class="pager pull-left">

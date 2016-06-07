@@ -159,10 +159,8 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
     $http.get(CONST.ws.urlCep + $scope.colaborador.endereco.cep + '/json/'
             ).success(function (endereco) {
       $scope.colaborador.endereco = endereco;
-//              toastr.info(endereco);
     }).error(function (endereco) {
-      console.log("deu ruim - endereco" + endereco);
-//                        carregarColaboradoresFront();
+      toastr.error("Não foi possível encontrar o CEP informado");
     });
   };
 

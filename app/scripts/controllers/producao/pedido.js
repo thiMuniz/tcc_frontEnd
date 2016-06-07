@@ -192,12 +192,11 @@ app.controller('PedidoCtrl', function (
   };
   
   $scope.getTotalProdutos = function(){
-    var total = 0;
-    angular.forEach($scope.pedido.produtosPedido, 
-    function(produtoPedido){
-      total += produtoPedido.quantidade * getPrecoUnitario(produtoPedido.produto);
+    $scope.temp.valorTotalProdutos = 0;
+    angular.forEach($scope.pedido.produtosPedido, function(produtoPedido){
+      $scope.temp.valorTotalProdutos += produtoPedido.quantidade * $scope.getPrecoUnitario(produtoPedido.produto);
     });
-    return total;
+    return $scope.temp.valorTotalProdutos;
   };
 
   $scope.atualizarLista = function(){ //corrigir function pra permitir remover produto pela tabela
@@ -259,7 +258,8 @@ app.controller('PedidoCtrl', function (
   $scope.steps = [
     'Passo 1 - Dados Pedido',
     'Passo 2 - Produtos',
-    'Passo 3 - Entrega e Pagamento'
+    'Passo 3 - Entrega',
+    'Passo 4 - Pagamento'
     
   ];
   $scope.selection = $scope.steps[0];//esse indice que diz se sera comecar qual aba

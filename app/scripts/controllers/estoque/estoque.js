@@ -400,7 +400,7 @@ app.controller('EstoqueCtrl', function (
       $scope.cancel();
     }
   };
-
+  
   $scope.clear = function () {
     $scope.lote = angular.copy($scope.loteInit);
     if(params.formTipo == 'lookup'){

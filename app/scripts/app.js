@@ -53,7 +53,7 @@ var app = angular.module('sbAdminApp', [
     events: true
   });
 
-  $urlRouterProvider.otherwise('/main/home');
+  $urlRouterProvider.otherwise('/login');
 
   $stateProvider
   .state('main', {
@@ -71,6 +71,7 @@ var app = angular.module('sbAdminApp', [
             'scripts/services/pessoa.js',
             'scripts/controllers/cadastro/imagem.js',
             'scripts/controllers/header.js',
+            'scripts/services/correios.js',
           ]
         }),
         $ocLazyLoad.load({
