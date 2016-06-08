@@ -1,0 +1,286 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>    
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" role="form" name="formReceita">
+      <ul class="nav nav-tabs">
+        <li ng-repeat="step in steps" ng-class="{active: $index == getCurrentStepIndex()}">
+          <a href="javascript:void(0)" ng-click="goToStep($index)">{{step}}</a>
+        </li>
+      </ul>
+
+      <div ng-switch on="selection">
+        <div ng-switch-when="Passo 1 - Dados Receita"><!-- ABA 1 - Dados Receita -->
+          <div class="clearfix">&nbsp;</div>
+          <div class="form-group" ng-if="formTipo != 'insert'">
+            <label for="id" class="col-sm-3 control-label">Código</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="id" ng-model="receita.id" ng-disabled="true">
+              <span id="helpBlock" class="help-block" ng-show="showHelp.id"> Código de referência da receita no sistema </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.id = true" ng-mouseleave="showHelp.id = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+          <div class="form-group" >
+            <label for="nome" class="col-sm-3 control-label">Nome</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="nome" placeholder="Nome da receita" ng-model="receita.nome">
+              <span id="helpBlock" class="help-block" ng-show="showHelp.nome"> Nome que irá aparecer sempre que a receita for exibida no sistema </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.nome = true" ng-mouseleave="showHelp.nome = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="descricao" class="col-sm-3 control-label">Descrição</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="descricao" placeholder="Descrição detelhada da receita" ng-model="receita.descricao">
+              <span id="helpBlock" class="help-block" ng-show="showHelp.descricao"> Espaço para informações complementares ao nome </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.descricao = true" ng-mouseleave="showHelp.descricao = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="rendimento" class="col-sm-3 control-label">Rendimento</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="rendimento" placeholder="Apenas números" ui-number-mask="0" ng-model="receita.rendimento">
+              <span id="helpBlock" class="help-block" ng-show="showHelp.rendimento"> Quantidade (em unidades) de produtos que a receita produzirá </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.rendimento = true" ng-mouseleave="showHelp.rendimento = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="tempoPreparo" class="col-sm-3 control-label">Tempo de Preparo</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="tempoPreparo" placeholder="Apenas números (minutos)" ui-number-mask="0" ng-model="receita.tempoPreparo">
+              <span id="helpBlock" class="help-block" ng-show="showHelp.tempoPreparo"> Tempo previsto (em minutos) para execução total da receita. Considerar tempo de execução, embalagem e rotulagem </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.tempoPreparo = true" ng-mouseleave="showHelp.tempoPreparo = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+        </div><!-- /.ABA 1 - Dados Receita -->
+
+        <div ng-switch-when="Passo 2 - Ingredientes" ><!-- ABA 2 - Ingredientes -->
+          <div class="clearfix">&nbsp;</div>
+          <div class="panel-heading"> <!-- Painel Superior -->
+            <div class="row">
+              <div class="col-sm-11">
+                <label>Clique abaixo e selecione os ingredientes</label>
+                <ui-select class="col-sm-10"
+                           theme="bootstrap" 
+                           on-select="addInsumoReceita($item)"
+                           on-remove="removeInsumoReceita($item)"
+                           ng-disabled="insumo.id" 
+                           multiple ng-model="temp.insumosReceita"
+                           append-to-body="false" >
+                  <ui-select-match class="ui-select-match" placeholder="Selecione os Insumos"> {{$item.nome}} </ui-select-match>
+                  <ui-select-choices class="ui-select-choices" repeat="insumo in insumosAll | filter:$select.search">
+                    <img ng-src="{{insumo.imagens[0].caminhoArquivo}}" class="img-ui-select">
+                    {{insumo.nome}}
+                  </ui-select-choices>
+                </ui-select>
+                <span id="helpBlock" class="help-block" ng-show="showHelp.ingredientes"> Para selecionar um ingrediente, basta clicar à direita do ultimo item da lista e digitar as primeiras letras do ingrediente que deseja encontrar. Quando o ingrediente aparecer, clique nele e pronto. Ao selecionar um ingrediente o mesmo deverá aparecer na lista abaixo </span>
+              </div>
+              <div class="col-sm-1">
+                <div>&nbsp;</div>
+                <div>
+                  <a ng-mouseover="showHelp.ingredientes = true" ng-mouseleave="showHelp.ingredientes = false" tooltip="Ajuda" >
+                    <ng-md-icon icon="help"></ng-md-icon>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <table class="table" ng-show="receita.insumosReceita.length > 0">
+              <thead>
+                <tr>
+                  <th colspan="2" align="center">Ingrediente</th>
+                  <th align="center">Quantidade</th>
+                  <th>Remover</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="insumoReceita in receita.insumosReceita">
+                  <td class="col-sm-1">
+                    <img ng-src="{{insumoReceita.insumo.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/>
+                  </td>
+                  <td >{{insumoReceita.insumo.nome}}</td>
+                  <td>
+                    <div class="col-sm-3">                      
+                      <input class="form-control" type="text" id="quantidade" ui-number-mask="1" ng-model="insumoReceita.quantidade">
+                    </div>
+                    <div class="col-sm-3">
+                      {{insumoReceita.insumo.unMedida}}
+                    </div>                    
+                  </td>
+                  <td>
+                    <a ng-click="removeInsumoReceita(insumoReceita);" tooltip="Remover ingrediente" >
+                      <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
+                    </a>&nbsp;
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div><!-- /.panel-heading -->
+          <div class="alert alert-info alert-dismissable">
+            <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
+            * Verificar com stakeholders se 1 casa após a virgula é suficiente ou se precisa mais
+          </div>
+        </div><!-- /.ABA 2 - Ingredientes -->
+
+        <div ng-switch-when="Passo 3 - Instruções" ><!-- ABA 3 - Instruções -->
+          <div class="clearfix">&nbsp;</div>
+          <div class="panel-heading"> <!-- Painel Superior -->
+            <!--            <button class="btn btn-primary btn-xs" ng-click="addPasso()" tooltip="Adicionar instrução">
+                          <ng-md-icon icon="playlist_add"></ng-md-icon> Adicionar instrução
+                        </button>-->
+
+            <!--  INÍCIO TESTES
+                        <div data-as-sortable="board.dragControlListeners" data-ng-model="receita.passos" ng-show="receita.passos.length > 0">
+            
+                          <div class="row">
+                            <div class="col-sm-2">Index</div>
+                            <div class="col-sm-2">Ordem</div>
+                            <div class="col-sm-2">Títdivo</div>
+                            <div class="col-sm-2">Descrição</div>
+                            <div class="col-sm-2">Ação</div>
+                          </div>
+            
+                          <div data-ng-repeat="passoReceita in receita.passos" data-as-sortable-item>
+                            <div data-as-sortable-item-handle class="table-responsive">
+                              <table class="table" ng-show="receita.passos.length > 0">
+                                <thead>
+                                  <tr>
+                                    <th>Index</th>
+                                    <th>Ordem</th>
+                                    <th>Título</th>
+                                    <th>Descrição</th>
+                                    <th>Ação</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr ng-repeat="passoReceita in receita.passos"> 
+                                    <td class="col-sm-1">
+                                        {{$index}}
+                                    </td>
+                                    <td class="col-sm-1">
+                                        {{passoReceita.ordem}}
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <input class="form-control" type="text" id="nome" placeholder="Título" ng-model="passoReceita.nome">
+                                    </td>
+                                    <td class="col-sm-5">
+                                        <textarea class="form-control" rows="1" type="text" id="descricao" placeholder="Descrição" ng-model="passoReceita.descricao"></textarea>
+                                    </td>
+                                    <td class="col-sm-2">
+                                      <a ng-click="removerPasso($index);" tooltip="Remover" >
+                                        <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
+                                      </a>&nbsp;
+                                      <a ng-click="movePassoToUp($index);" ng-class="{acao-disabled: $index == receita.passoslength - 1}" tooltip="Mover para baixo" >
+                                        <ng-md-icon icon="keyboard_arrow_down"></ng-md-icon>
+                                      </a>&nbsp;
+                                      <a ng-click="movePassoToDown($index);" ng-class="{acao-disabled: $index == 0}" tooltip="Mover para cima" >
+                                        <ng-md-icon icon="keyboard_arrow_up"></ng-md-icon>
+                                      </a>&nbsp;                    
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>-->
+            <!--                  [{{$index}}]{{passoReceita.ordem}}-->
+            <!--                </div>
+                          </div>
+                        </div>
+            FIM TESTES              -->
+            <div class="table-responsive">
+              <table class="table" ng-show="receita.passos.length > 0">
+                <thead>
+                  <tr>
+                    <th>Ordem</th>
+                    <th>Título</th>
+                    <th>Descrição</th>
+                    <th>Ação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="passoReceita in receita.passos| orderBy : 'ordem'"> 
+                    <td class="col-sm-1">
+                      <input class="form-control" type="text" id="ordem" placeholder="Ordem" ng-model="passoReceita.ordem" disabled="true">
+                    </td>
+                    <td class="col-sm-3">
+                      <input class="form-control" type="text" id="nome" placeholder="Título" ng-model="passoReceita.nome">
+                    </td>
+                    <td class="col-sm-6">
+                      <textarea class="form-control" rows="1" type="text" id="descricao" placeholder="Descrição" ng-model="passoReceita.descricao"></textarea>
+                    </td>
+                    <td class="col-sm-2">
+                      <a ng-click="removerPasso($index);" tooltip="Remover" >
+                        <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
+                      </a>&nbsp;
+                      <a ng-click="passoSwap($index, $index + 1);" ng-class="$last ? 'acao-disabled' : ''" tooltip="Mover para baixo" >
+                        <ng-md-icon icon="keyboard_arrow_down"></ng-md-icon>
+                      </a>&nbsp;
+                      <a ng-click="passoSwap($index, $index - 1);" ng-class="$first ? 'acao-disabled' : ''" tooltip="Mover para cima" >
+                        <ng-md-icon icon="keyboard_arrow_up"></ng-md-icon>
+                      </a>&nbsp;
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="row">
+                <button class="btn btn-primary btn-xs pull-left" ng-click="addPasso()" tooltip="Adicionar instrução">
+                  <ng-md-icon icon="playlist_add"></ng-md-icon> Adicionar instrução
+                </button>
+              </div>
+            </div>
+          </div><!-- /.panel-heading -->   
+
+          <div class="alert alert-warning alert-dismissable">
+            <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
+            *Verificar viabilidade de implementar plugin ng-sortable
+          </div>
+        </div><!-- /.ABA 3 - Instruções -->
+
+      </div><!-- /.selection -->
+
+      <ul class="pager pull-left">
+        <li class="" ng-class="{disabled: !hasPreviousStep() }">
+          <a href="javascript:void(0);" ng-click="decrementStep()">&larr; Anterior</a>
+        </li>
+        <li class="" ng-class="{disabled: !hasNextStep() || formFornecedor.$invalid}">
+          <a href="javascript:void(0);" ng-click="incrementStep()" >Proximo &rarr;</a>
+        </li>
+      </ul>
+
+    </form>
+
+  </div><!-- /.modal body-->
+
+  <div class="modal-footer">
+    <!--<button type="submit" class="btn btn-default">Submit Button</button>-->
+    <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
+      <ng-md-icon icon="refresh"></ng-md-icon> Limpar
+    </button>
+    <button type="button" class="btn btn-outline btn-danger" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Cancelar
+    </button>
+    <button type="button" class="btn btn-outline btn-success" ng-click="submit()">
+      <ng-md-icon icon="save"></ng-md-icon> Gravar
+    </button>
+  </div>
+</div><!-- /.modal content-->

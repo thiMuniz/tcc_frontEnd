@@ -1,0 +1,296 @@
+<div class="modal-content" ng-init="initAbas()">
+  <div class="modal-header">    
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>
+    <!--PF - {{cliente.pf}} - PJ - {{cliente.pj}}-->
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" role="form" name="formCliente">
+      <ul class="nav nav-tabs">
+        <li ng-repeat="step in steps" ng-class="{active: $index == getCurrentStepIndex()}">
+          <a href="javascript:void(0)" ng-click="goToStep($index)">{{step}}</a>
+        </li>
+      </ul>
+      
+      <div ng-switch on="selection">
+        <div ng-switch-when="Passo 1 - Dados Gerais"><!-- ABA 1 - GERAL -->
+          <div class="clearfix">&nbsp;</div>
+          <div class="form-group" ng-if="formTipo == 'update'">
+            <label for="id" class="col-sm-3 control-label">Código</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="id" ng-model="cliente.id" ng-disabled="true">
+            </div>
+          </div>          
+
+          <div class="form-group" >
+            <label for="tipoPessoa" class="col-sm-3 control-label">Tipo de Pessoa</label>
+            <div class="col-sm-7">
+              <label class="radio-inline">
+                <input id="tipoPessoaPf" name="tipoPessoa" ng-model="tipoPessoa" type="radio" value="pf" ng-click="toogleTipoPessoa()" > Física <!-- ng-checked="tipoPessoa == 'pf' || !tipoPessoa" -->
+              </label>
+              <label class="radio-inline">
+                <input id="tipoPessoaPj" name="tipoPessoa" ng-model="tipoPessoa" type="radio" value="pj" ng-click="toogleTipoPessoa()" > Jurídica <!--  ng-checked="tipoPessoa == 'pj'" -->
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="col-sm-3 control-label">Email</label>
+            <div class="col-sm-7">
+              <input class="form-control" ng-required="true" type="text" id="usuario" placeholder="E-mail" ng-model="cliente.email" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="usuario" class="col-sm-3 control-label">Nome de usuário</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="usuario" placeholder="Usuario" ng-model="cliente.usuario" >
+            </div>
+          </div>
+          <div class="form-group" ng-if="formTipo == 'insert'">
+            <label for="senha" class="col-sm-3 control-label">Senha</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="password" id="senha" placeholder="Senha" ng-model="cliente.senha" >
+            </div>
+          </div>
+          <div class="form-group" ng-if="formTipo == 'insert'">
+            <label for="confSenha" class="col-sm-3 control-label">Confirme a Senha</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="password" id="confSenha" placeholder="Repetir Senha" ng-model="temp.confSenha" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="telefone1" class="col-sm-3 control-label">Telefone 1</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="telefone1" placeholder="Telefone 1" ng-model="cliente.telefone1" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="telefone2" class="col-sm-3 control-label">Telefone 2</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="telefone2" placeholder="Telefone 2" ng-model="cliente.telefone2" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="imagens" class="col-sm-3 control-label">
+              <button type="button" class="btn btn-primary" ng-click="openImagemDialog()">
+                <ng-md-icon icon="photo_camera"></ng-md-icon> Imagem
+              </button>
+            </label>
+            <div class="col-sm-7" id="imagens">
+              <img ng-src="{{cliente.imagem.caminhoArquivo ? cliente.imagem.caminhoArquivo : cliente.imagem.arquivo}}" class="img-thumbnail img-form-img" />
+            </div>
+          </div>
+
+        </div><!-- /.ABA 1 - GERAL -->
+
+        <div ng-switch-when="Passo 2 - Dados Pessoa Física" ><!-- ABA 2 - PF -->
+          <div class="clearfix">&nbsp;</div>
+          <div class="form-group">
+            <label for="nome" class="col-sm-3 control-label">Nome</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="nome" placeholder="Nome" ng-model="cliente.pf.nome" >
+            </div>
+          </div>  
+          <div class="form-group">
+            <label for="sobrenome" class="col-sm-3 control-label">Sobrenome</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="sobrenome" placeholder="" ng-model="cliente.pf.sobrenome" >
+            </div>
+          </div>  
+          <div class="form-group">
+            <label for="sexo" class="col-sm-3 control-label">Sexo</label>
+            <div class="col-sm-7">
+              <select class='form-control' id="sexo" ng-model='cliente.pf.sexo' ng-options="sexo.nome as sexo.nome  for sexo in sexos" >
+                <option value='' style='color: #999; opacity: 1;'> Selecione </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="rg" class="col-sm-3 control-label">RG</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="rg" placeholder="" ng-model="cliente.pf.rg" > <!-- ng-disabled="formTipo == 'update'" -->
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cpf" class="col-sm-3 control-label">Cpf</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="cpf" placeholder="" ng-model="cliente.pf.cpf" >
+            </div>
+          </div>
+          <!--          apagar após testes com datepicker-->
+<!--          <div class="form-group">
+            <label for="dtNascimento" class="col-sm-3 control-label">Data Nascimento</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="dtNascimento" placeholder="" ng-model="cliente.pf.dtNascimento" >
+            </div>
+          </div>-->
+          <div class="form-group">
+            <label for="dtNascimento" class="col-sm-3 control-label">Data de Nascimento</label>
+            <div class="col-sm-7">
+              <div class="datepicker" date-format="dd/MM/yyyy">
+                <input class="form-control" type="text" id="dtNascimento" placeholder="Data de Nascimento" ng-model="cliente.pf.dtNascimento">
+              </div>
+            </div>
+          </div>
+        </div><!-- /.ABA 2 - PF  -->
+
+
+        <div ng-switch-when="Passo 2 - Dados Pessoa Jurídica" ><!-- ABA 2 -PJ -->
+          <div class="clearfix">&nbsp;</div>
+          <div class="form-group">
+            <label for="razaoSocial" class="col-sm-3 control-label">Razão Social</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="razaoSocial" placeholder="Razão Social" ng-model="cliente.pj.razaoSocial" >
+            </div>
+          </div>  
+          <div class="form-group">
+            <label for="nomeFantasia" class="col-sm-3 control-label">Nome Fantasia</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="nomeFantasia" placeholder="Nome Fantasia" ng-model="cliente.pj.nomeFantasia" >
+            </div>
+          </div>  
+          <div class="form-group">
+            <label for="ramoAtividade" class="col-sm-3 control-label">Ramo da Atividade</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="ramoAtividade" placeholder="Ramo de atividade" ng-model="cliente.pj.ramoAtividade" >
+            </div>
+          </div>    
+          <div class="form-group">
+            <label for="cnpj" class="col-sm-3 control-label">Cnpj</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="cnpj" placeholder="Somente números" ng-model="cliente.pj.cnpj" >
+            </div>
+          </div>     
+          <div class="form-group">
+            <label for="inscricaoEst" class="col-sm-3 control-label">Inscricao Estadual</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="inscricaoEst" placeholder="Somente números" ng-model="cliente.pj.inscricaoEst" >
+            </div>
+          </div> 
+          <!--          apagar após testes com datepicker-->
+<!--          <div class="form-group">
+            <label for="dtAbertura" class="col-sm-3 control-label">Data Abertura</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="dtAbertura" placeholder="" ng-model="cliente.pj.dtAbertura" >
+            </div>
+          </div>  -->
+          <div class="form-group">
+            <label for="dtAbertura" class="col-sm-3 control-label">Data de Abertura</label>
+            <div class="col-sm-7">
+              <div class="datepicker" date-format="dd/MM/yyyy">
+                <input class="form-control" type="text" id="dtAbertura" placeholder="Data de Abertura" ng-model="cliente.pj.dtAbertura">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="contato" class="col-sm-3 control-label">Contato</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="contato" placeholder="" ng-model="cliente.pj.contato" >
+            </div>
+          </div> 
+          <div class="form-group">
+            <label for="website" class="col-sm-3 control-label">Website</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="website" placeholder="" ng-model="cliente.pj.website" >
+            </div>
+          </div> 
+          <div class="form-group">
+            <label for="hrMinEntrega" class="col-sm-3 control-label">Hora Minima Entrega</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="hrMinEntrega" placeholder="" ng-model="cliente.pj.hrMinEntrega" >
+            </div>
+          </div> 
+          <div class="form-group">
+            <label for="hrMaxEntrega" class="col-sm-3 control-label">Hora Maxima Entrega</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="hrMaxEntrega" placeholder="" ng-model="cliente.pj.hrMaxEntrega" >
+            </div>
+          </div> 
+
+        </div><!-- /.ABA 2 - PJ -->
+
+        <div ng-switch-when="Passo 3 - Endereço"><!-- ABA 3 - ENDEREÇO -->
+          <div class="clearfix">&nbsp;</div>
+          <div class="form-group">
+            <label for="cep" class="col-sm-3 control-label">Cep</label>
+            <div class="col-sm-7 input-group">
+<!--              <div ng-show="formCliente.cep.$error.required && formCliente.cep.$dirty">Por favor, preencha o campo cep! </div>
+              <div ng-show="formCliente.cep.$error.pattern">Por favor, preencha um cep valido!Ex: 00000000 </div>-->
+                <input class="form-control" type="text" id="cep" ng-model="cliente.endereco.cep" name="cep" placeholder="Apenas numeros"  ng-required="true" ng-pattern="/^\d{8}$/">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" ng-click="carregarCep()">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </span>
+            </div>
+          </div> 
+          <div class="form-group">
+            <label for="estado" class="col-sm-3 control-label">Estado</label>
+            <div class="col-sm-7">
+              <div ng-show="formCliente.uf.$error.required && formCliente.uf.$dirty">Por favor, preencha o campo estado! </div>
+              <input class="form-control" type="text" id="estado" ng-model="cliente.endereco.uf" name="uf" placeholder="Estado"  ng-required="true">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="localidade" class="col-sm-3 control-label">Cidade</label>
+            <div class="col-sm-7">
+              <div ng-show="formCliente.localidade.$error.required && formCliente.localidade.$dirty">Por favor, preencha o campo localidade! </div>
+              <input class="form-control" type="text" id="localidade" ng-model="cliente.endereco.localidade" name="localidade" placeholder="Cidade"  ng-required="true">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="bairro" class="col-sm-3 control-label">Bairro</label>
+            <div class="col-sm-7">
+              <div ng-show="formCliente.bairro.$error.required && formCliente.bairro.$dirty">Por favor, preencha o campo Bairro! </div>
+              <input class="form-control" type="text" id="bairro" ng-model="cliente.endereco.bairro" name="bairro" placeholder="Bairro"  ng-required="true">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="logradouro" class="col-sm-3 control-label">Logradouro</label>
+            <div class="col-sm-7">
+              <div ng-show="formCliente.logradouro.$error.required && formCliente.logradouro.$dirty">Por favor, preencha o campo endereço! </div>
+              <input class="form-control" type="text" id="logradouro" ng-model="cliente.endereco.logradouro" name="logradouro" placeholder="Endereço" ng-required="true">
+            </div>
+          </div>  
+          <div class="form-group">
+            <label for="numero" class="col-sm-3 control-label">Numero</label>
+            <div class="col-sm-7">
+              <div ng-show="formCliente.numero.$error.required && formCliente.numero.$dirty">Por favor, preencha o campo Numero! </div>
+              <input class="form-control" type="number" id="numero" ng-model="cliente.endereco.numero" name="numero" placeholder="Numero" ng-required="true">
+            </div>
+          </div>    
+          <div class="form-group">
+            <label for="complemento" class="col-sm-3 control-label">Complemento</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="complemento" ng-model="cliente.endereco.complemento" name="complemento" placeholder="Complemento" >
+            </div>
+          </div>      
+        </div><!-- /.ABA 3 - ENDEREÇO -->
+      </div><!-- /.selection -->
+
+      <ul class="pager pull-left">
+        <li class="" ng-class="{disabled: !hasPreviousStep() }">
+          <a href="javascript:void(0);" ng-click="decrementStep()">&larr; Anterior</a>
+        </li>
+        <li class="" ng-class="{disabled: !hasNextStep() || formCliente.$invalid}">
+          <a href="javascript:void(0);" ng-click="incrementStep()" >Proximo &rarr;</a>
+        </li>
+      </ul>
+
+    </form>
+
+  </div> <!-- modal-body -->
+
+  <div class="modal-footer" >
+    <!--<button type="submit" class="btn btn-default">Submit Button</button>-->
+    <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
+      <ng-md-icon icon="refresh"></ng-md-icon> Limpar
+    </button>
+    <button type="button" class="btn btn-outline btn-danger" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Cancelar
+    </button>
+    <button type="button" class="btn btn-outline btn-success" ng-click="submit()" >
+      <ng-md-icon icon="save"></ng-md-icon> Gravar
+    </button>
+  </div>
+</div>

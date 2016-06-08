@@ -1,0 +1,108 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel">
+      <ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
+    </h4>
+    <!--Debug Insumo {{insumo}}-->
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" role="form" name="formRotulo">
+      <div class="form-group" ng-if="formTipo != 'insert'">
+        <label for="id" class="col-sm-3 control-label">Código</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" id="id" ng-model="insumo.id" ng-disabled="true">
+          <span id="helpBlock" class="help-block" ng-show="showHelp.id"> Código de referência do ingrediente no sistema </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.id = true" ng-mouseleave="showHelp.id = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
+        </div>
+      </div>
+      <div class="form-group" >
+        <label for="nome" class="col-sm-3 control-label">Nome</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" id="nome" placeholder="Nome do ingrediente" ng-model="insumo.nome">
+          <span id="helpBlock" class="help-block" ng-show="showHelp.nome"> Nome que irá aparecer sempre que o ingrediente for exibido no sistema </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.nome = true" ng-mouseleave="showHelp.nome = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="descricao" class="col-sm-3 control-label">Descrição</label>
+        <div class="col-sm-7">
+          <!--<input class="form-control" type="text" id="descricao" placeholder="Descrição detelhada do ingrediente" ng-model="insumo.descricao">-->
+          <textarea class="form-control" rows="1" type="text" id="descricao" placeholder="Descrição detelhada do ingrediente" ng-model="insumo.descricao"></textarea>
+          <span id="helpBlock" class="help-block" ng-show="showHelp.descricao"> Espaço para informações complementares ao nome </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.descricao = true" ng-mouseleave="showHelp.descricao = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="unMedida" class="col-sm-3 control-label">Unidade de Medida</label>
+        <div class="col-sm-7">
+          <select class="form-control" id="unMedida" ng-model="insumo.unMedida" ng-options="unMedida.nome as unMedida.nome  for unMedida in unidadesMedida" >
+            <option value='' style='color: #999; opacity: 1;'> Selecione </option>
+          </select>
+          <span id="helpBlock" class="help-block" ng-show="showHelp.unMedida"> Unidade padrão que o ingrediente é medido (contado) </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.unMedida = true" ng-mouseleave="showHelp.unMedida = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="estoqueMinimo" class="col-sm-3 control-label">Estoque Mínimo</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" id="estoqueMinimo" placeholder="Apenas números" ui-number-mask="0" ng-model="insumo.estoqueMinimo">
+          <span id="helpBlock" class="help-block" ng-show="showHelp.estoqueMinimo"> Quantidade mínima que este ingrediente deve ter estocado (conforme unidade de medida escolhida). Quando o estoque estiver abaixo desta quantidade, será disparado o alerta de compra </span>
+        </div>
+        <div class="col-sm-1">
+          <a ng-mouseover="showHelp.estoqueMinimo = true" ng-mouseleave="showHelp.estoqueMinimo = false" tooltip="Ajuda" >
+            <ng-md-icon icon="help"></ng-md-icon>
+          </a>
+        </div>
+      </div>
+      <div class="form-group" ng-hide="true">
+        <label for="codBarras" class="col-sm-3 control-label">Código de Barras</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" id="codBarras" placeholder="Código de Barras" ng-model="insumo.codBarras">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="imagens" class="col-sm-3 control-label">
+          <button type="button" class="btn btn-primary" ng-click="openImagemDialog()">
+            <ng-md-icon icon="photo_camera"></ng-md-icon> Imagem
+          </button>
+        </label>
+        <div class="col-sm-7" id="imagens" ng-show="insumo.imagens">
+          <img ng-src="{{insumo.imagens[0].caminhoArquivo ? insumo.imagens[0].caminhoArquivo : insumo.imagens[0].arquivo}}" class="img-thumbnail form-img" />
+        </div>
+      </div>
+    </form>
+    <div class="alert alert-info alert-dismissable">
+      <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
+      * Ocultados os campos 'Quantidade' e 'Cod. de Barras'   >>> Validar c/ Stakeholders
+    </div>
+  </div><!-- /.modal body-->
+  <div class="modal-footer">
+    <!--<button type="submit" class="btn btn-default">Submit Button</button>-->
+    <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
+      <ng-md-icon icon="refresh"></ng-md-icon> Limpar
+    </button>
+    <button type="button" class="btn btn-outline btn-danger" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Cancelar
+    </button>
+    <button type="button" class="btn btn-outline btn-success" ng-click="submit()">
+      <ng-md-icon icon="save"></ng-md-icon> Gravar
+    </button>
+  </div>
+</div><!-- /.modal content-->

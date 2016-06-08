@@ -1,0 +1,191 @@
+<div class="modal-content">
+  <div class="modal-header">    
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>
+    <!--debug fornecedor{{fornecedor}}-->
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" role="form" name="formFornecedor">
+      <ul class="nav nav-tabs">
+        <li ng-repeat="step in steps" ng-class="{active: $index == getCurrentStepIndex()}">
+          <a href="javascript:void(0)" ng-click="goToStep($index)">{{step}}</a>
+        </li>
+      </ul>
+      
+      <div ng-switch on="selection">
+        <div ng-switch-when="Passo 1 - Dados Gerais"><!-- ABA 1 - GERAL -->
+          <div class="clearfix">&nbsp;</div>
+          <div class="form-group" ng-if="formTipo == 'update'">
+            <label for="id" class="col-sm-3 control-label">Código</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="id" ng-model="fornecedor.id" ng-disabled="true">
+            </div>
+          </div>         
+          <div class="form-group">
+            <label for="email" class="col-sm-3 control-label">Email</label>
+            <div class="col-sm-7">
+              <input class="form-control" ng-required="true" type="email" id="usuario" placeholder="E-mail" ng-model="fornecedor.email" >
+            </div>
+          </div>          
+          <div class="form-group">
+            <label for="telefone1" class="col-sm-3 control-label">Telefone Fixo</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="telefone1" placeholder="Apenas números" ui-br-phone-number ng-model="fornecedor.telefone1" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="telefone2" class="col-sm-3 control-label">Telefone Celular</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="telefone2" placeholder="Apenas números" ui-br-phone-number ng-model="fornecedor.telefone2" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="imagens" class="col-sm-3 control-label">
+              <button type="button" class="btn btn-primary" ng-click="openImagemDialog()">
+                <ng-md-icon icon="photo_camera"></ng-md-icon> Imagem
+              </button>
+            </label>
+            <div class="col-sm-7" id="imagens" ng-show="fornecedor.imagem">
+              <img ng-src="{{fornecedor.imagem.caminhoArquivo ? fornecedor.imagem.caminhoArquivo : fornecedor.imagem.arquivo}}" class="img-thumbnail img-form-img" />
+            </div>
+          </div>
+        </div><!-- /.ABA 1 - GERAL -->
+        
+        <div ng-switch-when="Passo 2 - Dados Pessoa Jurídica" ><!-- ABA 2 -PJ -->
+          <div class="clearfix">&nbsp;</div>
+          <div class="form-group">
+            <label for="razaoSocial" class="col-sm-3 control-label">Razão Social</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="razaoSocial" placeholder="Nome de registro" ng-model="fornecedor.pj.razaoSocial" >
+            </div>
+          </div>  
+          <div class="form-group">
+            <label for="nomeFantasia" class="col-sm-3 control-label">Nome Fantasia</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="nomeFantasia" placeholder="Nome conhecido" ng-model="fornecedor.pj.nomeFantasia" >
+            </div>
+          </div>  
+          <div class="form-group">
+            <label for="ramoAtividade" class="col-sm-3 control-label">Ramo da Atividade</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="ramoAtividade" placeholder="Tipo do comércio" ng-model="fornecedor.pj.ramoAtividade" >
+            </div>
+          </div>    
+          <div class="form-group">
+            <label for="cnpj" class="col-sm-3 control-label">Cnpj</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="cnpj" placeholder="Apenas números" ui-br-cnpj-mask ng-model="fornecedor.pj.cnpj" ng-disabled="formTipo == 'update'">
+            </div>
+          </div>     
+          <div class="form-group">
+            <label for="inscricaoEst" class="col-sm-3 control-label">Inscricao Estadual</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="inscricaoEst" placeholder="Apenas números" ui-number-mask ng-model="fornecedor.pj.inscricaoEst" ng-disabled="formTipo == 'update'">
+            </div>
+          </div> 
+          <!--          apagar após testes com datepicker-->
+<!--          <div class="form-group">
+            <label for="dtAbertura" class="col-sm-3 control-label">Data Abertura</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="dtAbertura" placeholder="" ng-model="fornecedor.pj.dtAbertura" ng-disabled="formTipo == 'update'">
+            </div>
+          </div>  -->
+          <div class="form-group">
+            <label for="dtAbertura" class="col-sm-3 control-label">Data de Abertura</label>
+            <div class="col-sm-7">
+              <div class="datepicker" date-format="dd/MM/yyyy">
+                <input class="form-control" type="text" id="dtAbertura" placeholder="Apenas números" ng-model="fornecedor.pj.dtAbertura">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="contato" class="col-sm-3 control-label">Contato</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="contato" placeholder="Nome do contato" ng-model="fornecedor.pj.contato" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="website" class="col-sm-3 control-label">Website</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="website" placeholder="Site" ng-model="fornecedor.pj.website" >
+            </div>
+          </div>
+        </div><!-- /.ABA 2 - PJ -->
+
+        <div ng-switch-when="Passo 3 - Endereço"><!-- ABA 3 - ENDEREÇO -->
+          <div class="clearfix">&nbsp;</div>
+          <div class="form-group">
+            <label for="cep" class="col-sm-3 control-label">Cep</label>
+            <div class="col-sm-7 input-group">
+                <input class="form-control" type="text" id="cep" name="cep" placeholder="Apenas números"  ng-required="true" ui-br-cep-mask ng-model="fornecedor.endereco.cep" >
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" ng-click="carregarCep()">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </span>
+            </div>
+          </div> 
+          <div class="form-group">
+            <label for="estado" class="col-sm-3 control-label">Estado</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="estado" name="uf" placeholder="Estado"  ng-required="true" ng-model="fornecedor.endereco.uf">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="localidade" class="col-sm-3 control-label">Cidade</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="localidade" name="localidade" placeholder="Cidade"  ng-required="true" ng-model="fornecedor.endereco.localidade">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="bairro" class="col-sm-3 control-label">Bairro</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="bairro" name="bairro" placeholder="Bairro"  ng-required="true" ng-model="fornecedor.endereco.bairro">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="logradouro" class="col-sm-3 control-label">Logradouro</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="logradouro" name="logradouro" placeholder="Endereço" ng-required="true" ng-model="fornecedor.endereco.logradouro">
+            </div>
+          </div>  
+          <div class="form-group">
+            <label for="numero" class="col-sm-3 control-label">Numero</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="numero" name="numero" placeholder="Numero" ng-required="true" ui-number-mask="0" ng-model="fornecedor.endereco.numero" >
+            </div>
+          </div>    
+          <div class="form-group">
+            <label for="complemento" class="col-sm-3 control-label">Complemento</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="complemento" name="complemento" placeholder="Complemento" ng-model="fornecedor.endereco.complemento">
+            </div>
+          </div>      
+        </div><!-- /.ABA 3 - ENDEREÇO -->
+      </div><!-- /.selection -->
+
+      <ul class="pager pull-left">
+        <li class="" ng-class="{disabled: !hasPreviousStep() }">
+          <a href="javascript:void(0);" ng-click="decrementStep()">&larr; Anterior</a>
+        </li>
+        <li class="" ng-class="{disabled: !hasNextStep() || formFornecedor.$invalid}">
+          <a href="javascript:void(0);" ng-click="incrementStep()" >Proximo &rarr;</a>
+        </li>
+      </ul>
+
+    </form>
+
+  </div> <!-- modal-body -->
+
+  <div class="modal-footer" >
+    <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
+      <ng-md-icon icon="refresh"></ng-md-icon> Limpar
+    </button>
+    <button type="button" class="btn btn-outline btn-danger" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Cancelar
+    </button>
+    <button type="button" class="btn btn-outline btn-success" ng-click="submit()" >
+      <ng-md-icon icon="save"></ng-md-icon> Gravar
+    </button>
+  </div>
+</div>

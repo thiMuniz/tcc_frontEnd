@@ -1,0 +1,68 @@
+<div class="modal-content" >
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel">
+      <ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
+    </h4>
+<!--    Debug ImagensInit {{imagensInit.length}}
+    Debug Imagens {{imagens.length}}-->
+  </div>
+  <div class="modal-body table-responsive">
+    <!--<form class="form-horizontal" role="form" name="formImagem">-->
+      <table>
+        <tr> <!-- Add  Imagem -->
+          <td class="form-group col-sm-4">
+            <div>
+              <label for="imagemCrop" class="control-label">
+                <button id="imagemCrop" type="button" class="form-control btn btn-primary btn-sm" ngf-select ng-model="imgSelecionada" accept="image/*" tooltip="{{imagens.length < maxImagens ? 'Adicionar imagem' : 'Não é possível adicionar mais imagens'}}" ng-disabled="imagens.length >= maxImagens">
+                  <ng-md-icon icon="file_upload" ></ng-md-icon> &nbsp; Nova Imagem
+                </button>
+              </label>
+              <div class="form-control cropAreaSgp" id="imagemCrop" ng-model="imgSelecionada" ngf-pattern="image/*" ngf-drop>
+                  <!--<p>Arraste e solte a imagem aqui ou clique no botão ao lado para localizar no computador</p>-->
+                <img-crop image="imgSelecionada  | ngfDataUrl" result-image="imagemNew.arquivo"></img-crop> <!-- ng-init="imagemInit.caminhoArquivo" -->
+              </div>
+            </div>
+          </td>
+          <td class="form-group col-sm-4" ng-hide="!imgSelecionada">
+            <div >
+              <label for="imagemNewCrop" class="control-label">Imagem posCrop</label>
+              <div class="posCropAreaSgp" >
+                <img id="imagemNewCrop" ng-src="{{imagemNew.arquivo}}" />
+              </div>
+            </div>            
+          </td>
+          <td class="form-group col-sm-2"  ng-hide="!imgSelecionada">
+            <div >
+              <button class="btn btn-success btn-circle btn-xl" ng-click="addImagem()" tooltip="Confirmar" ng-disabled="imagens.length >= maxImagens || !imagemNew.arquivo">
+                <i class="fa fa-check"></i>
+              </button>
+            </div>
+          </td>
+        </tr> <!-- /.Add  Imagem -->
+      </table>
+      <div class="row img-list">
+        <div class="col-md-2 col-sm-3 col-xs-12" ng-repeat="imagem in imagens">
+            <button type="button" class="close pull-right" ng-click="removerImagem($index)" aria-hidden="true" tooltip="Remover">&times;</button>
+            <img ng-src="{{imagem.caminhoArquivo ? imagem.caminhoArquivo : imagem.arquivo}}" class="img-thumbnail form-img pull-right"/>            
+        </div>
+      </div>
+    <!--</form>-->
+  </div><!-- /.modal body-->
+  
+    <div class="alert alert-danger alert-dismissable">
+      <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
+      * Criar regras para habilitar botão confirmar com expressão no ng-class ou ng-disable
+    </div>
+  <div class="modal-footer">
+<!--    <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
+      <ng-md-icon icon="refresh"></ng-md-icon> Limpar
+    </button>-->
+    <button type="button" class="btn btn-outline btn-danger" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Cancelar
+    </button>
+    <button type="button" class="btn btn-outline btn-success" ng-click="submit()">
+      <ng-md-icon icon="{{maxImagens > 1 ? 'done_all' : 'done'}}"></ng-md-icon> Confirmar
+    </button>
+  </div>
+</div><!-- /.modal content-->

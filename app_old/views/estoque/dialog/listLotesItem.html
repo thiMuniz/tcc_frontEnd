@@ -1,0 +1,67 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>    
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" role="form" name="formSaldo">
+      <div class="row page-header">
+        <div class="col-sm-3">
+          <img ng-src="{{itemEstoque.item.imagens[0].caminhoArquivo}}" class="img-thumbnail form-img">
+        </div>
+        <div class="col-sm-9 h3">
+          {{itemEstoque.item.nome}}
+        </div>
+      </div>
+      <!--TESTE-->
+      <!--<link rel="stylesheet" href="vendor/datatables-responsive/css/dataTables.responsive.css">-->
+<!--      <div ng-controller="WithResponsiveCtrl as showCase">
+        <table datatable="" dt-options="showCase.dtOptions" dt-columns="showCase.dtColumns" class="row-border hover" width="100%"></table>
+      </div>-->
+      <!--<script src="vendor/datatables-responsive/js/dataTables.responsive.js"></script>-->
+      <!--FIM TESTE--> 
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th><a href="" ng-click="ordenar('codLote')">Lote</a></th>
+              <th><a href="" ng-click="ordenar('quantidade')">Quantidade Entrada</a></th>
+              <th><a href="" ng-click="ordenar('estoqueDisponivel')">Quantidade Disponível Atual</a></th>
+<!--              <th><a href="" ng-click="ordenar('novoEstoqueDisponivel')">Nova Quantidade Disponível</a></th>
+              <th><a href="" ng-click="ordenar('justificativa')">Justificativa</a></th>-->
+              <th>Ação</th>                  
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="lote in lotes | filter : filtroGenerico | orderBy : campo : ascDsc">
+              <!--{{lote.quantidadeNew}}{{lote.motivo}}-->
+              <td>{{lote.codLote}}</td>
+              <td>{{lote.quantidade}}</td>
+              <td>{{lote.estoqueDisponivel}}</td>
+<!--              <td><input type="text" class="form-control" ng-model="lote.novoEstoqueDisponivel"></td>
+              <td><textarea class="form-control" ng-model="lote.justificativa"/></td>-->
+              <td>
+                <a ng-click="openNewSaldoDialog(lote);" tooltip="Novo saldo">
+                  <ng-md-icon icon="swap_vert"></ng-md-icon>
+                </a>&nbsp;
+                <a ng-click="openUpdateDialog(lote);" tooltip="Editar Lote">
+                  <ng-md-icon icon="edit"></ng-md-icon>
+                </a>&nbsp;
+                <a ng-click="openInfoDialog(lote);" tooltip="{{CONST.info.tooltipAcao}}">
+                  <ng-md-icon icon="{{CONST.info.iconeAcao}}"></ng-md-icon>
+                </a>&nbsp;
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+
+  </div><!-- /.modal body-->
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline btn-primary btn-lg btn-block" ng-click="closeListLotesDialog()">
+      <ng-md-icon icon="clear"></ng-md-icon> Fechar
+    </button>
+  </div>
+</div><!-- /.modal content-->

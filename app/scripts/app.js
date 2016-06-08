@@ -70,8 +70,7 @@ var app = angular.module('sbAdminApp', [
             'scripts/directives/sidebar/sidebar-search/sidebar-search.js',                              
             'scripts/services/pessoa.js',
             'scripts/controllers/cadastro/imagem.js',
-            'scripts/controllers/header.js',
-            'scripts/services/correios.js',
+            'scripts/controllers/header.js'
           ]
         }),
         $ocLazyLoad.load({
@@ -140,8 +139,7 @@ var app = angular.module('sbAdminApp', [
           name: 'sbAdminApp',
           files: [
             'scripts/controllers/login.js',
-            'scripts/services/pessoa.js',
-            'scripts/services/base64.js'
+            'scripts/services/pessoa.js'
           ]
         });
       }

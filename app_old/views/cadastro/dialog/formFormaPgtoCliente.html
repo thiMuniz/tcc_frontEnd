@@ -1,0 +1,70 @@
+<div class="modal-content">
+  <div class="modal-header">    
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>
+  </div>
+  <div class="modal-body">
+    <!--{{cliente.formasPgto}}-->
+    <div class="row">    
+      <div class="panel-heading"> <!-- Painel Superior -->        
+        <ui-select multiple ng-model="temp.formasPgtoCliente" ng-change="atualizarLista()" theme="bootstrap" ng-disabled="formaPgto.id" append-to-body="false">
+          <ui-select-match class="ui-select-match" placeholder="Selecione as formas de pagamento"> {{$item.nome}} </ui-select-match>
+          <ui-select-choices class="ui-select-choices" repeat="formaPgto in formasPgtoAll | filter:$select.search">            
+            {{formaPgto.nome}} 
+            <!-- inserir desc com fonte menor abaixo do tipo -->
+          </ui-select-choices>
+        </ui-select>        
+      </div><!-- /.Painel Superior -->
+    </div><!-- /.row -->
+    <!--<div class="row">-->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Há {{temp.formasPgtoCliente.length}} Formas de Pagamento relacionadas ao Cliente
+        </div>
+        <div class="panel-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th><a href="" ng-click="ordenar('id')">Código</a></th>
+                  <th><a href="" ng-click="ordenar('nome')">Nome</a></th>
+                  <th><a href="" ng-click="ordenar('descricao')">Descrição</a></th>
+                  <th><a href="" ng-click="ordenar('tipo')">Tipo</a></th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="formaPgto in temp.formasPgtoCliente| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
+                  <td>{{formaPgto.id}}</td>
+                  <td>{{formaPgto.nome}}</td>
+                  <td>{{formaPgto.descricao}}</td>
+                  <td>{{formaPgto.tipo}}</td>
+                  <td>
+                    <a ng-click="removerFormaPgto($index);" tooltip="Remover Forma de Pagamento" ng-disabled="true">
+                      <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
+                    </a>&nbsp;
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div><!-- /.table-responsive -->
+        </div><!-- /.panel-body -->
+      </div><!-- /.panel-default -->
+    <!--</div> /.row -->
+  
+
+  </div> <!-- modal-body -->
+
+  <div class="modal-footer">
+    <!--<button type="submit" class="btn btn-default">Submit Button</button>-->
+    <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
+      <ng-md-icon icon="refresh"></ng-md-icon> Limpar
+    </button>
+    <button type="button" class="btn btn-outline btn-danger" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Cancelar
+    </button>
+    <button type="button" class="btn btn-outline btn-success" ng-click="submit()">
+      <ng-md-icon icon="save"></ng-md-icon> Gravar
+    </button>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>    
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" role="form" name="formLote">
+      <div class="form-group" ng-if="formTipo != 'insert'">
+        <label for="id" class="col-sm-3 control-label">Código</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" id="id" ng-model="lote.id" ng-disabled="true">
+        </div>
+      </div>
+      <div class="form-group" >
+        <label for="item" class="col-sm-3 control-label">Item</label>
+        <div class="col-sm-7">
+          <ui-select ng-model="lote.item" theme="bootstrap" append-to-body="false" >
+            <ui-select-match class="ui-select-match" placeholder="Selecione o Item"> 
+              <img ng-src="{{$select.selected.imagens[0].caminhoArquivo}}" class="img-circle img-ui-select">
+              &nbsp;{{$select.selected.nome}} 
+            </ui-select-match>
+            <ui-select-choices class="ui-select-choices" repeat="item in itensAll | filter:$select.search">
+              <img ng-src="{{item.imagens[0].caminhoArquivo}}" class="img-circle img-ui-select">
+              &nbsp;{{item.nome}}
+            </ui-select-choices>
+          </ui-select>
+        </div>
+      </div>
+      <div class="form-group" ng-hide="tipoItem.dsSing == 'Produto'">
+        <label for="codLote" class="col-sm-3 control-label">Lote</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" id="codLote" placeholder="Código do lote" ng-model="lote.codLote">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="quantidade" class="col-sm-3 control-label">Quantidade de Entrada</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" id="quantidade" placeholder="Quantidade de entrada do lote" ui-number-mask="1" ng-model="lote.quantidade">
+        </div>
+      </div>      
+      <div class="form-group">
+        <label for="dtFabricacao" class="col-sm-3 control-label">Data de Fabricação</label>
+        <div class="col-sm-7">
+          <div class="datepicker" date-format="dd/MM/yyyy" >
+            <input class="form-control" type="text" id="dtFabricacao" placeholder="Data de fabricação do lote" ng-model="lote.dtFabricacao">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="dtVencimento" class="col-sm-3 control-label">Data de Vencimento</label>
+        <div class="col-sm-7">
+          <div class="datepicker" date-format="dd/MM/yyyy">
+            <input class="form-control" type="text" id="dtVencimento" placeholder="Data de validade do lote" ui-date-mask ng-model="lote.dtVencimento">
+          </div>
+        </div>
+      </div>
+      <div class="alert alert-danger alert-dismissable">
+        <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
+        *Confirmar com cliente regra p/ exibição das datas cfm tipo do Item
+      </div>
+    </form>      
+
+  </div><!-- /.modal body-->
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
+      <ng-md-icon icon="refresh"></ng-md-icon> Limpar
+    </button>
+    <button type="button" class="btn btn-outline btn-danger" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Cancelar
+    </button>
+    <button type="button" class="btn btn-outline btn-success" ng-click="submit()">
+      <ng-md-icon icon="save"></ng-md-icon> Gravar
+    </button>
+  </div>
+</div><!-- /.modal content-->

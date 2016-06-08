@@ -1,0 +1,78 @@
+<div class="modal-content">
+  <div class="modal-header">    
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel">
+      <ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
+    </h4>
+  </div>
+  
+  <div class="modal-body">
+    <div class="panel-default">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="col-lg-4">
+            <img ng-src="{{embalagem.imagens[0].caminhoArquivo}}" class="img-thumbnail img-info-dialog">
+          </div>
+          <div class="col-lg-8">
+            <!--**informacoes na lateral doreita da foto-->
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <td><label for="id" class=control-label">Código</label></td>
+                    <td >{{embalagem.id}}</td>  
+                  </tr>
+                  <tr>
+                    <td><label for="nome" class=control-label">Nome</label></td>
+                    <td >{{embalagem.nome}}</td>  
+                  </tr>
+                  <tr>
+                    <td><label for="material" class=control-label">Material</label></td>
+                    <td >{{embalagem.material}}</td>  
+                  </tr>
+                  <tr>
+                    <td><label for="dtDesativacao" class=control-label">Status</label></td>
+                    <td style="{{embalagem.dtDesativacao ? 'color: red' : ''}}">
+                      {{embalagem.dtDesativacao ? "Desativado em " + (embalagem.dtDesativacao | date: "dd/MM/yyyy 'às' HH:mm:ss") : "Ativo"}}
+                    </td>
+                  </tr>    
+                </tbody>
+              </table>
+            </div><!-- /.table-responsive -->   
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <!--Inicio dados endereço-->
+              <tbody>                
+                <tr>
+                  <td><label for="descricao" class=control-label">Descrição</label></td>
+                  <td >{{embalagem.descricao}}</td>  
+                </tr>
+                <tr>
+                  <td><label for="dimensoes" class=control-label">Dimensões</label></td>
+                  <td >{{embalagem.dimensoes}}</td>  
+                </tr>
+                <tr>
+                  <td><label for="gramatura" class=control-label">Gramatura</label></td>
+                  <td >{{embalagem.gramatura}}</td>  
+                </tr> 
+                <tr>
+                  <td><label for="estoqueMinimo" class=control-label">Estoque Mínimo</label></td>
+                  <td>{{embalagem.estoqueMinimo}}</td>  
+                </tr> 
+              </tbody>
+            </table>
+          </div><!-- /.table-responsive -->   
+        </div> <!-- /.col-lg-12 -->
+      </div>  <!-- /.row -->
+    </div> <!-- /.panel-default -->
+  </div> <!-- modal-body -->
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline btn-primary btn-lg btn-block" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Fechar
+    </button>
+  </div>
+</div>

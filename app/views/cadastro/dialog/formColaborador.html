@@ -144,9 +144,9 @@
             <div class="col-sm-7 input-group">
 <!--              <div ng-show="formColaborador.cep.$error.required && formColaborador.cep.$dirty">Por favor, preencha o campo cep! </div>
               <div ng-show="formColaborador.cep.$error.pattern">Por favor, preencha um cep valido!Ex: 00000000 </div>-->
-                <input class="form-control" type="text" id="cep" ng-model="colaborador.endereco.cep" name="cep" placeholder="Apenas numeros"  ng-required="true" ng-pattern="/^\d{8}$/">
+                <input class="form-control" type="text" id="cep" name="cep" placeholder="Apenas numeros" ng-required="true" ui-br-cep-mask ng-model="colaborador.endereco.cep">
                 <span class="input-group-btn">
-                  <button class="btn btn-default" type="button" ng-click="carregarCep()">
+                  <button class="btn btn-default" type="button" ng-click="setEnderecoByCep()">
                     <i class="fa fa-search"></i>
                   </button>
                 </span>

@@ -1,0 +1,68 @@
+<div class="modal-content">
+  <div class="modal-header">    
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel">
+      <ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
+    </h4>
+  </div>
+  
+  <div class="modal-body">
+    <div class="panel-default">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="col-lg-4">
+            <img ng-src="{{lote.item.imagens[0].caminhoArquivo}}" class="img-thumbnail img-info-dialog">
+          </div>
+          <div class="col-lg-8">
+            <!--**informacoes na lateral doreita da foto-->
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <td><label for="id" class=control-label">Código</label></td>
+                    <td id="id">{{lote.id}}</td>  
+                  </tr>
+                  <tr>
+                    <td><label for="codLote" class=control-label">Código Lote</label></td>
+                    <td id="codLote">{{lote.codLote}}</td>  
+                  </tr>
+                  
+                </tbody>
+              </table>
+            </div><!-- /.table-responsive -->   
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <td><label for="quantidade" class=control-label">Quantidade Entrada</label></td>
+                  <td id="quantidade">{{lote.quantidade}}</td>
+                </tr>
+                <tr>
+                  <td><label for="estoqueDisponivel" class=control-label">Quantidade Disponível</label></td>
+                  <td id="estoqueDisponivel">{{lote.estoqueDisponivel}}</td>
+                </tr>
+                <tr>
+                  <td><label for="dtFabricacao" class=control-label">Data Fabricação</label></td>
+                  <td id="dtFabricacao">{{lote.dtFabricacao}}</td>
+                </tr>
+                <tr>
+                  <td><label for="dtVencimento" class=control-label">Data Validade</label></td>
+                  <td id="dtVencimento">{{lote.dtVencimento}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div><!-- /.table-responsive -->   
+        </div> <!-- /.col-lg-12 -->
+      </div>  <!-- /.row -->
+    </div> <!-- /.panel-default -->
+  </div> <!-- modal-body -->
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline btn-primary btn-lg btn-block" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Fechar
+    </button>
+  </div>
+</div>
