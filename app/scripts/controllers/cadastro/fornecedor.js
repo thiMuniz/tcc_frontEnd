@@ -193,19 +193,31 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
     expect(valid.getText()).toContain('formFornecedor.input.$valid = false');
   };
 
-  $scope.setEnderecoByCep = function () {
-    $http({
-      method: 'GET',
-      url: CONST.ws.urlCep + $scope.fornecedor.endereco.cep + '/json/',
-      headers: {
-        Token: undefined
-      }
-    }).then(function successCallback(response){
-      response.data.erro ? toastr.warning("CEP não encontrado") : toastr.info("CEP encontrado");
-      $scope.fornecedor.endereco = response.data;
-    },function errorCallback(){      
-      toastr.error("Erro ao buscar o CEP informado");
+  $scope.carregarCep = function () {
+    console.log($scope.fornecedor.endereco.cep);
+//    $http.defaults.headers.common.Token = undefined;
+    var endere = CorreiosResource.get({cep:$scope.fornecedor.endereco.cep},
+    function(retorno){
+      toastr.success(retorno);
+      $scope.fornecedor.endereco = endere;
+      console.log(retorno);
+      console.log(endere);
+    },
+    function(retorno){
+      toastr.error(retorno);
+      console.log(retorno);
+      console.log(endere);
     });
+//    $http.defaults.headers.common.Token = $cookies.getObject('objToken').token;
+    
+//    $http.get(CONST.ws.urlCep + $scope.fornecedor.endereco.cep + '/json/'
+//            ).success(function (endereco) {
+//      $scope.fornecedor.endereco = endereco;
+////              toastr.info(endereco);
+//    }).error(function (endereco) {
+//      toastr.error("Não foi possível encontrar o CEP informado");
+//    });
+    
   };
     
   $scope.openImagemDialog = function(){

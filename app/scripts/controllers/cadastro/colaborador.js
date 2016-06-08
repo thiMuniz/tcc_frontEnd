@@ -155,18 +155,12 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
   };
 
 
-  $scope.setEnderecoByCep = function () {
-    $http({
-      method: 'GET',
-      url: CONST.ws.urlCep + $scope.fornecedor.endereco.cep + '/json/',
-      headers: {
-        Token: undefined
-      }
-    }).then(function successCallback(response){
-      response.data.erro ? toastr.warning("CEP não encontrado") : toastr.info("CEP encontrado");
-      $scope.fornecedor.endereco = response.data;
-    },function errorCallback(){      
-      toastr.error("Erro ao buscar o CEP informado");
+  $scope.carregarCep = function () {
+    $http.get(CONST.ws.urlCep + $scope.colaborador.endereco.cep + '/json/'
+            ).success(function (endereco) {
+      $scope.colaborador.endereco = endereco;
+    }).error(function (endereco) {
+      toastr.error("Não foi possível encontrar o CEP informado");
     });
   };
 

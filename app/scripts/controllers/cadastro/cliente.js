@@ -233,18 +233,12 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
     expect(valid.getText()).toContain('formCliente.input.$valid = false');
   };
 
-  $scope.setEnderecoByCep = function () {
-    $http({
-      method: 'GET',
-      url: CONST.ws.urlCep + $scope.cliente.endereco.cep + '/json/',
-      headers: {
-        Token: undefined
-      }
-    }).then(function successCallback(response){
-      response.data.erro ? toastr.warning("CEP não encontrado") : toastr.info("CEP encontrado");
-      $scope.cliente.endereco = response.data;
-    },function errorCallback(){      
-      toastr.error("Erro ao buscar o CEP informado");
+  $scope.carregarCep = function () {
+    $http.get(CONST.ws.urlCep + $scope.cliente.endereco.cep + '/json/'
+            ).success(function (endereco) {
+      $scope.cliente.endereco = endereco;
+    }).error(function (endereco) {
+      toastr.error("Não foi possível encontrar o CEP informado");
     });
   };
   
