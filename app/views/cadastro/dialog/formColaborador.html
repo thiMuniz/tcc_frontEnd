@@ -79,8 +79,8 @@
                 <ng-md-icon icon="photo_camera"></ng-md-icon> Imagem
               </button>
             </label>
-            <div class="col-sm-7" id="imagens">
-              <img ng-src="{{colaborador.imagem.caminhoArquivo ? colaborador.imagem.caminhoArquivo : colaborador.imagem.arquivo}}" class="img-thumbnail img-form-img" />
+            <div class="col-sm-7" id="imagens" ng-show='colaborador.imagem'>
+              <img ng-src="{{colaborador.imagem.caminhoArquivo ? colaborador.imagem.caminhoArquivo : colaborador.imagem.arquivo}}" class="img-thumbnail form-img" />
             </div>
           </div>
         </div><!-- /.ABA 1 - GERAL -->

@@ -37,7 +37,7 @@
                 </ui-select-match>
                 <ui-select-choices class="ui-select-choices" repeat="cliente in clientesAll | filter:$select.search">
                   <img ng-src="{{cliente.imagem.caminhoArquivo}}" class="img-circle img-ui-select">
-                  &nbsp;{{cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia}}
+                  &nbsp;{{cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia}}                  
                 </ui-select-choices>
               </ui-select>
               <span id="helpBlock" class="help-block" ng-show="showHelp.cliente"> Cliente que está fazendo o pedido. Deve estar cadastrado no sistema </span>
@@ -57,7 +57,13 @@
                   {{$select.selected.nome}} 
                 </ui-select-match>
                 <ui-select-choices class="ui-select-choices" repeat="formaVenda in formasVendaAll | filter:$select.search">
-                  {{formaVenda.nome}}
+                  <div>
+                    {{formaVenda.nome}}
+                  </div>
+                  <small>
+                    {{formaVenda.descricao}}
+                    <!--<span ng-bind-html="''+formaVenda.descricao"></span>-->
+                  </small>
                 </ui-select-choices>
               </ui-select>
               <span id="helpBlock" class="help-block" ng-show="showHelp.formaVenda"> Forma pela qual o pedido foi realizado. Ex: Telefone, Balcão, etc... </span>
@@ -145,6 +151,11 @@
                 </td>                  
               </tfoot>
             </table>
+            
+            <div class="alert alert-info alert-dismissable">
+              <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
+              * Verificar com stakeholders se querem a descrição aparecendo no ui-select
+            </div>
           </div><!-- /.panel-heading -->
         </div><!-- /.ABA 2 - Produtos -->
         
@@ -170,7 +181,7 @@
             </div>
           </div>
           
-          <div class="form-group" ng-show="pedido.formaEntregaPedido.formaEntrega == 'TRANSPORTADORA'">
+          <div class="form-group" ng-show="pedido.formaEntregaPedido.formaEntrega.nome == 'TRANSPORTADORA'">
             <label for="transportadora" class="col-sm-3 control-label">Transportadora</label>
             <div class="col-sm-7">
               <ui-select ng-model="pedido.formaEntregaPedido.transportadora" theme="bootstrap" append-to-body="false" >
@@ -190,7 +201,7 @@
             </div>
           </div>
           
-          <div class="form-group">
+          <div class="form-group" ng-if="pedido.formaEntregaPedido.formaEntrega.nome != 'RETIRADA'">
             <label for="tempoPrevisto" class="col-sm-3 control-label">Dias Previstos</label>
             <div class="col-sm-7">
               <input class="form-control" type="text" id="tempoPrevisto" placeholder="Apenas números" ui-number-mask="0" ng-model="pedido.formaEntregaPedido.tempoPrevisto">
@@ -203,7 +214,7 @@
             </div>
           </div>
           
-          <div class="form-group">
+          <div class="form-group" ng-if="pedido.formaEntregaPedido.formaEntrega.nome != 'RETIRADA'">
             <label for="valorCusto" class="col-sm-3 control-label">Custo</label>
             <div class="col-sm-7">
               <input class="form-control" type="text" id="valorCusto" placeholder="Apenas números" ui-money-mask ng-model="pedido.formaEntregaPedido.valorCusto">
@@ -218,11 +229,11 @@
           
           <div class="alert alert-info alert-dismissable">
             <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
-            * colocar aqui qqer observação pertinente
+            * Validar regras de negócio (entrega)
           </div>
         </div><!-- /.ABA 3 - Passo 3 - Entrega -->
         
-        <div ng-switch-when="Passo 4 - Pagamento" ><!-- ABA 3 - Passo 4 - Pagamento -->
+        <div ng-switch-when="Passo 4 - Pagamento" ><!-- ABA 4 - Passo 4 - Pagamento -->
           <div class="clearfix">&nbsp;</div>
           <div class="form-group" >
             <label for="formaPgto" class="col-sm-3 control-label">Forma de Pagamento</label>
@@ -274,9 +285,9 @@
             </div>
           </div>                   
           
-          <div class="alert alert-info alert-dismissable">
+          <div class="alert alert-danger alert-dismissable">
             <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
-            * colocar aqui qqer observação pertinente
+            * Incluir dtPrevisaoEntrega na Classe Pedido
           </div>
         </div><!-- /.ABA 3 - Passo 4 - Pagamento -->
       </div><!-- /.selection -->
@@ -295,15 +306,17 @@
   </div><!-- /.modal body-->
 
   <div class="modal-footer">
-    <!--<button type="submit" class="btn btn-default">Submit Button</button>-->
     <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
       <ng-md-icon icon="refresh"></ng-md-icon> Limpar
     </button>
     <button type="button" class="btn btn-outline btn-danger" ng-click="cancel()" data-dismiss="modal">
       <ng-md-icon icon="clear"></ng-md-icon> Cancelar
     </button>
-    <button type="button" class="btn btn-outline btn-success" ng-click="submit()">
+    <button type="button" class="btn btn-outline btn-success" ng-click="submit()" tooltip='Mantem pedido no carrinho'>
       <ng-md-icon icon="save"></ng-md-icon> Gravar
+    </button>
+    <button type="button" class="btn btn-outline btn-primary" ng-click="efetivarPedido()" tooltip='Confirma o pedido'>
+      <ng-md-icon icon="done_all"></ng-md-icon> Efetivar
     </button>
   </div>
 </div><!-- /.modal content-->

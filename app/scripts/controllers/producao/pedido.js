@@ -202,7 +202,12 @@ app.controller('PedidoCtrl', function (
   $scope.atualizarLista = function(){ //corrigir function pra permitir remover produto pela tabela
     $scope.temp.produtosPedido = $scope.pedido.produtosPedido;
   };
-    
+  
+  $scope.efetivarPedido = function(){
+    $scope.pedido.statusPedido.push({ordem:2, dtStatus:'', status:{id:2}});
+    $scope.submit();
+  }
+  
   $scope.submit = function(){
     if ($scope.formTipo == 'insert') { //insert
       $scope.pedido.statusPedido = [{ordem:1, dtStatus:$filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'), status:{id:1}}];
@@ -223,8 +228,8 @@ app.controller('PedidoCtrl', function (
         $scope.close(result);
       });
     } else { //update
-      $scope.pedido.$update(function(){
-//        $scope.pedido.statusPedido = [{dtStatus:$filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss')}]; // implementar para permitir dar update da dtStatus da ultima movimentação sem alteração de status
+      $scope.pedido.statusPedido[$scope.pedido.statusPedido.length - 1].dtStatus = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
+      $scope.pedido.$update(function(){        
         var toastMsg = "Pedido " + $scope.pedido.codPedido + " editado com sucesso!";
         toastr.success(toastMsg, "Sucesso");
         var result = {
@@ -306,9 +311,9 @@ app.controller('PedidoCtrl', function (
     
   $scope.clear = function () {
     $scope.pedido = angular.copy($scope.pedidoInit);
-    if(params.formTipo == 'lookup'){
-      $scope.temp.fornecedoresItem = $scope.pedidoInit.fornecedores;      
-    }
+//    if(params.formTipo == 'lookup'){
+      $scope.temp.produtosPedido = $scope.pedidoInit.produtosPedido;      
+//    }
   };
 
   $scope.close = function(result){

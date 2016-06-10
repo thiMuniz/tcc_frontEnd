@@ -76,8 +76,8 @@
                 <ng-md-icon icon="photo_camera"></ng-md-icon> Imagem
               </button>
             </label>
-            <div class="col-sm-7" id="imagens">
-              <img ng-src="{{cliente.imagem.caminhoArquivo ? cliente.imagem.caminhoArquivo : cliente.imagem.arquivo}}" class="img-thumbnail img-form-img" />
+            <div class="col-sm-7" id="imagens"  ng-show='cliente.imagem'>
+              <img ng-src="{{cliente.imagem.caminhoArquivo ? cliente.imagem.caminhoArquivo : cliente.imagem.arquivo}}" class="img-thumbnail form-img" />
             </div>
           </div>
 
