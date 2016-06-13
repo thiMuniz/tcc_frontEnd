@@ -415,7 +415,65 @@ var app = angular.module('sbAdminApp', [
         });
       }
     }
-  });                
+  })
+  .state('main.ecom', {
+    template: '<div ui-view></div>',
+    abstract: true,
+    url: '/ecom'
+  })
+  .state('main.ecom.promocao', {
+    templateUrl: 'views/ecom/promocao.html',
+    url: '/promocao/',
+    resolve: {
+      loadMyFiles: function ($ocLazyLoad) {
+        return $ocLazyLoad.load({
+          name: 'sbAdminApp',
+          files: [
+            'scripts/controllers/ecom/promocao.js',
+            'scripts/services/promocao.js',
+            'scripts/services/produto.js'
+          ]
+        });
+      }
+    }
+  })
+  .state('main.ecom.destaque', {
+    template: '<div ui-view></div>',
+    abstract: true,
+    url: '/destaque'
+  })
+  .state('main.ecom.destaque.produto', {
+    templateUrl: 'views/ecom/destaqueProduto.html',
+    url: '/produto/',
+    resolve: {
+      loadMyFiles: function ($ocLazyLoad) {
+        return $ocLazyLoad.load({
+          name: 'sbAdminApp',
+          files: [
+            'scripts/controllers/ecom/destaque.js',
+            'scripts/services/produto.js',
+            'scripts/services/pessoa.js'
+          ]
+        });
+      }
+    }
+  })
+  .state('main.ecom.destaque.parceiro', {
+    templateUrl: 'views/ecom/destaqueParceiro.html',
+    url: '/parceiro/',
+    resolve: {
+      loadMyFiles: function ($ocLazyLoad) {
+        return $ocLazyLoad.load({
+          name: 'sbAdminApp',
+          files: [
+            'scripts/controllers/ecom/destaque.js',
+            'scripts/services/produto.js',
+            'scripts/services/pessoa.js'
+          ]
+        });
+      }
+    }
+  });
 
 })
 

@@ -74,18 +74,21 @@
         <a href ng-click="check(7)"><i class="fa fa-shopping-cart fa-fw"></i> E-Commerce <span
             class="fa arrow"></span></a>
         <ul class="nav nav-second-level" collapse="collapseVar!=7">
-          <li><a href ui-sref="main.loja.destaque">   Destaque </a></li>
-          <li><a href ui-sref="main.loja.lancamento">  Lançamentos </a></li>
-          <li><a href ui-sref="main.loja.promocao"> Promoção </a></li>
-          <li><a href ui-sref="main.loja.parceiro">  Parceiros </a></li>
-        </ul>
-        <!-- /.nav-second-level -->
+          <li><a href ui-sref="main.ecom.promocao"> Promoção </a></li>
+          <li ng-init="third = !third" ng-class="{active: multiCollapseVar == 8}">
+            <a href ng-click="multiCheck(8)"> Destaque <span class="fa arrow"></span></a>
+            <ul class="nav nav-third-level" collapse="multiCollapseVar!=8">
+              <li><a href ui-sref="main.ecom.destaque.produto"> Produtos </a></li>
+              <li><a href ui-sref="main.ecom.destaque.parceiro"> Parceiros </a></li>
+            </ul> <!-- /.nav-third-level -->
+          </li>
+        </ul> <!-- /.nav-second-level -->        
       </li>
 
-      <li ng-class="{active: collapseVar == 8}">
-        <a href ng-click="check(8)"><i class="fa fa-file-text fa-fw"></i> Relatórios <span
+      <li ng-class="{active: collapseVar == 9}">
+        <a href ng-click="check(9)"><i class="fa fa-file-text fa-fw"></i> Relatórios <span
             class="fa arrow"></span></a>
-        <ul class="nav nav-second-level" collapse="collapseVar!=8">
+        <ul class="nav nav-second-level" collapse="collapseVar!=9">
           <li><a href ui-sref="main.relatorio.fornecedor"> Fornecedor </a></li>
           <li><a href ui-sref="main.relatorio.cliente"> Cliente </a></li>
           <li><a href ui-sref="main.relatorio.produto"> Produto </a></li>
@@ -99,10 +102,10 @@
       </li>
 
       <!-- menus originais -->
-      <li ng-class="{active: collapseVar == 9}">{{dropDown}}
-        <a href ng-click="check(9)"><i class="fa fa-wrench fa-fw"></i> UI Elements<span
+      <li ng-class="{active: collapseVar == 10}">{{dropDown}}
+        <a href ng-click="check(10)"><i class="fa fa-wrench fa-fw"></i> UI Elements<span
             class="fa arrow"></span></a>
-        <ul class="nav nav-second-level" collapse="collapseVar!=9">
+        <ul class="nav nav-second-level" collapse="collapseVar!=10">
           <li ui-sref-active="active">
             <a ui-sref="main.panels-wells">Panels and Wells</a>
           </li>

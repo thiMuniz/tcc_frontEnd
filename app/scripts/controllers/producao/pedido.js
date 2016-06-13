@@ -15,16 +15,50 @@ app.controller('PedidoCtrl', function (
   $scope.CONST = CONST;
   $scope.tituloView = "Pedidos";
   $scope.labelCadastrarBtn = "Novo Pedido";  
+  $scope.imgCadastrarBtn = "shopping_cart";
+  
+  $scope.actionIconStatus = [
+    {id:1, nome:'CARRINHO', icone:'add_shopping_cart', tooltip:'Alterar produtos carrinho'}, 
+    {id:2, nome:'PEDIDO EFETIVADO', icone:'thumb_up', tooltip:'Efetivar pedido'},
+    {id:3, nome:'PAGAMENTO', icone:'looks_3', tooltip:'Confirmar pagamento'},
+    {id:4, nome:'ESTOQUE DISPONÍVEL', icone:'looks_4', tooltip:'Confirmar disponibilidade estoque'},
+    {id:5, nome:'PREPARADO EXPEDIÇÃO', icone:'looks_5', tooltip:'Confirmar pedido separado p/ expedição'},
+    {id:6, nome:'EMISSÃO NF', icone:'looks_6', tooltip:'Confirmar NF emitida'},
+    {id:7, nome:'ENTREGA', icone:'looks_7', tooltip:'Pedido entregue'},
+    {id:8, nome:'CONCLUÍDO', icone:'looks_8', tooltip:'Pedido concluído'},
+    {id:9, nome:'CANCELADO', icone:'looks_9', tooltip:'Pedido cancelado'}
+  ];
   
   $scope.atualizarLista = function(){
-    $scope.pedidos = PedidoResource.query();
-//    $scope.pedidos = PedidoResource.getCarrinho({p:$httpParamSerializerJQLike({idPessoa:9})});
+    $scope.pedidos = PedidoResource.query(
+      function(){ //monta variável utilizada pra ordenar pedidos por valor
+        $scope.setValorTotalPedido();
+    });
   };
   
-  $scope.ordenar = function (campo) {
+    $scope.ordenar = function (campo) {
     $scope.campo = campo;
     $scope.ascDsc = !$scope.ascDsc;
   };  
+    
+  $scope.getPrecoUnitario = function(pedido, produto){
+    return pedido.pessoa && pedido.pessoa.pj ? produto.precoUnitarioPj : produto.precoUnitarioPf;
+  };
+  
+  $scope.getTotalPedido = function(pedido){
+    var valorTotalProdutos = 0;
+    angular.forEach(pedido.produtosPedido, function(produtoPedido){
+      valorTotalProdutos += produtoPedido.quantidade * $scope.getPrecoUnitario(pedido, produtoPedido.produto);
+    });
+    return valorTotalProdutos - pedido.desconto + (pedido.formaEntregaPedido ? pedido.formaEntregaPedido.valorCusto : 0);
+//      return valorTotalProdutos;
+  };
+  
+  $scope.setValorTotalPedido = function(){
+      angular.forEach($scope.pedidos, function(pedido){
+      pedido.valorTotal = $scope.getTotalPedido(pedido);
+    });
+  };
   
   //funções chamadas no onClick dos botões da tela
   $scope.openInsertDialog = function () {
@@ -188,7 +222,8 @@ app.controller('PedidoCtrl', function (
   };
   
   $scope.getPrecoUnitario = function(produto){
-    return $scope.pedido.pessoa.pf ? produto.precoUnitarioPf : produto.precoUnitarioPj;
+//    return $scope.pedido.pessoa.pf ? produto.precoUnitarioPf : produto.precoUnitarioPj;
+    return $scope.pedido.pessoa && $scope.pedido.pessoa.pj ? produto.precoUnitarioPj : produto.precoUnitarioPf;
   };
   
   $scope.getTotalProdutos = function(){
@@ -202,15 +237,19 @@ app.controller('PedidoCtrl', function (
   $scope.atualizarLista = function(){ //corrigir function pra permitir remover produto pela tabela
     $scope.temp.produtosPedido = $scope.pedido.produtosPedido;
   };
+//  
+//  $scope.efetivarPedido = function(){
+//    $scope.pedido.statusPedido.push({ordem:2, dtStatus:'', status:{id:2}});
+//    $scope.submit();
+//  };
   
-  $scope.efetivarPedido = function(){
-    $scope.pedido.statusPedido.push({ordem:2, dtStatus:'', status:{id:2}});
+  $scope.updateStatusPedido = function(isCancelar){
+    $scope.updateStatus = isCancelar ?  {cancelar: 'S'} : {proximostatus: 'S'};
     $scope.submit();
-  }
+  };
   
   $scope.submit = function(){
     if ($scope.formTipo == 'insert') { //insert
-      $scope.pedido.statusPedido = [{ordem:1, dtStatus:$filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'), status:{id:1}}];
       $scope.pedido.$save(function(){
         var toastMsg = "Pedido " + $scope.pedido.codPedido + " cadastrado com sucesso!";
         toastr.success(toastMsg, "successo");
@@ -228,8 +267,9 @@ app.controller('PedidoCtrl', function (
         $scope.close(result);
       });
     } else { //update
-      $scope.pedido.statusPedido[$scope.pedido.statusPedido.length - 1].dtStatus = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
-      $scope.pedido.$update(function(){        
+//      $scope.pedido.statusPedido[$scope.pedido.statusPedido.length - 1].dtStatus = $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss');
+      $scope.pedido.$update({p:$httpParamSerializerJQLike($scope.updateStatus)},
+      function(){        
         var toastMsg = "Pedido " + $scope.pedido.codPedido + " editado com sucesso!";
         toastr.success(toastMsg, "Sucesso");
         var result = {
@@ -264,8 +304,7 @@ app.controller('PedidoCtrl', function (
     'Passo 1 - Dados Pedido',
     'Passo 2 - Produtos',
     'Passo 3 - Entrega',
-    'Passo 4 - Pagamento'
-    
+    'Passo 4 - Pagamento'    
   ];
   $scope.selection = $scope.steps[0];//esse indice que diz se sera comecar qual aba
   $scope.getCurrentStepIndex = function () {

@@ -1,0 +1,201 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>    
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" role="form" name="formPromocao">
+      <ul class="nav nav-tabs">
+        <li ng-repeat="step in steps" ng-class="{active: $index == getCurrentStepIndex()}">
+          <a href="javascript:void(0)" ng-click="goToStep($index)">{{step}}</a>
+        </li>
+      </ul>
+
+      <div ng-switch on="selection">
+        <div ng-switch-when="Passo 1 - Dados Gerais"><!-- ABA 1 - Dados Gerais -->
+          <div class="clearfix">&nbsp;</div>
+          <div class="form-group" ng-if="formTipo != 'insert'">
+            <label for="id" class="col-sm-3 control-label">Código</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="id" ng-model="promocao.id" ng-disabled="true">
+              <span id="helpBlock" class="help-block" ng-show="showHelp.id"> Código de referência da promoção no sistema </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.id = true" ng-mouseleave="showHelp.id = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+          <div class="form-group" >
+            <label for="nome" class="col-sm-3 control-label">Nome</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="nome" placeholder="Nome da Promoção" ng-model="promocao.nome">
+              <span id="helpBlock" class="help-block" ng-show="showHelp.nome"> Nome que irá aparecer em destaque para divulgar a promoção no E-commerce </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.nome = true" ng-mouseleave="showHelp.nome = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="descricao" class="col-sm-3 control-label">Descrição</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="descricao" placeholder="Descrição detelhada da Promoção" ng-model="promocao.descricao">
+              <span id="helpBlock" class="help-block" ng-show="showHelp.descricao"> Informação complementar ao nome. Aparecerá no E-commerce em menor destaque que o nome. </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.descricao = true" ng-mouseleave="showHelp.descricao = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="descPercentual" class="col-sm-3 control-label">Desconto (%)</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="descPercentual" placeholder="Apenas números" ng-change="calcularDesconto()" ui-percentage-mask ng-model="promocao.descPercentual">
+              <span id="helpBlock" class="help-block" ng-show="showHelp.descPercentual"> Desconto (em porcentagem) que será aplicado ao valor original do produto </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.descPercentual = true" ng-mouseleave="showHelp.descPercentual = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="dtInicio" class="col-sm-3 control-label">Data Início</label>
+            <div class="col-sm-7">              
+              <div class="datepicker" date-format="dd/MM/yyyy hh:mm:ss">
+                <input class="form-control" type="text" id="dtInicio" placeholder="Apenas números" ng-model="promocao.dtInicio">
+              </div>
+              <span id="helpBlock" class="help-block" ng-show="showHelp.dtInicio"> Data de início da vigência da promoção </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.dtInicio = true" ng-mouseleave="showHelp.dtInicio = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="dtFim" class="col-sm-3 control-label">Data Fim</label>
+            <div class="col-sm-7">              
+              <div class="datepicker" date-format="dd/MM/yyyy hh:mm:ss">
+                <input class="form-control" type="text" id="dtFim" placeholder="Apenas números" ng-model="promocao.dtFim">
+              </div>
+              <span id="helpBlock" class="help-block" ng-show="showHelp.dtFim"> Data de término da vigência da promoção </span>
+            </div>
+            <div class="col-sm-1">
+              <a ng-mouseover="showHelp.dtFim = true" ng-mouseleave="showHelp.dtFim = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
+          
+          <div class="alert alert-danger alert-dismissable">
+            <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
+            * Implementar hora picker
+          </div>
+        </div><!-- /.ABA 1 - Dados Gerais -->
+
+        <div ng-switch-when="Passo 2 - Produtos" ><!-- ABA 2 - Produtos -->
+          <div class="clearfix">&nbsp;</div>
+          <div class="panel-heading"> 
+            <div class="row">
+              <div class="col-sm-11">
+                <label>Clique abaixo e selecione os Produtos</label>
+                <ui-select 
+                  multiple 
+                  theme="bootstrap" 
+                  on-select="calcularDesconto()"
+                  ng-model="promocao.produtos" 
+                  ng-disabled="produto.id" 
+                  append-to-body="false">
+                  <ui-select-match class="ui-select-match" placeholder="Selecione os Selos"> {{$item.nome}} </ui-select-match>
+                  <ui-select-choices class="ui-select-choices" repeat="produto in produtosAll | filter:$select.search">
+                    <img ng-src="{{produto.imagens[0].caminhoArquivo}}" class="img-ui-select">
+                    {{produto.nome}}
+                  </ui-select-choices>
+                </ui-select>
+                <span id="helpBlock" class="help-block" ng-show="showHelp.produtos"> Para selecionar um produto, basta clicar à direita do ultimo item da lista e digitar as primeiras letras do produto que deseja encontrar. Quando o produto aparecer, clique nele e pronto. Ao selecionar um produto o mesmo deverá aparecer na lista abaixo </span>
+              </div>
+              <div class="col-sm-1">
+                <div>&nbsp;</div>
+                <div>
+                  <a ng-mouseover="showHelp.produtos = true" ng-mouseleave="showHelp.produtos = false" tooltip="Ajuda" >
+                    <ng-md-icon icon="help"></ng-md-icon>
+                  </a>
+                </div>
+              </div>
+            </div> <!-- /.row -->
+          </div><!-- /.Painel Superior -->
+          
+          <div class="panel panel-default" ng-show="promocao.produtos.length > 0">
+            <div class="panel-heading">
+              {{promocao.produtos.length}} Produtos relacionados
+            </div>
+            <div class="panel-body">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <!--<th><a href="" ng-click="ordenar('id')">Código</a></th>-->
+                      <th colspan="2"><a href="" ng-click="ordenar('nome')">Produto</a></th>                  
+                      <th><a href="" ng-click="ordenar('precoUnitarioPf')">Preço PF (Original)</a></th>
+                      <th><a href="" ng-click="ordenar('precoUnitarioPj')">Preço PJ (Original)</a></th>
+                      <th ng-show="promocao.descPercentual"><a href="" ng-click="ordenar('precoUnitarioPfDesc')">Preço PF (com Desconto)</a></th>
+                      <th ng-show="promocao.descPercentual"><a href="" ng-click="ordenar('precoUnitarioPfDesc')">Preço PF (com Desconto)</a></th>
+                      <th>Ação</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="produto in promocao.produtos| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
+                      <!--<td>{{produto.id}}</td>-->
+                      <td><img ng-src="{{produto.imagens[0].caminhoArquivo}}" class="img-circle img-list-view" /></td>
+                      <td>{{produto.nome}}</td>
+                      <td>{{produto.precoUnitarioPf | currency}}</td>
+                      <td>{{produto.precoUnitarioPj | currency}}</td>
+                      <td ng-show="promocao.descPercentual">{{produto.precoUnitarioPfDesc | currency}}</td>
+                      <td ng-show="promocao.descPercentual">{{produto.precoUnitarioPjDesc | currency}}</td>
+
+                      <td>
+                        <a ng-click="removerProdutoPromocao($index);" tooltip="Remover Produto" >
+                          <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
+                        </a>&nbsp;
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div><!-- /.table-responsive -->
+            </div><!-- /.panel-body -->
+          </div><!-- /.panel-default -->
+                  
+        </div><!-- /.ABA 2 - Produtos -->
+
+      </div><!-- /.selection -->
+
+      <ul class="pager pull-left">
+        <li class="" ng-class="{disabled: !hasPreviousStep() }">
+          <a href="javascript:void(0);" ng-click="decrementStep()">&larr; Anterior</a>
+        </li>
+        <li class="" ng-class="{disabled: !hasNextStep() }">
+          <a href="javascript:void(0);" ng-click="incrementStep()" >Proximo &rarr;</a>
+        </li>
+      </ul>
+
+    </form>
+
+  </div><!-- /.modal body-->
+
+  <div class="modal-footer">
+    <!--<button type="submit" class="btn btn-default">Submit Button</button>-->
+    <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
+      <ng-md-icon icon="refresh"></ng-md-icon> Limpar
+    </button>
+    <button type="button" class="btn btn-outline btn-danger" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Cancelar
+    </button>
+    <button type="button" class="btn btn-outline btn-success" ng-click="submit()">
+      <ng-md-icon icon="save"></ng-md-icon> Gravar
+    </button>
+  </div>
+</div><!-- /.modal content-->
