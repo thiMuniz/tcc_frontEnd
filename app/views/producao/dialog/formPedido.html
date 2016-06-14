@@ -74,6 +74,11 @@
               </a>
             </div>
           </div>
+          
+            <div class="alert alert-info alert-dismissable">
+              <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
+              * Verificar com stakeholders se querem a descrição aparecendo no ui-select
+            </div>
         </div><!-- /.ABA 1 - Dados Pedido -->
 
         <div ng-switch-when="Passo 2 - Produtos"><!-- ABA 2 - Produtos -->
@@ -150,12 +155,7 @@
                   {{ getTotalProdutos() | currency}}
                 </td>                  
               </tfoot>
-            </table>
-            
-            <div class="alert alert-info alert-dismissable">
-              <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
-              * Verificar com stakeholders se querem a descrição aparecendo no ui-select
-            </div>
+            </table>            
           </div><!-- /.panel-heading -->
         </div><!-- /.ABA 2 - Produtos -->
         
@@ -285,9 +285,9 @@
             </div>
           </div>                   
           
-          <div class="alert alert-danger alert-dismissable">
+          <div class="alert alert-info alert-dismissable">
             <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
-            * Incluir dtPrevisaoEntrega na Classe Pedido
+            * qqer obs relevante
           </div>
         </div><!-- /.ABA 3 - Passo 4 - Pagamento -->
       </div><!-- /.selection -->

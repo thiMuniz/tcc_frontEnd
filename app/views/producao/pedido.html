@@ -32,11 +32,7 @@
                   <th><a href="" ng-click="ordenar('statusPedido[statusPedido.length - 1].status.nome')">Status</a></th>
                   <th><a href="" ng-click="ordenar('statusPedido[statusPedido.length - 1].dtStatus')">Última Alteração</a></th>
                   <th><a href="" ng-click="ordenar('pessoa.nome')">Cliente</a></th>
-                  <th>
-                    <a href="" ng-click="ordenar('valorTotal')">
-                      Valor Total
-                    </a>
-                  </th>
+                  <th><a href="" ng-click="ordenar('valorTotal')">Valor Total</a></th>
                   <th>Ação</th>                  
                 </tr>
               </thead>
@@ -55,9 +51,12 @@
                         <ng-md-icon icon="add_shopping_cart"></ng-md-icon>
                       </a>&nbsp;
                     </div >-->
-                    <div ng-repeat="status in pedido.statusPedido | orderBy : ordem" class="col-sm-1">
-                      <a href="" ng-click="$first ? openUpdateDialog(pedido) : updateStatusPedido(false);" tooltip="{{actionIconStatus[$index].tooltip}}" > <!--ng-if="pedido.statusPedido.length >= $index"> -->
-                        <ng-md-icon icon="{{actionIconStatus[$index].icone}}"></ng-md-icon>
+                    <div ng-repeat="status in pedido.statusPedido | orderBy : 'ordem'" class="col-sm-1">
+                      <a href="" 
+                         ng-disabled="true" 
+                         ng-click="$first ? openUpdateDialog(pedido) : (status.status.nome == 'CANCELADO' ? updateStatusPedido(pedido, status, true) : updateStatusPedido(pedido, status, false));" 
+                         tooltip="{{actionIconStatus[status.status.id-1].tooltip}}" >
+                        <ng-md-icon icon="{{actionIconStatus[status.status.id-1].icone}}" style="{{getActionIconStatusStyle(status)}}"></ng-md-icon>
                       </a>&nbsp;
                     </div>
                     <div class="col-sm-1">

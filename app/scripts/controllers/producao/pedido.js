@@ -20,27 +20,35 @@ app.controller('PedidoCtrl', function (
   $scope.actionIconStatus = [
     {id:1, nome:'CARRINHO', icone:'add_shopping_cart', tooltip:'Alterar produtos carrinho'}, 
     {id:2, nome:'PEDIDO EFETIVADO', icone:'thumb_up', tooltip:'Efetivar pedido'},
-    {id:3, nome:'PAGAMENTO', icone:'looks_3', tooltip:'Confirmar pagamento'},
-    {id:4, nome:'ESTOQUE DISPONÍVEL', icone:'looks_4', tooltip:'Confirmar disponibilidade estoque'},
-    {id:5, nome:'PREPARADO EXPEDIÇÃO', icone:'looks_5', tooltip:'Confirmar pedido separado p/ expedição'},
-    {id:6, nome:'EMISSÃO NF', icone:'looks_6', tooltip:'Confirmar NF emitida'},
-    {id:7, nome:'ENTREGA', icone:'looks_7', tooltip:'Pedido entregue'},
-    {id:8, nome:'CONCLUÍDO', icone:'looks_8', tooltip:'Pedido concluído'},
-    {id:9, nome:'CANCELADO', icone:'looks_9', tooltip:'Pedido cancelado'}
+    {id:3, nome:'PAGAMENTO', icone:'attach_money', tooltip:'Confirmar pagamento'},
+    {id:4, nome:'ESTOQUE DISPONÍVEL', icone:'format_list_numbered', tooltip:'Confirmar disponibilidade estoque'},
+    {id:5, nome:'PREPARADO EXPEDIÇÃO', icone:'view_quilt', tooltip:'Confirmar pedido separado p/ expedição'},
+    {id:6, nome:'EMISSÃO NF', icone:'description', tooltip:'Confirmar NF emitida'},
+    {id:7, nome:'ENTREGA', icone:'local_shipping', tooltip:'Pedido entregue'},
+    {id:8, nome:'CONCLUÍDO', icone:'check_circle', tooltip:'Pedido concluído'},
+    {id:9, nome:'CANCELADO', icone:'cancel', tooltip:'Pedido cancelado'}
   ];
   
   $scope.atualizarLista = function(){
     $scope.pedidos = PedidoResource.query(
       function(){ //monta variável utilizada pra ordenar pedidos por valor
         $scope.setValorTotalPedido();
+//        $scope.setStatusAtualPedido();
+        $scope.orderScriptStatus();
     });
   };
   
-    $scope.ordenar = function (campo) {
+  $scope.ordenar = function (campo) {
     $scope.campo = campo;
     $scope.ascDsc = !$scope.ascDsc;
   };  
-    
+  
+  $scope.getActionIconStatusStyle = function(status){
+    if(status.dtStatus){ //definir aqui regra pra cor dos icones
+      return 'fill: #32CD32';//lightgray: #D3D3D3
+    }
+  };
+  
   $scope.getPrecoUnitario = function(pedido, produto){
     return pedido.pessoa && pedido.pessoa.pj ? produto.precoUnitarioPj : produto.precoUnitarioPf;
   };
@@ -55,45 +63,55 @@ app.controller('PedidoCtrl', function (
   };
   
   $scope.setValorTotalPedido = function(){
-      angular.forEach($scope.pedidos, function(pedido){
+    angular.forEach($scope.pedidos, function(pedido){
       pedido.valorTotal = $scope.getTotalPedido(pedido);
+    });
+  };
+  
+//  $scope.setStatusAtualPedido = function(){
+//    angular.forEach($scope.pedidos, function(pedido){
+//      angular.forEach(pedido.statusPedido, function(status){
+//        if(true) //verificar se é cancelado - setar cada status cfm achar q tem dt e parar no 1º sem dt
+//      });
+//    });
+//  };
+  
+  $scope.orderScriptStatus = function(){
+    angular.forEach($scope.pedidos, function(pedido){
+        angular.forEach(pedido.statusPedido, function(status){
+          console.log(status.ordem);
+        });
+        pedido.statusPedido = $filter('orderBy')(pedido.statusPedido, 'ordem');
+        angular.forEach(pedido.statusPedido, function(status){
+          console.log(status.ordem);
+        });
     });
   };
   
   //funções chamadas no onClick dos botões da tela
   $scope.openInsertDialog = function () {
-//    $scope.pedido = new PedidoResource();
-//    $scope.pedido.statusPedido = [{ordem:1, dtStatus:$filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'), status:{id:1}}];
-//    $scope.pedido.$save(
-//    function(){
-      $scope.params = {
-        formTipo: 'insert',
-        iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
-        tituloDialog: "Lançar Pedido",
-        pedido: new PedidoResource()
-      };
-      var modalInstance = $modal.open({
-        templateUrl: 'views/producao/dialog/formPedido.html',
-        controller: 'PedidoDialogCtrl',
-        backdrop: 'static',
-        size: 'lg',
-        resolve: {
-          params: function () {
-            return $scope.params;
-          }
+    $scope.params = {
+      formTipo: 'insert',
+      iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
+      tituloDialog: "Lançar Pedido",
+      pedido: new PedidoResource()
+    };
+    var modalInstance = $modal.open({
+      templateUrl: 'views/producao/dialog/formPedido.html',
+      controller: 'PedidoDialogCtrl',
+      backdrop: 'static',
+      size: 'lg',
+      resolve: {
+        params: function () {
+          return $scope.params;
         }
-      });
-      modalInstance.result.then(function (result) {
-        if (result.status == "sucesso") {
-          $scope.atualizarLista();
-        } 
-      });
-//    },
-//    function(){
-//      toastMsg = "Não foi possível criar o Pedido";
-//      toastr.error(toastMsg);
-//    });
-    
+      }
+    });
+    modalInstance.result.then(function (result) {
+      if (result.status == "sucesso") {
+        $scope.atualizarLista();
+      } 
+    });
   };
   
   $scope.openUpdateDialog = function (pedido) {
@@ -121,32 +139,31 @@ app.controller('PedidoCtrl', function (
     });
   };
     
-  $scope.openAtivarDesativarDialog = function (pedido) {
-//    index = $scope.pedidos.indexOf($filter('filter')($scope.pedidos, pedido, true)[0]);    
+  $scope.updateStatusPedido = function(pedido, status, isCancelar){
+    $scope.updateStatus = isCancelar ?  {cancelar: 'S'} : {proximostatus: 'S'};
+    
     swal({
-      title: "Deseja mesmo" + (pedido.dtDesativacao ? " ativar" : " desativar") + " o Pedido " + pedido.codPedido + "?",
-      text: "Você poderá" + (pedido.dtDesativacao ? " desativar" : " ativar") + " o Pedido novamente!",
+      title: "Confirmar alteração do status do pedido " + (pedido.codPedido ? pedido.codPedido : "") + " para " + status.status.nome + "?",
+      text: "Essa ação não poderá ser desfeita",
       type: "warning",
       showCancelButton: true,
-      confirmButtonColor: (pedido.dtDesativacao ? "#428bca" : "#DD6B55"), //#f0ad4e
+      confirmButtonColor: (isCancelar ? "#DD6B55" : "#428bca"), //#f0ad4e
       cancelButtonText: "NÃO",
       confirmButtonText: "SIM"
     },
     function () {
-      var pedidoCopy = angular.copy(pedido);
-      pedidoCopy.dtDesativacao = (pedido.dtDesativacao ? null : $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'));
-      pedidoCopy.$update(
+      pedido.$update({p:$httpParamSerializerJQLike($scope.updateStatus)},
       function(){
-        $scope.atualizarLista();
-        toastMsg = pedido.codPedido + (pedido.dtDesativacao ? " ativado!" : " desativado!");
+        toastMsg = "Status do Pedido " + pedido.codPedido + " alterado com sucesso para " + status.status.nome;
         toastr.success(toastMsg, "Sucesso!");
+        $scope.atualizarLista();
       }, function(){
-        toastMsg = pedido.codPedido + " não foi " + (pedido.dtDesativacao ? "ativado!" : "desativado!");
+        toastMsg = "Status do Pedido " + pedido.codPedido + " não foi alterado";
         toastr.error(toastMsg, "Erro!");
       });
     });
   };
-
+  
   $scope.openInfoDialog = function (pedido) {    
     $scope.params = {
       formTipo: 'info',
@@ -222,7 +239,6 @@ app.controller('PedidoCtrl', function (
   };
   
   $scope.getPrecoUnitario = function(produto){
-//    return $scope.pedido.pessoa.pf ? produto.precoUnitarioPf : produto.precoUnitarioPj;
     return $scope.pedido.pessoa && $scope.pedido.pessoa.pj ? produto.precoUnitarioPj : produto.precoUnitarioPf;
   };
   
@@ -253,11 +269,16 @@ app.controller('PedidoCtrl', function (
       $scope.pedido.$save(function(){
         var toastMsg = "Pedido " + $scope.pedido.codPedido + " cadastrado com sucesso!";
         toastr.success(toastMsg, "successo");
-        var result = {
-          pedido: $scope.pedido, 
-          status: "sucesso"
-        };
-        $scope.close(result);
+        if($scope.updateStatus){
+          $scope.formTipo = 'update';
+          $scope.submit();
+        }else{
+          var result = {
+            pedido: $scope.pedido, 
+            status: "sucesso"
+          };
+          $scope.close(result);
+        }
       }, function(){
         var toastMsg = "Erro ao cadastrar Pedido " + $scope.pedido.codPedido;
         toastr.error(toastMsg, "Erro");
