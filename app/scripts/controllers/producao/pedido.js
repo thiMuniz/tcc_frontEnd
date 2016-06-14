@@ -18,23 +18,23 @@ app.controller('PedidoCtrl', function (
   $scope.imgCadastrarBtn = "shopping_cart";
   
   $scope.actionIconStatus = [
-    {id:1, nome:'CARRINHO', icone:'add_shopping_cart', tooltip:'Alterar produtos carrinho'}, 
-    {id:2, nome:'PEDIDO EFETIVADO', icone:'thumb_up', tooltip:'Efetivar pedido'},
-    {id:3, nome:'PAGAMENTO', icone:'attach_money', tooltip:'Confirmar pagamento'},
-    {id:4, nome:'ESTOQUE DISPONÍVEL', icone:'format_list_numbered', tooltip:'Confirmar disponibilidade estoque'},
-    {id:5, nome:'PREPARADO EXPEDIÇÃO', icone:'view_quilt', tooltip:'Confirmar pedido separado p/ expedição'},
-    {id:6, nome:'EMISSÃO NF', icone:'description', tooltip:'Confirmar NF emitida'},
-    {id:7, nome:'ENTREGA', icone:'local_shipping', tooltip:'Pedido entregue'},
-    {id:8, nome:'CONCLUÍDO', icone:'check_circle', tooltip:'Pedido concluído'},
-    {id:9, nome:'CANCELADO', icone:'cancel', tooltip:'Pedido cancelado'}
+    {id:1, nome:'CARRINHO', icone:'add_shopping_cart', tooltipAction:'Alterar produtos carrinho'}, 
+    {id:2, nome:'PEDIDO EFETIVADO', icone:'thumb_up', tooltipAction:'Efetivar pedido'},
+    {id:3, nome:'PAGAMENTO', icone:'attach_money', tooltipAction:'Confirmar pagamento'},
+    {id:4, nome:'ESTOQUE DISPONÍVEL', icone:'format_list_numbered', tooltipAction:'Confirmar disponibilidade estoque'},
+    {id:5, nome:'PREPARADO EXPEDIÇÃO', icone:'view_quilt', tooltipAction:'Confirmar pedido separado p/ expedição'},
+    {id:6, nome:'EMISSÃO NF', icone:'description', tooltipAction:'Confirmar NF emitida'},
+    {id:7, nome:'ENTREGA', icone:'local_shipping', tooltipAction:'Pedido entregue'},
+    {id:8, nome:'CONCLUÍDO', icone:'check_circle', tooltipAction:'Pedido concluído'},
+    {id:9, nome:'CANCELADO', icone:'cancel', tooltipAction:'Pedido cancelado'}
   ];
   
   $scope.atualizarLista = function(){
     $scope.pedidos = PedidoResource.query(
       function(){ //monta variável utilizada pra ordenar pedidos por valor
-        $scope.setValorTotalPedido();
-//        $scope.setStatusAtualPedido();
         $scope.orderScriptStatus();
+        $scope.setStatusAtualPedido();
+        $scope.setValorTotalPedido();
     });
   };
   
@@ -43,10 +43,38 @@ app.controller('PedidoCtrl', function (
     $scope.ascDsc = !$scope.ascDsc;
   };  
   
-  $scope.getActionIconStatusStyle = function(status){
-    if(status.dtStatus){ //definir aqui regra pra cor dos icones
-      return 'fill: #32CD32';//lightgray: #D3D3D3
+  $scope.getActionIconStatusStyle = function(pedido, status){    
+    var style;
+    switch(pedido.statusAtual.status.nome){
+      case 'CANCELADO':
+        if(status.status.nome == 'CANCELADO'){
+          style = 'fill: #B22222'; //FireBrick - vm 
+        }else if(status.dtStatus){
+          style = 'fill: #32CD32'; //LimeGreen - ve
+        }else{
+          style = 'fill: #D3D3D3'; //LightGray - cz
+        }
+//        style += ' opacity: 0.5'
+        
+        break;
+      case 'CONCLUÍDO':
+        if(status.status.nome == 'CANCELADO'){
+          style = 'fill: #D3D3D3'; //LightGray - cz
+        }else{
+          style = 'fill: #32CD32'; //LimeGreen - ve
+        }
+        break;
+      default: //pedido em aberto
+        if(status.dtStatus){ 
+          style = 'fill: #32CD32'; //LimeGreen - ve
+        }else if(status.ordem == pedido.statusAtual.ordem + 1){
+          style = 'fill: #FFD700'; //Gold - am
+        }else{
+          style = 'fill: #D3D3D3'; //LightGray - cz
+        }
+        break;
     }
+    return style;
   };
   
   $scope.getPrecoUnitario = function(pedido, produto){
@@ -62,31 +90,35 @@ app.controller('PedidoCtrl', function (
 //      return valorTotalProdutos;
   };
   
+  $scope.orderScriptStatus = function(){
+    angular.forEach($scope.pedidos, function(pedido){
+      pedido.statusPedido = $filter('orderBy')(pedido.statusPedido, 'ordem');
+    });
+  };
+
+  $scope.setStatusAtualPedido = function(){
+    angular.forEach($scope.pedidos, function(pedido){
+      angular.forEach(pedido.statusPedido, function(status){
+//        console.log("verificar st "+status.status.nome);
+        if(status.dtStatus){ //verificar se é cancelado - setar cada status cfm achar q tem dt e parar no 1º sem dt
+          pedido.statusAtual = status;
+//          pedido.statusAtualNome = status.status.nome;
+//          pedido.statusAtualOrdem = status.ordem;
+//          pedido.dtUltimaAlteracao = status.dtStatus;
+//          console.log("setou st "+status.status.nome);
+        }else{
+//          console.log("st futuro "+status.status.nome);
+        }
+      });      
+    });
+  };
+  
   $scope.setValorTotalPedido = function(){
     angular.forEach($scope.pedidos, function(pedido){
       pedido.valorTotal = $scope.getTotalPedido(pedido);
     });
   };
-  
-//  $scope.setStatusAtualPedido = function(){
-//    angular.forEach($scope.pedidos, function(pedido){
-//      angular.forEach(pedido.statusPedido, function(status){
-//        if(true) //verificar se é cancelado - setar cada status cfm achar q tem dt e parar no 1º sem dt
-//      });
-//    });
-//  };
-  
-  $scope.orderScriptStatus = function(){
-    angular.forEach($scope.pedidos, function(pedido){
-        angular.forEach(pedido.statusPedido, function(status){
-          console.log(status.ordem);
-        });
-        pedido.statusPedido = $filter('orderBy')(pedido.statusPedido, 'ordem');
-        angular.forEach(pedido.statusPedido, function(status){
-          console.log(status.ordem);
-        });
-    });
-  };
+    
   
   //funções chamadas no onClick dos botões da tela
   $scope.openInsertDialog = function () {

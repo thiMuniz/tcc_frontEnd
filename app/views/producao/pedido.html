@@ -29,8 +29,8 @@
                 <tr>
                   <th><a href="" ng-click="ordenar('id')">Id </a></th>
                   <th><a href="" ng-click="ordenar('codPedido')">Cód. Pedido</a></th>
-                  <th><a href="" ng-click="ordenar('statusPedido[statusPedido.length - 1].status.nome')">Status</a></th>
-                  <th><a href="" ng-click="ordenar('statusPedido[statusPedido.length - 1].dtStatus')">Última Alteração</a></th>
+                  <th><a href="" ng-click="ordenar('statusAtual.status.nome')">Status</a></th>
+                  <th><a href="" ng-click="ordenar('dtUltimaAlteracao.dtStatus')">Última Alteração</a></th>
                   <th><a href="" ng-click="ordenar('pessoa.nome')">Cliente</a></th>
                   <th><a href="" ng-click="ordenar('valorTotal')">Valor Total</a></th>
                   <th>Ação</th>                  
@@ -40,8 +40,8 @@
                 <tr ng-repeat="pedido in pedidos | filter : filtroGenerico | orderBy : campo : ascDsc">
                   <td>{{pedido.id}}</td>
                   <td>{{pedido.codPedido}}</td>
-                  <td>{{pedido.statusPedido[pedido.statusPedido.length - 1].status.nome}}</td>
-                  <td>{{pedido.statusPedido[pedido.statusPedido.length - 1].dtStatus}}</td>
+                  <td>{{pedido.statusAtual.status.nome}}</td>
+                  <td>{{pedido.statusAtual.dtStatus}}</td>
                   <td>{{pedido.pessoa ? (pedido.pessoa.pf ? pedido.pessoa.pf.nome : pedido.pessoa.pj.nomeFantasia) : 'Não identificado';}}</td>
                   <td>{{pedido.valorTotal | currency}}</td>
                   
@@ -55,8 +55,8 @@
                       <a href="" 
                          ng-disabled="true" 
                          ng-click="$first ? openUpdateDialog(pedido) : (status.status.nome == 'CANCELADO' ? updateStatusPedido(pedido, status, true) : updateStatusPedido(pedido, status, false));" 
-                         tooltip="{{actionIconStatus[status.status.id-1].tooltip}}" >
-                        <ng-md-icon icon="{{actionIconStatus[status.status.id-1].icone}}" style="{{getActionIconStatusStyle(status)}}"></ng-md-icon>
+                         tooltip="{{actionIconStatus[status.status.id-1].tooltipAction}}" >
+                        <ng-md-icon icon="{{actionIconStatus[status.status.id-1].icone}}" style="{{getActionIconStatusStyle(pedido, status)}}"></ng-md-icon>
                       </a>&nbsp;
                     </div>
                     <div class="col-sm-1">
