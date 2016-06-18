@@ -1,0 +1,37 @@
+<div class="modal-content">
+  <div class="modal-header">    
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel">
+      <ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
+    </h4>
+  </div>
+  
+  <div class="panel-body">
+    <ul class="timeline">
+      <li class="{{getInvertedClass($index)}}" ng-repeat="status in pedido.statusPedido">
+        <!--<div class="timeline-badge">-->
+        <div ng-class="getTimelineClass(pedido, status)">
+          <ng-md-icon icon="{{actionIconStatus[status.status.id-1].icone}}" size="{{getSizeBtn(pedido, status)}}"></ng-md-icon>
+<!--          <i class="fa fa-check"></i>-->
+        </div>
+        <div class="timeline-panel">
+          <div class="timeline-heading">
+            <h4 class="timeline-title">{{status.status.nome}}</h4>
+            <p ng-show="status.dtStatus" class="text-muted">
+                <i class="fa fa-clock-o"></i> {{status.dtStatus}} 
+            </p>
+          </div>
+<!--          <div class="timeline-body">
+            <p>1.</p>
+          </div>-->
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline btn-primary btn-lg btn-block" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Fechar
+    </button>
+  </div>
+</div>

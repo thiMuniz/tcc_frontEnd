@@ -247,7 +247,28 @@ app.controller('PedidoCtrl', function (
       pedido: angular.copy(pedido)
     };
     var modalInstance = $modal.open({
-      templateUrl: "views/estoque/dialog/infoPedido.html",
+      templateUrl: "views/producao/dialog/infoPedido.html",
+      controller: "PedidoDialogCtrl",
+      backdrop: 'static',
+      size: '',
+      resolve: {
+        params: function () {
+          return $scope.params;
+        }
+      }
+    });
+  };
+  
+  $scope.openTimelineDialog = function (pedido) {    
+    $scope.params = {
+      formTipo: 'timeline',
+      iconeHeaderDialog: 'history',
+      tituloDialog: "Histórico Pedido",
+      actionIconStatus: $scope.actionIconStatus,
+      pedido: angular.copy(pedido)
+    };
+    var modalInstance = $modal.open({
+      templateUrl: "views/producao/dialog/timelinePedido.html",
       controller: "PedidoDialogCtrl",
       backdrop: 'static',
       size: '',
@@ -267,23 +288,62 @@ app.controller('PedidoCtrl', function (
   $scope.formTipo = params.formTipo;
   $scope.iconeHeaderDialog = params.iconeHeaderDialog;
   $scope.tituloDialog = params.tituloDialog;
-  $scope.produtosAll = ProdutoResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})});
-  $scope.clientesAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:'cliente'})});
-  $scope.fornecedoresAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:'fornecedor'})});
-  $scope.formasEntregaAll = FormaEntregaResource.query();
-  $scope.formasVendaAll = FormaVendaResource.query();
-  $scope.pedido = params.pedido;
-  
-  $scope.ordenar = function (campo) {
-    $scope.campo = campo;
-    $scope.ascDsc = !$scope.ascDsc;
-  };  
+  if($scope.formTipo == 'insert' || $scope.formTipo == 'update'){
+    $scope.produtosAll = ProdutoResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})});
+    $scope.clientesAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:'cliente'})});
+    $scope.fornecedoresAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:'fornecedor'})});
+    $scope.formasEntregaAll = FormaEntregaResource.query();
+    $scope.formasVendaAll = FormaVendaResource.query();
+  };
+  $scope.actionIconStatus = params.actionIconStatus ? params.actionIconStatus : undefined;
 
   $scope.pedido = params.pedido;
   $scope.pedidoInit = angular.copy($scope.pedido);
   if(!$scope.pedido.produtosPedido){
     $scope.pedido.produtosPedido = [];
-  }
+  };
+
+  $scope.ordenar = function (campo) {
+    $scope.campo = campo;
+    $scope.ascDsc = !$scope.ascDsc;
+  };  
+  
+  $scope.getInvertedClass = function(index){
+    return (index % 2 == 0) ? '' : 'timeline-inverted';
+  };
+  
+  $scope.getTimelineClass = function(pedido, status){
+    var classe = 'timeline-badge ';
+    switch(pedido.statusAtual.status.nome){
+      case 'CONCLUÍDO':
+        classe +=  'success'; 
+        break;
+      case 'CANCELADO':
+        if(status.status.nome == 'CANCELADO'){
+          classe += ' danger'; 
+        }else if(status.dtStatus){
+          classe += ' success'; 
+        }else{
+          classe += ' muted'; 
+        }
+        break;      
+      default: //pedido em aberto
+        if(status.dtStatus){ 
+          classe += ' success'; 
+//          if(pedido.statusAtual.status.nome != 'CARRINHO'){
+//            classe +=  ' disabled'; 
+//          }
+        }else if(status.ordem == pedido.statusAtual.ordem + 1){
+          classe += ' warning'; 
+        }else{
+          classe += ' text-muted'; 
+        }
+        break;
+    }
+    return classe;
+  };
+  
+  
 
   $scope.temp = {};
 //    $scope.temp.produtosPedido = $scope.pedidoInit.produtosPedido;

@@ -1,0 +1,53 @@
+<div class="modal-content">
+  <div class="modal-header">    
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="formModalLabel">
+      <ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
+    </h4>
+  </div>
+
+  <div class="modal-body">
+    <div class="panel-default">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <td><label class=control-label">Id</label></td>
+                  <td >{{pedido.id}}</td>  
+                </tr>
+                <tr>
+                  <td><label class=control-label">Código Pedido</label></td>
+                  <td >{{pedido.codPedido}}</td>  
+                </tr>
+                <tr>
+                  <td><label class=control-label">Cliente</label></td>
+                  <td >{{pedido.pessoa ? (pedido.pessoa.pf ? pedido.pessoa.pf.nome : pedido.pessoa.pj.nomeFantasia) : 'Não identificado';}}</td>  
+                </tr>
+                <tr>
+                  <td><label class=control-label">Status Atual</label></td>
+                  <td>{{pedido.statusAtual.status.nome}}</td>
+                </tr>
+                <tr>
+                  <td><label class=control-label">Data Última Alteração</label></td>
+                  <td>{{pedido.statusAtual.dtStatus}}</td>
+                </tr>
+                <tr>
+                  <td><label class=control-label">Valor Total</label></td>
+                  <td>{{pedido.valorTotal | currency}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div><!-- /.table-responsive -->   
+        </div> <!-- /.col-lg-12 -->
+      </div>  <!-- /.row -->
+    </div> <!-- /.panel-default -->
+  </div> <!-- modal-body -->
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline btn-primary btn-lg btn-block" ng-click="cancel()" data-dismiss="modal">
+      <ng-md-icon icon="clear"></ng-md-icon> Fechar
+    </button>
+  </div>
+</div>
