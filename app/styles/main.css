@@ -81,3 +81,10 @@ body {
 text-decoration: none;
 background-color: #eee;
 }
+
+
+/*CLASSES SGP*/
+
+.text-warning {
+  color:#FFD700; 
+}

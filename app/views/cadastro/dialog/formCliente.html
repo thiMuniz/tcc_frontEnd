@@ -214,48 +214,41 @@
           <div class="form-group">
             <label for="cep" class="col-sm-3 control-label">Cep</label>
             <div class="col-sm-7 input-group">
-<!--              <div ng-show="formCliente.cep.$error.required && formCliente.cep.$dirty">Por favor, preencha o campo cep! </div>
-              <div ng-show="formCliente.cep.$error.pattern">Por favor, preencha um cep valido!Ex: 00000000 </div>-->
-                <input class="form-control" type="text" id="cep" name="cep" placeholder="Apenas numeros" ng-required="true" ui-br-cep-mask ng-model="cliente.endereco.cep">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button" ng-click="setEnderecoByCep()">
-                    <i class="fa fa-search"></i>
-                  </button>
-                </span>
+              <input class="form-control" type="text" id="cep" name="cep" placeholder="Apenas numeros" ng-required="true" ui-br-cep-mask ng-model="cliente.endereco.cep">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="setEnderecoByCep()">
+                  <i class="fa fa-search"></i>
+                </button>
+              </span>
             </div>
           </div> 
           <div class="form-group">
             <label for="estado" class="col-sm-3 control-label">Estado</label>
             <div class="col-sm-7">
-              <div ng-show="formCliente.uf.$error.required && formCliente.uf.$dirty">Por favor, preencha o campo estado! </div>
               <input class="form-control" type="text" id="estado" ng-model="cliente.endereco.uf" name="uf" placeholder="Estado"  ng-required="true">
             </div>
           </div>
           <div class="form-group">
             <label for="localidade" class="col-sm-3 control-label">Cidade</label>
             <div class="col-sm-7">
-              <div ng-show="formCliente.localidade.$error.required && formCliente.localidade.$dirty">Por favor, preencha o campo localidade! </div>
               <input class="form-control" type="text" id="localidade" ng-model="cliente.endereco.localidade" name="localidade" placeholder="Cidade"  ng-required="true">
             </div>
           </div>
           <div class="form-group">
             <label for="bairro" class="col-sm-3 control-label">Bairro</label>
             <div class="col-sm-7">
-              <div ng-show="formCliente.bairro.$error.required && formCliente.bairro.$dirty">Por favor, preencha o campo Bairro! </div>
               <input class="form-control" type="text" id="bairro" ng-model="cliente.endereco.bairro" name="bairro" placeholder="Bairro"  ng-required="true">
             </div>
           </div>
           <div class="form-group">
             <label for="logradouro" class="col-sm-3 control-label">Logradouro</label>
             <div class="col-sm-7">
-              <div ng-show="formCliente.logradouro.$error.required && formCliente.logradouro.$dirty">Por favor, preencha o campo endereço! </div>
               <input class="form-control" type="text" id="logradouro" ng-model="cliente.endereco.logradouro" name="logradouro" placeholder="Endereço" ng-required="true">
             </div>
           </div>  
           <div class="form-group">
             <label for="numero" class="col-sm-3 control-label">Numero</label>
             <div class="col-sm-7">
-              <div ng-show="formCliente.numero.$error.required && formCliente.numero.$dirty">Por favor, preencha o campo Numero! </div>
               <input class="form-control" type="text" id="numero" ng-model="cliente.endereco.numero" name="numero" placeholder="Numero" ng-required="true" ui-number-mask="0">
             </div>
           </div>    
@@ -272,7 +265,7 @@
         <li class="" ng-class="{disabled: !hasPreviousStep() }">
           <a href="javascript:void(0);" ng-click="decrementStep()">&larr; Anterior</a>
         </li>
-        <li class="" ng-class="{disabled: !hasNextStep() || formCliente.$invalid}">
+        <li class="" ng-class="{disabled: !hasNextStep()}">
           <a href="javascript:void(0);" ng-click="incrementStep()" >Proximo &rarr;</a>
         </li>
       </ul>
@@ -282,7 +275,6 @@
   </div> <!-- modal-body -->
 
   <div class="modal-footer" >
-    <!--<button type="submit" class="btn btn-default">Submit Button</button>-->
     <button type="button" class="btn btn-outline btn-warning" ng-click="clear()">
       <ng-md-icon icon="refresh"></ng-md-icon> Limpar
     </button>

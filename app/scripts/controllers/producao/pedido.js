@@ -43,38 +43,81 @@ app.controller('PedidoCtrl', function (
     $scope.ascDsc = !$scope.ascDsc;
   };  
   
-  $scope.getActionIconStatusStyle = function(pedido, status){    
-    var style;
+  $scope.getTextClass = function(pedido){    
+    var classe;
+    switch(pedido.statusAtual.status.nome){
+      case 'CANCELADO':
+        classe = 'text-danger';
+        break;
+      case 'CONCLUÍDO':
+        classe = 'text-success';
+        break;
+      default: //pedido em aberto
+        classe = 'text-info';
+        break;
+    }
+    return classe;
+  };
+  
+  $scope.showHideActBtn = function(pedido, status){  
+    if(pedido.statusAtual.status.nome == 'CANCELADO' && status.status.nome == 'CANCELADO'){
+      return true;
+    }else if(pedido.statusAtual.status.nome == 'CONCLUÍDO' && status.status.nome == 'CONCLUÍDO'){
+      return true;
+    }else if(pedido.statusAtual.status.nome != 'CONCLUÍDO' && pedido.statusAtual.status.nome != 'CANCELADO'){
+      return true;
+    }else{
+      return false;
+    }
+  };
+  
+  $scope.getActBtnClass = function(pedido, status){    
+    var classe = 'act-pedido';
     switch(pedido.statusAtual.status.nome){
       case 'CANCELADO':
         if(status.status.nome == 'CANCELADO'){
-          style = 'fill: #B22222'; //FireBrick - vm 
+          classe += ' text-danger'; 
         }else if(status.dtStatus){
-          style = 'fill: #32CD32'; //LimeGreen - ve
+          classe += ' text-success'; 
         }else{
-          style = 'fill: #D3D3D3'; //LightGray - cz
+          classe += ' text-muted'; 
         }
-//        style += ' opacity: 0.5'
+        classe +=  ' disabled'; 
         
         break;
       case 'CONCLUÍDO':
         if(status.status.nome == 'CANCELADO'){
-          style = 'fill: #D3D3D3'; //LightGray - cz
+          classe += ' text-muted';
         }else{
-          style = 'fill: #32CD32'; //LimeGreen - ve
+          classe += ' text-success'; 
         }
+        classe +=  ' disabled'; 
         break;
       default: //pedido em aberto
         if(status.dtStatus){ 
-          style = 'fill: #32CD32'; //LimeGreen - ve
+          classe += ' text-success'; 
+          if(pedido.statusAtual.status.nome != 'CARRINHO'){
+            classe +=  ' disabled'; 
+          }
         }else if(status.ordem == pedido.statusAtual.ordem + 1){
-          style = 'fill: #FFD700'; //Gold - am
+          classe += ' text-warning'; 
         }else{
-          style = 'fill: #D3D3D3'; //LightGray - cz
+          classe += ' text-muted'; 
+          classe +=  ' disabled'; 
         }
         break;
     }
-    return style;
+    return classe;
+  };
+  
+  $scope.getSizeBtn = function(pedido, status){
+    if(pedido.statusAtual.status.nome != 'CONCLUÍDO' &&
+        pedido.statusAtual.status.nome != 'CANCELADO' &&
+        status.ordem == pedido.statusAtual.ordem + 1){
+      return 30; //30
+    }else{
+      return 24;
+    }
   };
   
   $scope.getPrecoUnitario = function(pedido, produto){

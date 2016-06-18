@@ -142,11 +142,9 @@
           <div class="form-group">
             <label for="cep" class="col-sm-3 control-label">Cep</label>
             <div class="col-sm-7 input-group">
-<!--              <div ng-show="formColaborador.cep.$error.required && formColaborador.cep.$dirty">Por favor, preencha o campo cep! </div>
-              <div ng-show="formColaborador.cep.$error.pattern">Por favor, preencha um cep valido!Ex: 00000000 </div>-->
-                <input class="form-control" type="text" id="cep" ng-model="colaborador.endereco.cep" name="cep" placeholder="Apenas numeros"  ng-required="true" ng-pattern="/^\d{8}$/">
+                <input class="form-control" type="text" id="cep" name="cep" placeholder="Apenas numeros"  ng-required="true" ui-br-cep-mask ng-model="colaborador.endereco.cep">
                 <span class="input-group-btn">
-                  <button class="btn btn-default" type="button" ng-click="carregarCep()">
+                  <button class="btn btn-default" type="button" ng-click="setEnderecoByCep()">
                     <i class="fa fa-search"></i>
                   </button>
                 </span>
@@ -155,35 +153,30 @@
           <div class="form-group">
             <label for="estado" class="col-sm-3 control-label">Estado</label>
             <div class="col-sm-7">
-              <div ng-show="formColaborador.uf.$error.required && formColaborador.uf.$dirty">Por favor, preencha o campo estado! </div>
               <input class="form-control" type="text" id="estado" ng-model="colaborador.endereco.uf" name="uf" placeholder="Estado"  ng-required="true">
             </div>
           </div>
           <div class="form-group">
             <label for="localidade" class="col-sm-3 control-label">Cidade</label>
             <div class="col-sm-7">
-              <div ng-show="formColaborador.localidade.$error.required && formColaborador.localidade.$dirty">Por favor, preencha o campo localidade! </div>
               <input class="form-control" type="text" id="localidade" ng-model="colaborador.endereco.localidade" name="localidade" placeholder="Cidade"  ng-required="true">
             </div>
           </div>
           <div class="form-group">
             <label for="bairro" class="col-sm-3 control-label">Bairro</label>
             <div class="col-sm-7">
-              <div ng-show="formColaborador.bairro.$error.required && formColaborador.bairro.$dirty">Por favor, preencha o campo Bairro! </div>
               <input class="form-control" type="text" id="bairro" ng-model="colaborador.endereco.bairro" name="bairro" placeholder="Bairro"  ng-required="true">
             </div>
           </div>
           <div class="form-group">
             <label for="logradouro" class="col-sm-3 control-label">Logradouro</label>
             <div class="col-sm-7">
-              <div ng-show="formColaborador.logradouro.$error.required && formColaborador.logradouro.$dirty">Por favor, preencha o campo endereço! </div>
               <input class="form-control" type="text" id="logradouro" ng-model="colaborador.endereco.logradouro" name="logradouro" placeholder="Endereço" ng-required="true">
             </div>
           </div>  
           <div class="form-group">
             <label for="numero" class="col-sm-3 control-label">Numero</label>
             <div class="col-sm-7">
-              <div ng-show="formColaborador.numero.$error.required && formColaborador.numero.$dirty">Por favor, preencha o campo Numero! </div>
               <input class="form-control" type="number" id="numero" ng-model="colaborador.endereco.numero" name="numero" placeholder="Numero" ng-required="true">
             </div>
           </div>    
@@ -200,7 +193,7 @@
         <li class="" ng-class="{disabled: !hasPreviousStep() }">
           <a href="javascript:void(0);" ng-click="decrementStep()">&larr; Anterior</a>
         </li>
-        <li class="" ng-class="{disabled: !hasNextStep() || formColaborador.$invalid}">
+        <li class="" ng-class="{disabled: !hasNextStep() }">
           <a href="javascript:void(0);" ng-click="incrementStep()" >Proximo &rarr;</a>
         </li>
       </ul>

@@ -457,3 +457,14 @@ form .progress {
   border-color: green;
   border-width: 1px;
 }
+
+.act-pedido {
+  display: inline-block;
+  margin: auto;
+  vertical-align: middle;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

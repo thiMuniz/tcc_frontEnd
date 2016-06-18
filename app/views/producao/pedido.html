@@ -10,9 +10,6 @@
         <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" tooltip="Lançar pedido">
           <ng-md-icon icon="{{imgCadastrarBtn}}"></ng-md-icon> &nbsp;{{labelCadastrarBtn}}
         </button>
-<!--        <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" tooltip="Sugerir pedido para cliente">
-          <ng-md-icon icon="add_shopping_cart"></ng-md-icon> &nbsp;Sugerir pedido
-        </button>-->
         <div class="pull-right">
           <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Busca geral"/>
         </div>
@@ -29,9 +26,9 @@
                 <tr>
                   <th><a href="" ng-click="ordenar('id')">Id </a></th>
                   <th><a href="" ng-click="ordenar('codPedido')">Cód. Pedido</a></th>
+                  <th><a href="" ng-click="ordenar('pessoa.nome')">Cliente</a></th>
                   <th><a href="" ng-click="ordenar('statusAtual.status.nome')">Status</a></th>
                   <th><a href="" ng-click="ordenar('dtUltimaAlteracao.dtStatus')">Última Alteração</a></th>
-                  <th><a href="" ng-click="ordenar('pessoa.nome')">Cliente</a></th>
                   <th><a href="" ng-click="ordenar('valorTotal')">Valor Total</a></th>
                   <th>Ação</th>                  
                 </tr>
@@ -40,31 +37,38 @@
                 <tr ng-repeat="pedido in pedidos | filter : filtroGenerico | orderBy : campo : ascDsc">
                   <td>{{pedido.id}}</td>
                   <td>{{pedido.codPedido}}</td>
-                  <td>{{pedido.statusAtual.status.nome}}</td>
-                  <td>{{pedido.statusAtual.dtStatus}}</td>
                   <td>{{pedido.pessoa ? (pedido.pessoa.pf ? pedido.pessoa.pf.nome : pedido.pessoa.pj.nomeFantasia) : 'Não identificado';}}</td>
+                  <td ng-class="getTextClass(pedido)" ><strong>{{pedido.statusAtual.status.nome}}</strong></td>
+                  <td>{{pedido.statusAtual.dtStatus}}</td>
                   <td>{{pedido.valorTotal | currency}}</td>
                   
                   <td> <!-- ações -->
-<!--                    <div class="col-sm-1">
-                      <a href="" ng-click="openUpdateDialog(pedido)" tooltip="{{CONST.editar.tooltipAcao}}" >
-                        <ng-md-icon icon="add_shopping_cart"></ng-md-icon>
-                      </a>&nbsp;
-                    </div >-->
-                    <div ng-repeat="status in pedido.statusPedido | orderBy : 'ordem'" class="col-sm-1">
+                     <!--ng-show="showHideActBtn(pedido, status)"-->
+                    <div ng-repeat="status in pedido.statusPedido" class="col-sm-1">
                       <a href="" 
-                         ng-disabled="true" 
                          ng-click="$first ? openUpdateDialog(pedido) : (status.status.nome == 'CANCELADO' ? updateStatusPedido(pedido, status, true) : updateStatusPedido(pedido, status, false));" 
-                         tooltip="{{actionIconStatus[status.status.id-1].tooltipAction}}" >
-                        <ng-md-icon icon="{{actionIconStatus[status.status.id-1].icone}}" style="{{getActionIconStatusStyle(pedido, status)}}"></ng-md-icon>
-                      </a>&nbsp;
+                         tooltip="{{actionIconStatus[status.status.id-1].tooltipAction}}" 
+                         ng-class="getActBtnClass(pedido, status)"
+                         >                        
+                        <ng-md-icon icon="{{actionIconStatus[status.status.id-1].icone}}" size="{{getSizeBtn(pedido, status)}}"></ng-md-icon>
+                      </a>&nbsp;  
                     </div>
+                     <div class="col-sm-1"></div>
                     <div class="col-sm-1">
                       <a href="" ng-click="openInfoDialog(pedido);" tooltip="{{CONST.info.tooltipAcao}}">
                         <ng-md-icon icon="{{CONST.info.iconeAcao}}"></ng-md-icon>
                       </a>&nbsp;
                     </div>
-                  </td> <!-- /. ações -->
+                    
+                  </td> 
+<!--                  <td>
+                    <div class="col-sm-1 pull-right">
+                      <a href="" ng-click="openInfoDialog(pedido);" tooltip="{{CONST.info.tooltipAcao}}">
+                        <ng-md-icon icon="{{CONST.info.iconeAcao}}"></ng-md-icon>
+                      </a>&nbsp;
+                    </div>
+                  </td>-->
+                  <!-- /. ações -->
                 </tr>
                 
               </tbody>

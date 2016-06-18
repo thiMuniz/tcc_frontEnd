@@ -140,8 +140,7 @@ var app = angular.module('sbAdminApp', [
           name: 'sbAdminApp',
           files: [
             'scripts/controllers/login.js',
-            'scripts/services/pessoa.js',
-            'scripts/services/base64.js'
+            'scripts/services/pessoa.js'
           ]
         });
       }
