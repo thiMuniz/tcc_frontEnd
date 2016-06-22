@@ -1,7 +1,12 @@
 <div class="modal-content">
   <div class="modal-header">
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>    
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
+      <div class="pull-right col-md-2">
+        <a href ><ng-md-icon id="helpIcon1" icon="help" style="fill: grey" size="36" ng-show="!showHelpIcon" ng-click="toogleHelpIcon()" tooltip="Exibir ícones de ajuda" tooltip-placement="right"></ng-md-icon></a>
+        <a href ><ng-md-icon id="helpIcon2" icon="help" style="fill: blue" size="36" ng-show="showHelpIcon" ng-click="toogleHelpIcon()" tooltip="Ocultar ícones de ajuda" tooltip-placement="right"></ng-md-icon></a>
+      </div>
+    </h4>
   </div>
   <div class="modal-body">
     <form class="form-horizontal" role="form" name="formPromocao">
@@ -20,7 +25,7 @@
               <input class="form-control" type="text" id="id" ng-model="promocao.id" ng-disabled="true">
               <span id="helpBlock" class="help-block" ng-show="showHelp.id"> Código de referência da promoção no sistema </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.id = true" ng-mouseleave="showHelp.id = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -32,7 +37,7 @@
               <input class="form-control" type="text" id="nome" placeholder="Nome da Promoção" ng-model="promocao.nome">
               <span id="helpBlock" class="help-block" ng-show="showHelp.nome"> Nome que irá aparecer em destaque para divulgar a promoção no E-commerce </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.nome = true" ng-mouseleave="showHelp.nome = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -44,7 +49,7 @@
               <input class="form-control" type="text" id="descricao" placeholder="Descrição detelhada da Promoção" ng-model="promocao.descricao">
               <span id="helpBlock" class="help-block" ng-show="showHelp.descricao"> Informação complementar ao nome. Aparecerá no E-commerce em menor destaque que o nome. </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.descricao = true" ng-mouseleave="showHelp.descricao = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -56,7 +61,7 @@
               <input class="form-control" type="text" id="descPercentual" placeholder="Apenas números" ng-change="calcularDesconto()" ui-percentage-mask ng-model="promocao.descPercentual">
               <span id="helpBlock" class="help-block" ng-show="showHelp.descPercentual"> Desconto (em porcentagem) que será aplicado ao valor original do produto </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.descPercentual = true" ng-mouseleave="showHelp.descPercentual = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -70,7 +75,7 @@
               </div>
               <span id="helpBlock" class="help-block" ng-show="showHelp.dtInicio"> Data de início da vigência da promoção </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.dtInicio = true" ng-mouseleave="showHelp.dtInicio = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -84,7 +89,7 @@
               </div>
               <span id="helpBlock" class="help-block" ng-show="showHelp.dtFim"> Data de término da vigência da promoção </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.dtFim = true" ng-mouseleave="showHelp.dtFim = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -118,7 +123,7 @@
                 </ui-select>
                 <span id="helpBlock" class="help-block" ng-show="showHelp.produtos"> Para selecionar um produto, basta clicar à direita do ultimo item da lista e digitar as primeiras letras do produto que deseja encontrar. Quando o produto aparecer, clique nele e pronto. Ao selecionar um produto o mesmo deverá aparecer na lista abaixo </span>
               </div>
-              <div class="col-sm-1">
+              <div class="col-sm-1" ng-show="showHelpIcon">
                 <div>&nbsp;</div>
                 <div>
                   <a ng-mouseover="showHelp.produtos = true" ng-mouseleave="showHelp.produtos = false" tooltip="Ajuda" >

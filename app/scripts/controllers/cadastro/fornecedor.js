@@ -179,6 +179,10 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
     {nome: "Feminino", valor: "feminino"}
   ];
   
+  $scope.toogleHelpIcon = function(){
+    $scope.showHelpIcon = !$scope.showHelpIcon;
+  };
+
   //valida email
   $scope.email = function () {
     email.clear();

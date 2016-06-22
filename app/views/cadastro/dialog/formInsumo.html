@@ -3,6 +3,10 @@
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title" id="formModalLabel">
       <ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
+      <div class="pull-right col-md-2">
+        <a href ><ng-md-icon id="helpIcon1" icon="help" style="fill: grey" size="36" ng-show="!showHelpIcon" ng-click="toogleHelpIcon()" tooltip="Exibir ícones de ajuda" tooltip-placement="right"></ng-md-icon></a>
+        <a href ><ng-md-icon id="helpIcon2" icon="help" style="fill: blue" size="36" ng-show="showHelpIcon" ng-click="toogleHelpIcon()" tooltip="Ocultar ícones de ajuda" tooltip-placement="right"></ng-md-icon></a>
+      </div>
     </h4>
     <!--Debug Insumo {{insumo}}-->
   </div>
@@ -14,19 +18,19 @@
           <input class="form-control" type="text" id="id" ng-model="insumo.id" ng-disabled="true">
           <span id="helpBlock" class="help-block" ng-show="showHelp.id"> Código de referência do ingrediente no sistema </span>
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-1" ng-show="showHelpIcon">
           <a ng-mouseover="showHelp.id = true" ng-mouseleave="showHelp.id = false" tooltip="Ajuda" >
             <ng-md-icon icon="help"></ng-md-icon>
           </a>
         </div>
       </div>
-      <div class="form-group" >
+      <div class="form-group">
         <label for="nome" class="col-sm-3 control-label">Nome</label>
         <div class="col-sm-7">
           <input class="form-control" type="text" id="nome" placeholder="Nome do ingrediente" ng-model="insumo.nome">
           <span id="helpBlock" class="help-block" ng-show="showHelp.nome"> Nome que irá aparecer sempre que o ingrediente for exibido no sistema </span>
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-1" ng-show="showHelpIcon">
           <a ng-mouseover="showHelp.nome = true" ng-mouseleave="showHelp.nome = false" tooltip="Ajuda" >
             <ng-md-icon icon="help"></ng-md-icon>
           </a>
@@ -39,7 +43,7 @@
           <textarea class="form-control" rows="1" type="text" id="descricao" placeholder="Descrição detelhada do ingrediente" ng-model="insumo.descricao"></textarea>
           <span id="helpBlock" class="help-block" ng-show="showHelp.descricao"> Espaço para informações complementares ao nome </span>
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-1" ng-show="showHelpIcon">
           <a ng-mouseover="showHelp.descricao = true" ng-mouseleave="showHelp.descricao = false" tooltip="Ajuda" >
             <ng-md-icon icon="help"></ng-md-icon>
           </a>
@@ -53,7 +57,7 @@
           </select>
           <span id="helpBlock" class="help-block" ng-show="showHelp.unMedida"> Unidade padrão que o ingrediente é medido (contado) </span>
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-1" ng-show="showHelpIcon">
           <a ng-mouseover="showHelp.unMedida = true" ng-mouseleave="showHelp.unMedida = false" tooltip="Ajuda" >
             <ng-md-icon icon="help"></ng-md-icon>
           </a>
@@ -65,7 +69,7 @@
           <input class="form-control" type="text" id="estoqueMinimo" placeholder="Apenas números" ui-number-mask="0" ng-model="insumo.estoqueMinimo">
           <span id="helpBlock" class="help-block" ng-show="showHelp.estoqueMinimo"> Quantidade mínima que este ingrediente deve ter estocado (conforme unidade de medida escolhida). Quando o estoque estiver abaixo desta quantidade, será disparado o alerta de compra </span>
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-1" ng-show="showHelpIcon">
           <a ng-mouseover="showHelp.estoqueMinimo = true" ng-mouseleave="showHelp.estoqueMinimo = false" tooltip="Ajuda" >
             <ng-md-icon icon="help"></ng-md-icon>
           </a>

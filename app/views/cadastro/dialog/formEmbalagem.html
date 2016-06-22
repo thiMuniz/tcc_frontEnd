@@ -3,6 +3,10 @@
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title" id="formModalLabel">
       <ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
+      <div class="pull-right col-md-2">
+        <a href ><ng-md-icon id="helpIcon1" icon="help" style="fill: grey" size="36" ng-show="!showHelpIcon" ng-click="toogleHelpIcon()" tooltip="Exibir ícones de ajuda" tooltip-placement="right"></ng-md-icon></a>
+        <a href ><ng-md-icon id="helpIcon2" icon="help" style="fill: blue" size="36" ng-show="showHelpIcon" ng-click="toogleHelpIcon()" tooltip="Ocultar ícones de ajuda" tooltip-placement="right"></ng-md-icon></a>
+      </div>
     </h4>
     <!--Debug Embalagem: {{embalagem}}-->
   </div>
@@ -14,7 +18,7 @@
           <input class="form-control" type="text" id="id" ng-model="embalagem.id" ng-disabled="true">
           <span id="helpBlock" class="help-block" ng-show="showHelp.id"> Código de referência da embalagem no sistema </span>
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-1" ng-show="showHelpIcon">
           <a ng-mouseover="showHelp.id = true" ng-mouseleave="showHelp.id = false" tooltip="Ajuda" >
             <ng-md-icon icon="help"></ng-md-icon>
           </a>
@@ -26,7 +30,7 @@
           <input class="form-control" type="text" id="nome" placeholder="Nome da embalagem" ng-model="embalagem.nome">
           <span id="helpBlock" class="help-block" ng-show="showHelp.nome"> Nome que irá aparecer sempre que a embalagem for exibida no sistema </span>
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-1" ng-show="showHelpIcon">
           <a ng-mouseover="showHelp.nome = true" ng-mouseleave="showHelp.nome = false" tooltip="Ajuda" >
             <ng-md-icon icon="help"></ng-md-icon>
           </a>
@@ -39,7 +43,7 @@
           <textarea class="form-control" rows="1" type="text" id="descricao" placeholder="Descrição detelhada da embalagem" ng-model="embalagem.descricao"></textarea>
           <span id="helpBlock" class="help-block" ng-show="showHelp.descricao"> Espaço para informações complementares ao nome </span>
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-1" ng-show="showHelpIcon">
           <a ng-mouseover="showHelp.descricao = true" ng-mouseleave="showHelp.descricao = false" tooltip="Ajuda" >
             <ng-md-icon icon="help"></ng-md-icon>
           </a>
@@ -53,7 +57,7 @@
           </select>
           <span id="helpBlock" class="help-block" ng-show="showHelp.material"> Material de fabricação da embalagem </span>
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-1" ng-show="showHelpIcon">
           <a ng-mouseover="showHelp.material = true" ng-mouseleave="showHelp.material = false" tooltip="Ajuda" >
             <ng-md-icon icon="help"></ng-md-icon>
           </a>
@@ -65,7 +69,7 @@
           <input class="form-control" type="text" id="dimensoes" placeholder="Largura X Comprimento" ng-model="embalagem.dimensoes">
           <span id="helpBlock" class="help-block" ng-show="showHelp.dimensoes"> Largura X Comprimento (em centímetros) </span>
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-1" ng-show="showHelpIcon">
           <a ng-mouseover="showHelp.dimensoes = true" ng-mouseleave="showHelp.dimensoes = false" tooltip="Ajuda" >
             <ng-md-icon icon="help"></ng-md-icon>
           </a>
@@ -77,7 +81,7 @@
           <input class="form-control" type="text" id="gramatura" placeholder="Apenas números" ui-number-mask="2" ng-model="embalagem.gramatura">
           <span id="helpBlock" class="help-block" ng-show="showHelp.gramatura"> Valor padrão da gramatura da embalagem (em g/m²). Ex: 0.12 </span>
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-1" ng-show="showHelpIcon">
           <a ng-mouseover="showHelp.gramatura = true" ng-mouseleave="showHelp.gramatura = false" tooltip="Ajuda" >
             <ng-md-icon icon="help"></ng-md-icon>
           </a>
@@ -89,7 +93,7 @@
           <input class="form-control" type="text" id="estoqueMinimo" placeholder="Apenas números" ui-number-mask="0" ng-model="embalagem.estoqueMinimo">
           <span id="helpBlock" class="help-block" ng-show="showHelp.estoqueMinimo"> Quantidade mínima que esta embalagem deve ter estocada (em unidades). Quando o estoque estiver abaixo desta quantidade, será disparado o alerta de compra </span>
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-1" ng-show="showHelpIcon">
           <a ng-mouseover="showHelp.estoqueMinimo = true" ng-mouseleave="showHelp.estoqueMinimo = false" tooltip="Ajuda" >
             <ng-md-icon icon="help"></ng-md-icon>
           </a>

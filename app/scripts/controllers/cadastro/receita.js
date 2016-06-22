@@ -192,6 +192,10 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
       $scope.temp.insumosReceita = $scope.receita.insumosReceita;
     };
     
+    $scope.toogleHelpIcon = function(){
+      $scope.showHelpIcon = !$scope.showHelpIcon;
+    };
+    
     if(!$scope.receita.passos){
       $scope.receita.passos = [];
     }

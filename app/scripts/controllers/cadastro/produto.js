@@ -203,6 +203,10 @@ app.controller('ProdutoCtrl', function ($scope, $modal, $filter, ProdutoResource
       {nome: "gramas", sigla: "(g)"}
     ];
     
+    $scope.toogleHelpIcon = function(){
+      $scope.showHelpIcon = !$scope.showHelpIcon;
+    };
+    
     $scope.openImagemDialog = function(){
       $scope.params = {
         formTipo: $scope.formTipo,

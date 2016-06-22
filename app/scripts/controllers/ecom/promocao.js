@@ -112,6 +112,10 @@ app.controller('PromocaoCtrl', function ($scope, $modal, $filter, PromocaoResour
       $scope.ascDsc = !$scope.ascDsc;
     };
     
+    $scope.toogleHelpIcon = function(){
+      $scope.showHelpIcon = !$scope.showHelpIcon;
+    };
+    
     $scope.removerProdutoPromocao = function(index){
       $scope.promocao.produtos.splice(index, 1);
     };

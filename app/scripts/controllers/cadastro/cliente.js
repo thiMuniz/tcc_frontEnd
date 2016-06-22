@@ -190,6 +190,10 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
     $scope.cliente.formasPgto = $scope.temp.formasPgtoCliente;
   };
   
+  $scope.toogleHelpIcon = function(){
+    $scope.showHelpIcon = !$scope.showHelpIcon;
+  };
+
   $scope.removerFormaPgto = function(index){
     $scope.temp.formasPgtoCliente.splice(index, 1);
     $scope.atualizarLista();

@@ -43,14 +43,14 @@
       </table>
       <div class="row img-list">
         <div class="col-md-2 col-sm-3 col-xs-12" ng-repeat="imagem in imagens">
-            <button type="button" class="close pull-right" ng-click="removerImagem($index)" aria-hidden="true" tooltip="Remover">&times;</button>
-            <img ng-src="{{imagem.caminhoArquivo ? imagem.caminhoArquivo : imagem.arquivo}}" class="img-thumbnail form-img pull-right"/>            
+          <button type="button" class="close pull-right" ng-click="removerImagem($index)" aria-hidden="true" tooltip="Remover">&times;</button>
+          <img ng-src="{{imagem.caminhoArquivo ? imagem.caminhoArquivo : imagem.arquivo}}" class="img-thumbnail form-img pull-right"/>            
         </div>
       </div>
     <!--</form>-->
   </div><!-- /.modal body-->
   
-    <div class="alert alert-danger alert-dismissable">
+    <div class="alert alert-danger alert-dismissable" ng-show="false">
       <button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>
       * Criar regras para habilitar botão confirmar com expressão no ng-class ou ng-disable
     </div>

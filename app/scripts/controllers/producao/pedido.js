@@ -308,6 +308,10 @@ app.controller('PedidoCtrl', function (
     $scope.ascDsc = !$scope.ascDsc;
   };  
   
+  $scope.toogleHelpIcon = function(){
+    $scope.showHelpIcon = !$scope.showHelpIcon;
+  };
+
   $scope.getInvertedClass = function(index){
     return (index % 2 == 0) ? '' : 'timeline-inverted';
   };

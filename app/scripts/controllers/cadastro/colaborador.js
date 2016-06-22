@@ -140,6 +140,10 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
   
   $scope.temp = {};
   
+  $scope.toogleHelpIcon = function(){
+    $scope.showHelpIcon = !$scope.showHelpIcon;
+  };
+
   //valida email
   $scope.email = function () {
     email.clear();

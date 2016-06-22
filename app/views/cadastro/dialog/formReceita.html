@@ -1,7 +1,12 @@
 <div class="modal-content">
   <div class="modal-header">
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>    
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
+      <div class="pull-right col-md-2">
+        <a href ><ng-md-icon id="helpIcon1" icon="help" style="fill: grey" size="36" ng-show="!showHelpIcon" ng-click="toogleHelpIcon()" tooltip="Exibir ícones de ajuda" tooltip-placement="right"></ng-md-icon></a>
+        <a href ><ng-md-icon id="helpIcon2" icon="help" style="fill: blue" size="36" ng-show="showHelpIcon" ng-click="toogleHelpIcon()" tooltip="Ocultar ícones de ajuda" tooltip-placement="right"></ng-md-icon></a>
+      </div>
+    </h4>
   </div>
   <div class="modal-body">
     <form class="form-horizontal" role="form" name="formReceita">
@@ -20,19 +25,19 @@
               <input class="form-control" type="text" id="id" ng-model="receita.id" ng-disabled="true">
               <span id="helpBlock" class="help-block" ng-show="showHelp.id"> Código de referência da receita no sistema </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.id = true" ng-mouseleave="showHelp.id = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
             </div>
           </div>
-          <div class="form-group" >
+          <div class="form-group">
             <label for="nome" class="col-sm-3 control-label">Nome</label>
             <div class="col-sm-7">
               <input class="form-control" type="text" id="nome" placeholder="Nome da receita" ng-model="receita.nome">
               <span id="helpBlock" class="help-block" ng-show="showHelp.nome"> Nome que irá aparecer sempre que a receita for exibida no sistema </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.nome = true" ng-mouseleave="showHelp.nome = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -44,7 +49,7 @@
               <input class="form-control" type="text" id="descricao" placeholder="Descrição detelhada da receita" ng-model="receita.descricao">
               <span id="helpBlock" class="help-block" ng-show="showHelp.descricao"> Espaço para informações complementares ao nome </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.descricao = true" ng-mouseleave="showHelp.descricao = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -56,7 +61,7 @@
               <input class="form-control" type="text" id="rendimento" placeholder="Apenas números" ui-number-mask="0" ng-model="receita.rendimento">
               <span id="helpBlock" class="help-block" ng-show="showHelp.rendimento"> Quantidade (em unidades) de produtos que a receita produzirá </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.rendimento = true" ng-mouseleave="showHelp.rendimento = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -68,7 +73,7 @@
               <input class="form-control" type="text" id="tempoPreparo" placeholder="Apenas números (minutos)" ui-number-mask="0" ng-model="receita.tempoPreparo">
               <span id="helpBlock" class="help-block" ng-show="showHelp.tempoPreparo"> Tempo previsto (em minutos) para execução total da receita. Considerar tempo de execução, embalagem e rotulagem </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.tempoPreparo = true" ng-mouseleave="showHelp.tempoPreparo = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -97,7 +102,7 @@
                 </ui-select>
                 <span id="helpBlock" class="help-block" ng-show="showHelp.ingredientes"> Para selecionar um ingrediente, basta clicar à direita do ultimo item da lista e digitar as primeiras letras do ingrediente que deseja encontrar. Quando o ingrediente aparecer, clique nele e pronto. Ao selecionar um ingrediente o mesmo deverá aparecer na lista abaixo </span>
               </div>
-              <div class="col-sm-1">
+              <div class="col-sm-1" ng-show="showHelpIcon">
                 <div>&nbsp;</div>
                 <div>
                   <a ng-mouseover="showHelp.ingredientes = true" ng-mouseleave="showHelp.ingredientes = false" tooltip="Ajuda" >

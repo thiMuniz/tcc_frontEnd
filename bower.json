@@ -37,20 +37,22 @@
     "datatables.net-responsive": "^2.0.2",
     "datatables.net-responsive-bs": "^2.0.2",
     "angular-input-masks": "^2.3.0",
-    "angular-i18n": "^1.5.6"
+    "angular-i18n": "^1.5.6",
+    "svg-morpheus": "^0.3.2"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16",
     "angular-scenario": "1.2.16"
   },
   "overrides": {
-    "angular-i18n": { 
-      "main" : ["angular-locale_pt-br.js"]
+    "angular-i18n": {
+      "main": [
+        "angular-locale_pt-br.js"
+      ]
     }
   },
   "resolutions": {
     "bootstrap": "~3.1.1"
   },
   "appPath": "app"
-  
 }

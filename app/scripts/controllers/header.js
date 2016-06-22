@@ -8,7 +8,7 @@ app.controller('HeaderCtrl', function ($scope, $filter, $http, $cookies, $state,
     $rootScope.isLogged = false;
     $state.go('login');
   }
-  
+    
   $scope.logout = function(){
     $scope.user = new PessoaResource();
     $scope.user.$logout(function(retorno){ /*success 200~299*/

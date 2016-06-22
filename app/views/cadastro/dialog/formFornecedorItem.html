@@ -1,9 +1,12 @@
 <div class="modal-content">
   <div class="modal-header">    
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="recent_actors" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;Fornecedores do Ítem</h4>
-    <!--    debug fornecedoresInit{{fornecedoresInit}}
-        debug fornecedoresEmb{{embalagem.fornecedores}}-->
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="recent_actors" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;Fornecedores do Ítem
+      <div class="pull-right col-md-2">
+        <a href ><ng-md-icon id="helpIcon1" icon="help" style="fill: grey" size="36" ng-show="!showHelpIcon" ng-click="toogleHelpIcon()" tooltip="Exibir ícones de ajuda" tooltip-placement="right"></ng-md-icon></a>
+        <a href ><ng-md-icon id="helpIcon2" icon="help" style="fill: blue" size="36" ng-show="showHelpIcon" ng-click="toogleHelpIcon()" tooltip="Ocultar ícones de ajuda" tooltip-placement="right"></ng-md-icon></a>
+      </div>
+    </h4>    
   </div>
   <div class="modal-body">
     <div class="panel-heading"> <!-- Painel Superior --> 
@@ -19,7 +22,7 @@
           </ui-select>
           <span id="helpBlock" class="help-block" ng-show="showHelp.fornecedores"> Para selecionar um fornecedor, basta clicar à direita do ultimo item da lista e digitar as primeiras letras do fornecedor que deseja encontrar. Quando o fornecedor aparecer, clique nele e pronto. Ao selecionar um fornecedor o mesmo deverá aparecer na lista abaixo </span>
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-1" ng-show="showHelpIcon">
           <div>&nbsp;</div>
           <div>
             <a ng-mouseover="showHelp.fornecedores = true" ng-mouseleave="showHelp.fornecedores = false" tooltip="Ajuda" >

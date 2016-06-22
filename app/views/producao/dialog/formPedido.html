@@ -1,7 +1,12 @@
 <div class="modal-content">
   <div class="modal-header">
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}</h4>    
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{tituloDialog}}
+      <div class="pull-right col-md-2">
+        <a href ><ng-md-icon id="helpIcon1" icon="help" style="fill: grey" size="36" ng-show="!showHelpIcon" ng-click="toogleHelpIcon()" tooltip="Exibir ícones de ajuda" tooltip-placement="right"></ng-md-icon></a>
+        <a href ><ng-md-icon id="helpIcon2" icon="help" style="fill: blue" size="36" ng-show="showHelpIcon" ng-click="toogleHelpIcon()" tooltip="Ocultar ícones de ajuda" tooltip-placement="right"></ng-md-icon></a>
+      </div>
+    </h4>
   </div>
   <div class="modal-body">
     <form class="form-horizontal" role="form" name="formPedido">
@@ -21,7 +26,7 @@
               <input class="form-control" type="text" id="id" ng-model="pedido.id" ng-disabled="true">
               <span id="helpBlock" class="help-block" ng-show="showHelp.id"> Código de referência do pedido no sistema </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.id = true" ng-mouseleave="showHelp.id = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -42,14 +47,14 @@
               </ui-select>
               <span id="helpBlock" class="help-block" ng-show="showHelp.cliente"> Cliente que está fazendo o pedido. Deve estar cadastrado no sistema </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.cliente = true" ng-mouseleave="showHelp.cliente = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
             </div>
           </div>
           
-          <div class="form-group" >
+          <div class="form-group">
             <label for="formaVenda" class="col-sm-3 control-label">Canal de Venda</label>
             <div class="col-sm-7">
               <ui-select ng-model="pedido.formaVenda" theme="bootstrap" append-to-body="false" >
@@ -68,7 +73,7 @@
               </ui-select>
               <span id="helpBlock" class="help-block" ng-show="showHelp.formaVenda"> Forma pela qual o pedido foi realizado. Ex: Telefone, Balcão, etc... </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.formaVenda = true" ng-mouseleave="showHelp.formaVenda = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -102,7 +107,7 @@
                 </ui-select>
                 <span id="helpBlock" class="help-block" ng-show="showHelp.produtos"> Para selecionar um produto, basta clicar à direita do ultimo item da lista e digitar as primeiras letras do produto que deseja encontrar. Quando o produto aparecer, clique nele e pronto. Ao selecionar um produto o mesmo deverá aparecer na lista abaixo </span>
               </div>
-              <div class="col-sm-1">
+              <div class="col-sm-1" ng-show="showHelpIcon">
                 <div>&nbsp;</div>
                 <div>
                   <a ng-mouseover="showHelp.produtos = true" ng-mouseleave="showHelp.produtos = false" tooltip="Ajuda" >
@@ -174,7 +179,7 @@
               </ui-select>
               <span id="helpBlock" class="help-block" ng-show="showHelp.formaEntrega"> Tipo de serviço de transporte desejado para a entrega do pedido </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.formaEntrega = true" ng-mouseleave="showHelp.formaEntrega = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -194,7 +199,7 @@
               </ui-select>
               <span id="helpBlock" class="help-block" ng-show="showHelp.transportadora"> Transportadora (Pessoa Jurídica) escolhida para realizar a entrega do pedido </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.transportadora = true" ng-mouseleave="showHelp.transportadora = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -207,7 +212,7 @@
               <input class="form-control" type="text" id="tempoPrevisto" placeholder="Apenas números" ui-number-mask="0" ng-model="pedido.formaEntregaPedido.tempoPrevisto">
               <span id="helpBlock" class="help-block" ng-show="showHelp.tempoPrevisto"> Tempo Previsto (em dias úteis) para o transporte do pedido </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.tempoPrevisto = true" ng-mouseleave="showHelp.tempoPrevisto = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -220,7 +225,7 @@
               <input class="form-control" type="text" id="valorCusto" placeholder="Apenas números" ui-money-mask ng-model="pedido.formaEntregaPedido.valorCusto">
               <span id="helpBlock" class="help-block" ng-show="showHelp.valorCusto"> Valor cobrado para realizar o transporte do pedido. Esse valor adicionado ao valor final do pedido  </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.valorCusto = true" ng-mouseleave="showHelp.valorCusto = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -248,7 +253,7 @@
               </ui-select>
               <span id="helpBlock" class="help-block" ng-show="showHelp.formaPgto"> Forma que o cliente irá realizar o pagamento. As opções são apresentadas conforme cadastrado previamente. Para alterar acesse: Cadastros > cliente > Relacionar Formas de Pagamento </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.formaPgto = true" ng-mouseleave="showHelp.formaPgto = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -263,7 +268,7 @@
               </div>              
               <span id="helpBlock" class="help-block" ng-show="showHelp.vencimentoPagamento"> Data máxima do prazo concedido ao cliente para pagamento do pedido  </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.vencimentoPagamento = true" ng-mouseleave="showHelp.vencimentoPagamento = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>
@@ -278,7 +283,7 @@
               </div>
               <span id="helpBlock" class="help-block" ng-show="showHelp.dtPrevisaoEntrega"> Data limite prevista para o cliente receber o pedido. Esse prazo deve considerar a soma do tempo previsto pela transportadora, tempo de produção da encomenda, emissão de NF, etc... </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <a ng-mouseover="showHelp.dtPrevisaoEntrega = true" ng-mouseleave="showHelp.dtPrevisaoEntrega = false" tooltip="Ajuda" >
                 <ng-md-icon icon="help"></ng-md-icon>
               </a>

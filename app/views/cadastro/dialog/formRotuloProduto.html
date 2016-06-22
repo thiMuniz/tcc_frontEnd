@@ -1,7 +1,12 @@
 <div class="modal-content">
   <div class="modal-header">    
     <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;Rótulos do Produto</h4>
+    <h4 class="modal-title" id="formModalLabel"><ng-md-icon icon="{{iconeHeaderDialog}}" ></ng-md-icon>&nbsp;&nbsp;&nbsp;&nbsp;Rótulos do Produto
+      <div class="pull-right col-md-2">
+        <a href ><ng-md-icon id="helpIcon1" icon="help" style="fill: grey" size="36" ng-show="!showHelpIcon" ng-click="toogleHelpIcon()" tooltip="Exibir ícones de ajuda" tooltip-placement="right"></ng-md-icon></a>
+        <a href ><ng-md-icon id="helpIcon2" icon="help" style="fill: blue" size="36" ng-show="showHelpIcon" ng-click="toogleHelpIcon()" tooltip="Ocultar ícones de ajuda" tooltip-placement="right"></ng-md-icon></a>
+      </div>
+    </h4>
   </div>
   <div class="modal-body">
     <div class="row">
@@ -19,7 +24,7 @@
               </ui-select>
               <span id="helpBlock" class="help-block" ng-show="showHelp.rotulos"> Para selecionar um rótulo, basta clicar à direita do ultimo item da lista e digitar as primeiras letras do rótulo que deseja encontrar. Quando o rótulo aparecer, clique nele e pronto. Ao selecionar um rótulo o mesmo deverá aparecer na lista abaixo </span>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1" ng-show="showHelpIcon">
               <div>&nbsp;</div>
               <div>
                 <a ng-mouseover="showHelp.rotulos = true" ng-mouseleave="showHelp.rotulos = false" tooltip="Ajuda" >

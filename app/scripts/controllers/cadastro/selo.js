@@ -130,6 +130,10 @@ app.controller('SeloCtrl', function ($scope, $modal, $filter, SeloResource, CONS
     $scope.selo = params.selo;
     $scope.seloInit = angular.copy($scope.selo);
     
+    $scope.toogleHelpIcon = function(){
+      $scope.showHelpIcon = !$scope.showHelpIcon;
+    };
+    
     $scope.openImagemDialog = function(){
       $scope.params = {
         formTipo: $scope.formTipo,

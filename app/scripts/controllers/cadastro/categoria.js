@@ -132,6 +132,10 @@ app.controller('CategoriaCtrl', function ($scope, $modal, $filter, CategoriaReso
     $scope.categoria = params.categoria;
     $scope.categoriaInit = angular.copy($scope.categoria);
     
+    $scope.toogleHelpIcon = function(){
+      $scope.showHelpIcon = !$scope.showHelpIcon;
+    };
+    
     $scope.submit = function () {
       if ($scope.formTipo == 'insert') { //insert
         $scope.categoria.$save(function(){

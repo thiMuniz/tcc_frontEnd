@@ -173,6 +173,10 @@ app.controller('InsumoCtrl', function ($scope, $modal, $filter, InsumoResource, 
       $scope.insumo.fornecedores = $scope.temp.fornecedoresItem;
     }
     
+    $scope.toogleHelpIcon = function(){
+      $scope.showHelpIcon = !$scope.showHelpIcon;
+    };
+    
     $scope.removerFornecedor = function(index){
       $scope.temp.fornecedoresItem.splice(index, 1);
       $scope.atualizarLista();
