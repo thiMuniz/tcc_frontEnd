@@ -116,13 +116,15 @@
           <div class="clearfix">&nbsp;</div>
           <div class="form-group">
             <label for="cep" class="col-sm-3 control-label">Cep</label>
-            <div class="col-sm-7 input-group">
+            <div class="col-sm-7">
+              <div class="input-group">
                 <input class="form-control" type="text" id="cep" name="cep" placeholder="Apenas números"  ng-required="true" ui-br-cep-mask ng-model="fornecedor.endereco.cep" >
                 <span class="input-group-btn">
                   <button class="btn btn-default" type="button" ng-click="setEnderecoByCep()">
                     <i class="fa fa-search"></i>
                   </button>
                 </span>
+              </div>
             </div>
           </div> 
           <div class="form-group">

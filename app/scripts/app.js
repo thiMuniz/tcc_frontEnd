@@ -438,8 +438,6 @@ var app = angular.module('sbAdminApp', [
     }
   })
   .state('main.ecom.destaque', {
-//    template: '<div ui-view></div>',
-//    abstract: true,
     templateUrl: 'views/ecom/destaque.html',
     url: '/destaque/:tipo',    
     params : {
@@ -459,46 +457,12 @@ var app = angular.module('sbAdminApp', [
       }
     }
   })
-//  .state('main.ecom.destaque.produto', {
-//    templateUrl: 'views/ecom/destaque.html',
-//    url: '/produto/',
-//    resolve: {
-//      loadMyFiles: function ($ocLazyLoad) {
-//        return $ocLazyLoad.load({
-//          name: 'sbAdminApp',
-//          files: [
-//            'scripts/controllers/ecom/destaque.js',
-//            'scripts/services/destaque.js',
-//            'scripts/services/produto.js',
-//            'scripts/services/pessoa.js'
-//          ]
-//        });
-//      }
-//    }
-//  })
-//  .state('main.ecom.destaque.parceiro', {
-//    templateUrl: 'views/ecom/destaque.html',
-//    url: '/parceiro/',
-//    resolve: {
-//      loadMyFiles: function ($ocLazyLoad) {
-//        return $ocLazyLoad.load({
-//          name: 'sbAdminApp',
-//          files: [
-//            'scripts/controllers/ecom/destaque.js',
-//            'scripts/services/destaque.js',
-//            'scripts/services/produto.js',
-//            'scripts/services/pessoa.js'
-//          ]
-//        });
-//      }
-//    }
-//  })
   ;
 
 })
 
 .run(function ($http, $cookies, $interval, $rootScope, CONST) {
-//          
+  
   if($cookies.getObject('objToken')){
     $http.defaults.headers.common.Token = $cookies.getObject('objToken').token;
   }else{

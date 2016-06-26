@@ -62,15 +62,15 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="telefone1" class="col-sm-3 control-label">Telefone 1</label>
+            <label for="telefone1" class="col-sm-3 control-label">Telefone fixo</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="telefone1" placeholder="Telefone 1" ng-model="colaborador.telefone1" >
+              <input class="form-control" type="text" id="telefone1" placeholder="Apenas números" ui-br-phone-number ng-model="colaborador.telefone1" >
             </div>
           </div>
           <div class="form-group">
-            <label for="telefone2" class="col-sm-3 control-label">Telefone 2</label>
+            <label for="telefone2" class="col-sm-3 control-label">Telefone celular</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="telefone2" placeholder="Telefone 2" ng-model="colaborador.telefone2" >
+              <input class="form-control" type="text" id="telefone2" placeholder="Apenas números" ui-br-phone-number ng-model="colaborador.telefone2" >
             </div>
           </div>
           <div class="form-group">
@@ -95,7 +95,7 @@
           <div class="form-group">
             <label for="sobrenome" class="col-sm-3 control-label">Sobrenome</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="sobrenome" placeholder="" ng-model="colaborador.pf.sobrenome" >
+              <input class="form-control" type="text" id="sobrenome" placeholder="Sobrenome" ng-model="colaborador.pf.sobrenome" >
             </div>
           </div>  
           <div class="form-group">
@@ -110,13 +110,13 @@
           <div class="form-group">
             <label for="rg" class="col-sm-3 control-label">RG</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="rg" placeholder="" ng-model="colaborador.pf.rg" ng-disabled="formTipo == 'update'">
+              <input class="form-control" type="text" id="rg" placeholder="Apenas números" ui-number-mask="0" ng-model="colaborador.pf.rg" ng-disabled="formTipo == 'update'">
             </div>
           </div> 
           <div class="form-group">
             <label for="cpf" class="col-sm-3 control-label">Cpf</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="cpf" placeholder="" ui-br-cpf-mask ng-model="colaborador.pf.cpf">
+              <input class="form-control" type="text" id="cpf" placeholder="Apenas números" ui-br-cpf-mask ng-model="colaborador.pf.cpf">
             </div>
           </div>  
            <!--          apagar após testes com datepicker-->
@@ -141,15 +141,18 @@
           <div class="clearfix">&nbsp;</div>                
           <div class="form-group">
             <label for="cep" class="col-sm-3 control-label">Cep</label>
-            <div class="col-sm-7 input-group">
+            <div class="col-sm-7">
+              <div class="input-group">
                 <input class="form-control" type="text" id="cep" name="cep" placeholder="Apenas numeros"  ng-required="true" ui-br-cep-mask ng-model="colaborador.endereco.cep">
                 <span class="input-group-btn">
                   <button class="btn btn-default" type="button" ng-click="setEnderecoByCep()">
                     <i class="fa fa-search"></i>
                   </button>
                 </span>
+              </div>
             </div>
           </div> 
+          
           <div class="form-group">
             <label for="estado" class="col-sm-3 control-label">Estado</label>
             <div class="col-sm-7">
@@ -171,13 +174,13 @@
           <div class="form-group">
             <label for="logradouro" class="col-sm-3 control-label">Logradouro</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="logradouro" ng-model="colaborador.endereco.logradouro" name="logradouro" placeholder="Endereço" ng-required="true">
+              <input class="form-control" type="text" id="logradouro" ng-model="colaborador.endereco.logradouro" name="logradouro" placeholder="Rua" ng-required="true">
             </div>
           </div>  
           <div class="form-group">
             <label for="numero" class="col-sm-3 control-label">Numero</label>
             <div class="col-sm-7">
-              <input class="form-control" type="number" id="numero" ng-model="colaborador.endereco.numero" name="numero" placeholder="Numero" ng-required="true">
+              <input class="form-control" type="text" id="numero" ui-number-mask="0" ng-model="colaborador.endereco.numero" name="numero" placeholder="Apenas números" ng-required="true">
             </div>
           </div>    
           <div class="form-group">
