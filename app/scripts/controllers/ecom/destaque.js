@@ -1,15 +1,15 @@
 'use strict';
-app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource, InsumoResource, CONST, toastr, $httpParamSerializerJQLike) {
+app.controller('DestaqueCtrl', function ($scope, $modal, $filter, DestaqueResource, ProdutoResource, PessoaResource, CONST, toastr, $stateParams, $httpParamSerializerJQLike) {
   
   var toastMsg = "";
   $scope.CONST = CONST;
-  $scope.tituloView = "Cadastro de Receitas dos Produtos";
-  $scope.headerLista = "Nenhuma Receita foi encontrada";
-  $scope.labelCadastrarBtn = "Nova Receita";
+  $scope.tituloView = "Cadastro de Destaques do E-Commerce ("+$stateParams.tipo+"s)";
+  $scope.headerLista = "Nenhum Destaque foi encontrado";
+  $scope.labelCadastrarBtn = "Novo Destaque";
   
   $scope.atualizarLista = function(){
-    $scope.receitas = ReceitaResource.query();
-    //incluir spinner enquanto esta carregando a lista
+    $scope.destaques = DestaqueResource.listFiltro({p:$httpParamSerializerJQLike({tipo: $stateParams.tipo})});
+//    $scope.destaques = DestaqueResource.query();
   };
   
   $scope.ordenar = function (campo) {
@@ -22,13 +22,13 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
     $scope.params = {
       formTipo: 'insert',
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
-      tituloDialog: "Cadastrar Receita",
-      insumos: InsumoResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})}),
-      receita: new ReceitaResource()
+      tituloDialog: "Cadastrar Destaque",
+      tipo: $stateParams.tipo,
+      destaque: new DestaqueResource()
     };
     var modalInstance = $modal.open({
-      templateUrl: 'views/cadastro/dialog/formReceita.html',
-      controller: 'ReceitaDialogCtrl',
+      templateUrl: 'views/ecom/dialog/formDestaque.html',
+      controller: 'DestaqueDialogCtrl',
       backdrop: 'static',
       size: 'lg',
       resolve: {
@@ -39,26 +39,23 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
     });
     modalInstance.result.then(function (result) {
       if (result.status == "sucesso") {
-//        $scope.receitas[index] = result.receita;
         $scope.atualizarLista();
-//        scope.$apply(); 
       } 
     });
   };
 
-  $scope.openUpdateDialog = function (receita) {    
-//    index = $scope.receitas.indexOf($filter('filter')($scope.receitas, receita, true)[0]);    
+  $scope.openUpdateDialog = function (destaque) {
     $scope.params = {
       formTipo: 'update',
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
-      tituloDialog: "Editar Receita",
-      insumos: InsumoResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})}),
-      receita: angular.copy(receita)
+      tituloDialog: "Editar Destaque",
+      tipo: $stateParams.tipo,
+      destaque: angular.copy(destaque)
     };
 
     var modalInstance = $modal.open({
-      templateUrl: "views/cadastro/dialog/formReceita.html",
-      controller: "ReceitaDialogCtrl",
+      templateUrl: "views/ecom/dialog/formDestaque.html",
+      controller: "DestaqueDialogCtrl",
       backdrop: 'static',
       size: 'lg',
       resolve: {
@@ -69,49 +66,46 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
     });
     modalInstance.result.then(function (result) {
       if (result.status == "sucesso") {
-//        $scope.receitas[index] = result.receita;
         $scope.atualizarLista();
-//        scope.$apply(); 
       } 
     });
   };
   
-  $scope.openAtivarDesativarDialog = function (receita) {
-//    index = $scope.receitas.indexOf($filter('filter')($scope.receitas, receita, true)[0]);    
+  $scope.openDeleteDialog = function (destaque) {
     swal({
-      title: "Deseja mesmo" + (receita.dtDesativacao ? " ativar" : " desativar") + " a Receita " + receita.nome + "?",
-      text: "Você poderá" + (receita.dtDesativacao ? " desativar" : " ativar") + " a Receita novamente!",
+      title: "Deseja mesmo excluir o Destaque " + destaque.nome + "?",
+      text: "A ação não poderá ser desfeita!",
       type: "warning",
       showCancelButton: true,
-      confirmButtonColor: (receita.dtDesativacao ? "#428bca" : "#DD6B55"), //#f0ad4e
+      confirmButtonColor: ("#DD6B55"),
       cancelButtonText: "NÃO",
       confirmButtonText: "SIM"
     },
     function () {
-      var receitaCopy = angular.copy(receita);
-      receitaCopy.dtDesativacao = (receita.dtDesativacao ? null : $filter('date')(new Date(), 'dd/MM/yyyy HH:mm:ss'));
-      receitaCopy.$update(
+      var destaqueCopy = angular.copy(destaque);
+      destaqueCopy.$delete(
+//      destaqueCopy.$delete({id: destaque.id},
       function(){
         $scope.atualizarLista();
-        toastMsg = receita.nome + (receita.dtDesativacao ? " ativada!" : " desativada!");
-        toastr.success(toastMsg, "Sucesso!");
+        toastMsg = "Destaque " + destaque.nome + " excluído com sucesso";
+        toastr.success(toastMsg);
       }, function(){
-        toastMsg = receita.nome + " não foi " + (receita.dtDesativacao ? "ativada!" : "desativada!");
+        toastMsg = "O destaque " + destaque.nome + " não foi excluído";
         toastr.error(toastMsg, "Erro!");
       });
     });    
   };
 
-  $scope.openInfoDialog = function (receita) {    
+  $scope.openInfoDialog = function (destaque) {    
     $scope.params = {
       formTipo: 'info',
       iconeHeaderDialog: CONST.info.iconeHeaderDialog,
-      tituloDialog: "Detalhes Receita",
-      receita: angular.copy(receita)
+      tituloDialog: "Detalhes Destaque",
+      destaque: angular.copy(destaque)
     };
     var modalInstance = $modal.open({
-      templateUrl: "views/cadastro/dialog/infoReceita.html",
-      controller: "ReceitaDialogCtrl",
+      templateUrl: "views/ecom/dialog/infoDestaque.html",
+      controller: "DestaqueDialogCtrl",
       backdrop: 'static',
       size: 'lg',
       resolve: {
@@ -125,114 +119,46 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
   $scope.atualizarLista();
   
 })
-  .controller('ReceitaDialogCtrl', function ($scope, $modal, $filter, $modalInstance, $httpParamSerializerJQLike, InsumoResource, params, CONST, toastr) {
+  .controller('DestaqueDialogCtrl', function ($scope, $modal, $filter, ProdutoResource, PessoaResource, $modalInstance, $httpParamSerializerJQLike, params, CONST, toastr) {
     $scope.CONST = CONST;
     $scope.formTipo = params.formTipo;
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
-    $scope.insumosAll = params.insumos;
-//    $scope.insumosAll = InsumoResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})},
-//    function(){
-//      console.log($scope.insumosAll);
-//    });
+    $scope.tipo = params.tipo;
     
-          
-    $scope.receita = params.receita;
-    $scope.receitaInit = angular.copy($scope.receita);
-    if(!$scope.receita.insumosReceita){
-      $scope.receita.insumosReceita = [];
+    if($scope.tipo == "produto"){
+      $scope.produtosAll = ProdutoResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})});
+    }else{
+      $scope.parceirosAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil: 'cliente', ativo:'S'})}); //tipoPessoa: 'PJ'
     }
-    
-    $scope.temp = {};
-//    $scope.temp.insumosReceita = $scope.receitaInit.insumosReceita;
-    $scope.temp.insumosReceita = [];
-    
-    angular.forEach($scope.receitaInit.insumosReceita, 
-    function(insumoReceita){
-      $scope.temp.insumosReceita.push(insumoReceita.insumo);
-    });
-
-//    $scope.form = [];
-    
-//    $scope.form = {
-//       insumos : []
-//    }
-    
-//    $scope.$watch("receita.insumosReceita",function(){
-//      angular.forEach($scope.receita.insumosReceita,function(v){
-//        var ins = {
-//          insumo : v,
-//          quantidade : 0
-//        }
-//        console.log(ins);
-//          $scope.form.insumos.push(ins);
-//      });
-//    });
-// 
-    $scope.addInsumoReceita = function(insumo){
-      var insumoReceita = {
-        insumo : insumo,
-        quantidade : null
-      };
-      $scope.receita.insumosReceita.push(insumoReceita);
-      //colocar focus na qtd do ultimo elemento
-    };
-    
-    $scope.removeInsumoReceita = function(insumo){
-      angular.forEach($scope.receita.insumosReceita, function(insumoReceita){
-        if(insumoReceita.insumo.id === insumo.id){
-          $scope.receita.insumosReceita.splice($scope.receita.insumosReceita.indexOf(insumoReceita), 1);
-//          $scope.atualizarLista();
-          return;
-        }
-      });
-    };
-    
-    $scope.atualizarLista = function(){ //corrigir function pra permitir remover insumo pela tabela
-      $scope.temp.insumosReceita = $scope.receita.insumosReceita;
-    };
-    
-    if(!$scope.receita.passos){
-      $scope.receita.passos = [];
-    }
+              
+    $scope.destaque = params.destaque;
+    $scope.destaqueInit = angular.copy($scope.destaque);
     
     $scope.ordenar = function (campo) {
       $scope.campo = campo;
       $scope.ascDsc = !$scope.ascDsc;
     };
     
-    $scope.addPasso = function(){
-      var passo = {
-        ordem: $scope.receita.passos ? $scope.receita.passos.length+1 : 1,
-        nome: "",
-        descricao: ""
-      };
-      $scope.receita.passos.push(passo);
+    $scope.toogleHelpIcon = function(){
+      $scope.showHelpIcon = !$scope.showHelpIcon;
+    };
+        
+    $scope.removerProdutoDestaque = function(index){
+      $scope.destaque.produtos.splice(index, 1);
     };
     
-    $scope.removerPasso = function(indexToRemove){
-      $scope.receita.passos.splice(indexToRemove, 1);
-      angular.forEach($scope.receita.passos, function(passo, passoIndex){
-        if(passoIndex >= indexToRemove){
-         passo.ordem = passo.ordem - 1;
-        }
-      });
+    $scope.removerParceiroDestaque = function(index){
+      $scope.destaque.parceiros.splice(index, 1);
     };
-    
-    $scope.passoSwap = function(curIndex, newIndex){
-      var passoTemp = angular.copy($scope.receita.passos[curIndex]);
-      $scope.receita.passos[curIndex].nome = $scope.receita.passos[newIndex].nome;
-      $scope.receita.passos[curIndex].descricao = $scope.receita.passos[newIndex].descricao;
-      $scope.receita.passos[newIndex].nome = passoTemp.nome;
-      $scope.receita.passos[newIndex].descricao = passoTemp.descricao;
-    };
-    
-    $scope.openImagemDialog = function(){      
+
+    $scope.openImagemDialog = function(){
       $scope.params = {
         formTipo: $scope.formTipo,
-        iconeHeaderDialog: $scope.receita.imagens ? CONST.editar.iconeHeaderDialog : CONST.inserir.iconeHeaderDialog,
-        tituloDialog: $scope.receita.imagens ? "Editar Imagem" : "Cadastrar Imagem",
-        imagemInit: angular.copy(params.receita.imagens ? params.receita.imagens[0] : null)
+        iconeHeaderDialog: $scope.iconeHeaderDialog,
+        tituloDialog: params.formTipo == 'insert' ? "Cadastrar Imagem" : "Editar Imagem",
+        imagens: $scope.destaque.imagem ? [angular.copy($scope.destaque.imagem)] : [],
+        maxImagens: 1
       };
       var modalInstance = $modal.open({
         templateUrl: "views/cadastro/dialog/formImagem.html",
@@ -245,25 +171,26 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
           }
         }
       });
-      modalInstance.result.then(function (imagemNova){
-        $scope.receita.imagens = [imagemNova];
+      modalInstance.result.then(function (imagens) {
+        $scope.destaque.imagem = imagens[0];
       }, function(){
         toastr.warning("A imagem não foi registrada");
       });
     };
-    
+     
     $scope.submit = function () {
       if ($scope.formTipo == 'insert') { //insert
-        $scope.receita.$save(function(){
-          var toastMsg = "Receita " + $scope.receita.nome + " cadastrada com sucesso!";
+        $scope.destaque.tipo = $scope.tipo;
+        $scope.destaque.$save(function(){
+          var toastMsg = "Destaque " + $scope.destaque.nome + " cadastrado com sucesso!";
           toastr.success(toastMsg, "successo");
           var result = {
-            receita: $scope.receita, 
+            destaque: $scope.destaque, 
             status: "sucesso"
           };
           $scope.close(result);
         }, function(){
-          var toastMsg = "Erro ao cadastrar Receita " + $scope.receita.nome;
+          var toastMsg = "Erro ao cadastrar Destaque " + $scope.destaque.nome;
           toastr.error(toastMsg, "Erro");
           var result = {
             status: "erro"
@@ -271,16 +198,16 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
           $scope.close(result);
         });
       } else { //update
-        $scope.receita.$update(function(){
-          var toastMsg = "Receita " + $scope.receita.nome + " editada com sucesso!";
+        $scope.destaque.$update(function(){
+          var toastMsg = "Destaque " + $scope.destaque.nome + " editado com sucesso!";
           toastr.success(toastMsg, "Sucesso");
           var result = {
-            receita: $scope.receita, 
+            destaque: $scope.destaque, 
             status: "sucesso"
           };
           $scope.close(result);
         }, function(){
-          var toastMsg = "Erro ao editar Receita " + $scope.receita.nome;
+          var toastMsg = "Erro ao editar Destaque " + $scope.destaque.nome;
           toastr.error(toastMsg, "Erro");
           var result = {
             status: "erro"
@@ -289,12 +216,10 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
         });
       }
     };
-    
     // inicio controle de abas
     $scope.steps = [
-      'Passo 1 - Dados Receita',
-      'Passo 2 - Ingredientes',
-      'Passo 3 - Instruções'
+      'Passo 1 - Dados Gerais',
+      $scope.tipo == "produto" ? 'Passo 2 - Produtos' : 'Passo 2 - Parceiros'
     ];
     $scope.selection = $scope.steps[0];//esse indice que diz se sera comecar qual aba
     $scope.getCurrentStepIndex = function () {
@@ -339,7 +264,7 @@ app.controller('ReceitaCtrl', function ($scope, $modal, $filter, ReceitaResource
     // Fim controle abas
   
     $scope.clear = function () {
-      $scope.receita = angular.copy($scope.receitaInit);      
+      $scope.destaque = angular.copy($scope.destaqueInit);      
     };
     
     $scope.close = function(result){

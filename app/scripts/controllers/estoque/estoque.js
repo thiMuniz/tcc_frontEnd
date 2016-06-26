@@ -362,9 +362,12 @@ app.controller('EstoqueCtrl', function (
           status: "sucesso"
         };
         $scope.close(result);
-      }, function(){
-        var toastMsg = "Erro ao cadastrar Lote " + $scope.lote.codLote;
-        toastr.error(toastMsg, "Erro");
+      }, function(retorno){
+        var toastMsg = "Erro ao cadastrar Lote";
+        if(retorno.status == 406){
+          toastMsg += "Dica: A quantidade de entrada não pode ser maior que o rendimento da receita";
+        }
+        toastr.error(toastMsg);
         var result = {
           status: "erro"
         };
@@ -379,9 +382,12 @@ app.controller('EstoqueCtrl', function (
           status: "sucesso"
         };
         $scope.close(result);
-      }, function(){
+      }, function(retorno){
         var toastMsg = "Erro ao editar Lote " + $scope.lote.codLote;
-        toastr.error(toastMsg, "Erro");
+        if(retorno.status == 406){
+          toastMsg += "Dica: A quantidade de entrada não pode ser maior que o rendimento da receita";
+        }
+        toastr.error(toastMsg);
         var result = {
           status: "erro"
         };

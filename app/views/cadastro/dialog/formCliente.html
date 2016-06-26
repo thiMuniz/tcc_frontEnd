@@ -59,13 +59,13 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="telefone1" class="col-sm-3 control-label">Telefone 1</label>
+            <label for="telefone1" class="col-sm-3 control-label">Telefone fixo </label>
             <div class="col-sm-7">
               <input class="form-control" type="text" id="telefone1" placeholder="Telefone 1" ui-br-phone-number ng-model="cliente.telefone1" >
             </div>
           </div>
           <div class="form-group">
-            <label for="telefone2" class="col-sm-3 control-label">Telefone 2</label>
+            <label for="telefone2" class="col-sm-3 control-label">Telefone celular</label>
             <div class="col-sm-7">
               <input class="form-control" type="text" id="telefone2" placeholder="Telefone 2" ui-br-phone-number ng-model="cliente.telefone2" >
             </div>
@@ -164,16 +164,9 @@
           <div class="form-group">
             <label for="inscricaoEst" class="col-sm-3 control-label">Inscricao Estadual</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="inscricaoEst" placeholder="Somente números" ng-model="cliente.pj.inscricaoEst" >
+              <input class="form-control" type="text" id="inscricaoEst" placeholder="Somente números" ui-number-mask="0" ng-model="cliente.pj.inscricaoEst" >
             </div>
-          </div> 
-          <!--          apagar após testes com datepicker-->
-<!--          <div class="form-group">
-            <label for="dtAbertura" class="col-sm-3 control-label">Data Abertura</label>
-            <div class="col-sm-7">
-              <input class="form-control" type="text" id="dtAbertura" placeholder="" ng-model="cliente.pj.dtAbertura" >
-            </div>
-          </div>  -->
+          </div>
           <div class="form-group">
             <label for="dtAbertura" class="col-sm-3 control-label">Data de Abertura</label>
             <div class="col-sm-7">
@@ -185,25 +178,25 @@
           <div class="form-group">
             <label for="contato" class="col-sm-3 control-label">Contato</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="contato" placeholder="" ng-model="cliente.pj.contato" >
+              <input class="form-control" type="text" id="contato" placeholder="Contato" ng-model="cliente.pj.contato" >
             </div>
           </div> 
           <div class="form-group">
             <label for="website" class="col-sm-3 control-label">Website</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="website" placeholder="" ng-model="cliente.pj.website" >
+              <input class="form-control" type="text" id="website" placeholder="Site" ng-model="cliente.pj.website" >
             </div>
           </div> 
           <div class="form-group">
             <label for="hrMinEntrega" class="col-sm-3 control-label">Hora Minima Entrega</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="hrMinEntrega" placeholder="" ng-model="cliente.pj.hrMinEntrega" >
+              <input class="form-control" type="text" id="hrMinEntrega" placeholder="Apenas números" ui-time-mask="short" ng-model="cliente.pj.hrMinEntrega">
             </div>
           </div> 
           <div class="form-group">
             <label for="hrMaxEntrega" class="col-sm-3 control-label">Hora Maxima Entrega</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="hrMaxEntrega" placeholder="" ng-model="cliente.pj.hrMaxEntrega" >
+              <input class="form-control" type="text" id="hrMaxEntrega" placeholder="Apenas números" ui-time-mask="short" ng-model="cliente.pj.hrMaxEntrega">
             </div>
           </div> 
 

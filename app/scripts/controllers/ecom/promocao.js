@@ -3,7 +3,7 @@ app.controller('PromocaoCtrl', function ($scope, $modal, $filter, PromocaoResour
   
   var toastMsg = "";
   $scope.CONST = CONST;
-  $scope.tituloView = "Cadastro de Promoções de Produtos";
+  $scope.tituloView = "Cadastro de Promoções do E-Commerce";
   $scope.headerLista = "Nenhuma Promoção foi encontrada";
   $scope.labelCadastrarBtn = "Nova Promoção";
   
@@ -130,6 +130,32 @@ app.controller('PromocaoCtrl', function ($scope, $modal, $filter, PromocaoResour
       }
     };
     
+    $scope.openImagemDialog = function(){
+      $scope.params = {
+        formTipo: $scope.formTipo,
+        iconeHeaderDialog: $scope.iconeHeaderDialog,
+        tituloDialog: params.formTipo == 'insert' ? "Cadastrar Imagem" : "Editar Imagem",
+        imagens: $scope.promocao.imagem ? [angular.copy($scope.promocao.imagem)] : [],
+        maxImagens: 1
+      };
+      var modalInstance = $modal.open({
+        templateUrl: "views/cadastro/dialog/formImagem.html",
+        controller: "ImagemDialogCtrl",
+        backdrop: 'static',
+        size: 'lg',
+        resolve: {
+          params: function () {
+            return $scope.params;
+          }
+        }
+      });
+      modalInstance.result.then(function (imagens) {
+        $scope.promocao.imagem = imagens[0];
+      }, function(){
+        toastr.warning("A imagem não foi registrada");
+      });
+    };
+     
     $scope.submit = function () {
       if ($scope.formTipo == 'insert') { //insert
         $scope.promocao.$save(function(){

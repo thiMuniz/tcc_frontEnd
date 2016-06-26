@@ -29,10 +29,11 @@ var app = angular.module('sbAdminApp', [
 ])
 .constant("CONST", {
   ws:{
-//            urlSGP: "http://45.55.228.230:8080/sgp/",  //HTTP  SGP
-    urlSGP: "https://45.55.228.230:8181/sgp/",   //HTTPS SGP
-//            urlSGP: "http://45.55.228.230:8080/uat/",  //HTTP  UAT
-//            urlSGP: "https://45.55.228.230:8181/uat/", //HTTPS UAT
+    urlSGP: "http://naturefibrasltda.com/",  //HTTP  SGP
+//    urlSGP: "http://192.168.25.5:8080/sgitcc/",  //Local Gustavo
+//    urlSGP: "https://45.55.228.230:8181/",   //HTTPS SGP
+//    urlSGP: "http://naturefibrasltda.com/uat/",  //HTTP  UAT
+//    urlSGP: "https://45.55.228.230:8181/uat/", //HTTPS UAT
     urlCep: "https://viacep.com.br/ws/",
     urlCorreios: "",
     urlRF: ""
@@ -437,19 +438,20 @@ var app = angular.module('sbAdminApp', [
     }
   })
   .state('main.ecom.destaque', {
-    template: '<div ui-view></div>',
-    abstract: true,
-    url: '/destaque'
-  })
-  .state('main.ecom.destaque.produto', {
-    templateUrl: 'views/ecom/destaqueProduto.html',
-    url: '/produto/',
+//    template: '<div ui-view></div>',
+//    abstract: true,
+    templateUrl: 'views/ecom/destaque.html',
+    url: '/destaque/:tipo',    
+    params : {
+      tipo:''
+    },
     resolve: {
       loadMyFiles: function ($ocLazyLoad) {
         return $ocLazyLoad.load({
           name: 'sbAdminApp',
           files: [
             'scripts/controllers/ecom/destaque.js',
+            'scripts/services/destaque.js',
             'scripts/services/produto.js',
             'scripts/services/pessoa.js'
           ]
@@ -457,22 +459,41 @@ var app = angular.module('sbAdminApp', [
       }
     }
   })
-  .state('main.ecom.destaque.parceiro', {
-    templateUrl: 'views/ecom/destaqueParceiro.html',
-    url: '/parceiro/',
-    resolve: {
-      loadMyFiles: function ($ocLazyLoad) {
-        return $ocLazyLoad.load({
-          name: 'sbAdminApp',
-          files: [
-            'scripts/controllers/ecom/destaque.js',
-            'scripts/services/produto.js',
-            'scripts/services/pessoa.js'
-          ]
-        });
-      }
-    }
-  });
+//  .state('main.ecom.destaque.produto', {
+//    templateUrl: 'views/ecom/destaque.html',
+//    url: '/produto/',
+//    resolve: {
+//      loadMyFiles: function ($ocLazyLoad) {
+//        return $ocLazyLoad.load({
+//          name: 'sbAdminApp',
+//          files: [
+//            'scripts/controllers/ecom/destaque.js',
+//            'scripts/services/destaque.js',
+//            'scripts/services/produto.js',
+//            'scripts/services/pessoa.js'
+//          ]
+//        });
+//      }
+//    }
+//  })
+//  .state('main.ecom.destaque.parceiro', {
+//    templateUrl: 'views/ecom/destaque.html',
+//    url: '/parceiro/',
+//    resolve: {
+//      loadMyFiles: function ($ocLazyLoad) {
+//        return $ocLazyLoad.load({
+//          name: 'sbAdminApp',
+//          files: [
+//            'scripts/controllers/ecom/destaque.js',
+//            'scripts/services/destaque.js',
+//            'scripts/services/produto.js',
+//            'scripts/services/pessoa.js'
+//          ]
+//        });
+//      }
+//    }
+//  })
+  ;
 
 })
 

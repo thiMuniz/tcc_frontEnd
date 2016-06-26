@@ -78,8 +78,8 @@
           <li ng-init="third = !third" ng-class="{active: multiCollapseVar == 8}">
             <a href ng-click="multiCheck(8)"> Destaque <span class="fa arrow"></span></a>
             <ul class="nav nav-third-level" collapse="multiCollapseVar!=8">
-              <li><a href ui-sref="main.ecom.destaque.produto"> Produtos </a></li>
-              <li><a href ui-sref="main.ecom.destaque.parceiro"> Parceiros </a></li>
+              <li><a href ui-sref="main.ecom.destaque({tipo: 'produto'})"> Produtos </a></li>
+              <li><a href ui-sref="main.ecom.destaque({tipo: 'parceiro'})"> Parceiros </a></li>
             </ul> <!-- /.nav-third-level -->
           </li>
         </ul> <!-- /.nav-second-level -->        
@@ -89,14 +89,11 @@
         <a href ng-click="check(9)"><i class="fa fa-file-text fa-fw"></i> Relatórios <span
             class="fa arrow"></span></a>
         <ul class="nav nav-second-level" collapse="collapseVar!=9">
-          <li><a href ui-sref="main.relatorio.fornecedor"> Fornecedor </a></li>
-          <li><a href ui-sref="main.relatorio.cliente"> Cliente </a></li>
-          <li><a href ui-sref="main.relatorio.produto"> Produto </a></li>
+          <li><a href ui-sref="main.relatorio.fornecedor"> Fornecedores </a></li>
+          <li><a href ui-sref="main.relatorio.cliente"> Clientes </a></li>
           <li><a href ui-sref="main.relatorio.produtividade"> Produtividade </a></li>
-          <li><a href ui-sref="main.relatorio.pedido"> Pedido </a></li>
-          <li><a href ui-sref="main.relatorio.venda"> Venda </a></li>
-          <li><a href ui-sref="main.relatorio.satisfacao"> Pesquisa Satisfação </a></li>
-          <li><a href ui-sref="main.relatorio.pagamento"> Pagamento </a></li>                
+          <li><a href ui-sref="main.relatorio.pedido"> Pedidos </a></li>
+          <li><a href ui-sref="main.relatorio.venda"> Vendas </a></li>              
         </ul>
         <!-- /.nav-second-level -->
       </li>

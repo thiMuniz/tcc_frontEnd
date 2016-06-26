@@ -1,4 +1,4 @@
-<section ng-controller="PromocaoCtrl">
+<section ng-controller="DestaqueCtrl">
 <div class="row">
     <div class="col-lg-12">
       <h1 class="page-header">{{tituloView}}</h1>
@@ -27,27 +27,30 @@
                 <tr>
                   <!--<th><a href="" ng-click="ordenar('id')">Código</a></th>-->
                   <th colspan="2"><a href="" ng-click="ordenar('nome')">Nome</a></th>
-                  <th><a href="" ng-click="ordenar('dtDesativacao')">Status</a></th>
+                  <th><a href="" ng-click="ordenar('descricao')">Descrição</a></th>
+                  <th><a href="" ng-click="ordenar('tipo')">Tipo</a></th>
                   <th>Ação</th>                  
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="promocao in promocoes | filter : filtroGenerico | orderBy : campo : ascDsc">
-                  <!--<td>{{promocao.id}}</td>-->
-                  <td ><img ng-src="{{promocao.imagem.arquivo}}" class="img-thumbnail img-list-view"/></td>
-                  <td>{{promocao.nome}}</td>
-                  <td style="{{promocao.dtDesativacao ? 'color: red' : ''}}">
-                    {{promocao.dtDesativacao ? "Desativado" : " Ativo"}}
-                  </td>
+                <tr ng-repeat="destaque in destaques | filter : filtroGenerico | orderBy : campo : ascDsc">
+                  <!--<td>{{destaque.id}}</td>-->
+                  <td ><img ng-src="{{destaque.imagem.arquivo}}" class="img-thumbnail img-list-view"/></td>
+                  <td>{{destaque.nome}}</td>
+                  <td>{{destaque.descricao}}</td>
+                  <td>{{destaque.tipo}}</td>                  
                   <td>
-                    <a class="{{promocao.dtDesativacao ? 'acao-disabled' : ''}}" ng-click="openUpdateDialog(promocao)" tooltip="{{CONST.editar.tooltipAcao}}" >
+                    <a ng-click="openUpdateDialog(destaque);" tooltip="{{CONST.editar.tooltipAcao}}">
                       <ng-md-icon icon="{{CONST.editar.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
-                    <a ng-click="openInfoDialog(promocao);" tooltip="{{CONST.info.tooltipAcao}}">
+                    <a ng-click="openDeleteDialog(destaque);" tooltip="{{CONST.excluir.tooltipAcao}}">
+                      <ng-md-icon icon="{{CONST.excluir.iconeAcao}}"></ng-md-icon>
+                    </a>&nbsp;
+                    <a ng-click="openInfoDialog(destaque);" tooltip="{{CONST.info.tooltipAcao}}">
                       <ng-md-icon icon="{{CONST.info.iconeAcao}}"></ng-md-icon>
                     </a>&nbsp;
                   </td> 
-               </tr>
+                </tr>
               </tbody>
             </table>
           </div><!-- /.table-responsive -->

@@ -221,7 +221,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
       $scope.cliente.pj = $scope.clienteInit.pj;
       $scope.steps[1] = $scope.abaPJ;
     }
-  }
+  };
 
   //valida email
   $scope.email = function () {

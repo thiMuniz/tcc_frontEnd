@@ -80,7 +80,7 @@
           <div class="form-group">
             <label for="inscricaoEst" class="col-sm-3 control-label">Inscricao Estadual</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="inscricaoEst" placeholder="Apenas números" ui-number-mask ng-model="fornecedor.pj.inscricaoEst" ng-disabled="formTipo == 'update'">
+              <input class="form-control" type="text" id="inscricaoEst" placeholder="Apenas números" ui-number-mask="0" ng-model="fornecedor.pj.inscricaoEst" > <!-- ng-disabled="formTipo == 'update'" -->
             </div>
           </div> 
           <!--          apagar após testes com datepicker-->
