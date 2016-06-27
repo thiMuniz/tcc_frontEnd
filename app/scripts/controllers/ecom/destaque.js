@@ -158,7 +158,8 @@ app.controller('DestaqueCtrl', function ($scope, $modal, $filter, DestaqueResour
         iconeHeaderDialog: $scope.iconeHeaderDialog,
         tituloDialog: params.formTipo == 'insert' ? "Cadastrar Imagem" : "Editar Imagem",
         imagens: $scope.destaque.imagem ? [angular.copy($scope.destaque.imagem)] : [],
-        maxImagens: 1
+        maxImagens: 1,
+        areaType: 'rectangle'
       };
       var modalInstance = $modal.open({
         templateUrl: "views/cadastro/dialog/formImagem.html",

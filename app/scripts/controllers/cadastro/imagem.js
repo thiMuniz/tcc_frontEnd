@@ -7,7 +7,8 @@ app.controller('ImagemDialogCtrl', function ($scope, $modalInstance, params, CON
     $scope.textImgBtn = params.formTipo == 'insert' ? CONST.inserir.textImgBtn : CONST.editar.textImgBtn;
     $scope.imagens = params.imagens;
     $scope.imagensInit = angular.copy(params.imagens);
-    $scope.maxImagens = params.maxImagens;    
+    $scope.maxImagens = params.maxImagens;
+    $scope.cropOpt = params.cropOpt;
     
     $scope.addImagem = function(){
       $scope.imagens.push(angular.copy($scope.imagemNew));

@@ -1,0 +1,156 @@
+<section ng-controller="RelatorioCtrl">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">{{tituloView}}
+        <div class="pull-right col-md-2">
+          <a href ><ng-md-icon id="helpIcon1" icon="help" style="fill: grey" size="36" ng-show="!showHelpIcon" ng-click="toogleHelpIcon()" tooltip="Exibir ícones de ajuda" tooltip-placement="right"></ng-md-icon></a>
+          <a href ><ng-md-icon id="helpIcon2" icon="help" style="fill: blue" size="36" ng-show="showHelpIcon" ng-click="toogleHelpIcon()" tooltip="Ocultar ícones de ajuda" tooltip-placement="right"></ng-md-icon></a>
+        </div>
+      </h1>      
+    </div>
+  </div> 
+  <div class="row">        
+    <div class="col-lg-12">
+      <form class="form-horizontal" role="form" name="formRelFornecedores">
+        
+        <div class="form-group">
+          <label for="dtIni" class="col-sm-2 control-label">Data inicial</label>
+          <div class="col-sm-3">
+            <div class="datepicker" date-format="dd/MM/yyyy" >
+              <input class="form-control" type="text" id="dtIni" placeholder="Data inicial" ng-model="objRel.dtIni">
+            </div>
+            <span id="helpBlock" class="help-block" ng-show="showHelp.dtIni"> Data do início do periodo que deseja contemplar no relatório </span>
+          </div>
+          <div class="col-sm-1" ng-show="showHelpIcon">
+            <a ng-mouseover="showHelp.dtIni = true" ng-mouseleave="showHelp.dtIni = false" tooltip="Ajuda" >
+              <ng-md-icon icon="help"></ng-md-icon>
+            </a>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="dtFim" class="col-sm-2 control-label">Data final</label>
+          <div class="col-sm-3">
+            <div class="datepicker" date-format="dd/MM/yyyy" >
+              <input class="form-control" type="text" id="dtFim" placeholder="Data final" ng-model="objRel.dtFim">
+            </div>
+            <span id="helpBlock" class="help-block" ng-show="showHelp.dtFim"> Data do fim do periodo que deseja contemplar no relatório </span>
+          </div>
+          <div class="col-sm-1" ng-show="showHelpIcon">
+            <a ng-mouseover="showHelp.dtFim = true" ng-mouseleave="showHelp.dtFim = false" tooltip="Ajuda" >
+              <ng-md-icon icon="help"></ng-md-icon>
+            </a>
+          </div>
+        </div>
+        
+        <div class="form-group" ng-if="rel == 'clientes' || rel == 'vendas'">
+          <label for="tipo" class="col-sm-2 control-label">Tipo Pessoa</label>
+          <div class="col-sm-3">
+            <ui-select 
+              ng-model="temp.tipoPessoa"
+              on-select="setTipoPessoa($select.selected)"
+              theme="bootstrap" append-to-body="false" >
+              <ui-select-match class="ui-select-match" placeholder="Selecione o tipo de pessoa"> 
+                {{$select.selected.value}} 
+              </ui-select-match>
+              <ui-select-choices class="ui-select-choices" repeat="tipoPessoa in tiposPessoa | filter:$select.search">
+                {{tipoPessoa.value}}
+              </ui-select-choices>
+            </ui-select>
+            <span id="helpBlock" class="help-block" ng-show="showHelp.tipo"> Filtro para o tipo de pessoa que deseja contemplar no relatório. Pode ser apenas PF, apenas PJ ou ambos (opção "Todos") </span>
+          </div>
+          <div class="col-sm-1" ng-show="showHelpIcon">
+            <a ng-mouseover="showHelp.tipo = true" ng-mouseleave="showHelp.tipo = false" tooltip="Ajuda" >
+              <ng-md-icon icon="help"></ng-md-icon>
+            </a>        
+          </div>
+        </div>
+        
+        <div class="form-group" ng-if="rel == 'fornecedores'">
+          <label for="fornecedor" class="col-sm-2 control-label">Fornecedor</label>
+          <div class="col-sm-3">
+            <ui-select 
+              ng-model="temp.fornecedor"
+              on-select="setFornecedor($select.selected)"
+              theme="bootstrap" append-to-body="false" >
+              <ui-select-match class="ui-select-match" placeholder="Selecione o fornecedor"> 
+                {{$select.selected.pj.nomeFantasia}} 
+              </ui-select-match>
+              <ui-select-choices class="ui-select-choices" repeat="fornecedor in fornecedoresAll | filter:$select.search">
+                {{fornecedor.pj.nomeFantasia}}
+              </ui-select-choices>
+            </ui-select>
+            <span id="helpBlock" class="help-block" ng-show="showHelp.fornecedor"> Filtro para o fornecedor que deseja contemplar no relatório. Quando selecionado um fornecedor, serão listados os itens de matéria-prima que este forneceu no período </span>
+          </div>
+          <div class="col-sm-1" ng-show="showHelpIcon">
+            <a ng-mouseover="showHelp.fornecedor = true" ng-mouseleave="showHelp.fornecedor = false" tooltip="Ajuda" >
+              <ng-md-icon icon="help"></ng-md-icon>
+            </a>        
+          </div>
+        </div>
+        
+        <div class="form-group" ng-if="rel == 'fornecedores'">
+          <label for="insumo" class="col-sm-2 control-label">Ingrediente</label>
+          <div class="col-sm-3">
+            <ui-select 
+              ng-model="temp.insumo"
+              on-select="setInsumo($select.selected)"
+              theme="bootstrap" append-to-body="false" >
+              <ui-select-match class="ui-select-match" placeholder="Selecione o ingrediente"> 
+                <img ng-src="{{$select.selected.imagens[0].caminhoArquivo}}" class="img-circle img-ui-select">
+                {{$select.selected.nome}} 
+              </ui-select-match>
+              <ui-select-choices class="ui-select-choices" repeat="insumo in insumosAll | filter:$select.search">
+                <img ng-src="{{insumo.imagens[0].caminhoArquivo}}" class="img-circle img-ui-select">
+                {{insumo.nome}}
+              </ui-select-choices>
+            </ui-select>
+            <span id="helpBlock" class="help-block" ng-show="showHelp.insumo"> Filtro para o ingrediente que deseja contemplar no relatório. Quando selecionado um ingrediente, serão listados os seus fornecedores no período </span>
+          </div>
+          <div class="col-sm-1" ng-show="showHelpIcon">
+            <a ng-mouseover="showHelp.insumo = true" ng-mouseleave="showHelp.insumo = false" tooltip="Ajuda" >
+              <ng-md-icon icon="help"></ng-md-icon>
+            </a>
+          </div>
+        </div>
+        
+        <div class="form-group" ng-if="rel == 'produtividade'">
+          <label for="produto" class="col-sm-2 control-label">Produto</label>
+          <div class="col-sm-3">
+            <ui-select 
+              ng-model="temp.produto"
+              on-select="setInsumo($select.selected)"
+              theme="bootstrap" append-to-body="false" >
+              <ui-select-match class="ui-select-match" placeholder="Selecione o produto"> 
+                <img ng-src="{{$select.selected.imagens[0].caminhoArquivo}}" class="img-circle img-ui-select">
+                {{$select.selected.nome}} 
+              </ui-select-match>
+              <ui-select-choices class="ui-select-choices" repeat="produto in produtosAll | filter:$select.search">
+                <img ng-src="{{produto.imagens[0].caminhoArquivo}}" class="img-circle img-ui-select">
+                {{produto.nome}}
+              </ui-select-choices>
+            </ui-select>
+            <span id="helpBlock" class="help-block" ng-show="showHelp.produto"> Filtro para o produto que deseja contemplar no relatório </span>
+          </div>
+          <div class="col-sm-1" ng-show="showHelpIcon">
+            <a ng-mouseover="showHelp.produto = true" ng-mouseleave="showHelp.produto = false" tooltip="Ajuda" >
+              <ng-md-icon icon="help"></ng-md-icon>
+            </a>
+          </div>
+        </div>
+        
+        {{objRel}}
+        <div class="row">
+          <div class="footer">
+            <button type="button" class="btn btn-default btn-lg" ng-click="clear()" tooltip="Limpar filtros">
+              <ng-md-icon icon="refresh"></ng-md-icon> Limpar
+            </button>
+            <button class="btn btn-primary btn-lg" ng-click="getRelatorio()" tooltip="Emitir relatório">
+              <ng-md-icon icon="print"></ng-md-icon> &nbsp;Emitir
+            </button>
+          </div>
+        </div>
+      </form>
+    </div><!-- /.col-lg-12 -->
+  </div><!-- /.row -->
+</section>

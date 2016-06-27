@@ -3,7 +3,7 @@ app.controller('PedidoCtrl', function (
     $scope, 
     $modal, 
     $stateParams, 
-    PedidoResource,  
+    PedidoResource, 
     CONST, 
     toastr, 
     $httpParamSerializerJQLike,

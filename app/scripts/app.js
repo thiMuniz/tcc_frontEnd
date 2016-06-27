@@ -204,6 +204,24 @@ var app = angular.module('sbAdminApp', [
     abstract: true,
     url: '/cadastro'
   })
+  .state('main.cadastro.cliente', {
+    templateUrl: 'views/cadastro/cliente.html',
+    url: '/cliente/:perfil',
+    params : {
+      perfil:''
+    },
+    resolve: {
+      loadMyFiles: function ($ocLazyLoad) {
+        return $ocLazyLoad.load({
+          name: 'sbAdminApp',
+          files: [
+            'scripts/controllers/cadastro/cliente.js',                              
+            'scripts/services/formaPgto.js'
+          ]
+        });
+      }
+    }
+  })
   .state('main.cadastro.fornecedor', {
     templateUrl: 'views/cadastro/fornecedor.html',
     url: '/fornecedor/:perfil',
@@ -234,24 +252,6 @@ var app = angular.module('sbAdminApp', [
           name: 'sbAdminApp',
           files: [
             'scripts/controllers/cadastro/colaborador.js'
-          ]
-        });
-      }
-    }
-  })
-  .state('main.cadastro.cliente', {
-    templateUrl: 'views/cadastro/cliente.html',
-    url: '/cliente/:perfil',
-    params : {
-      perfil:''
-    },
-    resolve: {
-      loadMyFiles: function ($ocLazyLoad) {
-        return $ocLazyLoad.load({
-          name: 'sbAdminApp',
-          files: [
-            'scripts/controllers/cadastro/cliente.js',                              
-            'scripts/services/formaPgto.js'
           ]
         });
       }
@@ -452,6 +452,23 @@ var app = angular.module('sbAdminApp', [
             'scripts/services/destaque.js',
             'scripts/services/produto.js',
             'scripts/services/pessoa.js'
+          ]
+        });
+      }
+    }
+  })
+  .state('main.relatorio', {
+    templateUrl: 'views/relatorio/relatorios.html',
+    url: '/relatorio/:rel',   
+    resolve: {
+      loadMyFiles: function ($ocLazyLoad) {
+        return $ocLazyLoad.load({
+          name: 'sbAdminApp',
+          files: [
+            'scripts/controllers/relatorio/relatorio.js',
+            'scripts/services/pessoa.js',
+            'scripts/services/produto.js',
+            'scripts/services/insumo.js'
           ]
         });
       }

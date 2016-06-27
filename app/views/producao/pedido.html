@@ -37,7 +37,7 @@
                 <tr ng-repeat="pedido in pedidos | filter : filtroGenerico | orderBy : campo : ascDsc">
                   <td>{{pedido.id}}</td>
                   <td>{{pedido.codPedido}}</td>
-                  <td>{{pedido.pessoa ? (pedido.pessoa.pf ? pedido.pessoa.pf.nome : pedido.pessoa.pj.nomeFantasia) : 'Não identificado';}}</td>
+                  <td>{{pedido.pessoa ? (pedido.pessoa.pf ? pedido.pessoa.pf.nome : pedido.pessoa.pj.nomeFantasia) : 'Visitante';}}</td>
                   <td ng-class="getTextClass(pedido)" ><strong>{{pedido.statusAtual.status.nome}}</strong></td>
                   <td>{{pedido.statusAtual.dtStatus}}</td>
                   <td>{{pedido.valorTotal | currency}}</td>
