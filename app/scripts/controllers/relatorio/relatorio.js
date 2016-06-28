@@ -25,7 +25,8 @@ app.controller('RelatorioCtrl', function ($scope, $modal, $http, $filter, Produt
       $scope.produtosAll = ProdutoResource.query();
       break;
     case 'pedidos':
-      $scope.status = [
+      $scope.statusAll = [
+        {id:'', nome:'TODOS'},
         {id:1, nome:'CARRINHO'},
         {id:2, nome:'PEDIDO EFETIVADO'},
         {id:3, nome:'PAGAMENTO'},
@@ -36,10 +37,10 @@ app.controller('RelatorioCtrl', function ($scope, $modal, $http, $filter, Produt
         {id:8, nome:'CONCLUÍDO'},
         {id:9, nome:'CANCELADO'}
       ];
-      $scope.clientesAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:"cliente"})});
+      $scope.clientesAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:"cliente", ativo:'S'})});
       break;
     case 'vendas':
-      $scope.clientesAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:"cliente"})});
+      $scope.clientesAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:"cliente", ativo:'S'})});
       $scope.tiposPessoa = [
         {key: '', value: 'Todos'},
         {key: 'pj', value: 'Pessoa Jurídica'},
@@ -54,7 +55,7 @@ app.controller('RelatorioCtrl', function ($scope, $modal, $http, $filter, Produt
   };
   
   $scope.setTipoPessoa = function(tipoPessoa){
-    $scope.objRel.tipo = tipoPessoa.key;
+    $scope.objRel.tipoPessoa = tipoPessoa.key;
   };
   
   $scope.setFornecedor = function(fornecedor){
@@ -69,6 +70,13 @@ app.controller('RelatorioCtrl', function ($scope, $modal, $http, $filter, Produt
     $scope.objRel.idProduto = produto.id;
   };
   
+  $scope.setCliente = function(cliente){
+    $scope.objRel.idCliente = cliente.id;
+  };
+  
+  $scope.setStatus = function(status){
+    $scope.objRel.idStatus = status.id;
+  };
   
   $scope.clear = function () {
     $scope.objRel = {};
@@ -76,6 +84,7 @@ app.controller('RelatorioCtrl', function ($scope, $modal, $http, $filter, Produt
   };
   
   $scope.getRelatorio = function () {
+    console.log($scope.objRel);
     $http.post(CONST.ws.urlSGP + 'relatorio/' + $stateParams.rel, $scope.objRel, {responseType: 'arraybuffer'})
             .success(function (response) {
               console.log("Success response: ");

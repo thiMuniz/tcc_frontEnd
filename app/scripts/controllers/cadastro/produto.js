@@ -179,13 +179,15 @@ app.controller('ProdutoCtrl', function ($scope, $modal, $filter, ProdutoResource
     $scope.iconeHeaderDialog = params.iconeHeaderDialog;
     $scope.tituloDialog = params.tituloDialog;
     
-    $scope.categoriasAll = CategoriaResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})});
-    $scope.receitasAll = ReceitaResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})});
-    
     $scope.produto = params.produto;
     $scope.produtoInit = angular.copy($scope.produto);
-        
-    if(params.formTipo == 'lookupItem'){
+    
+    if($scope.formTipo == 'insert' || $scope.formTipo == 'update'){
+      $scope.categoriasAll = CategoriaResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})});
+      $scope.receitasAll = ReceitaResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})});
+    };
+    
+    if($scope.formTipo == 'lookupItem'){
       switch(params.item){
         case 'selo':
           $scope.selosAll = params.itemResource;

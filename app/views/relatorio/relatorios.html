@@ -44,7 +44,7 @@
         </div>
         
         <div class="form-group" ng-if="rel == 'clientes' || rel == 'vendas'">
-          <label for="tipo" class="col-sm-2 control-label">Tipo Pessoa</label>
+          <label for="tipoPessoa" class="col-sm-2 control-label">Tipo Pessoa</label>
           <div class="col-sm-3">
             <ui-select 
               ng-model="temp.tipoPessoa"
@@ -57,10 +57,10 @@
                 {{tipoPessoa.value}}
               </ui-select-choices>
             </ui-select>
-            <span id="helpBlock" class="help-block" ng-show="showHelp.tipo"> Filtro para o tipo de pessoa que deseja contemplar no relatório. Pode ser apenas PF, apenas PJ ou ambos (opção "Todos") </span>
+            <span id="helpBlock" class="help-block" ng-show="showHelp.tipoPessoa"> Filtro para o tipo de pessoa que deseja contemplar no relatório. Pode ser apenas PF, apenas PJ ou ambos (opção "Todos") </span>
           </div>
           <div class="col-sm-1" ng-show="showHelpIcon">
-            <a ng-mouseover="showHelp.tipo = true" ng-mouseleave="showHelp.tipo = false" tooltip="Ajuda" >
+            <a ng-mouseover="showHelp.tipoPessoa = true" ng-mouseleave="showHelp.tipoPessoa = false" tooltip="Ajuda" >
               <ng-md-icon icon="help"></ng-md-icon>
             </a>        
           </div>
@@ -114,12 +114,35 @@
           </div>
         </div>
         
-        <div class="form-group" ng-if="rel == 'produtividade'">
+        <div class="form-group" ng-if="rel == 'pedidos' || rel == 'vendas'">
+          <label for="cliente" class="col-sm-2 control-label">Cliente</label>
+          <div class="col-sm-3">
+            <ui-select 
+              ng-model="temp.cliente"
+              on-select="setCliente($select.selected)"
+              theme="bootstrap" append-to-body="false" >
+              <ui-select-match class="ui-select-match" placeholder="Selecione o cliente"> 
+                {{$select.selected.pf.nome}} 
+              </ui-select-match>
+              <ui-select-choices class="ui-select-choices" repeat="cliente in clientesAll | filter:$select.search">
+                {{cliente.pf.nome}}
+              </ui-select-choices>
+            </ui-select>
+            <span id="helpBlock" class="help-block" ng-show="showHelp.cliente"> Filtro para o cliente que deseja contemplar no relatório </span>
+          </div>
+          <div class="col-sm-1" ng-show="showHelpIcon">
+            <a ng-mouseover="showHelp.cliente = true" ng-mouseleave="showHelp.cliente = false" tooltip="Ajuda" >
+              <ng-md-icon icon="help"></ng-md-icon>
+            </a>        
+          </div>
+        </div>
+        
+        <div class="form-group" ng-if="rel == 'produtividade' || rel == 'vendas'">
           <label for="produto" class="col-sm-2 control-label">Produto</label>
           <div class="col-sm-3">
             <ui-select 
               ng-model="temp.produto"
-              on-select="setInsumo($select.selected)"
+              on-select="setProduto($select.selected)"
               theme="bootstrap" append-to-body="false" >
               <ui-select-match class="ui-select-match" placeholder="Selecione o produto"> 
                 <img ng-src="{{$select.selected.imagens[0].caminhoArquivo}}" class="img-circle img-ui-select">
@@ -139,7 +162,55 @@
           </div>
         </div>
         
-        {{objRel}}
+        <div class="form-group" ng-if="rel == 'pedidos'">
+          <label for="status" class="col-sm-2 control-label"> Status </label>
+          <div class="col-sm-3">
+            <ui-select 
+              ng-model="temp.status"
+              on-select="setStatus($select.selected)"
+              theme="bootstrap" append-to-body="false" >
+              <ui-select-match class="ui-select-match" placeholder="Selecione o status do pedido"> 
+                {{$select.selected.nome}} 
+              </ui-select-match>
+              <ui-select-choices class="ui-select-choices" repeat="status in statusAll | filter:$select.search">
+                {{status.nome}}
+              </ui-select-choices>
+            </ui-select>
+            <span id="helpBlock" class="help-block" ng-show="showHelp.status"> Filtro para o status atual de pedidos que deseja contemplar no relatório </span>
+          </div>
+          <div class="col-sm-1" ng-show="showHelpIcon">
+            <a ng-mouseover="showHelp.status = true" ng-mouseleave="showHelp.status = false" tooltip="Ajuda" >
+              <ng-md-icon icon="help"></ng-md-icon>
+            </a>        
+          </div>
+        </div>
+        
+        <div class="form-group" ng-if="rel == 'pedidos'">
+          <label for="vlrMin" class="col-sm-2 control-label">Valor mínimo</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" id="vlrMin" placeholder="Apenas números" ui-money-mask ng-model="objRel.vlrMin">
+            <span id="helpBlock" class="help-block" ng-show="showHelp.vlrMin"> Valor mínimo (em relação ao valor total dos pedidos) que deseja contemplar no relatório </span>
+          </div>
+          <div class="col-sm-1" ng-show="showHelpIcon">
+            <a ng-mouseover="showHelp.vlrMin = true" ng-mouseleave="showHelp.vlrMin = false" tooltip="Ajuda" >
+              <ng-md-icon icon="help"></ng-md-icon>
+            </a>
+          </div>
+        </div>
+        
+        <div class="form-group" ng-if="rel == 'pedidos'">
+          <label for="vlrMax" class="col-sm-2 control-label">Valor máximo</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" id="vlrMax" placeholder="Apenas números" ui-money-mask ng-model="objRel.vlrMax">
+            <span id="helpBlock" class="help-block" ng-show="showHelp.vlrMax"> Valor máximo (em relação ao valor total dos pedidos) que deseja contemplar no relatório </span>
+          </div>
+          <div class="col-sm-1" ng-show="showHelpIcon">
+            <a ng-mouseover="showHelp.vlrMax = true" ng-mouseleave="showHelp.vlrMax = false" tooltip="Ajuda" >
+              <ng-md-icon icon="help"></ng-md-icon>
+            </a>
+          </div>
+        </div>
+        
         <div class="row">
           <div class="footer">
             <button type="button" class="btn btn-default btn-lg" ng-click="clear()" tooltip="Limpar filtros">

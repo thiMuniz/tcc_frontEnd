@@ -10,8 +10,8 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
   $scope.perfil = $stateParams.perfil;
 
   $scope.atualizarLista = function(){
-    $scope.clientes = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
-  }
+    $scope.clientes = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil, ativo:'S'})});
+  };
   
   $scope.ordenar = function (campo) {
     $scope.campo = campo;
@@ -252,13 +252,12 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
     });
   };
   
-  $scope.validarSenha = function(){ //definir
+  $scope.validarSenha = function(){
     if($scope.cliente.senha === $scope.temp.confSenha){
-      toastr.info("senha confirmada");
       return true;
     }else{
 //      $scope.temp.confSenha = $scope.cliente.senha = null; 
-      toastr.error("senhas diferentes");
+      toastr.error("As senhas informadas não são iguais");
       return false;
     }
   };

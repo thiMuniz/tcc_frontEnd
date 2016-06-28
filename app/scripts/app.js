@@ -29,7 +29,7 @@ var app = angular.module('sbAdminApp', [
 ])
 .constant("CONST", {
   ws:{
-    urlSGP: "http://naturefibrasltda.com/",  //HTTP  SGP
+    urlSGP: "http://www.naturefibrasltda.com/",  //HTTP  SGP
 //    urlSGP: "http://192.168.25.5:8080/sgitcc/",  //Local Gustavo
 //    urlSGP: "https://45.55.228.230:8181/",   //HTTPS SGP
 //    urlSGP: "http://naturefibrasltda.com/uat/",  //HTTP  UAT
