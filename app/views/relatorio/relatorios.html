@@ -122,10 +122,12 @@
               on-select="setCliente($select.selected)"
               theme="bootstrap" append-to-body="false" >
               <ui-select-match class="ui-select-match" placeholder="Selecione o cliente"> 
-                {{$select.selected.pf.nome}} 
+                <img ng-src="{{$select.selected.imagem.caminhoArquivo}}" class="img-circle img-ui-select">
+                {{$select.selected.pf ? $select.selected.pf.nome : $select.selected.pj.nomeFantasia}} 
               </ui-select-match>
               <ui-select-choices class="ui-select-choices" repeat="cliente in clientesAll | filter:$select.search">
-                {{cliente.pf.nome}}
+                <img ng-src="{{cliente.imagem.caminhoArquivo}}" class="img-circle img-ui-select">
+                {{cliente.pf ? cliente.pf.nome : cliente.pj.nomeFantasia}}
               </ui-select-choices>
             </ui-select>
             <span id="helpBlock" class="help-block" ng-show="showHelp.cliente"> Filtro para o cliente que deseja contemplar no relatório </span>
@@ -211,14 +213,36 @@
           </div>
         </div>
         
+        <div class="form-group" >
+          <label for="tipoEmissao" class="col-sm-2 control-label">Forma de emissão</label>
+          <div class="col-sm-3">
+            <label class="radio-inline">
+              <input type="radio" name="tipoEmissao" ng-model="objRel.tipoEmissao" value="newTab" > Nova aba 
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="tipoEmissao" ng-model="objRel.tipoEmissao" value="download" > Download
+            </label>
+            <span id="helpBlock" class="help-block" ng-show="showHelp.tipoEmissao"> Permite configurar a forma de saída do relatório emitido. A opção Nova aba também permite fazer o download do relatório </span>
+          </div>
+          <div class="col-sm-1" ng-show="showHelpIcon">
+            <a ng-mouseover="showHelp.tipoEmissao = true" ng-mouseleave="showHelp.tipoEmissao = false" tooltip="Ajuda" >
+              <ng-md-icon icon="help"></ng-md-icon>
+            </a>
+          </div>
+        </div>
+        
         <div class="row">
           <div class="footer">
-            <button type="button" class="btn btn-default btn-lg" ng-click="clear()" tooltip="Limpar filtros">
-              <ng-md-icon icon="refresh"></ng-md-icon> Limpar
-            </button>
-            <button class="btn btn-primary btn-lg" ng-click="getRelatorio()" tooltip="Emitir relatório">
-              <ng-md-icon icon="print"></ng-md-icon> &nbsp;Emitir
-            </button>
+            <div class="col-lg-2">
+              <button type="button" class="btn btn-default btn-lg" ng-click="clear()" tooltip="Limpar filtros">
+                <ng-md-icon icon="refresh"></ng-md-icon> Limpar
+              </button>
+            </div>
+            <div class="col-lg-3">
+              <button class="btn btn-primary btn-lg" ng-click="getRelatorio()" tooltip="Emitir relatório">
+                <ng-md-icon icon="print"></ng-md-icon> &nbsp;Emitir
+              </button>
+            </div>
           </div>
         </div>
       </form>

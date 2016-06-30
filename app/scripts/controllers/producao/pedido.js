@@ -94,7 +94,9 @@ app.controller('PedidoCtrl', function (
         classe +=  ' disabled'; 
         break;
       default: //pedido em aberto
-        if(status.dtStatus){ 
+        if(status.status.nome == 'CANCELADO'){
+          classe += ' text-danger'; 
+        }else if(status.dtStatus){ 
           classe += ' text-success'; 
           if(pedido.statusAtual.status.nome != 'CARRINHO'){
             classe +=  ' disabled'; 

@@ -10,7 +10,7 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
   $scope.perfil = $stateParams.perfil;
 
   $scope.atualizarLista = function(){
-    $scope.clientes = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil, ativo:'S'})});
+    $scope.clientes = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
   };
   
   $scope.ordenar = function (campo) {

@@ -17,7 +17,7 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
   };
   
   $scope.atualizarLista = function(){
-    $scope.fornecedores = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil, ativo:'S'})});
+    $scope.fornecedores = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:$stateParams.perfil})});
     //incluir spinner enquanto esta carregando a lista
   };
   

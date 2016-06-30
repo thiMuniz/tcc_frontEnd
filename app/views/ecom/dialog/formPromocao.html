@@ -125,9 +125,9 @@
                   ng-model="promocao.produtos" 
                   ng-disabled="produto.id" 
                   append-to-body="false">
-                  <ui-select-match class="ui-select-match" placeholder="Selecione os Selos"> {{$item.nome}} </ui-select-match>
+                  <ui-select-match class="ui-select-match" placeholder="Selecione os produtos"> {{$item.nome}} </ui-select-match>
                   <ui-select-choices class="ui-select-choices" repeat="produto in produtosAll | filter:$select.search">
-                    <img ng-src="{{produto.imagens[0].caminhoArquivo}}" class="img-ui-select">
+                    <img ng-src="{{produto.imagens[0].caminhoArquivo}}" class="img-circle img-ui-select">
                     {{produto.nome}}
                   </ui-select-choices>
                 </ui-select>
@@ -165,7 +165,7 @@
                   <tbody>
                     <tr ng-repeat="produto in promocao.produtos| filter : filtroGenerico | orderBy : campo : ascDsc ">                  
                       <!--<td>{{produto.id}}</td>-->
-                      <td><img ng-src="{{produto.imagens[0].caminhoArquivo}}" class="img-circle img-list-view" /></td>
+                      <td><img ng-src="{{produto.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view" /></td>
                       <td>{{produto.nome}}</td>
                       <td>{{produto.precoUnitarioPf | currency}}</td>
                       <td>{{produto.precoUnitarioPj | currency}}</td>

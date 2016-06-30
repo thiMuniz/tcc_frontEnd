@@ -88,3 +88,7 @@ background-color: #eee;
 .text-warning {
   color:#FFD700; 
 }
+
+.sidebar-nav.navbar-collapse{
+  max-height: none;
+}

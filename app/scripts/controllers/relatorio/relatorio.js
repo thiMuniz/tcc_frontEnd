@@ -1,13 +1,16 @@
 'use strict';
-app.controller('RelatorioCtrl', function ($scope, $modal, $http, $filter, ProdutoResource, InsumoResource, PessoaResource, CONST, toastr, $stateParams, $httpParamSerializerJQLike) {
+app.controller('RelatorioCtrl', function ($sce, $window, $scope, $modal, $http, $filter, ProdutoResource, InsumoResource, PessoaResource, CONST, toastr, $stateParams, $httpParamSerializerJQLike) {
 
   var toastMsg = "";
   $scope.rel = $stateParams.rel;
   $scope.CONST = CONST;
   $scope.tituloView = "Relatório de " + $scope.rel;
   
+  $scope.objRelInit = {
+    tipoEmissao: 'newTab'
+  };
+  $scope.objRel = $scope.objRelInit;
   $scope.temp = {};
-  $scope.objRel = {};
   
   switch($scope.rel){
     case 'clientes':
@@ -37,15 +40,16 @@ app.controller('RelatorioCtrl', function ($scope, $modal, $http, $filter, Produt
         {id:8, nome:'CONCLUÍDO'},
         {id:9, nome:'CANCELADO'}
       ];
-      $scope.clientesAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:"cliente", ativo:'S'})});
+      $scope.clientesAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:"cliente"})});
       break;
     case 'vendas':
-      $scope.clientesAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:"cliente", ativo:'S'})});
       $scope.tiposPessoa = [
         {key: '', value: 'Todos'},
         {key: 'pj', value: 'Pessoa Jurídica'},
         {key: 'pf', value: 'Pessoa Física'}
       ];
+      $scope.clientesAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:"cliente"})});
+      $scope.produtosAll = ProdutoResource.query();
       break;
   };
   
@@ -56,6 +60,13 @@ app.controller('RelatorioCtrl', function ($scope, $modal, $http, $filter, Produt
   
   $scope.setTipoPessoa = function(tipoPessoa){
     $scope.objRel.tipoPessoa = tipoPessoa.key;
+    if($scope.rel == 'vendas' || $scope.rel == 'pedidos'){
+      if(tipoPessoa.key != ''){
+        $scope.clientesAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:"cliente", tipoPessoa: tipoPessoa.key})});
+      }else{
+        $scope.clientesAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:"cliente"})});
+      }
+    }
   };
   
   $scope.setFornecedor = function(fornecedor){
@@ -79,69 +90,41 @@ app.controller('RelatorioCtrl', function ($scope, $modal, $http, $filter, Produt
   };
   
   $scope.clear = function () {
-    $scope.objRel = {};
+    $scope.objRel = $scope.objRelInit;
     $scope.temp = {};
   };
   
   $scope.getRelatorio = function () {
-    console.log($scope.objRel);
-    $http.post(CONST.ws.urlSGP + 'relatorio/' + $stateParams.rel, $scope.objRel, {responseType: 'arraybuffer'})
+    $http.get(CONST.ws.urlSGP + 'relatorio/' + $stateParams.rel, $scope.objRel, {responseType: 'arraybuffer'})
             .success(function (response) {
-              console.log("Success response: ");
-              console.log(response);
-              var fileName = "relatorio_"+$scope.rel+".pdf";
-              var a = document.createElement("a");
-              document.body.appendChild(a);
-              a.style = "display: none";
-              var file = new Blob([response], {type: 'application/pdf'});
-              var fileURL = URL.createObjectURL(file);
-              a.href = fileURL;
-              a.download = fileName;
-              a.click();
-              //    var teste = $sce.trustAsResourceUrl(fileURL);
+              toastMsg = "Relatório de "+$scope.rel+" gerado com sucesso";
+              toastr.success(toastMsg);
+              $scope.fileName = "relatorio_"+$scope.rel+".pdf";
+              var fileURL = URL.createObjectURL(new Blob([response], {type: 'application/pdf'}));
+              if($scope.tipoEmissao == 'download'){
+                $scope.downloadReport(fileURL);
+              }else{
+                $scope.openReport(fileURL);
+              }
+//              
             })
             .error(function(response){
-              console.log("Error response: ");
+              toastMsg = "Erro ao gerar relatório";
+              toastr.error(toastMsg);
               console.log(response);
             });
   };
-
-//  $scope.submit = function () {
-//    if ($scope.formTipo == 'insert') { //insert
-//      $scope.destaque.tipo = $scope.tipo;
-//      $scope.destaque.$save(function () {
-//        var toastMsg = "Destaque " + $scope.destaque.nome + " cadastrado com sucesso!";
-//        toastr.success(toastMsg, "successo");
-//        var result = {
-//          destaque: $scope.destaque,
-//          status: "sucesso"
-//        };
-//        $scope.close(result);
-//      }, function () {
-//        var toastMsg = "Erro ao cadastrar Destaque " + $scope.destaque.nome;
-//        toastr.error(toastMsg, "Erro");
-//        var result = {
-//          status: "erro"
-//        };
-//        $scope.close(result);
-//      });
-//    } else { //update
-//      $scope.destaque.$update(function () {
-//        var toastMsg = "Destaque " + $scope.destaque.nome + " editado com sucesso!";
-//        toastr.success(toastMsg, "Sucesso");
-//        var result = {
-//          destaque: $scope.destaque,
-//          status: "sucesso"
-//        };
-//        $scope.close(result);
-//      }, function () {
-//        var toastMsg = "Erro ao editar Destaque " + $scope.destaque.nome;
-//        toastr.error(toastMsg, "Erro");
-//        var result = {
-//          status: "erro"
-//        };
-//        $scope.close(result);
-//      });
-//    }
-//  };
+  
+  $scope.downloadReport = function (fileURL) {
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    a.href = fileURL;
+    a.download = $scope.fileName;              
+    a.click();
+  };
+  
+  $scope.openReport = function (fileURL) {
+    $window.open($sce.trustAsResourceUrl(fileURL));
+  };
 });

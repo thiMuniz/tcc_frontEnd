@@ -94,7 +94,7 @@
           <div class="form-group">
             <label for="sobrenome" class="col-sm-3 control-label">Sobrenome</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="sobrenome" placeholder="" ng-model="cliente.pf.sobrenome" >
+              <input class="form-control" type="text" id="sobrenome" placeholder="Sobrenome" ng-model="cliente.pf.sobrenome" >
             </div>
           </div>  
           <div class="form-group">
@@ -108,22 +108,15 @@
           <div class="form-group">
             <label for="rg" class="col-sm-3 control-label">RG</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="rg" placeholder="" ui-number-mask="0" ui-hide-group-sep ng-model="cliente.pf.rg" > <!-- ng-disabled="formTipo == 'update'" -->
+              <input class="form-control" type="text" id="rg" placeholder="Apenas números" ui-number-mask="0" ui-hide-group-sep ng-model="cliente.pf.rg" > <!-- ng-disabled="formTipo == 'update'" -->
             </div>
           </div>
           <div class="form-group">
             <label for="cpf" class="col-sm-3 control-label">Cpf</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="cpf" placeholder="" ui-br-cpf-mask ng-model="cliente.pf.cpf" >
+              <input class="form-control" type="text" id="cpf" placeholder="Apenas números" ui-br-cpf-mask ng-model="cliente.pf.cpf" >
             </div>
           </div>
-          <!--          apagar após testes com datepicker-->
-<!--          <div class="form-group">
-            <label for="dtNascimento" class="col-sm-3 control-label">Data Nascimento</label>
-            <div class="col-sm-7">
-              <input class="form-control" type="text" id="dtNascimento" placeholder="" ng-model="cliente.pf.dtNascimento" >
-            </div>
-          </div>-->
           <div class="form-group">
             <label for="dtNascimento" class="col-sm-3 control-label">Data de Nascimento</label>
             <div class="col-sm-7">

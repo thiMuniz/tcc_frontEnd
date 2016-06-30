@@ -355,7 +355,7 @@ app.controller('EstoqueCtrl', function (
   $scope.submit = function(){
     if ($scope.formTipo == 'insert') { //insert
       $scope.lote.$save(function(){
-        var toastMsg = "Lote " + $scope.lote.codLote + " cadastrado com sucesso!";
+        var toastMsg = "Lote " + ($scope.lote.codLote ? $scope.lote.codLote : "") + " cadastrado com sucesso!";
         toastr.success(toastMsg, "successo");
         var result = {
           lote: $scope.lote, 
