@@ -3,7 +3,8 @@
     <li>
       {{sessionCountDown}}
     </li>  
-    <li class="dropdown">
+    
+<!--    <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
       </a>
@@ -51,10 +52,12 @@
           </a>
         </li>
       </ul>
-      <!-- /.dropdown-messages -->
+       /.dropdown-messages 
     </li>
-    <!-- /.dropdown -->
-    <li class="dropdown">
+     /.dropdown 
+    -->
+    
+<!--    <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
       </a>
@@ -130,9 +133,11 @@
           </a>
         </li>
       </ul>
-      <!-- /.dropdown-tasks -->
+       /.dropdown-tasks 
     </li>
-    <!-- /.dropdown -->
+     /.dropdown 
+    -->
+    
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -193,6 +198,7 @@
       <!-- /.dropdown-alerts -->
     </li>
     <!-- /.dropdown -->
+    
     <li class="dropdown" ng-if="isLogged">
       <!--        <a class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -206,21 +212,18 @@
         <!-- User image -->
         <li class="dropdown user user-menu">
           <img ng-src="{{usuario.imagem.caminhoArquivo}}" class="user-image" alt="User Image"/>
-          <p>{{usuario.pf.nome}}{{usuario.pf.sobrenome}}
-            <small align="right">{{usuario.permissao.perfil}}</small>
+          <p style="padding: 5px" >
+            {{usuario.pf.nome+" "}}{{usuario.pf.sobrenome}}
+            <br>
+            <small align="right">{{usuario.permissao.perfil | uppercase}}</small>
           </p>
         </li><!--<ul class="dropdown-menu dropdown-user">-->
         <li class="divider"></li>
         <li>
-          <a ng-click="openUpdateSenhaDialog()">
+          <a href='' ng-click="openUpdateSenhaDialog()">
             <ng-md-icon icon="lock"></ng-md-icon>&nbsp; Minha Senha 
           </a>
         </li><li class="divider"></li>
-        <li>
-          <a ng-click="openUpdatePessoaDialog()">
-            <ng-md-icon icon="person"></ng-md-icon>&nbsp; Meus dados
-          </a>
-        </li>
       </ul>    
       <!-- /.dropdown-user -->
     </li>

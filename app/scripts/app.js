@@ -68,11 +68,12 @@ var app = angular.module('sbAdminApp', [
             'scripts/directives/header/header.js',
             'scripts/directives/header/header-notification/header-notification.js',
             'scripts/directives/sidebar/sidebar.js',
-            'scripts/directives/sidebar/sidebar-search/sidebar-search.js',                              
+            'scripts/directives/sidebar/sidebar-search/sidebar-search.js',             
             'scripts/services/pessoa.js',
+            'scripts/services/correios.js',
             'scripts/controllers/cadastro/imagem.js',
             'scripts/controllers/header.js',
-            'scripts/services/correios.js',
+            'scripts/controllers/cadastro/senha.js'
           ]
         }),
         $ocLazyLoad.load({

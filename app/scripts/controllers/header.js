@@ -1,5 +1,5 @@
 'use strict';
-app.controller('HeaderCtrl', function ($scope, $filter, $http, $cookies, $state, $rootScope, PessoaResource) {
+app.controller('HeaderCtrl', function ($scope, $filter, $modal, $http, $cookies, $state, $rootScope, PessoaResource, CONST) {
   
   if($cookies.getObject('objToken')){
     $rootScope.isLogged = true;
@@ -28,5 +28,35 @@ app.controller('HeaderCtrl', function ($scope, $filter, $http, $cookies, $state,
        });
     });
   };
+  
+  $scope.openUpdateSenhaDialog = function(){
+    var user = new PessoaResource();
+    user.id = $rootScope.usuario.id;
+    user.permissao = $rootScope.usuario.permissao;
+    
+    $scope.params = {
+      formTipo: 'update',
+      iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
+      tituloDialog: "Alterar Senha",
+      user: user
+    };
+    var modalInstance = $modal.open({
+      templateUrl: "views/cadastro/dialog/formSenha.html",
+      controller: "SenhaDialogCtrl",
+      backdrop: 'static',
+      size: '',
+      resolve: {
+        params: function () {
+          return $scope.params;
+        }
+      }
+    });
+    modalInstance.result.then(function (result) {
+      if (result.status == "sucesso") {
+        //msg sucesso?
+      } 
+    });
+  };
+  
   
 });

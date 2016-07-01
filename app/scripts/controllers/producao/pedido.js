@@ -218,7 +218,11 @@ app.controller('PedidoCtrl', function (
     
   $scope.updateStatusPedido = function(pedido, status, isCancelar){
     $scope.updateStatus = isCancelar ?  {cancelar: 'S'} : {proximostatus: 'S'};
-    
+    if(status.status.nome == 'EMISSÃO nf'){
+      //chamar function $scope.openUpdateNFDialog
+      //testar retorno pra ver se sai ou continua
+      //definir msgs de retorno
+    }
     swal({
       title: "Confirmar alteração do status do pedido " + (pedido.codPedido ? pedido.codPedido : "") + " para " + status.status.nome + "?",
       text: "Essa ação não poderá ser desfeita",
@@ -280,6 +284,29 @@ app.controller('PedidoCtrl', function (
           return $scope.params;
         }
       }
+    });
+  };
+  
+  $scope.openUpdateNFDialog = function (pedido) {
+    $scope.params = {
+      formTipo: 'update',
+      iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
+      tituloDialog: "Editar Pedido",
+      pedido: angular.copy(pedido)
+    };
+    var modalInstance = $modal.open({
+      templateUrl: "views/producao/dialog/formNF.html",
+      controller: "PedidoDialogCtrl",
+      backdrop: 'static',
+      size: 'lg',
+      resolve: {
+        params: function () {
+          return $scope.params;
+        }
+      }
+    });
+    modalInstance.result.then(function (result) {
+      return result;
     });
   };
   
