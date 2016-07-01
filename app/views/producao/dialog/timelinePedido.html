@@ -9,10 +9,8 @@
   <div class="panel-body">
     <ul class="timeline">
       <li class="{{getInvertedClass($index)}}" ng-repeat="status in pedido.statusPedido">
-        <!--<div class="timeline-badge">-->
         <div ng-class="getTimelineClass(pedido, status)" ng-hide="{{pedido.statusAtual.status.nome == 'CONCLUÍDO' && status.status.nome == 'CANCELADO'}}">
           <ng-md-icon icon="{{actionIconStatus[status.status.id-1].icone}}" size="{{getSizeBtn(pedido, status)}}"></ng-md-icon>
-<!--          <i class="fa fa-check"></i>-->
         </div>
         <div class="timeline-panel" ng-hide="{{pedido.statusAtual.status.nome == 'CONCLUÍDO' && status.status.nome == 'CANCELADO'}}">
           <div class="timeline-heading">

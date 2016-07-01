@@ -14,27 +14,27 @@
             <table class="table table-striped">
               <tbody>
                 <tr>
-                  <td><label class=control-label">Id</label></td>
+                  <td><label class="control-label">Id</label></td>
                   <td >{{pedido.id}}</td>  
                 </tr>
                 <tr>
-                  <td><label class=control-label">Código Pedido</label></td>
+                  <td><label class="control-label">Código Pedido</label></td>
                   <td >{{pedido.codPedido}}</td>  
                 </tr>
                 <tr>
-                  <td><label class=control-label">Cliente</label></td>
-                  <td >{{pedido.pessoa ? (pedido.pessoa.pf ? pedido.pessoa.pf.nome : pedido.pessoa.pj.nomeFantasia) : 'Não identificado';}}</td>  
+                  <td><label class="control-label">Cliente</label></td>
+                  <td >{{pedido.pessoa ? (pedido.pessoa.pf ? pedido.pessoa.pf.nome : pedido.pessoa.pj.nomeFantasia) : 'Visitante'}}</td>  
                 </tr>
                 <tr>
-                  <td><label class=control-label">Status Atual</label></td>
+                  <td><label class="control-label">Status Atual</label></td>
                   <td>{{pedido.statusAtual.status.nome}}</td>
                 </tr>
                 <tr>
-                  <td><label class=control-label">Data Última Alteração</label></td>
+                  <td><label class="control-label">Data Última Alteração</label></td>
                   <td>{{pedido.statusAtual.dtStatus}}</td>
                 </tr>
                 <tr>
-                  <td><label class=control-label">Valor Total</label></td>
+                  <td><label class="control-label">Valor Total</label></td>
                   <td>{{pedido.valorTotal | currency}}</td>
                 </tr>
               </tbody>

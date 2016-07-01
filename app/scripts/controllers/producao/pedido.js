@@ -265,8 +265,9 @@ app.controller('PedidoCtrl', function (
     $scope.params = {
       formTipo: 'timeline',
       iconeHeaderDialog: 'history',
-      tituloDialog: "Histórico Pedido",
+      tituloDialog: "Histórico Pedido     "+pedido.codPedido,
       actionIconStatus: $scope.actionIconStatus,
+      getSizeBtn: $scope.getSizeBtn,      
       pedido: angular.copy(pedido)
     };
     var modalInstance = $modal.open({
@@ -298,6 +299,7 @@ app.controller('PedidoCtrl', function (
     $scope.formasVendaAll = FormaVendaResource.query();
   };
   $scope.actionIconStatus = params.actionIconStatus ? params.actionIconStatus : undefined;
+  $scope.getSizeBtn = params.getSizeBtn ? params.getSizeBtn : undefined;
 
   $scope.pedido = params.pedido;
   $scope.pedidoInit = angular.copy($scope.pedido);

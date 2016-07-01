@@ -2,13 +2,15 @@
 app.controller('DestaqueCtrl', function ($scope, $modal, $filter, DestaqueResource, ProdutoResource, PessoaResource, CONST, toastr, $stateParams, $httpParamSerializerJQLike) {
   
   var toastMsg = "";
+  $scope.tipoDestaque = $stateParams.tipo;
   $scope.CONST = CONST;
-  $scope.tituloView = "Cadastro de Destaques do E-Commerce ("+$stateParams.tipo+"s)";
+  $scope.tituloView = "Cadastro de Destaques do E-Commerce ("+$scope.tipoDestaque+"s)";
   $scope.headerLista = "Nenhum Destaque foi encontrado";
   $scope.labelCadastrarBtn = "Novo Destaque";
   
+  
   $scope.atualizarLista = function(){
-    $scope.destaques = DestaqueResource.listFiltro({p:$httpParamSerializerJQLike({tipo: $stateParams.tipo})});
+    $scope.destaques = DestaqueResource.listFiltro({p:$httpParamSerializerJQLike({tipo: $scope.tipoDestaque})});
 //    $scope.destaques = DestaqueResource.query();
   };
   
@@ -23,7 +25,7 @@ app.controller('DestaqueCtrl', function ($scope, $modal, $filter, DestaqueResour
       formTipo: 'insert',
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
       tituloDialog: "Cadastrar Destaque",
-      tipo: $stateParams.tipo,
+      tipo: $scope.tipoDestaque,
       destaque: new DestaqueResource()
     };
     var modalInstance = $modal.open({
@@ -49,7 +51,7 @@ app.controller('DestaqueCtrl', function ($scope, $modal, $filter, DestaqueResour
       formTipo: 'update',
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
       tituloDialog: "Editar Destaque",
-      tipo: $stateParams.tipo,
+      tipo: $scope.tipoDestaque,
       destaque: angular.copy(destaque)
     };
 

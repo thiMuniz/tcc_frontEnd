@@ -101,7 +101,7 @@ app.controller('RelatorioCtrl', function ($sce, $window, $scope, $modal, $http, 
               toastr.success(toastMsg);
               $scope.fileName = "relatorio_"+$scope.rel+".pdf";
               var fileURL = URL.createObjectURL(new Blob([response], {type: 'application/pdf'}));
-              if($scope.tipoEmissao == 'download'){
+              if($scope.objRel.tipoEmissao == 'download'){
                 $scope.downloadReport(fileURL);
               }else{
                 $scope.openReport(fileURL);

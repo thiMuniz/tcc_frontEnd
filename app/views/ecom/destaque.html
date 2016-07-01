@@ -35,10 +35,10 @@
               <tbody>
                 <tr ng-repeat="destaque in destaques | filter : filtroGenerico | orderBy : campo : ascDsc">
                   <!--<td>{{destaque.id}}</td>-->
-                  <td ><img ng-src="{{destaque.imagem.caminhoArquivo}}" class="img-thumbnail img-list-view"/></td>
+                  <td ng-hide="{{tipoDestaque == 'pessoa'}}"><img ng-src="{{destaque.imagem.caminhoArquivo}}" class="img-thumbnail img-list-view"/></td>
                   <td>{{destaque.nome}}</td>
                   <td>{{destaque.descricao}}</td>
-                  <td>{{destaque.tipo}}</td>                  
+                  <td>{{destaque.tipo}}</td>
                   <td>
                     <a ng-click="openUpdateDialog(destaque);" tooltip="{{CONST.editar.tooltipAcao}}">
                       <ng-md-icon icon="{{CONST.editar.iconeAcao}}"></ng-md-icon>
