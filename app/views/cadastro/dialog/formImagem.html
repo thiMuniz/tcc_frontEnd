@@ -20,24 +20,24 @@
               </label>
               <div class="form-control cropAreaSgp" id="imagemCrop" ng-model="imgSelecionada" ngf-pattern="image/*" ngf-drop>
                   <!--<p>Arraste e solte a imagem aqui ou clique no botão ao lado para localizar no computador</p>-->
-                <img-crop 
+                <img-crop ng-show="areaType != 'rectangle'"
                   image="imgSelecionada  | ngfDataUrl" 
-                  area-type="{{cropOpt.areaType}}"
+                  area-type="{{areaType}}"
                   result-image="imagemNew.arquivo">
-                    
+                </img-crop>
+                <img-crop ng-show="areaType == 'rectangle'"
+                  image="imgSelecionada  | ngfDataUrl" 
+                  area-type="{{areaType}}"
+                  aspect-ratio="1.7"
+                  result-image-size='{w: 340,h: 200}'
+                  result-image="imagemNew.arquivo">                  
                 </img-crop> <!-- ng-init="imagemInit.caminhoArquivo" -->
-                
-                  <!--result-image-size="'{{cropOpt.resultImageSize}}'"-->
-                  
-                  
-<!--                  aspect-ratio="1.7"
-                  result-image-size='{w: 340,h: 200}'-->
               </div>
             </div>
           </td>
           <td class="form-group col-sm-4" ng-hide="!imgSelecionada">
             <div >
-              <label for="imagemNewCrop" class="control-label">Imagem posCrop</label>
+              <label for="imagemNewCrop" class="control-label">Imagem editada</label>
               <div class="" >
                 <img id="imagemNewCrop" ng-src="{{imagemNew.arquivo}}" />
               </div>

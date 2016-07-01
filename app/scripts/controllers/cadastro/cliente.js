@@ -268,7 +268,8 @@ app.controller('ClienteCtrl', function ($scope, $modal, $filter, PessoaResource,
       iconeHeaderDialog: $scope.cliente.imagem ? CONST.editar.iconeHeaderDialog : CONST.inserir.iconeHeaderDialog,
       tituloDialog: $scope.cliente.imagem ? "Editar Imagem" : "Cadastrar Imagem",
       imagens: $scope.cliente.imagem ? [angular.copy($scope.cliente.imagem)] : [],
-      maxImagens: 1
+      maxImagens: 1,
+      areaType: 'circle'
     };
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formImagem.html",

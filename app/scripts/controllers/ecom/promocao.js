@@ -131,14 +131,15 @@ app.controller('PromocaoCtrl', function ($scope, $modal, $filter, PromocaoResour
     };
     
     $scope.openImagemDialog = function(){
-      var cropOpt = {areaType: "rectangle", aspectRatio: '1.7', resultImageSize:"{w: 500,h: 300}"};
+//      var cropOpt = {areaType: "rectangle", aspectRatio: '1.7', resultImageSize:"{w: 500,h: 300}"};
       $scope.params = {
         formTipo: $scope.formTipo,
         iconeHeaderDialog: $scope.iconeHeaderDialog,
         tituloDialog: params.formTipo == 'insert' ? "Cadastrar Imagem" : "Editar Imagem",
         imagens: $scope.promocao.imagem ? [angular.copy($scope.promocao.imagem)] : [],
         maxImagens: 1,
-        cropOpt: cropOpt
+//        cropOpt: cropOpt
+        areaType: 'rectangle'
         
       };
       var modalInstance = $modal.open({

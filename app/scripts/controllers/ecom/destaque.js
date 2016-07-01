@@ -85,8 +85,7 @@ app.controller('DestaqueCtrl', function ($scope, $modal, $filter, DestaqueResour
     },
     function () {
       var destaqueCopy = angular.copy(destaque);
-      destaqueCopy.$delete(
-//      destaqueCopy.$delete({id: destaque.id},
+      destaqueCopy.$delete({id: destaque.id},
       function(){
         $scope.atualizarLista();
         toastMsg = "Destaque " + destaque.nome + " excluído com sucesso";

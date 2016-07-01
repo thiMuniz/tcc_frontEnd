@@ -8,7 +8,8 @@ app.controller('ImagemDialogCtrl', function ($scope, $modalInstance, params, CON
     $scope.imagens = params.imagens;
     $scope.imagensInit = angular.copy(params.imagens);
     $scope.maxImagens = params.maxImagens;
-    $scope.cropOpt = params.cropOpt;
+//    $scope.cropOpt = params.cropOpt ? params.cropOpt : undefined;
+    $scope.areaType = params.areaType ? params.areaType : 'square';
     
     $scope.addImagem = function(){
       $scope.imagens.push(angular.copy($scope.imagemNew));

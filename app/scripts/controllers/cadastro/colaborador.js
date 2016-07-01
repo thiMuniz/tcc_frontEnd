@@ -191,7 +191,8 @@ app.controller('ColaboradorCtrl', function ($scope, $modal, $filter, PessoaResou
       iconeHeaderDialog: $scope.iconeHeaderDialog,
       tituloDialog: params.formTipo == 'insert' ? "Cadastrar Imagem" : "Editar Imagem",
       imagens: $scope.colaborador.imagem ? [angular.copy($scope.colaborador.imagem)] : [],
-      maxImagens: 1
+      maxImagens: 1,
+      areaType: 'circle'
     };
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formImagem.html",

@@ -19,7 +19,8 @@ app.directive('stats', function () {
       'colour': '@',
       'details': '@',
       'type': '@',
-      'goto': '@'
+      'goto': '@',
+      'footer': '@'
     }
 
   }

@@ -8,11 +8,17 @@
   <!-- /.row -->
   <div class="row">
     <br>
-    <stats number="{{1}}" comments="Novos pedidos" colour="primary" type="shopping-cart" goto="main.producao.pedido"></stats>
-    <stats number="{{1}}" comments="NF a emitir" colour="yellow" type="file-text" goto="main.producao.pedido"></stats>
-    <stats number="{{1}}" comments="Produtos saldo baixo" colour="red" type="dashboard" goto="main.producao.pedido"></stats>
-    <stats number="{{1}}" comments="Materia prima saldo baixo" colour="red" type="dashboard" goto="main.producao.pedido"></stats>
+    <stats number="{{1}}" comments="Novos pedidos" footer="Ir para Pedidos" colour="primary" type="shopping-cart" goto="main.producao.pedido"></stats>
+    <stats number="{{1}}" comments="NF a emitir" footer="Ir para Pedidos" colour="yellow" type="file-text" goto="main.producao.pedido"></stats>    
   </div>
+  <div class="row">
+    <br>
+    <stats number="{{1}}" comments="Produtos saldo baixo" footer="Ir para Estoque Produtos" colour="red" type="cubes" goto="main.estoque({tipoItem: 'produto'})"></stats>
+    <stats number="{{1}}" comments="Ingredientes saldo baixo" footer="Ir para Estoque Ingredientes" colour="red" type="pagelines" goto="main.estoque({tipoItem: 'insumo'})"></stats>
+    <stats number="{{1}}" comments="Embalagens saldo baixo" footer="Ir para Estoque Embalagens" colour="red" type="codepen" goto="main.estoque({tipoItem: 'embalagem'})"></stats>
+    <stats number="{{1}}" comments="Rótulos saldo baixo" footer="Ir para Estoque Rótulos" colour="red" type="tag" goto="main.estoque({tipoItem: 'rotulo'})"></stats>
+  </div>
+  
 
   <!-- /.panel -->
   <div class="row">

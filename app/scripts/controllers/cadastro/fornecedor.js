@@ -218,7 +218,8 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
       iconeHeaderDialog: $scope.iconeHeaderDialog,
       tituloDialog: params.formTipo == 'insert' ? "Cadastrar Imagem" : "Editar Imagem",
       imagens: $scope.fornecedor.imagem ? [angular.copy($scope.fornecedor.imagem)] : [],
-      maxImagens: 1
+      maxImagens: 1,
+      areaType: 'circle'
     };
     var modalInstance = $modal.open({
       templateUrl: "views/cadastro/dialog/formImagem.html",
