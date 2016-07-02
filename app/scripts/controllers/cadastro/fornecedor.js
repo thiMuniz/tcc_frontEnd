@@ -5,11 +5,11 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
 
   var index;
   $scope.CONST = CONST;
-  $scope.tituloView = "Cadastro de Fornecedores";
-  $scope.headerLista = "Nenhum fornecedor foi encontrado";
-  $scope.labelCadastrarBtn = "Novo Fornecedor";
-
   $scope.perfil = $stateParams.perfil;
+  $scope.tituloView = "Cadastro de " + $scope.perfil +"s";
+  $scope.labelCadastrarBtn = $scope.perfil == "fornecedor" ? "Novo Fornecedor" : "Nova Transportadora";
+
+  
 
   $scope.ordenar = function (campo) {
     $scope.campo = campo;
@@ -27,7 +27,7 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
     $scope.params = {
       formTipo: 'insert',
       iconeHeaderDialog: CONST.inserir.iconeHeaderDialog,
-      tituloDialog: "Cadastrar Fornecedor",
+      tituloDialog: "Cadastrar "+$scope.perfil,
       fornecedor: $scope.fornecedor,
       perfil: $scope.perfil
     };
@@ -54,7 +54,7 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
     $scope.params = {
       formTipo: 'update',
       iconeHeaderDialog: CONST.editar.iconeHeaderDialog,
-      tituloDialog: "Editar Fornecedor",
+      tituloDialog: "Editar "+$scope.perfil,
       fornecedor: angular.copy(fornecedor),
       perfil: $scope.perfil
     };
@@ -106,7 +106,7 @@ app.controller('FornecedorCtrl', function ($scope, $modal, $filter, PessoaResour
     $scope.params = {
       formTipo: 'info',
       iconeHeaderDialog: CONST.info.iconeHeaderDialog,
-      tituloDialog: "Detalhes Fornecedor",
+      tituloDialog: "Detalhes "+$scope.perfil,
       fornecedor: angular.copy(fornecedor)
     };
     var modalInstance = $modal.open({

@@ -320,20 +320,20 @@ app.controller('PedidoCtrl', function (
   $scope.tituloDialog = params.tituloDialog;
   if($scope.formTipo == 'insert' || $scope.formTipo == 'update'){
     $scope.produtosAll = ProdutoResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})});
-    $scope.clientesAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:'cliente'})});
-    $scope.fornecedoresAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:'fornecedor'})});
+    $scope.clientesAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:'cliente', ativo:'S'})});
+    $scope.transportadorasAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:'transportadora'})});
     $scope.formasEntregaAll = FormaEntregaResource.query();
     $scope.formasVendaAll = FormaVendaResource.query();
   };
   $scope.actionIconStatus = params.actionIconStatus ? params.actionIconStatus : undefined;
   $scope.getSizeBtn = params.getSizeBtn ? params.getSizeBtn : undefined;
 
-  $scope.pedido = params.pedido;
-  $scope.pedidoInit = angular.copy($scope.pedido);
+  $scope.pedido = params.pedido;  
   if(!$scope.pedido.produtosPedido){
     $scope.pedido.produtosPedido = [];
   };
-
+  $scope.pedidoInit = angular.copy($scope.pedido);
+  
   $scope.ordenar = function (campo) {
     $scope.campo = campo;
     $scope.ascDsc = !$scope.ascDsc;
@@ -384,8 +384,7 @@ app.controller('PedidoCtrl', function (
 //    $scope.temp.produtosPedido = $scope.pedidoInit.produtosPedido;
   $scope.temp.produtosPedido = [];
 
-  angular.forEach($scope.pedidoInit.produtosPedido, 
-  function(produtoPedido){
+  angular.forEach($scope.pedidoInit.produtosPedido, function(produtoPedido){
     $scope.temp.produtosPedido.push(produtoPedido.produto);
   });
 
@@ -399,11 +398,15 @@ app.controller('PedidoCtrl', function (
   };
 
   $scope.removeProdutoPedido = function(produto){
-    angular.forEach($scope.pedido.produtosPedido, function(produtoPedido){
-      if(produtoPedido.produto.id === produto.id){
+    angular.forEach($scope.pedido.produtosPedido, function(produtoPedido){ //remove produto do pedido (tabela)
+      if(produtoPedido.produto.id === produto.id){ 
         $scope.pedido.produtosPedido.splice($scope.pedido.produtosPedido.indexOf(produtoPedido), 1);
-//          $scope.atualizarLista();
-        return;
+        angular.forEach($scope.temp.produtosPedido, function(tempProduto){ //remove produto do ui-select
+          if(tempProduto.id === produto.id){
+            $scope.temp.produtosPedido.splice($scope.temp.produtosPedido.indexOf(tempProduto), 1);
+            return;
+          }
+        });
       }
     });
   };
@@ -541,9 +544,7 @@ app.controller('PedidoCtrl', function (
     
   $scope.clear = function () {
     $scope.pedido = angular.copy($scope.pedidoInit);
-//    if(params.formTipo == 'lookup'){
-      $scope.temp.produtosPedido = $scope.pedidoInit.produtosPedido;      
-//    }
+    $scope.temp.produtosPedido = $scope.pedidoInit.produtosPedido;
   };
 
   $scope.close = function(result){

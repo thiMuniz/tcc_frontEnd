@@ -10,8 +10,9 @@
     <div class="panel-default">
       <div class="row">
         <div class="col-lg-12">
+          <h3 align="center">Geral</h3>
           <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped table-condensed">
               <tbody>
                 <tr>
                   <td><label class="control-label">Id</label></td>
@@ -23,7 +24,11 @@
                 </tr>
                 <tr>
                   <td><label class="control-label">Cliente</label></td>
-                  <td >{{pedido.pessoa ? (pedido.pessoa.pf ? pedido.pessoa.pf.nome : pedido.pessoa.pj.nomeFantasia) : 'Visitante'}}</td>  
+                  <td>{{pedido.pessoa ? (pedido.pessoa.pf ? pedido.pessoa.pf.nome : pedido.pessoa.pj.nomeFantasia) : 'Visitante'}}</td>  
+                </tr>
+                <tr>
+                  <td><label class="control-label">Canal de Venda</label></td>
+                  <td>{{pedido.formaVenda.nome}}</td>  
                 </tr>
                 <tr>
                   <td><label class="control-label">Status Atual</label></td>
@@ -37,9 +42,65 @@
                   <td><label class="control-label">Valor Total</label></td>
                   <td>{{pedido.valorTotal | currency}}</td>
                 </tr>
+                <tr>
+                  <td><label class="control-label">Forma de Pagamento</label></td>
+                  <td>{{pedido.formaPagamento.nome}}</td>
+                </tr>
               </tbody>
             </table>
-          </div><!-- /.table-responsive -->   
+          </div><!-- /.table-responsive --> 
+          
+          <hr>  
+          <h3 align="center">Produtos</h3>
+          <div class="table-responsive">
+            <table class="table table-striped" ng-show="pedido.produtosPedido.length > 0">
+              <thead>
+                <tr>
+                  <th colspan="2" align="center">Produto</th>
+                  <th align="center">Quantidade</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="produtoPedido in pedido.produtosPedido">
+                  <td class="col-sm-1">
+                    <img ng-src="{{produtoPedido.produto.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/>
+                  </td>
+                  <td>
+                    {{produtoPedido.produto.nome}}
+                  </td>
+                  <td class="col-sm-2">
+                    {{produtoPedido.quantidade}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>  
+          </div><!-- /.table-responsive --> 
+          
+          <hr>  
+          <h3 align="center">Entrega</h3>
+          <div class="table-responsive">
+            <table class="table table-striped table-condensed">
+              <tbody>
+                <tr>
+                  <td><label class="control-label">Forma de Entrega</label></td>
+                  <td> {{pedido.formaEntregaPedido.formaEntrega.nome}}</td>  
+                </tr>
+                <tr>
+                  <td><label class="control-label">Transportadora</label></td>
+                  <td>{{pedido.formaEntregaPedido.transportadora.nomeFantasia}}</td>  
+                </tr>
+                <tr>
+                  <td><label class="control-label">Dias Previstos</label></td>
+                  <td>{{pedido.formaEntregaPedido.tempoPrevisto}}</td>  
+                </tr>
+                <tr>
+                  <td><label class="control-label">Custo</label></td>
+                  <td>{{pedido.formaEntregaPedido.valorCusto | currency}}</td>  
+                </tr>
+              </tbody>
+            </table> 
+          </div><!-- /.table-responsive --> 
+          
         </div> <!-- /.col-lg-12 -->
       </div>  <!-- /.row -->
     </div> <!-- /.panel-default -->
