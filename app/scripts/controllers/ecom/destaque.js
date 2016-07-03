@@ -130,7 +130,7 @@ app.controller('DestaqueCtrl', function ($scope, $modal, $filter, DestaqueResour
     if($scope.tipo == "produto"){
       $scope.produtosAll = ProdutoResource.listFiltro({p:$httpParamSerializerJQLike({ativo:'S'})});
     }else{
-      $scope.parceirosAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil: 'cliente', ativo:'S'})}); //tipoPessoa: 'PJ'
+      $scope.parceirosAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil: 'cliente', ativo:'S', tipoPessoa: 'pj'})}); //tipoPessoa: 'PJ'
     }
               
     $scope.destaque = params.destaque;

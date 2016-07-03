@@ -135,23 +135,23 @@
                     </thead>
                     <tbody>
                       <tr ng-repeat="produtoPedido in pedido.produtosPedido">
-                        <td class="col-sm-1">
+                        <td class="col-md-1">
                           <img ng-src="{{produtoPedido.produto.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/>
                         </td>
                         <td>
                           {{produtoPedido.produto.nome}}
                         </td>
-                        <td class="col-sm-2">
+                        <td class="col-md-2">
                           <input class="form-control" type="text" id="quantidade" ui-number-mask="0" ng-model="produtoPedido.quantidade">
                         </td>
-                        <td class="col-sm-2" align="center">
+                        <td class="col-md-2" align="center">
                           {{getPrecoUnitario(produtoPedido.produto) | currency}}
                         </td>
-                        <td class="col-sm-2"  align="center">
+                        <td class="col-md-2"  align="center">
                           {{produtoPedido.quantidade * getPrecoUnitario(produtoPedido.produto) | currency}}
                         </td>
                         <td>
-                          <a href='' class="col-sm-1" ng-click="removeProdutoPedido(produtoPedido.produto);" tooltip="Remover produto" >
+                          <a href='' class="col-md-1" ng-click="removeProdutoPedido(produtoPedido.produto);" tooltip="Remover produto" >
                             <ng-md-icon icon="remove_circle_outline"></ng-md-icon>
                           </a>&nbsp;
                         </td>
@@ -162,9 +162,10 @@
                     <td>
                       Total em Produtos:
                     </td>
-                    <td class="col-sm-2">
+                    <td class="col-md-2">
                       {{ getTotalProdutos() | currency}}
-                    </td>                  
+                    </td>
+                    <td></td>
                     </tfoot>
                   </table> 
                 </div>

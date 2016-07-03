@@ -217,10 +217,10 @@
           <label for="tipoEmissao" class="col-sm-2 control-label">Forma de emissão</label>
           <div class="col-sm-3">
             <label class="radio-inline">
-              <input type="radio" name="tipoEmissao" ng-model="objRel.tipoEmissao" value="newTab" > Nova aba 
+              <input type="radio" name="tipoEmissao" ng-model="tipoEmissao" value="newTab" > Nova aba 
             </label>
             <label class="radio-inline">
-              <input type="radio" name="tipoEmissao" ng-model="objRel.tipoEmissao" value="download" > Download
+              <input type="radio" name="tipoEmissao" ng-model="tipoEmissao" value="download" > Download
             </label>
             <span id="helpBlock" class="help-block" ng-show="showHelp.tipoEmissao"> Permite configurar a forma de saída do relatório emitido. A opção Nova aba também permite fazer o download do relatório </span>
           </div>
@@ -239,7 +239,7 @@
               </button>
             </div>
             <div class="col-lg-3">
-              <button class="btn btn-primary btn-lg" ng-click="getRelatorio()" tooltip="Emitir relatório">
+              <button class="btn btn-primary btn-lg" ng-click="openReportHotFix()" tooltip="Emitir relatório">
                 <ng-md-icon icon="print"></ng-md-icon> &nbsp;Emitir
               </button>
             </div>

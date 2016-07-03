@@ -215,7 +215,7 @@ app.controller('ProdutoCtrl', function ($scope, $modal, $filter, ProdutoResource
         iconeHeaderDialog: $scope.produto.imagens ? CONST.editar.iconeHeaderDialog : CONST.inserir.iconeHeaderDialog,
         tituloDialog: $scope.produto.imagens ? "Editar Imagem" : "Cadastrar Imagem",
         imagens: $scope.produto.imagens ? angular.copy($scope.produto.imagens) : [],
-        maxImagens: 4
+        maxImagens: 3
       };
       var modalInstance = $modal.open({
         templateUrl: "views/cadastro/dialog/formImagem.html",

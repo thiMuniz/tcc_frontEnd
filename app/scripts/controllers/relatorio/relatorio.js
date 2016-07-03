@@ -1,5 +1,5 @@
 'use strict';
-app.controller('RelatorioCtrl', function ($sce, $window, $scope, $modal, $http, $filter, ProdutoResource, InsumoResource, PessoaResource, CONST, toastr, $stateParams, $httpParamSerializerJQLike) {
+app.controller('RelatorioCtrl', function ($cookies, $sce, $window, $scope, $modal, $http, $filter, ProdutoResource, InsumoResource, PessoaResource, CONST, toastr, $stateParams, $httpParamSerializerJQLike) {
 
   var toastMsg = "";
   $scope.rel = $stateParams.rel;
@@ -7,10 +7,10 @@ app.controller('RelatorioCtrl', function ($sce, $window, $scope, $modal, $http, 
   $scope.tituloView = "Relatório de " + $scope.rel;
   
   $scope.objRelInit = {
-    tipoEmissao: 'newTab'
+//    tipoEmissao: 'newTab'
   };
   $scope.objRel = $scope.objRelInit;
-  $scope.temp = {};
+  $scope.tipoEmissao = 'newTab';
   
   switch($scope.rel){
     case 'clientes':
@@ -91,7 +91,7 @@ app.controller('RelatorioCtrl', function ($sce, $window, $scope, $modal, $http, 
   
   $scope.clear = function () {
     $scope.objRel = $scope.objRelInit;
-    $scope.temp = {};
+    $scope.tipoEmissao = 'newTab';
   };
   
   $scope.getRelatorio = function () {
@@ -101,7 +101,7 @@ app.controller('RelatorioCtrl', function ($sce, $window, $scope, $modal, $http, 
               toastr.success(toastMsg);
               $scope.fileName = "relatorio_"+$scope.rel+".pdf";
               var fileURL = URL.createObjectURL(new Blob([response], {type: 'application/pdf'}));
-              if($scope.objRel.tipoEmissao == 'download'){
+              if($scope.tipoEmissao == 'download'){
                 $scope.downloadReport(fileURL);
               }else{
                 $scope.openReport(fileURL);
@@ -127,4 +127,10 @@ app.controller('RelatorioCtrl', function ($sce, $window, $scope, $modal, $http, 
   $scope.openReport = function (fileURL) {
     $window.open($sce.trustAsResourceUrl(fileURL));
   };
+  
+  $scope.openReportHotFix = function () {
+    var reportUrl = CONST.ws.urlSGP + 'relatorio/'+$stateParams.rel+'/token='+$cookies.getObject('objToken').token+'?'+$httpParamSerializerJQLike($scope.objRel);
+    $window.open(reportUrl, '_blank');
+  };
+    
 });

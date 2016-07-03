@@ -5,7 +5,7 @@ app.controller('LoginCtrl', function ($scope, $filter, $http, $cookies, $state, 
   $scope.user = new PessoaResource();
 
   $scope.login = function(){
-    $scope.user.$login(function(retorno){ /*success 200~299*/
+    $scope.user.$login({p:$httpParamSerializerJQLike({origem: 'admin'})}, function(retorno){ /*success 200~299*/
       $rootScope.isLogged = true;
       swal({
         title: "Bem vindo(a) " + retorno.pessoa.pf.nome,
