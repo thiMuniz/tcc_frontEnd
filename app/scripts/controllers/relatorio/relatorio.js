@@ -129,7 +129,7 @@ app.controller('RelatorioCtrl', function ($cookies, $sce, $window, $scope, $moda
   };
   
   $scope.openReportHotFix = function () {
-    var reportUrl = CONST.ws.urlSGP + 'relatorio/'+$stateParams.rel+'/token='+$cookies.getObject('objToken').token+'?'+$httpParamSerializerJQLike($scope.objRel);
+    var reportUrl = CONST.ws.urlSGP + 'relatorio/'+$stateParams.rel+'?token='+$cookies.getObject('objToken').token+'&'+$httpParamSerializerJQLike($scope.objRel);
     $window.open(reportUrl, '_blank');
   };
     

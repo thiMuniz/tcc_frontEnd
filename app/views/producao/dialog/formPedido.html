@@ -271,6 +271,19 @@
               </a>
             </div>
           </div>
+          
+          <div class="form-group" ng-if="pedido.formaEntregaPedido.formaEntrega.nome != 'RETIRADA'">
+            <label for="desconto" class="col-sm-3 control-label">Desconto</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" id="desconto" placeholder="Apenas números" ui-money-mask ng-model="pedido.desconto">
+              <span id="helpBlock" class="help-block" ng-show="showHelp.desconto"> Desconto total (em R$) concedido ao cliente para este pedido </span>
+            </div>
+            <div class="col-sm-1" ng-show="showHelpIcon">
+              <a ng-mouseover="showHelp.desconto = true" ng-mouseleave="showHelp.desconto = false" tooltip="Ajuda" >
+                <ng-md-icon icon="help"></ng-md-icon>
+              </a>
+            </div>
+          </div>
 
           <div class="form-group">
             <label for="vencimentoPagamento" class="col-sm-3 control-label">Data Limite pagamento</label>

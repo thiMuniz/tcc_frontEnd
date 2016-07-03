@@ -7,13 +7,28 @@
   <div class="row">        
     <div class="col-lg-12">
       <div class="panel-heading"> <!-- Painel Superior -->
-        <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" tooltip="Lançar pedido">
-          <ng-md-icon icon="{{imgCadastrarBtn}}"></ng-md-icon> &nbsp;{{labelCadastrarBtn}}
-        </button>
-        <div class="pull-right">
-          <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Busca geral"/>
+        <div class="row">
+          <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" tooltip="Lançar pedido">
+            <ng-md-icon icon="{{imgCadastrarBtn}}"></ng-md-icon> &nbsp;{{labelCadastrarBtn}}
+          </button>        
+          <div class="pull-right">
+            <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Busca geral"/>
+          </div>
+          <div class="clearfix"></div>        
         </div>
-        <div class="clearfix"></div>        
+        <div class="row">
+          <div ng-repeat="thisFilterIcon in filterIconStatus | orderBy : 'id' : true" class='pull-right'>
+            <a href="" ng-click="toogleFilterIcon(thisFilterIcon)" ng-class="thisFilterIcon.filtroAtivo ? 'text-success' : 'text-muted'" tooltip="{{thisFilterIcon.nome}}">
+              <ng-md-icon icon="{{thisFilterIcon.icone}}"></ng-md-icon>
+            </a>&nbsp;
+          </div>
+          <div class='pull-right'>&nbsp;</div>          
+          <div class='pull-right'> 
+            <a href="" ng-click="toogleIsFilterIcon()" ng-model="isFilterIcon" ng-class="isFilterIcon ? 'text-success' : 'text-muted'" tooltip="{{isFilterIcon ? 'Desativar todos os filtros' : 'Ativar todos os filtros'}}">
+              <ng-md-icon icon="done_all"></ng-md-icon>
+            </a>&nbsp;
+          </div>
+        </div>
       </div><!-- /.Painel Superior -->
       <div class="panel panel-default">
         <div class="panel-heading">

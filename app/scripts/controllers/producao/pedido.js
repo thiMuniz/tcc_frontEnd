@@ -16,6 +16,7 @@ app.controller('PedidoCtrl', function (
   $scope.tituloView = "Pedidos";
   $scope.labelCadastrarBtn = "Novo Pedido";  
   $scope.imgCadastrarBtn = "shopping_cart";
+  $scope.isFilterIcon = true;
   
   $scope.actionIconStatus = [
     {id:1, nome:'CARRINHO', icone:'add_shopping_cart', tooltipAction:'Alterar produtos carrinho'}, 
@@ -29,12 +30,52 @@ app.controller('PedidoCtrl', function (
     {id:9, nome:'CANCELADO', icone:'cancel', tooltipAction:'Pedido cancelado'}
   ];
   
-  $scope.atualizarLista = function(){
-    $scope.pedidos = PedidoResource.query(
+  $scope.filterIconStatus = [
+    {id:1, nome:'CARRINHO', icone:'add_shopping_cart', filtroAtivo: true}, 
+    {id:2, nome:'PEDIDO EFETIVADO', icone:'thumb_up', filtroAtivo: true}, 
+    {id:3, nome:'PAGAMENTO', icone:'attach_money', filtroAtivo: true}, 
+    {id:4, nome:'ESTOQUE DISPONÍVEL', icone:'format_list_numbered', filtroAtivo: true}, 
+    {id:5, nome:'PREPARADO EXPEDIÇÃO', icone:'view_quilt', filtroAtivo: true}, 
+    {id:6, nome:'EMISSÃO NF', icone:'description', filtroAtivo: true}, 
+    {id:7, nome:'ENTREGA', icone:'local_shipping', filtroAtivo: true}, 
+    {id:8, nome:'CONCLUÍDO', icone:'check_circle', filtroAtivo: true}, 
+    {id:9, nome:'CANCELADO', icone:'cancel', filtroAtivo: true}
+  ];
+  
+  $scope.toogleIsFilterIcon = function(){
+    $scope.isFilterIcon = !$scope.isFilterIcon;
+    angular.forEach($scope.filterIconStatus, function(filterIconStatus){
+      filterIconStatus.filtroAtivo = $scope.isFilterIcon ? true : false;
+    });
+    $scope.atualizarLista();
+  };
+  
+  $scope.toogleFilterIcon = function(thisFilterIcon){
+    thisFilterIcon.filtroAtivo = !thisFilterIcon.filtroAtivo;
+    $scope.atualizarLista();
+  };
+  
+  $scope.setIdStatusFilter = function(){
+    $scope.listIdStatusFilter = [];
+    $scope.listIdStatusFilterString = '';
+    angular.forEach($scope.filterIconStatus, function(filterIconStatus){
+      if(filterIconStatus.filtroAtivo){
+        $scope.listIdStatusFilter.push(filterIconStatus.id);
+        if($scope.listIdStatusFilterString != ''){
+          $scope.listIdStatusFilterString += '&' ;
+        }
+        $scope.listIdStatusFilterString += 'idStatus=' + filterIconStatus.id;
+      }
+    });
+  };
+    
+  $scope.atualizarLista = function(){   
+    $scope.setIdStatusFilter();
+    $scope.pedidos = PedidoResource.listFiltro({p:$scope.listIdStatusFilterString},
       function(){ //monta variável utilizada pra ordenar pedidos por valor
         $scope.orderScriptStatus();
         $scope.setStatusAtualPedido();
-        $scope.setValorTotalPedido();
+//        $scope.setValorTotalPedido();
     });
   };
   
