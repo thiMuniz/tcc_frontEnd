@@ -1,17 +1,27 @@
 <section ng-controller="PedidoCtrl">
   <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">{{tituloView}}</h1>
+    <div class="page-header col-lg-12">
+      <div class="col-lg-10">
+        <h1 >{{tituloView}}</h1>
+      </div>
+      <div class="col-lg-2">
+        <h3 class="pull-right" style="padding-right: 100px;">Filtros</h3>
+      </div>
     </div>
   </div> 
   <div class="row">        
     <div class="col-lg-12">
       <div class="panel-heading"> <!-- Painel Superior -->
+<!--        <div class="row">
+          <div class="pull-right">            
+            <h3 class="pull-right" style="padding-right: 100px;">Filtros</h3>
+          </div>
+        </div>-->
         <div class="row">
           <button class="btn btn-outline btn-primary btn-lg" ng-click="openInsertDialog()" tooltip="Lançar pedido">
             <ng-md-icon icon="{{imgCadastrarBtn}}"></ng-md-icon> &nbsp;{{labelCadastrarBtn}}
           </button>        
-          <div class="pull-right">
+          <div class="pull-right">            
             <input class="form-control " type="text" ng-model="filtroGenerico" placeholder="Busca geral"/>
           </div>
           <div class="clearfix"></div>        
@@ -22,12 +32,17 @@
               <ng-md-icon icon="{{thisFilterIcon.icone}}"></ng-md-icon>
             </a>&nbsp;
           </div>
-          <div class='pull-right'>&nbsp;</div>          
+          <div class='pull-right text-muted'>
+            <strong>&nbsp; | &nbsp; </strong>
+            <!--<p class="text-muted">|</p>-->
+          </div> 
+          
           <div class='pull-right'> 
             <a href="" ng-click="toogleIsFilterIcon()" ng-model="isFilterIcon" ng-class="isFilterIcon ? 'text-success' : 'text-muted'" tooltip="{{isFilterIcon ? 'Desativar todos os filtros' : 'Ativar todos os filtros'}}">
-              <ng-md-icon icon="done_all"></ng-md-icon>
+              <ng-md-icon icon="done_all" size="30"></ng-md-icon>
             </a>&nbsp;
           </div>
+          <!--<h3 class='pull-right'>Filtros</h3>-->
         </div>
       </div><!-- /.Painel Superior -->
       <div class="panel panel-default">

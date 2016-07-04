@@ -173,7 +173,6 @@ app.controller('PedidoCtrl', function (
       valorTotalProdutos += produtoPedido.quantidade * $scope.getPrecoUnitario(pedido, produtoPedido.produto);
     });
     return valorTotalProdutos - pedido.desconto + (pedido.formaEntregaPedido ? pedido.formaEntregaPedido.valorCusto : 0);
-//      return valorTotalProdutos;
   };
   
   $scope.orderScriptStatus = function(){
@@ -201,7 +200,9 @@ app.controller('PedidoCtrl', function (
   
   $scope.setValorTotalPedido = function(){
     angular.forEach($scope.pedidos, function(pedido){
-      pedido.valorTotal = $scope.getTotalPedido(pedido);
+      
+      pedido.valorTotal = pedido.statusAtual.status.nome == 'CARRINHO' ? $scope.getTotalPedido(pedido) : pedido.valorTotal;
+      
     });
   };
     
