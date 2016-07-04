@@ -24,7 +24,7 @@ app.controller('EstoqueCtrl', function (
       $scope.tipoItem = {dsSing:"Rótulo", dsPlur:"Rótulos", rsc: "RotuloResource"};
       break;
     case 'insumo':
-      $scope.tipoItem = {dsSing:"Insumo", dsPlur:"Insumos", rsc: "InsumoResource"};
+      $scope.tipoItem = {dsSing:"Ingrediente", dsPlur:"Ingredientes", rsc: "InsumoResource"};
       break;
     case 'produto':
       $scope.tipoItem = {dsSing:"Produto", dsPlur:"Produtos", rsc: "ProdutoResource"};
