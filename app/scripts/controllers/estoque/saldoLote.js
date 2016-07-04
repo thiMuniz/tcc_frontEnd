@@ -11,13 +11,11 @@ app.controller('SaldoDialogCtrl', function ($scope, $modal, $modalInstance, Lote
   $scope.temp = { motivo: null };
 
   $scope.motivos = [
-    'motivo 1',
-    'motivo 2',
-    'motivo 3',
-    'motivo 4',
-    'motivo 5',
-    'motivo 6',
-    'motivo 7'
+    'Erro de digitação',
+    'Baixa do estoque',
+    'Periodo de validade excedido',
+    'Produto devolvido',
+    'Correção saldo'
   ];
   
   $scope.submit = function(){

@@ -19,7 +19,8 @@ app.factory("PessoaResource", function ($resource, CONST) {
     },
     login: { 
       method: 'POST',
-      url : CONST.ws.urlSGP+'login'
+      url : CONST.ws.urlSGP+'login?:p',
+      params : {p:"p"}
     },
     logout: { 
       method: 'POST',

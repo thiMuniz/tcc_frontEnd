@@ -75,7 +75,7 @@ app.controller('PedidoCtrl', function (
       function(){ //monta variável utilizada pra ordenar pedidos por valor
         $scope.orderScriptStatus();
         $scope.setStatusAtualPedido();
-//        $scope.setValorTotalPedido();
+        $scope.setValorTotalPedido();
     });
   };
   
