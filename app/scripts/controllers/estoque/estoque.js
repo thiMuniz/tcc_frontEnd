@@ -21,10 +21,10 @@ app.controller('EstoqueCtrl', function (
       $scope.tipoItem = {dsSing:"Embalagem", dsPlur:"Embalagens", rsc: "EmbalagemResource"};
       break;
     case 'rotulo':
-      $scope.tipoItem = {dsSing:"Rótulo", dsPlur:"Rótulos", rsc: "RotuloResource"};
+      $scope.tipoItem = {dsSing:"Rotulo", dsPlur:"Rótulos", rsc: "RotuloResource"};
       break;
     case 'insumo':
-      $scope.tipoItem = {dsSing:"Ingrediente", dsPlur:"Ingredientes", rsc: "InsumoResource"};
+      $scope.tipoItem = {dsSing:"Insumo", dsPlur:"Ingredientes", rsc: "InsumoResource"};
       break;
     case 'produto':
       $scope.tipoItem = {dsSing:"Produto", dsPlur:"Produtos", rsc: "ProdutoResource"};
