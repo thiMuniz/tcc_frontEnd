@@ -62,6 +62,7 @@ app.controller('RelatorioCtrl', function ($cookies, $sce, $window, $scope, $moda
     $scope.objRel.tipoPessoa = tipoPessoa.key;
     if($scope.rel == 'vendas' || $scope.rel == 'pedidos'){
       if(tipoPessoa.key != ''){
+//        $scope.temp.cliente = undefined;
         $scope.clientesAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:"cliente", tipoPessoa: tipoPessoa.key})});
       }else{
         $scope.clientesAll = PessoaResource.listFiltro({p:$httpParamSerializerJQLike({perfil:"cliente"})});

@@ -115,6 +115,11 @@ var app = angular.module('sbAdminApp', [
         return $ocLazyLoad.load({
           name: 'sbAdminApp',
           files: [
+            'scripts/services/pedido.js',
+            'scripts/services/produto.js',
+            'scripts/services/insumo.js',
+            'scripts/services/rotulo.js',
+            'scripts/services/embalagem.js',
             'scripts/controllers/main.js',
             'scripts/directives/timeline/timeline.js',
             'scripts/directives/notifications/notifications.js',

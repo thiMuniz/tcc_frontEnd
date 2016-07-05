@@ -39,6 +39,7 @@
                 </tr>
               </thead>
               <tbody>
+                 <!--class="bs-callout bs-callout-warning"-->
                 <tr ng-repeat="itemEstoque in estoque | filter : filtroGenerico | orderBy : campo : ascDsc">
                   <td>{{itemEstoque.item.id}}</td>
                   <td ><img ng-src="{{itemEstoque.item.imagens[0].caminhoArquivo}}" class="img-thumbnail img-list-view"/></td>

@@ -6,6 +6,12 @@ app.factory("EmbalagemResource", function ($resource, CONST) {
 //        'Accept': 'application/json',
 //        'Content-Type': 'application/json' }
 //    },
-    update: { method:'PUT' }
+    update: { method:'PUT' },
+    listFiltro:{
+      method: 'GET',
+      isArray: true,
+      url: CONST.ws.urlSGP+'embalagem/filtro?:p',
+      params : {p:"p"}
+    }
   });
 });

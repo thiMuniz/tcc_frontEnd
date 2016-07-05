@@ -1,55 +1,57 @@
-<div>
-  <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">Home</h1>
-    </div>
-    <!-- /.col-lg-12 -->
-  </div>
-  <!-- /.row -->
-  <div class="row">
-    <br>
-    <stats number="{{1}}" comments="Novos pedidos" footer="Ir para Pedidos" colour="primary" type="shopping-cart" goto="main.producao.pedido"></stats>
-    <stats number="{{1}}" comments="NF a emitir" footer="Ir para Pedidos" colour="yellow" type="file-text" goto="main.producao.pedido"></stats>    
-  </div>
-  <div class="row">
-    <br>
-    <stats number="{{1}}" comments="Ingredientes saldo baixo" footer="Ir para Estoque Ingredientes" colour="red" type="pagelines" goto="main.estoque({tipoItem: 'insumo'})"></stats>
-    <stats number="{{1}}" comments="Embalagens saldo baixo" footer="Ir para Estoque Embalagens" colour="red" type="codepen" goto="main.estoque({tipoItem: 'embalagem'})"></stats>
-    <stats number="{{1}}" comments="Rótulos saldo baixo" footer="Ir para Estoque Rótulos" colour="red" type="tag" goto="main.estoque({tipoItem: 'rotulo'})"></stats>
-    <stats number="{{1}}" comments="Produtos saldo baixo" footer="Ir para Estoque Produtos" colour="red" type="cubes" goto="main.estoque({tipoItem: 'produto'})"></stats>
-  </div>
-  
-<!--
-   /.panel 
-  <div class="row">
-    <div class="col-lg-8">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
-        </div>
-         /.panel-heading 
-        <timeline></timeline>
-         /.panel-body 
+<!--<section ng-controller="HomeCtrl">-->
+  <div>
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">Home</h1>
       </div>
-       /.panel 
+      <!-- /.col-lg-12 -->
     </div>
-     /.col-lg-8 
-    <div class="col-lg-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <i class="fa fa-bell fa-fw"></i> Notifications Panel
-        </div>
-         /.panel-heading 
-        <notifications></notifications> 
-         /.panel-body 
-      </div>
-       /.panel 
+    <!-- /.row -->
+    <div class="row">
+      <br>
+      <stats number="{{dashNewPedidos.length}}" comments="Novos pedidos" footer="Ir para Pedidos" colour="primary" type="shopping-cart" goto="main.producao.pedido"></stats>
+      <stats number="{{dashEmitirNf.length}}" comments="NF a emitir" footer="Ir para Pedidos" colour="yellow" type="file-text" goto="main.producao.pedido"></stats>    
+    </div>
+    <div class="row">
+      <br>
+      <stats number="{{dashInsumos.length}}" comments="Ingredientes saldo baixo" footer="Ir para Estoque Ingredientes" colour="red" type="pagelines" goto="main.estoque({tipoItem: 'insumo'})"></stats>
+      <stats number="{{dashRotulos.length}}" comments="Embalagens saldo baixo" footer="Ir para Estoque Embalagens" colour="red" type="codepen" goto="main.estoque({tipoItem: 'embalagem'})"></stats>
+      <stats number="{{dashEmbalagens.length}}" comments="Rótulos saldo baixo" footer="Ir para Estoque Rótulos" colour="red" type="tag" goto="main.estoque({tipoItem: 'rotulo'})"></stats>
+      <stats number="{{dashProdutos.length}}" comments="Produtos saldo baixo" footer="Ir para Estoque Produtos" colour="red" type="cubes" goto="main.estoque({tipoItem: 'produto'})"></stats>
+    </div>
 
-      <chat></chat>
-       /.panel .chat-panel 
+  <!--
+     /.panel 
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
+          </div>
+           /.panel-heading 
+          <timeline></timeline>
+           /.panel-body 
+        </div>
+         /.panel 
+      </div>
+       /.col-lg-8 
+      <div class="col-lg-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-bell fa-fw"></i> Notifications Panel
+          </div>
+           /.panel-heading 
+          <notifications></notifications> 
+           /.panel-body 
+        </div>
+         /.panel 
+
+        <chat></chat>
+         /.panel .chat-panel 
+      </div>
+       /.col-lg-4 
     </div>
-     /.col-lg-4 
+     /.row 
+    -->
   </div>
-   /.row 
-  -->
-</div>
+<!--</section>-->

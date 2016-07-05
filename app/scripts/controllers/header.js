@@ -1,5 +1,20 @@
 'use strict';
-app.controller('HeaderCtrl', function ($scope, $filter, $modal, $http, $cookies, $state, $rootScope, PessoaResource, CONST) {
+app.controller('HeaderCtrl', function (
+  $scope, 
+  $filter, 
+  $modal, 
+  $http, 
+  $cookies, 
+  $state, 
+  $rootScope, 
+  PessoaResource, 
+  ProdutoResource,
+  InsumoResource,
+  RotuloResource,
+  EmbalagemResource,
+  $httpParamSerializerJQLike,
+  CONST
+) {
   
   if($cookies.getObject('objToken')){
     $rootScope.isLogged = true;
@@ -8,7 +23,7 @@ app.controller('HeaderCtrl', function ($scope, $filter, $modal, $http, $cookies,
     $rootScope.isLogged = false;
     $state.go('login');
   }
-    
+      
   $scope.logout = function(){
     $scope.user = new PessoaResource();
     $scope.user.$logout(function(retorno){ /*success 200~299*/
